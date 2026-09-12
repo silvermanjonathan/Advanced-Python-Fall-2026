@@ -171,9 +171,20 @@ sessions means every session is a cold start.
 
 ## Standards
 
-Mapped to the Common Core State Standards for Mathematics (Multi-State). All 26 codes and
+Mapped to the Common Core State Standards for Mathematics (Multi-State). All 27 codes and
 their wording were retrieved from the CASE Network through the Learning Commons Knowledge
 Graph on 12 September 2026. At most three per session. Footers say "mapped to".
+
+Two deliberate deviations from the retrieved text, both declared on every page that shows
+a standards table. The "for example" illustrations attached to `7.SP.C.6` and `8.EE.A.1`
+are omitted, because they illustrate rather than state the standard. And mathematical
+markup in the source is rendered as plain text, so `7.SP.C.5`'s fraction appears as 1/2.
+Nothing else is shortened.
+
+`6.SP.B.5.a` and `6.SP.B.5.c` are the lettered children of `6.SP.B.5`. The parent's own
+statement is only a stem ending in a colon, so it is unusable in a teacher panel; the
+children carry the stem and are quoted in full. `make.py` now rejects any page whose
+standards table contains a statement ending in a colon, a semicolon, or "such as by".
 
 The graph carries Common Core and state-adopted frameworks. It returned nothing for New
 York's Computer Science and Digital Fluency codes in any format tried, and it rejects CSTA
@@ -214,7 +225,7 @@ Built one way, can be built the other. Tabled on the hub.
 
 ## Printing history
 
-First printing, 12 September 2026. Fourteen pages, 26 verified standards, 19 programs,
+First printing, 12 September 2026. Fourteen pages, 27 verified standards, 19 programs,
 4 data files, 41 predict-and-reveal prompts.
 
 Known corrections made before first printing:
@@ -222,15 +233,29 @@ Known corrections made before first printing:
 1. Session 9 showed the corrected switch block beside the broken run's numbers, and
    stated `2/3 = 0.6668` where the real output says `0.6667`. Both fixed, and
    `crosscheck.py` now exists to catch that class of error.
-2. Thirty references to summer camp and prior Robofun courses across seven pages, which
+2. Thirty references to summer camp and prior courses across seven pages, which
    would have pointed students at material they never saw. All removed. Session 3's
    ciphertext was re-chosen so its plaintext restates this course's own rule instead of a
    previous course's; sessions 1, 6, and 12 gained their own starting material; and
    sessions 10 and 12 stopped claiming habits the students had not yet formed.
-3. Removing those references left the knowledge they assumed. Session 3 cracked a Caesar
+3. Five faults in the standards text. `6.SP.B.5` is a parent standard whose statement is
+   only the stem "Summarize numerical data sets in relation to their context, such as by:",
+   and it shipped in sessions 3 and 4 ending in that colon. It is replaced by its children
+   `6.SP.B.5.a` and `6.SP.B.5.c`, which carry the stem and complete the sentence. Separately,
+   an audit against the retrieved text showed I had silently shortened `7.SP.C.5` and
+   `8.F.B.4` by dropping their final sentences while claiming the wording was official; both
+   are restored in full. The two remaining deviations, dropped illustrations and plain-text
+   math, are now declared rather than silent. `make.py` gained a guard against truncated
+   statements, and the guard was negative-tested against the original fault.
+4. Removing those references left the knowledge they assumed. Session 3 cracked a Caesar
    cipher whose only explanation was the phrase "a real Caesar shift of an English
    sentence", and `ord`, `chr`, `math.log10`, `math.cos`, `math.radians` and the
    Pythagorean theorem all appeared in code with no explanation anywhere. Session 3 now
    has a 20-minute section building the cipher from nothing, and sessions 10, 12, and 13
    introduce their mathematics in plain language. Session 5's opener changed from "two
    weeks ago you broke a Caesar cipher" to a named reference to session 3.
+5. The employer name, street address and neighbourhood were stripped from every page at
+   the author's request, then restored at the author's request. The build carries them.
+   The `make.py` guard that blocked them, and its base64 blocklist, were removed with
+   them, so nothing in the toolchain now objects to their presence. Re-adding the guard
+   is a five-line change if that decision reverses again.
