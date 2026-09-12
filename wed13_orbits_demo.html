@@ -125,8 +125,8 @@ ul.tight li{margin:3px 0}
 <div class="wrap">
 <header class="top"><div class="course">Advanced Python &middot; Wednesdays 4:00 to 5:30 &middot; Robofun, 110 West End Avenue</div><div class="bar"><div class="serial">13</div><h1>Orbits, then the demo</h1></div><p class="when">Wednesday 16 December 2026</p><p class="lede">Gravity is one line of arithmetic applied over and over. A ship that only ever falls toward a planet, and never stops falling, is in orbit. Then the room fills with parents and you show them what you built.</p></header>
 <h2><span class="num">1</span>Opener<span class="mins">10 minutes</span></h2><p>Last week gravity was <code>self.dy = self.dy + GRAVITY</code>, always straight down. Today it points at a planet that can be anywhere. On paper: if the planet is at (400, 300) and the ship is at (400, 120), which way does gravity point, and how do you compute the distance?</p><div class="predict"><b>Predict first.</b> Both, before you click.</div>
-<button class="rev" data-target="a38" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false">Show the answer</button>
-<div class="ans" id="a38"><p>Straight down the screen, because the ship is directly above the planet. The distance is 180, and you get it from the difference in x and the difference in y through the Pythagorean theorem. Here the x difference is 0, so the distance is just 300 minus 120.</p><p>When the ship is off to one side, both differences matter and you need the full calculation.</p></div>
+<button class="rev" data-target="a40" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false">Show the answer</button>
+<div class="ans" id="a40"><p>Straight down the screen, because the ship is directly above the planet, and the distance is 180.</p><p>The general rule, in case you have not met it: if two points are <code>a</code> apart across and <code>b</code> apart up, the straight-line distance between them is the square root of <code>a</code> squared plus <code>b</code> squared. That is the Pythagorean theorem, and it is the only piece of geometry this session needs. Here the across gap is 0, so it collapses to 300 minus 120.</p><p>With gaps of 100 across and 80 up it does not collapse: the distance is the square root of 10000 plus 6400, which is about 128.</p><p>When the ship is off to one side, both differences matter and you need the full calculation.</p></div>
 <h2><span class="num">2</span>Falling sideways<span class="mins">30 minutes</span></h2><p class="fname">orbit.py</p>
 <pre><code>    def distance(self):
         &quot;&quot;&quot;Return the distance from this ship to the planet centre.&quot;&quot;&quot;
@@ -146,8 +146,8 @@ ul.tight li{margin:3px 0}
         self.y = self.y + self.dy * DT
         self.trail.append((self.x, self.y))</code></pre>
 <p>Three things are happening. <code>PULL / (r * r)</code> makes gravity weaker further out. <code>gap_x / r</code> and <code>gap_y / r</code> split that pull into its across and down parts, in proportion to how much of the gap lies along each axis. And <code>DT</code> is how big a slice of time each frame stands for.</p><div class="predict"><b>Predict first.</b> The ship starts at (400, 120) with <code>dx = 3.8</code> and <code>dy = 0</code>, so it is moving sideways at 180 pixels out. Does it fall into the planet, fly away, or go round?</div>
-<button class="rev" data-target="a39" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false">Show the answer</button>
-<div class="ans" id="a39"><div class="out"><span class="tag">verified from a headless run</span><pre><code>frames: 1201, trail points: 1202
+<button class="rev" data-target="a41" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false">Show the answer</button>
+<div class="ans" id="a41"><div class="out"><span class="tag">verified from a headless run</span><pre><code>frames: 1201, trail points: 1202
 closest approach 60.1 px, farthest 180.0 px
 start distance 180.0 px, end distance 131.5 px
 final speed 5.94 px per step

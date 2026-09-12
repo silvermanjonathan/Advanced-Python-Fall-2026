@@ -136,8 +136,8 @@ dxs.pop(1)
 dys.pop(1)
 # colors.pop(1) is missing on purpose</code></pre>
 <div class="predict"><b>Predict first.</b> Before the removal, spark 2 was red. What colour is it afterwards, and what else is now wrong?</div>
-<button class="rev" data-target="a35" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false">Show the answer</button>
-<div class="ans" id="a35"><div class="out"><span class="tag">verified output</span><pre><code>frame 2
+<button class="rev" data-target="a37" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false">Show the answer</button>
+<div class="ans" id="a37"><div class="out"><span class="tag">verified output</span><pre><code>frame 2
   spark 0: x=106 y=488 dy=-3 gold
   spark 1: x=97 y=491 dy=-2 orange
   spark 2: x=109 y=485 dy=-4 red
@@ -149,7 +149,7 @@ after removing from four lists but forgetting the fifth:
   spark 1: x=109 y=485 orange
   spark 2: x=100 y=494 red</code></pre></div>
 <p>The spark that was at x=109 was red and is now orange. Every colour after the removal point is off by one, and the program does not complain, because nothing in it knows those five lists were ever related.</p><p>There is a second problem that is worse. You cannot hand one spark to a function. You have to hand over five lists and an index, and hope the caller keeps them together.</p></div>
-<h2><span class="num">2</span>One spark, one object<span class="mins">30 minutes</span></h2><p class="fname">plume.py</p>
+<h2><span class="num">2</span>One spark, one object<span class="mins">30 minutes</span></h2><p>One line in the class below needs explaining first. A spark is launched with a speed and an angle, but the program has to move it in two separate directions each frame: some amount across, and some amount up. Splitting one speed-and-angle into those two amounts is what <code>cos</code> and <code>sin</code> do.</p><p>Speed 10 at 60 degrees gives 5.0 across and 8.66 up. You can check those two numbers are right without knowing any trigonometry: 5.0 squared plus 8.66 squared is 100, and the speed squared is also 100. The across-amount and the up-amount always fit the original speed exactly.</p><p><code>math.radians</code> is a unit change, nothing more. Python's <code>cos</code> and <code>sin</code> want radians and you are thinking in degrees, so you convert. Treat all three as tools you are handed today.</p><p class="fname">plume.py</p>
 <pre><code>class Particle:
     &quot;&quot;&quot;One thrown speck that keeps a trail of where it has been.&quot;&quot;&quot;
 
@@ -170,8 +170,8 @@ after removing from four lists but forgetting the fifth:
         if self.y &gt; HEIGHT - 40:
             self.alive = 0</code></pre>
 <div class="predict"><b>Predict first.</b> Why is there a minus sign on <code>self.dy</code> in <code>__init__</code> but a plus on <code>GRAVITY</code> in <code>step</code>?</div>
-<button class="rev" data-target="a36" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false">Show the answer</button>
-<div class="ans" id="a36"><p>Because the screen's y axis points down. An angle of 90 degrees means straight up, which on screen means y decreasing, so the initial dy has to be negative. Gravity pulls down the screen, which is y increasing, so it adds.</p><p>This is the coordinate system from session 5's grid, with one axis flipped relative to the one you use in maths class. Say that out loud every time it comes up, because it never stops causing bugs.</p></div>
+<button class="rev" data-target="a38" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false">Show the answer</button>
+<div class="ans" id="a38"><p>Because the screen's y axis points down. An angle of 90 degrees means straight up, which on screen means y decreasing, so the initial dy has to be negative. Gravity pulls down the screen, which is y increasing, so it adds.</p><p>This is the coordinate system from session 5's grid, with one axis flipped relative to the one you use in maths class. Say that out loud every time it comes up, because it never stops causing bugs.</p></div>
 <p><code>self</code> is the particular spark this call is about. <code>self.x</code> is that spark's own x, not shared with any other. That one idea replaces all five lists and the comment.</p><h2><span class="num">3</span>A list of objects<span class="mins">25 minutes</span></h2><pre><code>running = 1
 while running:
     for event in pygame.event.get():
@@ -186,8 +186,8 @@ while running:
     pygame.display.flip()
     clock.tick(60)</code></pre>
 <div class="predict"><b>Predict first.</b> 120 particles launched from the vent at speeds 6 to 11 and angles 60 to 120 degrees. After 240 frames, how many are still in the air, and how high did the highest one get?</div>
-<button class="rev" data-target="a37" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false">Show the answer</button>
-<div class="ans" id="a37"><div class="out"><span class="tag">verified from a headless run</span><pre><code>frames run: 241
+<button class="rev" data-target="a39" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false">Show the answer</button>
+<div class="ans" id="a39"><div class="out"><span class="tag">verified from a headless run</span><pre><code>frames run: 241
 particles: 120, still airborne: 0, landed: 120
 highest point reached: y=64.2 (ground is y=560)
 trail lengths: shortest 92, longest 183</code></pre></div>

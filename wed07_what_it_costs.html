@@ -125,8 +125,8 @@ ul.tight li{margin:3px 0}
 <div class="wrap">
 <header class="top"><div class="course">Advanced Python &middot; Wednesdays 4:00 to 5:30 &middot; Robofun, 110 West End Avenue</div><div class="bar"><div class="serial">07</div><h1>What a program costs</h1></div><p class="when">Wednesday 28 October 2026</p><p class="lede">Two programs can both be correct and one can be unusable. Today you measure the difference, first by counting the work and then by timing it, and you build a table that tells you when brute force stops being an option.</p></header>
 <h2><span class="num">1</span>Opener<span class="mins">10 minutes</span></h2><p>A sorted list holds the 1000 even numbers from 0 to 1998. You are looking for 1998. On paper: how many values does a start-to-finish scan look at? Then, if you are allowed to jump to the middle and throw half away each time, how many?</p><div class="predict"><b>Predict first.</b> Both numbers before you click.</div>
-<button class="rev" data-target="a21" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false">Show the answer</button>
-<div class="ans" id="a21"><div class="out"><span class="tag">verified output</span><pre><code>searching a sorted list of 1000 even numbers for 1998
+<button class="rev" data-target="a23" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false">Show the answer</button>
+<div class="ans" id="a23"><div class="out"><span class="tag">verified output</span><pre><code>searching a sorted list of 1000 even numbers for 1998
   linear: found at 999 after 1000 looks
   binary: found at 999 after 10 looks
 
@@ -160,8 +160,8 @@ for n in range(1, 8):
     elapsed = perf_counter() - start
     print(f&quot;  {n}   {10 ** n:&lt;10} {tries:&lt;8} {elapsed:.4f}&quot;)</code></pre>
 <div class="predict"><b>Predict first.</b> Seven digits takes about 1.2 seconds on my machine. Before you look: how long for eight digits, and for ten?</div>
-<button class="rev" data-target="a22" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false">Show the answer</button>
-<div class="ans" id="a22"><div class="out"><span class="tag">verified output</span><pre><code>brute force, every code of n digits
+<button class="rev" data-target="a24" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false">Show the answer</button>
+<div class="ans" id="a24"><div class="out"><span class="tag">verified output</span><pre><code>brute force, every code of n digits
   n   codes      tries    seconds
   1   10         10       0.0000
   2   100        100      0.0000

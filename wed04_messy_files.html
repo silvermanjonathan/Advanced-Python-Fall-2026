@@ -125,8 +125,8 @@ ul.tight li{margin:3px 0}
 <div class="wrap">
 <header class="top"><div class="course">Advanced Python &middot; Wednesdays 4:00 to 5:30 &middot; Robofun, 110 West End Avenue</div><div class="bar"><div class="serial">04</div><h1>Messy files, and saying what you threw away</h1></div><p class="when">Wednesday 7 October 2026</p><p class="lede">Real data arrives dirty. Today you read a file off the disk, decide line by line what is usable, keep a record of what you rejected and why, and write your results back out to a second file.</p></header>
 <h2><span class="num">1</span>Opener<span class="mins">10 minutes</span></h2><p>From memory, no looking: what does <code>Counter("banana")</code> hand back? Write it exactly, brackets and all.</p><div class="predict"><b>Predict first.</b> Write it first.</div>
-<button class="rev" data-target="a12" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false">Show the answer</button>
-<div class="ans" id="a12"><div class="out"><span class="tag">verified output</span><pre><code>Counter({&#x27;a&#x27;: 3, &#x27;n&#x27;: 2, &#x27;b&#x27;: 1})</code></pre></div>
+<button class="rev" data-target="a14" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false">Show the answer</button>
+<div class="ans" id="a14"><div class="out"><span class="tag">verified output</span><pre><code>Counter({&#x27;a&#x27;: 3, &#x27;n&#x27;: 2, &#x27;b&#x27;: 1})</code></pre></div>
 <p>Ordered by count, highest first. That ordering is a Counter feature, not a dictionary feature.</p></div>
 <h2><span class="num">2</span>The file, and the boundary<span class="mins">20 minutes</span></h2><p>Every program that reads from outside itself has a boundary, and the boundary is where programs break. Two things can go wrong before you even see a number: the file might not exist, and a line might not be a number.</p><p><code>try</code> and <code>except</code> let you say what to do instead of crashing.</p><pre><code>def read_lines(filename):
     &quot;&quot;&quot;Return every line in the file, or an empty list if it is missing.&quot;&quot;&quot;
@@ -139,8 +139,8 @@ ul.tight li{margin:3px 0}
     handle.close()
     return lines</code></pre>
 <div class="predict"><b>Predict first.</b> Why is <code>handle.readlines()</code> outside the <code>try</code> block rather than inside it?</div>
-<button class="rev" data-target="a13" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false">Show the answer</button>
-<div class="ans" id="a13"><p>Because the only error being handled is the file not existing. Once <code>open</code> succeeds, a failure in <code>readlines</code> is a different problem and should not be quietly swallowed by an <code>except</code> written for something else.</p><p>Catch one named thing. Never write a bare <code>except:</code>. It hides bugs you have not met yet.</p></div>
+<button class="rev" data-target="a15" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false">Show the answer</button>
+<div class="ans" id="a15"><p>Because the only error being handled is the file not existing. Once <code>open</code> succeeds, a failure in <code>readlines</code> is a different problem and should not be quietly swallowed by an <code>except</code> written for something else.</p><p>Catch one named thing. Never write a bare <code>except:</code>. It hides bugs you have not met yet.</p></div>
 <h2><span class="num">3</span>Clean it<span class="mins">35 minutes</span></h2><p>The input file holds thirteen lines. Some have spaces around them, one has a comma stuck on, one is blank, one spells a number as a word, and one is negative. Here it is as it sits on disk.</p><p class="fname">readings_raw.txt</p>
 <pre><code>41
 58
@@ -177,8 +177,8 @@ twelve
                     good.append(value)
     return good, rejected</code></pre>
 <div class="predict"><b>Predict first.</b> Thirteen lines go in. How many numbers come out, and what is their total? You have seen this total before.</div>
-<button class="rev" data-target="a14" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false">Show the answer</button>
-<div class="ans" id="a14"><div class="out"><span class="tag">verified output</span><pre><code>lines in the file: 13
+<button class="rev" data-target="a16" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false">Show the answer</button>
+<div class="ans" id="a16"><div class="out"><span class="tag">verified output</span><pre><code>lines in the file: 13
 kept: [41, 58, 33, 58, 12, 77, 58, 60, 29, 77]
 kept 10, rejected 3
 rejected lines and why:

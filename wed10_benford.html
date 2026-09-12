@@ -151,12 +151,12 @@ def tally_file(filename):
 def benford_expected(digit):
     &quot;&quot;&quot;Return the share of numbers Benford&#x27;s law predicts start with digit.&quot;&quot;&quot;
     return math.log10(1 + 1 / digit)</code></pre>
-<div class="predict"><b>Predict first.</b> <code>benford_expected(1)</code> and <code>benford_expected(9)</code>. Work both out on a calculator before you click.</div>
-<button class="rev" data-target="a30" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false">Show the answer</button>
-<div class="ans" id="a30"><p>log of 2, which is 0.301, and log of one and a ninth, which is 0.046. So 1 should lead about thirty percent of the time and 9 about five percent: roughly six times as often.</p><p>Check that the nine shares add to 1. They do, exactly, because the logs telescope: each term is log of (d+1) minus log of d, and the whole sum collapses to log 10 minus log 1.</p></div>
+<p>One function in there is probably new. <code>math.log10</code> asks: what power do I raise 10 to, to get this number? <code>log10(100)</code> is 2, because 10 squared is 100. <code>log10(2)</code> is about 0.301, because 10 to the 0.301 is 2. You do not need more than that today, and the calculator does the work.</p><p>Why a logarithm turns up in a rule about first digits is a fair question and the honest short answer is that quantities which grow by multiplying spend equal stretches of time in each power of ten, and the gap from 1 to 2 is a longer stretch than the gap from 9 to 10.</p><div class="predict"><b>Predict first.</b> <code>benford_expected(1)</code> and <code>benford_expected(9)</code>. Work both out on a calculator before you click.</div>
+<button class="rev" data-target="a32" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false">Show the answer</button>
+<div class="ans" id="a32"><p>log of 2, which is 0.301, and log of one and a ninth, which is 0.046. So 1 should lead about thirty percent of the time and 9 about five percent: roughly six times as often.</p><p>Check that the nine shares add to 1. They do, exactly, because the logs telescope: each term is log of (d+1) minus log of d, and the whole sum collapses to log 10 minus log 1.</p></div>
 <h2><span class="num">3</span>Which one was invented<span class="mins">30 minutes</span></h2><div class="predict"><b>Predict first.</b> Predict the largest gap from Benford for each file. Two numbers.</div>
-<button class="rev" data-target="a31" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false">Show the answer</button>
-<div class="ans" id="a31"><div class="out"><span class="tag">verified output</span><pre><code>honest_ledger.csv
+<button class="rev" data-target="a33" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false">Show the answer</button>
+<div class="ans" id="a33"><div class="out"><span class="tag">verified output</span><pre><code>honest_ledger.csv
   digit   count    actual   benford predicts
       1     182     0.303             0.301
       2     106     0.177             0.176

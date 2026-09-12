@@ -38,7 +38,7 @@ copy of the syllabus link table.
 |---|---|---|---|
 | 1 | 16 Sep | `wed01_cold_read.html` | Cold read 60 lines, then style-pass two programs |
 | 2 | 23 Sep | `wed02_return_and_modules.html` | `return`, composition, your own importable module |
-| 3 | 30 Sep | `wed03_counting.html` | Dicts, sets, `Counter`, break a Caesar by frequency |
+| 3 | 30 Sep | `wed03_counting.html` | Dicts and `Counter`, build a Caesar cipher, then break one |
 | 4 | 7 Oct | `wed04_messy_files.html` | Dirty file in, clean data and a reject log out |
 | 5 | 14 Oct | `wed05_transposition.html` | Rail fence, then a route cipher with a signed key |
 | 6 | 21 Oct | `wed06_hashing.html` | Build a seal, break it, then `sha256` and the avalanche |
@@ -67,6 +67,16 @@ printed.
 
 Everything else is treated as new, including `return` values, dictionaries, files, and
 classes.
+
+**No mathematics beyond grade 5 arithmetic is assumed.** Four things the course needs are
+introduced from zero where they are first used, and the hub says so in a table:
+
+| Introduced in | What, and how far it goes |
+|---|---|
+| Session 3 | Cryptography from nothing: what a Caesar cipher does, and the words plaintext, ciphertext, key. Students encode `dawn` and `zebra` by hand, including the wrap past z, before touching `ord` or `chr`. |
+| Session 10 | Logarithms, only as far as "what power of ten gives this number". The calculator does the arithmetic. |
+| Session 12 | Splitting a speed and an angle into an across amount and an up amount. Given as a tool, with a squares check students can verify themselves (5.0 and 8.66 against a speed of 10). |
+| Session 13 | The Pythagorean theorem, stated plainly as the distance rule, with a worked non-collapsing case. |
 
 Session 1 is deliberately a diagnostic. Advanced enrollment at an after-school program is
 usually parent-chosen rather than skill-verified, and the band here is grades 5 to 8, so
@@ -117,7 +127,7 @@ blocks, link resolution, dash characters and entities, and absence of browser st
 in the real stdout, including the broken Monty Hall variant.
 
 Also verified in a headless browser: no horizontal overflow on any of the 14 pages at
-390px, and all 39 reveal buttons toggle.
+390px, and all 41 reveal buttons toggle.
 
 **Session 7's timings are machine specific** and will not match the classroom machines.
 The shape holds, which is what the session is about. Re-run before teaching it.
@@ -134,6 +144,15 @@ there rather than assumed. Sessions 1, 6, and 12 build their own starting materi
 than recalling any: `gate_log.py` gives session 1 a second style-pass target,
 `sparks_parallel.py` gives session 12 a live parallel-list failure to react to, and
 session 6 builds the letter-sum seal in its first ten minutes before breaking it.
+
+Session 3 teaches the Caesar cipher before cracking one. That ordering is deliberate and
+should not be reversed for time: a crack on a mechanism the student did not build is a
+magic trick rather than a lesson, and the teacher panel says so.
+
+An audit lists every second-person claim on every page ("you traced", "you built",
+"you found") and each one now resolves either to work done inside that same session or to
+a named earlier session. The phrase "all term" survives in three places, and in all three
+it is a forward-looking rule for the term ahead rather than a claim about past work.
 
 ## Threads that run across sessions
 
@@ -196,7 +215,7 @@ Built one way, can be built the other. Tabled on the hub.
 ## Printing history
 
 First printing, 12 September 2026. Fourteen pages, 26 verified standards, 19 programs,
-4 data files.
+4 data files, 41 predict-and-reveal prompts.
 
 Known corrections made before first printing:
 
@@ -208,3 +227,10 @@ Known corrections made before first printing:
    ciphertext was re-chosen so its plaintext restates this course's own rule instead of a
    previous course's; sessions 1, 6, and 12 gained their own starting material; and
    sessions 10 and 12 stopped claiming habits the students had not yet formed.
+3. Removing those references left the knowledge they assumed. Session 3 cracked a Caesar
+   cipher whose only explanation was the phrase "a real Caesar shift of an English
+   sentence", and `ord`, `chr`, `math.log10`, `math.cos`, `math.radians` and the
+   Pythagorean theorem all appeared in code with no explanation anywhere. Session 3 now
+   has a 20-minute section building the cipher from nothing, and sessions 10, 12, and 13
+   introduce their mathematics in plain language. Session 5's opener changed from "two
+   weeks ago you broke a Caesar cipher" to a named reference to session 3.
