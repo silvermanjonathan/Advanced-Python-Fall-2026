@@ -1,0 +1,28 @@
+The machine does not know what a word means. The machine knows which word came
+next. That is the whole trick, and it is worth saying twice, because the trick is
+smaller than it looks. The machine reads a great deal of text. The machine counts
+which word followed which other word. Then the machine picks a word, looks at
+what followed that word before, and picks one of those. It does this again. It
+does this again, and again, until the sentence runs out of room.
+
+A person writing a sentence knows where the sentence is going. The machine does
+not know where the sentence is going. The machine knows only the last word or
+two, and a table of what usually comes next. So the sentence wanders. Sometimes
+the sentence wanders somewhere good, and a reader says that the machine is
+clever. Sometimes the sentence wanders somewhere silly, and a reader says that
+the machine is broken. Neither reader is right, because the machine was doing the
+same small thing both times.
+
+Read that again. The machine was doing the same small thing both times. The
+clever sentence and the silly sentence came out of one table of counts. Nothing
+in the table knows about towers, or dawn, or shapes on a shelf. The table knows
+that the word the is often followed by the word machine, and that the word
+machine is often followed by the word does, and that the word does is sometimes
+followed by the word not.
+
+You are going to build that table today. You are going to build it out of a
+list, a loop, and a dictionary, which are three things you already have. Then you
+are going to let it write sentences, and you are going to laugh at some of them,
+and then you are going to know something about the programs that write text for
+people. You will know that the program is counting. You will know what it is
+counting. That is more than most people know.

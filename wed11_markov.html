@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Session 11: machines that write</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F1F3F2; --ink:#15303C; --soft:#4A6472; --rule:#BFCBCE;
+  --signal:#0E6B62; --predict:#8A5A00; --verified:#185E3B; --fault:#8C2B18;
+  --code-bg:#0E2430; --code-fg:#DCE6E4; --panel:#E4E9E8;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:Archivo,system-ui,sans-serif; font-size:19px; line-height:1.6;
+}
+.wrap{max-width:1000px; margin:0 auto; padding:0 28px 90px}
+p,li{max-width:68ch}
+h1,h2,h3{font-family:"Bricolage Grotesque",Archivo,sans-serif; line-height:1.12; margin:0}
+a{color:var(--signal)}
+a:focus-visible,button:focus-visible{outline:3px solid var(--signal); outline-offset:3px}
+
+/* masthead */
+.top{border-bottom:2px solid var(--ink); padding:22px 0 14px; margin-bottom:34px}
+.top .course{font-size:.8rem; letter-spacing:.06em; color:var(--soft); font-weight:600}
+.top .bar{display:flex; gap:22px; align-items:baseline; flex-wrap:wrap; margin-top:6px}
+.serial{font-family:"Bricolage Grotesque",sans-serif; font-weight:700; font-size:3.6rem;
+  line-height:.85; color:var(--signal)}
+.top h1{font-size:2.1rem; font-weight:700; flex:1 1 340px}
+.when{font-family:"JetBrains Mono",monospace; font-size:.85rem; color:var(--soft);
+  max-width:none}
+
+/* blocks */
+h2{font-size:1.5rem; font-weight:700; margin:48px 0 4px; padding-top:18px;
+  border-top:1px solid var(--rule)}
+.top + h2, .top + .flag + h2{border-top:0; padding-top:0; margin-top:30px}
+h2 .num{color:var(--signal); font-weight:500; margin-right:.5em}
+h3{font-size:1.12rem; font-weight:600; margin:28px 0 6px}
+.lede{font-size:1.2rem; color:var(--soft); max-width:62ch; margin:10px 0 0}
+.mins{font-family:"JetBrains Mono",monospace; font-size:.78rem; color:var(--soft);
+  display:block; margin-top:2px}
+
+pre{background:var(--code-bg); color:var(--code-fg); padding:18px 20px; overflow-x:auto;
+  font-family:"JetBrains Mono",monospace; font-size:16px; line-height:1.5;
+  border-radius:3px; margin:16px 0}
+code{font-family:"JetBrains Mono",monospace; font-size:.92em;
+  background:var(--panel); padding:1px 5px; border-radius:2px}
+pre code{background:none; padding:0; font-size:inherit}
+.fname{font-family:"JetBrains Mono",monospace; font-size:.78rem; color:var(--soft);
+  margin:16px 0 -10px}
+
+.predict{border-left:4px solid var(--predict); background:#F7F2E6; padding:14px 18px; margin:18px 0}
+.predict b{color:var(--predict)}
+.out{border-left:4px solid var(--verified); background:#EAF1EC; padding:6px 18px; margin:14px 0}
+.out .tag{font-family:"JetBrains Mono",monospace; font-size:.72rem; color:var(--verified);
+  font-weight:700; display:block; margin:10px 0 -6px}
+.bug{border-left:4px solid var(--fault); background:#F7EBE8; padding:14px 18px; margin:18px 0}
+.bug b{color:var(--fault)}
+
+button.rev{font:600 .9rem Archivo,sans-serif; background:var(--signal); color:#fff;
+  border:0; padding:9px 16px; border-radius:3px; cursor:pointer; margin:6px 0}
+button.rev:hover{background:#0b544d}
+.ans{display:none; border-left:4px solid var(--signal); background:#E6EFEE;
+  padding:14px 18px; margin:6px 0 18px}
+.ans.show{display:block}
+
+table{border-collapse:collapse; width:100%; margin:18px 0; font-size:.92rem}
+th,td{border-bottom:1px solid var(--rule); padding:8px 10px; text-align:left;
+  vertical-align:top; overflow-wrap:anywhere}
+th{font-weight:600; background:var(--panel)}
+td code{font-size:.86em}
+
+.exits{margin:22px 0}
+.exit{border-top:1px solid var(--rule); padding:12px 0}
+.exit .lab{font-family:"JetBrains Mono",monospace; font-size:.76rem; font-weight:700;
+  color:var(--signal)}
+.exit p{margin:3px 0 0}
+
+.panel{background:var(--panel); border-top:3px solid var(--ink); padding:22px 24px; margin:52px 0 0}
+.panel h2{border:0; margin:0 0 10px; padding:0; font-size:1.3rem}
+.panel h3{margin:20px 0 4px; font-size:1rem}
+.panel p,.panel li{max-width:74ch; font-size:.95rem}
+.std{font-family:"JetBrains Mono",monospace; font-weight:700; color:var(--signal)}
+.mapnote{font-size:.82rem; color:var(--soft); margin-top:14px}
+
+nav.pager{display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap;
+  border-top:2px solid var(--ink); margin-top:46px; padding-top:16px; font-weight:600}
+nav.pager a{text-decoration:none}
+nav.pager .none{color:var(--rule)}
+
+/* hub */
+.grid{border-top:2px solid var(--ink); margin:30px 0 0}
+.row{display:grid; grid-template-columns:48px 76px 1fr; gap:16px;
+  border-bottom:1px solid var(--rule); padding:14px 0; align-items:baseline}
+.row .n{font-family:"Bricolage Grotesque",sans-serif; font-weight:700; font-size:1.5rem;
+  color:var(--signal)}
+.row .d{font-family:"JetBrains Mono",monospace; font-size:.82rem; color:var(--soft)}
+.row .t{font-weight:600; font-size:1.05rem}
+.row .t a{text-decoration:none}
+.row .s{display:block; font-weight:400; font-size:.92rem; color:var(--soft); max-width:62ch}
+.row.off{opacity:.55}
+.row.off .n{color:var(--soft)}
+.flag{background:#F7F2E6; border-left:4px solid var(--predict); padding:14px 18px; margin:22px 0}
+ul.tight{margin:8px 0; padding-left:22px}
+ul.tight li{margin:3px 0}
+.two{display:grid; grid-template-columns:1fr 1fr; gap:0 34px}
+@media (max-width:760px){
+  body{font-size:17px} .wrap{padding:0 18px 70px}
+  .serial{font-size:2.6rem} .top h1{font-size:1.6rem}
+  .row{grid-template-columns:38px 1fr; gap:6px 12px}
+  .row .d{grid-column:2} .row .t{grid-column:2} .two{grid-template-columns:1fr}
+  table{table-layout:fixed} th,td{padding:7px 8px}
+}
+@media print{
+  body{background:#fff; font-size:11pt} button.rev{display:none}
+  .ans{display:block} nav.pager{display:none} pre{border:1px solid #999}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important; animation:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top"><div class="course">Advanced Python &middot; Wednesdays 4:00 to 5:30 &middot; Robofun, 110 West End Avenue</div><div class="bar"><div class="serial">11</div><h1>Machines that write, and what they are actually doing</h1></div><p class="when">Wednesday 2 December 2026</p><p class="lede">You are going to build the thing that makes a chatbot feel like magic, out of a list, a loop, and a dictionary. It takes about forty lines. Once you have built it, it will not feel like magic any more, and that is the point of the session.</p></header>
+<h2><span class="num">1</span>Opener<span class="mins">10 minutes</span></h2><p>Last week the first digit told you which ledger was invented. On paper: what share of grown numbers start with 1, and why does a random pick between 100 and 9999 not match it?</p><div class="predict"><b>Predict first.</b> Both answers first.</div>
+<button class="rev" data-target="a31" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false">Show the answer</button>
+<div class="ans" id="a31"><p>About 0.301. And a uniform pick gives every leading digit roughly the same share, near 0.11, because nothing in the process favours small leading digits the way repeated multiplying does.</p></div>
+<h2><span class="num">2</span>The table<span class="mins">30 minutes</span></h2><p>Read a text file. Walk through it a word at a time. For every pair of consecutive words, record which word came next. That record is the whole model.</p><p class="fname">markov.py</p>
+<pre><code>def build_model(words):
+    &quot;&quot;&quot;Return a table mapping each word pair to the words that followed it.&quot;&quot;&quot;
+    model = defaultdict(list)
+    for i in range(len(words) - 2):
+        pair = (words[i], words[i + 1])
+        model[pair].append(words[i + 2])
+    return model</code></pre>
+<div class="predict"><b>Predict first.</b> The corpus is a short passage about how these models work. In it, the pair <code>("the", "machine")</code> appears seven times. What do you expect the table to hold for that key?</div>
+<button class="rev" data-target="a32" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false">Show the answer</button>
+<div class="ans" id="a32"><div class="out"><span class="tag">verified output</span><pre><code>corpus words: 340
+distinct pairs: 250
+
+what followed (&#x27;the&#x27;, &#x27;machine&#x27;):
+  [&#x27;counts&#x27;, &#x27;does&#x27;, &#x27;is&#x27;, &#x27;knows&#x27;, &#x27;picks&#x27;, &#x27;reads&#x27;, &#x27;was&#x27;]</code></pre></div>
+<p>Seven different words, each one recorded because it actually followed those two words somewhere in the text. Nothing in that list is a guess and nothing in it is understood. It is a record of what happened.</p><p>340 words produced 250 distinct pairs. Most pairs occur once, which is why a small corpus generates text that quotes itself in long stretches.</p></div>
+<p><code>defaultdict(list)</code> hands you an empty list for a key you have not seen, so <code>.append</code> works the first time. Compare that to session 3, where a plain dictionary raised <code>KeyError</code> and you had to check first.</p><h2><span class="num">3</span>Let it write<span class="mins">25 minutes</span></h2><pre><code>def generate(model, seed_pair, length):
+    &quot;&quot;&quot;Return a sentence of the given length, starting from seed_pair.&quot;&quot;&quot;
+    first, second = seed_pair
+    out = [first, second]
+    for step in range(length):
+        options = model[(first, second)]
+        if len(options) == 0:
+            return &quot; &quot;.join(out)
+        nxt = random.choice(options)
+        out.append(nxt)
+        first, second = second, nxt
+    return &quot; &quot;.join(out)</code></pre>
+<div class="predict"><b>Predict first.</b> Starting from <code>("the", "machine")</code>, twenty two words. Will the output be grammatical? Will it make sense? Those are two separate questions.</div>
+<button class="rev" data-target="a33" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false">Show the answer</button>
+<div class="ans" id="a33"><div class="out"><span class="tag">verified output</span><pre><code>1. the machine reads a great deal of text. the machine is often followed by the word machine, and that the word not. you are
+
+2. the machine knows which word followed which other word. then the machine reads a great deal of text. the machine does not know what
+
+3. the machine picks a word, looks at what followed that word before, and picks one of those. it does this again, and again, until
+
+4. the machine is broken. neither reader is right, because the machine knows which word followed which other word. then the machine was doing the</code></pre></div>
+<p>Mostly grammatical, because every three word window came from real text. Sentence 3 reads almost perfectly. Sentence 1 falls apart at <code>the word not. you are</code>, because the chain walked into a pair that only occurred once and had nowhere sensible to go.</p><p>Now the question worth the whole session: which of those four sentences did the program understand? None. It looked up two words and picked from a list. That is the entire mechanism.</p></div>
+<h2><span class="num">4</span>The honest conversation<span class="mins">20 minutes</span></h2><p>The programs that write text for people are built on a much bigger version of what you just wrote. The differences are real and worth naming plainly:</p><ul class="tight"><li>They look back over hundreds or thousands of words, not two.</li><li>They do not store a list per pair. They learn a function that scores every possible next word, so they can respond to word sequences they never saw.</li><li>They are trained on an enormous amount of text, then adjusted further using human feedback about which answers are wanted.</li></ul><p>What does not change is the shape: look at what came before, produce a distribution over what might come next, pick from it. When one of those systems produces something confident and wrong, this is why. Nothing in the mechanism checks the world. It checks what usually follows.</p><div class="predict"><b>Your model is a probability model.</b> Seven options for <code>("the", "machine")</code> means each has about a one in seven chance, adjusted for repeats. Session 9 had you write a model down and then test it against what actually happened. Do the same here: pick a pair, predict the share for each option, generate 200 continuations, and count.</div><div class="exits"><div class="exit"><span class="lab">FLOOR</span><p>The table builds and you can read off what followed a pair you choose.</p></div><div class="exit"><span class="lab">MIDDLE</span><p>Floor, plus generation running on the supplied corpus, plus you can explain what <code>defaultdict</code> saves you compared with session 3.</p></div><div class="exit"><span class="lab">STRETCH</span><p>Middle, plus swap in your own corpus, at least 2000 words, and compare the output quality. Then change the pair to a single word and to three words, and report what happens at each: one word wanders badly, three words quotes the source almost verbatim. Explain why.</p></div></div><section class="panel"><h2>Teacher panel</h2><h3>Concept this session re-touches</h3><p>Session 3's dictionary and KeyError, now solved a second way with <code>defaultdict</code>. Session 9's discipline of stating a probability model and then measuring against it.</p><h3>Standards</h3><table><tr><th>Code</th><th>Statement</th></tr><tr><td class="std">7.SP.C.7</td><td>Develop a probability model and use it to find probabilities of events. Compare probabilities from a model to observed frequencies; if the agreement is not good, explain possible sources of the discrepancy.</td></tr>
+<tr><td class="std">7.SP.C.6</td><td>Approximate the probability of a chance event by collecting data on the chance process that produces it and observing its long-run relative frequency, and predict the approximate relative frequency given the probability.</td></tr>
+<tr><td class="std">MP4</td><td>Model with mathematics.</td></tr>
+</table><p class="mapnote">Mapped to the Common Core State Standards for Mathematics (Multi-State). Each code and its wording was retrieved from the CASE Network through the Learning Commons Knowledge Graph on 12 September 2026. New York's own Computer Science and Digital Fluency framework and the CSTA standards are not carried in that graph, so no code from either appears anywhere on this site.</p><h3>Timing</h3><p>10 opener, 30 building the table, 25 generation, 20 the conversation, 5 exits. The conversation in section 4 is the reason this session is in the course. Protect the time for it.</p><h3>What to watch for</h3><p>Students will want a bigger corpus immediately, and they are right that it helps. Have a 2000 word text file ready. Write it yourself or use something clearly out of copyright, and do not let them paste in a book they do not have the right to use.</p><p>The three word window is the best stretch result: it produces text that is almost exactly the original, which shows memorisation and generalisation trading off. That conversation transfers directly to the real systems.</p><p>One code note. <code>model[(first, second)]</code> on a <code>defaultdict</code> silently inserts an empty list for a missing key, so generating quietly grows the model. Harmless here, worth pointing at, and a good stretch fix using <code>.get</code> instead.</p><h3>Files</h3><p><code>markov.py</code> and <code>corpus.txt</code>, seeded with 20261202. The four sentences above came from running it and are reproducible with that seed. The corpus was written for this lesson, so there is no copyright question.</p><h3>Lifted this week</h3><p><code>collections.defaultdict</code>, tuples as dictionary keys, <code>.split()</code>, <code>" ".join()</code>, multiple assignment.</p></section>
+<nav class="pager"><a href="wed10_benford.html">&larr; Session 10: the first digit</a><a href="advanced_python_hub.html">Course hub</a><a href="wed12_classes.html">Session 12: objects that remember &rarr;</a></nav>
+
+</div>
+<script>
+document.addEventListener('click', function(e){
+  var b = e.target.closest('button.rev');
+  if(!b) return;
+  var box = document.getElementById(b.dataset.target);
+  if(!box) return;
+  var open = box.classList.toggle('show');
+  b.textContent = open ? (b.dataset.hide || 'Hide') : (b.dataset.show || 'Show');
+  b.setAttribute('aria-expanded', open ? 'true' : 'false');
+});
+</script>
+</body>
+</html>

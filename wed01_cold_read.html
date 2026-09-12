@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Session 1: cold read, then a style pass</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F1F3F2; --ink:#15303C; --soft:#4A6472; --rule:#BFCBCE;
+  --signal:#0E6B62; --predict:#8A5A00; --verified:#185E3B; --fault:#8C2B18;
+  --code-bg:#0E2430; --code-fg:#DCE6E4; --panel:#E4E9E8;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:Archivo,system-ui,sans-serif; font-size:19px; line-height:1.6;
+}
+.wrap{max-width:1000px; margin:0 auto; padding:0 28px 90px}
+p,li{max-width:68ch}
+h1,h2,h3{font-family:"Bricolage Grotesque",Archivo,sans-serif; line-height:1.12; margin:0}
+a{color:var(--signal)}
+a:focus-visible,button:focus-visible{outline:3px solid var(--signal); outline-offset:3px}
+
+/* masthead */
+.top{border-bottom:2px solid var(--ink); padding:22px 0 14px; margin-bottom:34px}
+.top .course{font-size:.8rem; letter-spacing:.06em; color:var(--soft); font-weight:600}
+.top .bar{display:flex; gap:22px; align-items:baseline; flex-wrap:wrap; margin-top:6px}
+.serial{font-family:"Bricolage Grotesque",sans-serif; font-weight:700; font-size:3.6rem;
+  line-height:.85; color:var(--signal)}
+.top h1{font-size:2.1rem; font-weight:700; flex:1 1 340px}
+.when{font-family:"JetBrains Mono",monospace; font-size:.85rem; color:var(--soft);
+  max-width:none}
+
+/* blocks */
+h2{font-size:1.5rem; font-weight:700; margin:48px 0 4px; padding-top:18px;
+  border-top:1px solid var(--rule)}
+.top + h2, .top + .flag + h2{border-top:0; padding-top:0; margin-top:30px}
+h2 .num{color:var(--signal); font-weight:500; margin-right:.5em}
+h3{font-size:1.12rem; font-weight:600; margin:28px 0 6px}
+.lede{font-size:1.2rem; color:var(--soft); max-width:62ch; margin:10px 0 0}
+.mins{font-family:"JetBrains Mono",monospace; font-size:.78rem; color:var(--soft);
+  display:block; margin-top:2px}
+
+pre{background:var(--code-bg); color:var(--code-fg); padding:18px 20px; overflow-x:auto;
+  font-family:"JetBrains Mono",monospace; font-size:16px; line-height:1.5;
+  border-radius:3px; margin:16px 0}
+code{font-family:"JetBrains Mono",monospace; font-size:.92em;
+  background:var(--panel); padding:1px 5px; border-radius:2px}
+pre code{background:none; padding:0; font-size:inherit}
+.fname{font-family:"JetBrains Mono",monospace; font-size:.78rem; color:var(--soft);
+  margin:16px 0 -10px}
+
+.predict{border-left:4px solid var(--predict); background:#F7F2E6; padding:14px 18px; margin:18px 0}
+.predict b{color:var(--predict)}
+.out{border-left:4px solid var(--verified); background:#EAF1EC; padding:6px 18px; margin:14px 0}
+.out .tag{font-family:"JetBrains Mono",monospace; font-size:.72rem; color:var(--verified);
+  font-weight:700; display:block; margin:10px 0 -6px}
+.bug{border-left:4px solid var(--fault); background:#F7EBE8; padding:14px 18px; margin:18px 0}
+.bug b{color:var(--fault)}
+
+button.rev{font:600 .9rem Archivo,sans-serif; background:var(--signal); color:#fff;
+  border:0; padding:9px 16px; border-radius:3px; cursor:pointer; margin:6px 0}
+button.rev:hover{background:#0b544d}
+.ans{display:none; border-left:4px solid var(--signal); background:#E6EFEE;
+  padding:14px 18px; margin:6px 0 18px}
+.ans.show{display:block}
+
+table{border-collapse:collapse; width:100%; margin:18px 0; font-size:.92rem}
+th,td{border-bottom:1px solid var(--rule); padding:8px 10px; text-align:left;
+  vertical-align:top; overflow-wrap:anywhere}
+th{font-weight:600; background:var(--panel)}
+td code{font-size:.86em}
+
+.exits{margin:22px 0}
+.exit{border-top:1px solid var(--rule); padding:12px 0}
+.exit .lab{font-family:"JetBrains Mono",monospace; font-size:.76rem; font-weight:700;
+  color:var(--signal)}
+.exit p{margin:3px 0 0}
+
+.panel{background:var(--panel); border-top:3px solid var(--ink); padding:22px 24px; margin:52px 0 0}
+.panel h2{border:0; margin:0 0 10px; padding:0; font-size:1.3rem}
+.panel h3{margin:20px 0 4px; font-size:1rem}
+.panel p,.panel li{max-width:74ch; font-size:.95rem}
+.std{font-family:"JetBrains Mono",monospace; font-weight:700; color:var(--signal)}
+.mapnote{font-size:.82rem; color:var(--soft); margin-top:14px}
+
+nav.pager{display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap;
+  border-top:2px solid var(--ink); margin-top:46px; padding-top:16px; font-weight:600}
+nav.pager a{text-decoration:none}
+nav.pager .none{color:var(--rule)}
+
+/* hub */
+.grid{border-top:2px solid var(--ink); margin:30px 0 0}
+.row{display:grid; grid-template-columns:48px 76px 1fr; gap:16px;
+  border-bottom:1px solid var(--rule); padding:14px 0; align-items:baseline}
+.row .n{font-family:"Bricolage Grotesque",sans-serif; font-weight:700; font-size:1.5rem;
+  color:var(--signal)}
+.row .d{font-family:"JetBrains Mono",monospace; font-size:.82rem; color:var(--soft)}
+.row .t{font-weight:600; font-size:1.05rem}
+.row .t a{text-decoration:none}
+.row .s{display:block; font-weight:400; font-size:.92rem; color:var(--soft); max-width:62ch}
+.row.off{opacity:.55}
+.row.off .n{color:var(--soft)}
+.flag{background:#F7F2E6; border-left:4px solid var(--predict); padding:14px 18px; margin:22px 0}
+ul.tight{margin:8px 0; padding-left:22px}
+ul.tight li{margin:3px 0}
+.two{display:grid; grid-template-columns:1fr 1fr; gap:0 34px}
+@media (max-width:760px){
+  body{font-size:17px} .wrap{padding:0 18px 70px}
+  .serial{font-size:2.6rem} .top h1{font-size:1.6rem}
+  .row{grid-template-columns:38px 1fr; gap:6px 12px}
+  .row .d{grid-column:2} .row .t{grid-column:2} .two{grid-template-columns:1fr}
+  table{table-layout:fixed} th,td{padding:7px 8px}
+}
+@media print{
+  body{background:#fff; font-size:11pt} button.rev{display:none}
+  .ans{display:block} nav.pager{display:none} pre{border:1px solid #999}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important; animation:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top"><div class="course">Advanced Python &middot; Wednesdays 4:00 to 5:30 &middot; Robofun, 110 West End Avenue</div><div class="bar"><div class="serial">01</div><h1>Cold read, then a style pass</h1></div><p class="when">Wednesday 16 September 2026</p><p class="lede">You will read a working program you have never seen, predict what it prints, and only then run it. After that you will rename everything in it so the next reader does not have to work as hard as you just did.</p></header>
+<h2><span class="num">1</span>Opener<span class="mins">10 minutes</span></h2><p>No code yet. On paper, write down what each of these does. One line each. You wrote all of them over the summer.</p><ul class="tight"><li><code>for i in range(10):</code></li><li><code>total = total + r</code></li><li><code>if r &gt; best:</code></li><li><code>slot = (slot + 5) % 9</code></li></ul><p>Keep the paper. You check your answers against a real program in four minutes.</p><h2><span class="num">2</span>The cold read<span class="mins">25 minutes</span></h2><p>Here is the whole program. Read it top to bottom before you touch a keyboard. Do not run it. Do not type it. Read it.</p><p class="fname">sweep_report.py, first half</p>
+<pre><code>readings = [41, 58, 33, 58, 12, 77, 58, 60, 29, 77]
+limit = 55
+
+t = 0
+c = 0
+b = 0
+bi = 0
+
+for i in range(10):
+    r = readings[i]
+    t = t + r
+    if r &gt; limit:
+        c = c + 1
+    if r &gt; b:
+        b = r
+        bi = i
+
+avg = t / 10
+
+print(f&quot;total {t}&quot;)
+print(f&quot;average {avg}&quot;)
+print(f&quot;over {limit}: {c}&quot;)
+print(f&quot;best {b} at index {bi}&quot;)</code></pre>
+<div class="predict"><b>Predict first.</b> Four numbers come out. Write all four on your paper before you click. The fourth one is the one people get wrong.</div>
+<button class="rev" data-target="a1" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false">Show the answer</button>
+<div class="ans" id="a1"><div class="out"><span class="tag">verified output</span><pre><code>total 503
+average 50.3
+over 55: 6
+best 77 at index 5</code></pre></div>
+<p>The list holds 77 twice, at index 5 and at index 9. The program reports index 5. The reason is the single character <code>&gt;</code> in <code>if r &gt; b</code>. When the second 77 arrives, 77 is not greater than 77, so the gate stays shut and <code>bi</code> keeps the value it already had.</p><p>Change that one character to <code>&gt;=</code> and the answer becomes index 9. Neither version is wrong. They answer different questions. The code has to say which question you meant.</p></div>
+<h3>The second half</h3><p>Same file, next four lines. This is the wrap you already know from the shape shelf.</p><p class="fname">sweep_report.py, second half</p>
+<pre><code>slot = 0
+for i in range(10):
+    slot = (slot + readings[i]) % 9
+    print(f&quot;i={i} reading={readings[i]} slot={slot}&quot;)</code></pre>
+<div class="predict"><b>Predict first.</b> Trace this by hand. What is <code>slot</code> after i=0, after i=1, and after i=2?</div>
+<button class="rev" data-target="a2" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false">Show the answer</button>
+<div class="ans" id="a2"><div class="out"><span class="tag">verified output</span><pre><code>i=0 reading=41 slot=5
+i=1 reading=58 slot=0
+i=2 reading=33 slot=6
+i=3 reading=58 slot=1
+i=4 reading=12 slot=4
+i=5 reading=77 slot=0
+i=6 reading=58 slot=4
+i=7 reading=60 slot=1
+i=8 reading=29 slot=3
+i=9 reading=77 slot=8</code></pre></div>
+<p>41 wraps to 5 because 41 is 36 plus 5. Then 5 plus 58 is 63, and 63 is exactly seven nines, so slot lands on 0. Two different readings can land on the same slot, and two identical readings can land on different slots, because what wraps is the running total and not the reading. Look at i=1 and i=3: both readings are 58, and the slots are 0 and 1.</p></div>
+<h2><span class="num">3</span>Run it<span class="mins">10 minutes</span></h2><p>Now type it, or open the copy on the machine, and run it. Compare the real output against your paper. Mark every line you got wrong. Those marks are the only useful information in this session, so do not tidy them away.</p><div class="predict"><b>Rule for the term.</b> Read it, trace it, then run it. Running first tells you what happened. Tracing first tells you why it happened. You need the second one.</div><h2><span class="num">4</span>The style pass<span class="mins">30 minutes</span></h2><p>The program works and it is hard to read. Those are separate facts. <code>t</code>, <code>c</code>, <code>b</code>, and <code>bi</code> cost you time during the cold read, and you can measure that cost: it is however long you spent scrolling back up to find out what <code>bi</code> meant.</p><p>Rename every variable so the name says what the value is. Then add a docstring at the top of the file. One line, in triple quotes, saying what the program is for.</p><div class="predict"><b>Predict first.</b> Rename all seven short names on paper before you look. Yours does not have to match mine. It has to be honest.</div>
+<button class="rev" data-target="a3" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false">Show the answer</button>
+<div class="ans" id="a3"><pre><code>&quot;&quot;&quot;Summarize a run of tower readings and report where the strongest one sat.&quot;&quot;&quot;
+
+readings = [41, 58, 33, 58, 12, 77, 58, 60, 29, 77]
+limit = 55
+
+total = 0
+over_limit = 0
+best = 0
+best_index = 0
+
+for i in range(10):
+    reading = readings[i]
+    total = total + reading
+    if reading &gt; limit:
+        over_limit = over_limit + 1
+    if reading &gt; best:
+        best = reading
+        best_index = i
+
+average = total / 10
+
+print(f&quot;total {total}&quot;)
+print(f&quot;average {average}&quot;)
+print(f&quot;over {limit}: {over_limit}&quot;)
+print(f&quot;best {best} at index {best_index}&quot;)</code></pre>
+<p>One name here is still a small lie. <code>best_index</code> holds the first largest index, not the best one, and nothing in the name tells you that. <code>first_best_index</code> is the honest name. Naming is not decoration. It is where the bug hides.</p></div>
+<h3>Your own summer code</h3><p>Open any file you wrote in camp. Run the same pass on it: rename, add a docstring, delete any comment that says what the line already says. A comment earns its place by saying why, not what.</p><h2><span class="num">5</span>Where to stop<span class="mins">15 minutes</span></h2><div class="exits"><div class="exit"><span class="lab">FLOOR</span><p>You traced the four printed numbers and you can point at the character that decides index 5 against index 9. You renamed the four counters.</p></div><div class="exit"><span class="lab">MIDDLE</span><p>Floor, plus you traced the wrap loop by hand and got the first three slots right, plus a full rename with a docstring.</p></div><div class="exit"><span class="lab">STRETCH</span><p>Middle, plus you changed <code>&gt;</code> to <code>&gt;=</code>, predicted the new output, confirmed it, and wrote one sentence on which version answers which question. Then run the style pass on a summer file and bring it next week.</p></div></div><section class="panel"><h2>Teacher panel</h2><h3>Standards</h3><table><tr><th>Code</th><th>Statement</th></tr><tr><td class="std">MP1</td><td>Make sense of problems and persevere in solving them.</td></tr>
+<tr><td class="std">MP6</td><td>Attend to precision.</td></tr>
+<tr><td class="std">MP3</td><td>Construct viable arguments and critique the reasoning of others.</td></tr>
+</table><p class="mapnote">Mapped to the Common Core State Standards for Mathematics (Multi-State). Each code and its wording was retrieved from the CASE Network through the Learning Commons Knowledge Graph on 12 September 2026. New York's own Computer Science and Digital Fluency framework and the CSTA standards are not carried in that graph, so no code from either appears anywhere on this site.</p><h3>Timing</h3><p>10 opener, 25 cold read, 10 run and compare, 30 style pass, 15 exits and pack up. The cold read is the diagnostic and it is the part to protect. If it runs long, cut the summer-code rename and set it as the take-home.</p><h3>What to watch for</h3><p>This session is a placement test in ordinary clothes. Watch for anyone who cannot trace an accumulator at all. That tells you the room has beginners in it regardless of what the enrollment says. Three or more students stuck on <code>total = total + reading</code> means you should slow sessions 2 and 3 and push the module split back a week.</p><p>Expect most of the room to say index 9. That error is the point of the session. Do not soften it, and do not let anyone settle it by running the program. Make them find the character.</p><h3>Files</h3><p><code>sweep_report.py</code>. Every output on this page came from running that file on Python 3.12.3. Re-run it on the classroom machines before Wednesday.</p><h3>Constraints</h3><p>This session stays inside the summer vocabulary on purpose, so the diagnostic measures tracing rather than new syntax. The advanced list opens next week. See the <a href="advanced_python_hub.html">hub</a>.</p></section>
+<nav class="pager"><span class="none">&larr; start of term</span><a href="advanced_python_hub.html">Course hub</a><a href="wed02_return_and_modules.html">Session 2: functions that hand things back &rarr;</a></nav>
+
+</div>
+<script>
+document.addEventListener('click', function(e){
+  var b = e.target.closest('button.rev');
+  if(!b) return;
+  var box = document.getElementById(b.dataset.target);
+  if(!box) return;
+  var open = box.classList.toggle('show');
+  b.textContent = open ? (b.dataset.hide || 'Hide') : (b.dataset.show || 'Show');
+  b.setAttribute('aria-expanded', open ? 'true' : 'false');
+});
+</script>
+</body>
+</html>

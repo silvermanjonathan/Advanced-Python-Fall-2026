@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Session 7: what a program costs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F1F3F2; --ink:#15303C; --soft:#4A6472; --rule:#BFCBCE;
+  --signal:#0E6B62; --predict:#8A5A00; --verified:#185E3B; --fault:#8C2B18;
+  --code-bg:#0E2430; --code-fg:#DCE6E4; --panel:#E4E9E8;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:Archivo,system-ui,sans-serif; font-size:19px; line-height:1.6;
+}
+.wrap{max-width:1000px; margin:0 auto; padding:0 28px 90px}
+p,li{max-width:68ch}
+h1,h2,h3{font-family:"Bricolage Grotesque",Archivo,sans-serif; line-height:1.12; margin:0}
+a{color:var(--signal)}
+a:focus-visible,button:focus-visible{outline:3px solid var(--signal); outline-offset:3px}
+
+/* masthead */
+.top{border-bottom:2px solid var(--ink); padding:22px 0 14px; margin-bottom:34px}
+.top .course{font-size:.8rem; letter-spacing:.06em; color:var(--soft); font-weight:600}
+.top .bar{display:flex; gap:22px; align-items:baseline; flex-wrap:wrap; margin-top:6px}
+.serial{font-family:"Bricolage Grotesque",sans-serif; font-weight:700; font-size:3.6rem;
+  line-height:.85; color:var(--signal)}
+.top h1{font-size:2.1rem; font-weight:700; flex:1 1 340px}
+.when{font-family:"JetBrains Mono",monospace; font-size:.85rem; color:var(--soft);
+  max-width:none}
+
+/* blocks */
+h2{font-size:1.5rem; font-weight:700; margin:48px 0 4px; padding-top:18px;
+  border-top:1px solid var(--rule)}
+.top + h2, .top + .flag + h2{border-top:0; padding-top:0; margin-top:30px}
+h2 .num{color:var(--signal); font-weight:500; margin-right:.5em}
+h3{font-size:1.12rem; font-weight:600; margin:28px 0 6px}
+.lede{font-size:1.2rem; color:var(--soft); max-width:62ch; margin:10px 0 0}
+.mins{font-family:"JetBrains Mono",monospace; font-size:.78rem; color:var(--soft);
+  display:block; margin-top:2px}
+
+pre{background:var(--code-bg); color:var(--code-fg); padding:18px 20px; overflow-x:auto;
+  font-family:"JetBrains Mono",monospace; font-size:16px; line-height:1.5;
+  border-radius:3px; margin:16px 0}
+code{font-family:"JetBrains Mono",monospace; font-size:.92em;
+  background:var(--panel); padding:1px 5px; border-radius:2px}
+pre code{background:none; padding:0; font-size:inherit}
+.fname{font-family:"JetBrains Mono",monospace; font-size:.78rem; color:var(--soft);
+  margin:16px 0 -10px}
+
+.predict{border-left:4px solid var(--predict); background:#F7F2E6; padding:14px 18px; margin:18px 0}
+.predict b{color:var(--predict)}
+.out{border-left:4px solid var(--verified); background:#EAF1EC; padding:6px 18px; margin:14px 0}
+.out .tag{font-family:"JetBrains Mono",monospace; font-size:.72rem; color:var(--verified);
+  font-weight:700; display:block; margin:10px 0 -6px}
+.bug{border-left:4px solid var(--fault); background:#F7EBE8; padding:14px 18px; margin:18px 0}
+.bug b{color:var(--fault)}
+
+button.rev{font:600 .9rem Archivo,sans-serif; background:var(--signal); color:#fff;
+  border:0; padding:9px 16px; border-radius:3px; cursor:pointer; margin:6px 0}
+button.rev:hover{background:#0b544d}
+.ans{display:none; border-left:4px solid var(--signal); background:#E6EFEE;
+  padding:14px 18px; margin:6px 0 18px}
+.ans.show{display:block}
+
+table{border-collapse:collapse; width:100%; margin:18px 0; font-size:.92rem}
+th,td{border-bottom:1px solid var(--rule); padding:8px 10px; text-align:left;
+  vertical-align:top; overflow-wrap:anywhere}
+th{font-weight:600; background:var(--panel)}
+td code{font-size:.86em}
+
+.exits{margin:22px 0}
+.exit{border-top:1px solid var(--rule); padding:12px 0}
+.exit .lab{font-family:"JetBrains Mono",monospace; font-size:.76rem; font-weight:700;
+  color:var(--signal)}
+.exit p{margin:3px 0 0}
+
+.panel{background:var(--panel); border-top:3px solid var(--ink); padding:22px 24px; margin:52px 0 0}
+.panel h2{border:0; margin:0 0 10px; padding:0; font-size:1.3rem}
+.panel h3{margin:20px 0 4px; font-size:1rem}
+.panel p,.panel li{max-width:74ch; font-size:.95rem}
+.std{font-family:"JetBrains Mono",monospace; font-weight:700; color:var(--signal)}
+.mapnote{font-size:.82rem; color:var(--soft); margin-top:14px}
+
+nav.pager{display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap;
+  border-top:2px solid var(--ink); margin-top:46px; padding-top:16px; font-weight:600}
+nav.pager a{text-decoration:none}
+nav.pager .none{color:var(--rule)}
+
+/* hub */
+.grid{border-top:2px solid var(--ink); margin:30px 0 0}
+.row{display:grid; grid-template-columns:48px 76px 1fr; gap:16px;
+  border-bottom:1px solid var(--rule); padding:14px 0; align-items:baseline}
+.row .n{font-family:"Bricolage Grotesque",sans-serif; font-weight:700; font-size:1.5rem;
+  color:var(--signal)}
+.row .d{font-family:"JetBrains Mono",monospace; font-size:.82rem; color:var(--soft)}
+.row .t{font-weight:600; font-size:1.05rem}
+.row .t a{text-decoration:none}
+.row .s{display:block; font-weight:400; font-size:.92rem; color:var(--soft); max-width:62ch}
+.row.off{opacity:.55}
+.row.off .n{color:var(--soft)}
+.flag{background:#F7F2E6; border-left:4px solid var(--predict); padding:14px 18px; margin:22px 0}
+ul.tight{margin:8px 0; padding-left:22px}
+ul.tight li{margin:3px 0}
+.two{display:grid; grid-template-columns:1fr 1fr; gap:0 34px}
+@media (max-width:760px){
+  body{font-size:17px} .wrap{padding:0 18px 70px}
+  .serial{font-size:2.6rem} .top h1{font-size:1.6rem}
+  .row{grid-template-columns:38px 1fr; gap:6px 12px}
+  .row .d{grid-column:2} .row .t{grid-column:2} .two{grid-template-columns:1fr}
+  table{table-layout:fixed} th,td{padding:7px 8px}
+}
+@media print{
+  body{background:#fff; font-size:11pt} button.rev{display:none}
+  .ans{display:block} nav.pager{display:none} pre{border:1px solid #999}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important; animation:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top"><div class="course">Advanced Python &middot; Wednesdays 4:00 to 5:30 &middot; Robofun, 110 West End Avenue</div><div class="bar"><div class="serial">07</div><h1>What a program costs</h1></div><p class="when">Wednesday 28 October 2026</p><p class="lede">Two programs can both be correct and one can be unusable. Today you measure the difference, first by counting the work and then by timing it, and you build a table that tells you when brute force stops being an option.</p></header>
+<h2><span class="num">1</span>Opener<span class="mins">10 minutes</span></h2><p>A sorted list holds the 1000 even numbers from 0 to 1998. You are looking for 1998. On paper: how many values does a start-to-finish scan look at? Then, if you are allowed to jump to the middle and throw half away each time, how many?</p><div class="predict"><b>Predict first.</b> Both numbers before you click.</div>
+<button class="rev" data-target="a20" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false">Show the answer</button>
+<div class="ans" id="a20"><div class="out"><span class="tag">verified output</span><pre><code>searching a sorted list of 1000 even numbers for 1998
+  linear: found at 999 after 1000 looks
+  binary: found at 999 after 10 looks
+
+searching for 1999, which is not there
+  linear: returned -1 after 1000 looks
+  binary: returned -1 after 10 looks</code></pre></div>
+<p>1000 against 10. Halving 1000 ten times gets you below 1. That is where the 10 comes from, and it is why doubling the list only adds one look.</p><p>The missing-value case is the interesting one. Both searches do their worst work when the answer is not there, and the scan has no way to stop early.</p></div>
+<h2><span class="num">2</span>Every code, timed<span class="mins">35 minutes</span></h2><p><code>itertools.product</code> generates every combination for you. This sweeps every code of n digits and times it.</p><p class="fname">what_it_costs.py</p>
+<pre><code>from itertools import product
+from time import perf_counter
+
+CODE = &quot;4703916&quot;
+
+
+def sweep(digits):
+    &quot;&quot;&quot;Try every code of the given length. Return the winner and the tries.&quot;&quot;&quot;
+    tries = 0
+    winner = &quot;&quot;
+    target = CODE[:digits]
+    for guess in product(&quot;0123456789&quot;, repeat=digits):
+        tries = tries + 1
+        attempt = &quot;&quot;.join(guess)
+        if attempt == target:
+            winner = attempt
+    return winner, tries
+
+
+for n in range(1, 8):
+    start = perf_counter()
+    found, tries = sweep(n)
+    elapsed = perf_counter() - start
+    print(f&quot;  {n}   {10 ** n:&lt;10} {tries:&lt;8} {elapsed:.4f}&quot;)</code></pre>
+<div class="predict"><b>Predict first.</b> Seven digits takes about 1.2 seconds on my machine. Before you look: how long for eight digits, and for ten?</div>
+<button class="rev" data-target="a21" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false">Show the answer</button>
+<div class="ans" id="a21"><div class="out"><span class="tag">verified output</span><pre><code>brute force, every code of n digits
+  n   codes      tries    seconds
+  1   10         10       0.0000
+  2   100        100      0.0000
+  3   1000       1000     0.0001
+  4   10000      10000    0.0010
+  5   100000     100000   0.0108
+  6   1000000    1000000  0.1092
+  7   10000000   10000000 1.1845</code></pre></div>
+<p>Each row multiplies the one above it by ten. So eight digits is about 12 seconds, nine is about two minutes, ten is about twenty minutes, and twelve is about a day and a half. Nothing about the program changed. You added digits.</p><p>The exponent is doing all the work here. Ten to the seventh is ten million, and the seconds column tracks it exactly, which is what makes this table worth building yourself instead of being told about.</p></div>
+<div class="predict"><b>These timings are from one machine.</b> Yours will differ, maybe by a factor of three. What will not differ is the shape: every extra digit costs ten times the last one. Run it and write your own numbers in the table.</div><h3>Plot it</h3><p>Put digits on the horizontal axis and seconds on the vertical. Sketch it by hand. Then sketch a second graph with the same data and seconds on a scale where each step up is ten times the last. One of those two graphs is readable and the other is not, and knowing which to reach for is a real skill.</p><div class="exits"><div class="exit"><span class="lab">FLOOR</span><p>You ran both searches and can say why binary needs 10 looks where the scan needs 1000.</p></div><div class="exit"><span class="lab">MIDDLE</span><p>Floor, plus the runtime table built on your own machine out to six digits, plus a hand sketch of digits against seconds.</p></div><div class="exit"><span class="lab">STRETCH</span><p>Middle, plus extend to eight digits and check your prediction against the clock. Then work out how many digits you would need before the sweep takes longer than this class, and defend the arithmetic.</p></div></div><section class="panel"><h2>Teacher panel</h2><h3>Concept this session re-touches</h3><p>Session 5's brute-force instinct, now priced. Students who wanted to try all 26 Caesar shifts in session 3 meet the version of that idea that does not fit in a lifetime.</p><h3>Standards</h3><table><tr><th>Code</th><th>Statement</th></tr><tr><td class="std">8.EE.A.1</td><td>Know and apply the properties of integer exponents to generate equivalent numerical expressions.</td></tr>
+<tr><td class="std">8.F.B.5</td><td>Describe qualitatively the functional relationship between two quantities by analyzing a graph (e.g., where the function is increasing or decreasing, linear or nonlinear). Sketch a graph that exhibits the qualitative features of a function that has been described verbally.</td></tr>
+<tr><td class="std">MP8</td><td>Look for and express regularity in repeated reasoning.</td></tr>
+</table><p class="mapnote">Mapped to the Common Core State Standards for Mathematics (Multi-State). Each code and its wording was retrieved from the CASE Network through the Learning Commons Knowledge Graph on 12 September 2026. New York's own Computer Science and Digital Fluency framework and the CSTA standards are not carried in that graph, so no code from either appears anywhere on this site.</p><h3>Timing</h3><p>10 opener, 35 the sweep and the table, 20 plotting, 25 exits and discussion. Warn them off nine digits on a classroom machine: that is roughly two minutes with nothing on screen, and someone will assume it has hung.</p><h3>What to watch for</h3><p>The prediction that matters is eight digits. Students who say 2 seconds have not understood the table; students who say 12 have. Make them commit out loud before running.</p><p><code>perf_counter</code> measurements bounce around on a shared machine. Run each row three times and take the middle. That is worth saying explicitly, because otherwise a noisy row looks like a discovery.</p><h3>Files</h3><p><code>what_it_costs.py</code>. Timings above measured on Python 3.12.3 in this container and will not match the classroom machines.</p><h3>Lifted this week</h3><p><code>itertools.product</code>, <code>time.perf_counter</code>, <code>//</code>, <code>while</code> with a compound condition, returning two values.</p></section>
+<nav class="pager"><a href="wed06_hashing.html">&larr; Session 6: seals and real hashes</a><a href="advanced_python_hub.html">Course hub</a><a href="wed08_heuristics.html">Session 8: smarter than brute force &rarr;</a></nav>
+
+</div>
+<script>
+document.addEventListener('click', function(e){
+  var b = e.target.closest('button.rev');
+  if(!b) return;
+  var box = document.getElementById(b.dataset.target);
+  if(!box) return;
+  var open = box.classList.toggle('show');
+  b.textContent = open ? (b.dataset.hide || 'Hide') : (b.dataset.show || 'Show');
+  b.setAttribute('aria-expanded', open ? 'true' : 'false');
+});
+</script>
+</body>
+</html>

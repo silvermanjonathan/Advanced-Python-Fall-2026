@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Session 6: your seal, and a real one</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F1F3F2; --ink:#15303C; --soft:#4A6472; --rule:#BFCBCE;
+  --signal:#0E6B62; --predict:#8A5A00; --verified:#185E3B; --fault:#8C2B18;
+  --code-bg:#0E2430; --code-fg:#DCE6E4; --panel:#E4E9E8;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:Archivo,system-ui,sans-serif; font-size:19px; line-height:1.6;
+}
+.wrap{max-width:1000px; margin:0 auto; padding:0 28px 90px}
+p,li{max-width:68ch}
+h1,h2,h3{font-family:"Bricolage Grotesque",Archivo,sans-serif; line-height:1.12; margin:0}
+a{color:var(--signal)}
+a:focus-visible,button:focus-visible{outline:3px solid var(--signal); outline-offset:3px}
+
+/* masthead */
+.top{border-bottom:2px solid var(--ink); padding:22px 0 14px; margin-bottom:34px}
+.top .course{font-size:.8rem; letter-spacing:.06em; color:var(--soft); font-weight:600}
+.top .bar{display:flex; gap:22px; align-items:baseline; flex-wrap:wrap; margin-top:6px}
+.serial{font-family:"Bricolage Grotesque",sans-serif; font-weight:700; font-size:3.6rem;
+  line-height:.85; color:var(--signal)}
+.top h1{font-size:2.1rem; font-weight:700; flex:1 1 340px}
+.when{font-family:"JetBrains Mono",monospace; font-size:.85rem; color:var(--soft);
+  max-width:none}
+
+/* blocks */
+h2{font-size:1.5rem; font-weight:700; margin:48px 0 4px; padding-top:18px;
+  border-top:1px solid var(--rule)}
+.top + h2, .top + .flag + h2{border-top:0; padding-top:0; margin-top:30px}
+h2 .num{color:var(--signal); font-weight:500; margin-right:.5em}
+h3{font-size:1.12rem; font-weight:600; margin:28px 0 6px}
+.lede{font-size:1.2rem; color:var(--soft); max-width:62ch; margin:10px 0 0}
+.mins{font-family:"JetBrains Mono",monospace; font-size:.78rem; color:var(--soft);
+  display:block; margin-top:2px}
+
+pre{background:var(--code-bg); color:var(--code-fg); padding:18px 20px; overflow-x:auto;
+  font-family:"JetBrains Mono",monospace; font-size:16px; line-height:1.5;
+  border-radius:3px; margin:16px 0}
+code{font-family:"JetBrains Mono",monospace; font-size:.92em;
+  background:var(--panel); padding:1px 5px; border-radius:2px}
+pre code{background:none; padding:0; font-size:inherit}
+.fname{font-family:"JetBrains Mono",monospace; font-size:.78rem; color:var(--soft);
+  margin:16px 0 -10px}
+
+.predict{border-left:4px solid var(--predict); background:#F7F2E6; padding:14px 18px; margin:18px 0}
+.predict b{color:var(--predict)}
+.out{border-left:4px solid var(--verified); background:#EAF1EC; padding:6px 18px; margin:14px 0}
+.out .tag{font-family:"JetBrains Mono",monospace; font-size:.72rem; color:var(--verified);
+  font-weight:700; display:block; margin:10px 0 -6px}
+.bug{border-left:4px solid var(--fault); background:#F7EBE8; padding:14px 18px; margin:18px 0}
+.bug b{color:var(--fault)}
+
+button.rev{font:600 .9rem Archivo,sans-serif; background:var(--signal); color:#fff;
+  border:0; padding:9px 16px; border-radius:3px; cursor:pointer; margin:6px 0}
+button.rev:hover{background:#0b544d}
+.ans{display:none; border-left:4px solid var(--signal); background:#E6EFEE;
+  padding:14px 18px; margin:6px 0 18px}
+.ans.show{display:block}
+
+table{border-collapse:collapse; width:100%; margin:18px 0; font-size:.92rem}
+th,td{border-bottom:1px solid var(--rule); padding:8px 10px; text-align:left;
+  vertical-align:top; overflow-wrap:anywhere}
+th{font-weight:600; background:var(--panel)}
+td code{font-size:.86em}
+
+.exits{margin:22px 0}
+.exit{border-top:1px solid var(--rule); padding:12px 0}
+.exit .lab{font-family:"JetBrains Mono",monospace; font-size:.76rem; font-weight:700;
+  color:var(--signal)}
+.exit p{margin:3px 0 0}
+
+.panel{background:var(--panel); border-top:3px solid var(--ink); padding:22px 24px; margin:52px 0 0}
+.panel h2{border:0; margin:0 0 10px; padding:0; font-size:1.3rem}
+.panel h3{margin:20px 0 4px; font-size:1rem}
+.panel p,.panel li{max-width:74ch; font-size:.95rem}
+.std{font-family:"JetBrains Mono",monospace; font-weight:700; color:var(--signal)}
+.mapnote{font-size:.82rem; color:var(--soft); margin-top:14px}
+
+nav.pager{display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap;
+  border-top:2px solid var(--ink); margin-top:46px; padding-top:16px; font-weight:600}
+nav.pager a{text-decoration:none}
+nav.pager .none{color:var(--rule)}
+
+/* hub */
+.grid{border-top:2px solid var(--ink); margin:30px 0 0}
+.row{display:grid; grid-template-columns:48px 76px 1fr; gap:16px;
+  border-bottom:1px solid var(--rule); padding:14px 0; align-items:baseline}
+.row .n{font-family:"Bricolage Grotesque",sans-serif; font-weight:700; font-size:1.5rem;
+  color:var(--signal)}
+.row .d{font-family:"JetBrains Mono",monospace; font-size:.82rem; color:var(--soft)}
+.row .t{font-weight:600; font-size:1.05rem}
+.row .t a{text-decoration:none}
+.row .s{display:block; font-weight:400; font-size:.92rem; color:var(--soft); max-width:62ch}
+.row.off{opacity:.55}
+.row.off .n{color:var(--soft)}
+.flag{background:#F7F2E6; border-left:4px solid var(--predict); padding:14px 18px; margin:22px 0}
+ul.tight{margin:8px 0; padding-left:22px}
+ul.tight li{margin:3px 0}
+.two{display:grid; grid-template-columns:1fr 1fr; gap:0 34px}
+@media (max-width:760px){
+  body{font-size:17px} .wrap{padding:0 18px 70px}
+  .serial{font-size:2.6rem} .top h1{font-size:1.6rem}
+  .row{grid-template-columns:38px 1fr; gap:6px 12px}
+  .row .d{grid-column:2} .row .t{grid-column:2} .two{grid-template-columns:1fr}
+  table{table-layout:fixed} th,td{padding:7px 8px}
+}
+@media print{
+  body{background:#fff; font-size:11pt} button.rev{display:none}
+  .ans{display:block} nav.pager{display:none} pre{border:1px solid #999}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important; animation:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top"><div class="course">Advanced Python &middot; Wednesdays 4:00 to 5:30 &middot; Robofun, 110 West End Avenue</div><div class="bar"><div class="serial">06</div><h1>Your seal, and a real one</h1></div><p class="when">Wednesday 21 October 2026</p><p class="lede">The letter-sum seal you built over the summer is a checksum, and it has a hole in it you can drive through. Today you find the hole, then meet the function that does not have it.</p></header>
+<h2><span class="num">1</span>Opener<span class="mins">10 minutes</span></h2><p>Your summer seal added up the letter positions and wrapped the total. On paper: what is the seal of <code>ab</code>, and what is the seal of <code>ba</code>, using <code>% 97</code>?</p><div class="predict"><b>Predict first.</b> Both, before you click.</div>
+<button class="rev" data-target="a17" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false">Show the answer</button>
+<div class="ans" id="a17"><div class="out"><span class="tag">verified output</span><pre><code>seal of &#x27;ab&#x27; = 1
+seal of &#x27;ba&#x27; = 1
+same seal, different message: True</code></pre></div>
+<p>Identical. Addition does not care what order it gets its numbers in, so every anagram has the same seal. Your Tamper Seal mission could be defeated by rearranging the message and leaving the seal untouched.</p><p>Two different messages with the same seal is called a collision. Real hash functions are built specifically to make collisions hard to find.</p></div>
+<h2><span class="num">2</span>sha256<span class="mins">25 minutes</span></h2><p class="fname">avalanche.py</p>
+<pre><code>import hashlib
+
+
+def sha(text):
+    &quot;&quot;&quot;Return the sha256 hex digest of text.&quot;&quot;&quot;
+    return hashlib.sha256(text.encode()).hexdigest()</code></pre>
+<div class="predict"><b>Predict first.</b> <code>attack at dawn</code> and <code>attack at dusk</code> differ by two letters. How much of the output do you expect to change?</div>
+<button class="rev" data-target="a18" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false">Show the answer</button>
+<div class="ans" id="a18"><div class="out"><span class="tag">verified output</span><pre><code>sha256 &#x27;attack at dawn&#x27;
+  d502810c71aeb17e5ea1cbf930b46b87bb645a75df45f500230d061992aeb90a
+sha256 &#x27;attack at dusk&#x27;
+  9076bc233a9100d5c0885c6a5f055ca13d856d28ee9cf74941719bb292f88da7
+sha256 &#x27;attack at dawn.&#x27;
+  9156781e12f9522c7e8c5aef869a43a495be33b3f42c8c8fe9206dd7e2458b39</code></pre></div>
+<p>All of it. Not a corner of it. Adding a single full stop to the end of <code>dawn</code> also changes everything.</p></div>
+<h2><span class="num">3</span>Measure the avalanche<span class="mins">30 minutes</span></h2><p>Do not take my word for all of it. Count. A sha256 digest is 256 bits, so convert both digests to bits and count how many positions differ.</p><pre><code>def bits_of(hexdigest):
+    &quot;&quot;&quot;Return hexdigest as a string of 0s and 1s.&quot;&quot;&quot;
+    number = int(hexdigest, 16)
+    return format(number, &quot;0256b&quot;)
+
+
+def bits_differing(a, b):
+    &quot;&quot;&quot;Return how many bit positions differ between two hex digests.&quot;&quot;&quot;
+    left = bits_of(a)
+    right = bits_of(b)
+    count = 0
+    for i in range(256):
+        if left[i] != right[i]:
+            count = count + 1
+    return count</code></pre>
+<div class="predict"><b>Predict first.</b> Out of 256 bits, how many do you predict differ? Write a number, not a word.</div>
+<button class="rev" data-target="a19" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false">Show the answer</button>
+<div class="ans" id="a19"><div class="out"><span class="tag">verified output</span><pre><code>dawn vs dusk: 130 of 256 bits differ
+dawn vs dawn+period: 124 of 256 bits differ</code></pre></div>
+<p>Around 128 both times, which is half. That is the design goal: each output bit should flip with probability about one half whenever the input changes at all, no matter how small the change. 130 and 124 are what half of 256 looks like when you only sample twice.</p><p>Think about what that rules out. You cannot steer the output by nudging the input, because a tiny nudge scatters everything. And you cannot work backwards from a digest, because it holds no trace of which input produced it.</p></div>
+<div class="predict"><b>One honest limit.</b> A hash proves a file was not changed. It does not hide anything and it does not prove who sent it. If someone can replace both the file and its posted hash, you learn nothing.</div><div class="exits"><div class="exit"><span class="lab">FLOOR</span><p>You found a collision in the summer seal by hand and can explain why addition causes it.</p></div><div class="exit"><span class="lab">MIDDLE</span><p>Floor, plus sha256 running on your own strings, plus you can state the avalanche property in your own words.</p></div><div class="exit"><span class="lab">STRETCH</span><p>Middle, plus count the differing bits yourself and run it on five pairs of near-identical strings. Record the five counts and their average. Then try to find any sha256 collision by hand and write down why you stopped.</p></div></div><section class="panel"><h2>Teacher panel</h2><h3>Concept this session re-touches</h3><p>Session 3's <code>ord</code> arithmetic and the summer Tamper Seal. The opener forces students to re-derive the seal before they see why it fails.</p><h3>Standards</h3><table><tr><th>Code</th><th>Statement</th></tr><tr><td class="std">7.SP.C.8</td><td>Find probabilities of compound events using organized lists, tables, tree diagrams, and simulation.</td></tr>
+<tr><td class="std">MP2</td><td>Reason abstractly and quantitatively.</td></tr>
+<tr><td class="std">MP6</td><td>Attend to precision.</td></tr>
+</table><p class="mapnote">Mapped to the Common Core State Standards for Mathematics (Multi-State). Each code and its wording was retrieved from the CASE Network through the Learning Commons Knowledge Graph on 12 September 2026. New York's own Computer Science and Digital Fluency framework and the CSTA standards are not carried in that graph, so no code from either appears anywhere on this site.</p><h3>Timing</h3><p>10 opener, 25 sha256, 30 measuring the avalanche, 25 the limits and exits. <code>format(number, "0256b")</code> is the line that needs unpacking.</p><h3>What to watch for</h3><p>Students conclude a hash is encryption. It is not, and the difference is worth ten minutes: encryption is meant to be reversed by the right person, and a hash is meant to be reversed by nobody. Ask them how they would decrypt a digest back to the message and let them work out that the digest is the same length whatever goes in, so most of the message cannot be in there.</p><p>The bit-counting loop is the part most likely to defeat the floor group. Have the digest comparison ready as a fallback: line the two hex strings up on the projector and count matching characters instead.</p><h3>Files</h3><p><code>avalanche.py</code>. Digests and bit counts on this page verified on Python 3.12.3. The digests are reproducible, so students should get the identical hex strings.</p><h3>Lifted this week</h3><p><code>hashlib</code>, <code>.encode()</code>, <code>int(text, 16)</code>, <code>format</code> with a bit spec.</p></section>
+<nav class="pager"><a href="wed05_transposition.html">&larr; Session 5: moving letters</a><a href="advanced_python_hub.html">Course hub</a><a href="wed07_what_it_costs.html">Session 7: what a program costs &rarr;</a></nav>
+
+</div>
+<script>
+document.addEventListener('click', function(e){
+  var b = e.target.closest('button.rev');
+  if(!b) return;
+  var box = document.getElementById(b.dataset.target);
+  if(!box) return;
+  var open = box.classList.toggle('show');
+  b.textContent = open ? (b.dataset.hide || 'Hide') : (b.dataset.show || 'Show');
+  b.setAttribute('aria-expanded', open ? 'true' : 'false');
+});
+</script>
+</body>
+</html>

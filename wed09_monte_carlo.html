@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Session 9: settling an argument by simulation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F1F3F2; --ink:#15303C; --soft:#4A6472; --rule:#BFCBCE;
+  --signal:#0E6B62; --predict:#8A5A00; --verified:#185E3B; --fault:#8C2B18;
+  --code-bg:#0E2430; --code-fg:#DCE6E4; --panel:#E4E9E8;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:Archivo,system-ui,sans-serif; font-size:19px; line-height:1.6;
+}
+.wrap{max-width:1000px; margin:0 auto; padding:0 28px 90px}
+p,li{max-width:68ch}
+h1,h2,h3{font-family:"Bricolage Grotesque",Archivo,sans-serif; line-height:1.12; margin:0}
+a{color:var(--signal)}
+a:focus-visible,button:focus-visible{outline:3px solid var(--signal); outline-offset:3px}
+
+/* masthead */
+.top{border-bottom:2px solid var(--ink); padding:22px 0 14px; margin-bottom:34px}
+.top .course{font-size:.8rem; letter-spacing:.06em; color:var(--soft); font-weight:600}
+.top .bar{display:flex; gap:22px; align-items:baseline; flex-wrap:wrap; margin-top:6px}
+.serial{font-family:"Bricolage Grotesque",sans-serif; font-weight:700; font-size:3.6rem;
+  line-height:.85; color:var(--signal)}
+.top h1{font-size:2.1rem; font-weight:700; flex:1 1 340px}
+.when{font-family:"JetBrains Mono",monospace; font-size:.85rem; color:var(--soft);
+  max-width:none}
+
+/* blocks */
+h2{font-size:1.5rem; font-weight:700; margin:48px 0 4px; padding-top:18px;
+  border-top:1px solid var(--rule)}
+.top + h2, .top + .flag + h2{border-top:0; padding-top:0; margin-top:30px}
+h2 .num{color:var(--signal); font-weight:500; margin-right:.5em}
+h3{font-size:1.12rem; font-weight:600; margin:28px 0 6px}
+.lede{font-size:1.2rem; color:var(--soft); max-width:62ch; margin:10px 0 0}
+.mins{font-family:"JetBrains Mono",monospace; font-size:.78rem; color:var(--soft);
+  display:block; margin-top:2px}
+
+pre{background:var(--code-bg); color:var(--code-fg); padding:18px 20px; overflow-x:auto;
+  font-family:"JetBrains Mono",monospace; font-size:16px; line-height:1.5;
+  border-radius:3px; margin:16px 0}
+code{font-family:"JetBrains Mono",monospace; font-size:.92em;
+  background:var(--panel); padding:1px 5px; border-radius:2px}
+pre code{background:none; padding:0; font-size:inherit}
+.fname{font-family:"JetBrains Mono",monospace; font-size:.78rem; color:var(--soft);
+  margin:16px 0 -10px}
+
+.predict{border-left:4px solid var(--predict); background:#F7F2E6; padding:14px 18px; margin:18px 0}
+.predict b{color:var(--predict)}
+.out{border-left:4px solid var(--verified); background:#EAF1EC; padding:6px 18px; margin:14px 0}
+.out .tag{font-family:"JetBrains Mono",monospace; font-size:.72rem; color:var(--verified);
+  font-weight:700; display:block; margin:10px 0 -6px}
+.bug{border-left:4px solid var(--fault); background:#F7EBE8; padding:14px 18px; margin:18px 0}
+.bug b{color:var(--fault)}
+
+button.rev{font:600 .9rem Archivo,sans-serif; background:var(--signal); color:#fff;
+  border:0; padding:9px 16px; border-radius:3px; cursor:pointer; margin:6px 0}
+button.rev:hover{background:#0b544d}
+.ans{display:none; border-left:4px solid var(--signal); background:#E6EFEE;
+  padding:14px 18px; margin:6px 0 18px}
+.ans.show{display:block}
+
+table{border-collapse:collapse; width:100%; margin:18px 0; font-size:.92rem}
+th,td{border-bottom:1px solid var(--rule); padding:8px 10px; text-align:left;
+  vertical-align:top; overflow-wrap:anywhere}
+th{font-weight:600; background:var(--panel)}
+td code{font-size:.86em}
+
+.exits{margin:22px 0}
+.exit{border-top:1px solid var(--rule); padding:12px 0}
+.exit .lab{font-family:"JetBrains Mono",monospace; font-size:.76rem; font-weight:700;
+  color:var(--signal)}
+.exit p{margin:3px 0 0}
+
+.panel{background:var(--panel); border-top:3px solid var(--ink); padding:22px 24px; margin:52px 0 0}
+.panel h2{border:0; margin:0 0 10px; padding:0; font-size:1.3rem}
+.panel h3{margin:20px 0 4px; font-size:1rem}
+.panel p,.panel li{max-width:74ch; font-size:.95rem}
+.std{font-family:"JetBrains Mono",monospace; font-weight:700; color:var(--signal)}
+.mapnote{font-size:.82rem; color:var(--soft); margin-top:14px}
+
+nav.pager{display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap;
+  border-top:2px solid var(--ink); margin-top:46px; padding-top:16px; font-weight:600}
+nav.pager a{text-decoration:none}
+nav.pager .none{color:var(--rule)}
+
+/* hub */
+.grid{border-top:2px solid var(--ink); margin:30px 0 0}
+.row{display:grid; grid-template-columns:48px 76px 1fr; gap:16px;
+  border-bottom:1px solid var(--rule); padding:14px 0; align-items:baseline}
+.row .n{font-family:"Bricolage Grotesque",sans-serif; font-weight:700; font-size:1.5rem;
+  color:var(--signal)}
+.row .d{font-family:"JetBrains Mono",monospace; font-size:.82rem; color:var(--soft)}
+.row .t{font-weight:600; font-size:1.05rem}
+.row .t a{text-decoration:none}
+.row .s{display:block; font-weight:400; font-size:.92rem; color:var(--soft); max-width:62ch}
+.row.off{opacity:.55}
+.row.off .n{color:var(--soft)}
+.flag{background:#F7F2E6; border-left:4px solid var(--predict); padding:14px 18px; margin:22px 0}
+ul.tight{margin:8px 0; padding-left:22px}
+ul.tight li{margin:3px 0}
+.two{display:grid; grid-template-columns:1fr 1fr; gap:0 34px}
+@media (max-width:760px){
+  body{font-size:17px} .wrap{padding:0 18px 70px}
+  .serial{font-size:2.6rem} .top h1{font-size:1.6rem}
+  .row{grid-template-columns:38px 1fr; gap:6px 12px}
+  .row .d{grid-column:2} .row .t{grid-column:2} .two{grid-template-columns:1fr}
+  table{table-layout:fixed} th,td{padding:7px 8px}
+}
+@media print{
+  body{background:#fff; font-size:11pt} button.rev{display:none}
+  .ans{display:block} nav.pager{display:none} pre{border:1px solid #999}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important; animation:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top"><div class="course">Advanced Python &middot; Wednesdays 4:00 to 5:30 &middot; Robofun, 110 West End Avenue</div><div class="bar"><div class="serial">09</div><h1>Settling an argument by simulation</h1></div><p class="when">Wednesday 18 November 2026</p><p class="lede">There is a probability question that fooled a great many mathematicians in 1990. You are not going to argue about it. You are going to run it a hundred thousand times and read the answer off the screen.</p></header>
+<div class="flag"><b>No class on 11 November.</b> Veterans Day. Session 8 was two weeks ago, so the opener does more work than usual today.</div><h2><span class="num">1</span>Opener<span class="mins">10 minutes</span></h2><p>Two weeks back, hill climbing opened a seven digit lock in about 170 tries where brute force needed 4.7 million. On paper, two things: what information did <code>score</code> give the climber, and why did we insist on five runs rather than one?</p><div class="predict"><b>Predict first.</b> Both answers before you click.</div>
+<button class="rev" data-target="a25" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false">Show the answer</button>
+<div class="ans" id="a25"><p>The score said how many positions were right, which turns one bit per guess into seven. And five runs because a method that starts from a random place has a spread, not a single running time. Ours ran from 50 to 238.</p><p>Hold on to the word spread. Today it is the entire lesson.</p></div>
+<h2><span class="num">2</span>The problem<span class="mins">15 minutes</span></h2><p>Three doors. One prize. You pick a door. The host, who knows where the prize is, opens a different door that does not have the prize behind it. You may keep your door or switch to the remaining one.</p><p>Vote as a room, out loud, before any code. Write the vote count on the board. You will come back to it.</p><div class="predict"><b>State a model first.</b> Write down the probability you think staying wins, and the probability switching wins. Two numbers between 0 and 1. They should add to 1. Everyone commits in writing before the program runs.</div><h2><span class="num">3</span>One game, in code<span class="mins">25 minutes</span></h2><p class="fname">monty_hall.py, first draft</p>
+<pre><code>def one_game(switch):
+    &quot;&quot;&quot;Play one game. Return 1 for a win, 0 for a loss.&quot;&quot;&quot;
+    prize = random.randrange(3)
+    pick = random.randrange(3)
+
+    opened = -1
+    for door in range(3):
+        if door != prize:
+            if door != pick:
+                opened = door
+
+    if switch:
+        for door in range(3):
+            if door != pick:
+                if door != opened:
+                    pick = door
+
+    if pick == prize:
+        return 1
+    return 0</code></pre>
+<div class="predict"><b>Predict first.</b> Why does the host's loop need both gates, and what happens when your first pick is already the prize?</div>
+<button class="rev" data-target="a26" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false">Show the answer</button>
+<div class="ans" id="a26"><p>The host may not open the prize door and may not open your door, so both gates are doing real work. When your pick is the prize, two doors qualify and the loop keeps the later one. That is fine, because a real host could open either.</p><p>Read the switch block too. It looks reasonable. Hold your opinion of it until section 5.</p></div>
+<h2><span class="num">4</span>Run it until it settles<span class="mins">25 minutes</span></h2><div class="predict"><b>Predict first.</b> A hundred games, switching. How many wins?</div>
+<button class="rev" data-target="a27" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false">Show the answer</button>
+<div class="ans" id="a27"><div class="out"><span class="tag">verified output</span><pre><code>one hundred games, switching:
+  55 wins out of 100</code></pre></div>
+<p>55 out of 100. If switching really wins two thirds of the time you would expect about 67, so either the model is wrong or a hundred games is too few. Run more. Same seed both ways, so both columns play identical games.</p><div class="out"><span class="tag">output from the broken version</span><pre><code>does it settle down?
+  trials    stay wins    stay rate    switch wins    switch rate
+  10        4            0.4000       5              0.5000
+  100       33           0.3300       55             0.5500
+  1000      327          0.3270       526            0.5260
+  10000     3378         0.3378       5537           0.5537
+  100000    33318        0.3332       55402          0.5540</code></pre></div>
+<p>Read the last row. Staying settles on 0.3332, which is one third. Switching settles on 0.5540, which is not two thirds and not one half. It is not anything. A number that converges cleanly onto nothing recognisable is the signature of a bug, not of a surprising truth.</p></div>
+<div class="bug"><b>This is the session's bug hunt.</b> The program above is the broken one. It has no traceback, it never crashes, and it produces a stable wrong answer with five digits of apparent precision. Your model says switching wins two thirds of the time, or 0.6667. The program says 0.5540. One of them is wrong and you have to find out which.</div><h2><span class="num">5</span>Find it<span class="mins">15 minutes</span></h2><p>The broken switch block is four lines and looks reasonable:</p><pre><code>    if switch:
+        for door in range(3):
+            if door != pick:
+                if door != opened:
+                    pick = door</code></pre>
+<div class="predict"><b>Predict first.</b> Trace it by hand with prize 0, pick 1, opened 2. Follow <code>pick</code> through all three passes of the loop.</div>
+<button class="rev" data-target="a28" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false">Show the answer</button>
+<div class="ans" id="a28"><p>Pass door=0: 0 is not 1 and 0 is not 2, so <code>pick</code> becomes 0. Correct so far. Pass door=1: the test is now <code>1 != pick</code>, and <code>pick</code> is 0, so it passes, and 1 is not 2, so <code>pick</code> becomes 1 again. Pass door=2: blocked by <code>opened</code>. Final <code>pick</code> is 1, the door you started on. It never switched.</p><p>The loop writes to the variable it is testing. Fix it by working out the target first and assigning once, after the loop.</p><pre><code>    if switch:
+        target = pick
+        for door in range(3):
+            if door != pick:
+                if door != opened:
+                    target = door
+        pick = target</code></pre>
+<div class="out"><span class="tag">verified output, fixed version</span><pre><code>one hundred games, switching:
+  67 wins out of 100
+
+  trials    stay wins    stay rate    switch wins    switch rate
+  10        4            0.4000       6              0.6000
+  100       33           0.3300       67             0.6700
+  1000      327          0.3270       673            0.6730
+  10000     3378         0.3378       6622           0.6622
+  100000    33318        0.3332       66682          0.6668
+
+the model says stay 1/3 and switch 2/3:
+  1/3 = 0.3333
+  2/3 = 0.6667</code></pre></div>
+<p>0.3332 and 0.6668, against 0.3333 and 0.6667. Now the two columns add to exactly 100000, because with the same seed every game that staying lost, switching won.</p><p>Look at the 10-trial row: 0.4 and 0.6. Ten games tells you nothing. The answer only appears as the trials pile up, and the model and the measurement only agree in the last row.</p></div>
+<section class="panel" style="border-top-color:#8A5A00;background:#F7F2E6"><h2>Capstone thread</h2><p>The capstone is a thread from here to 16 December, not a session. Before any code is written, one page on paper is required, and it is the same page for everyone:</p><ul class="tight"><li>A sketch of the screen, drawn by hand, with the edges marked.</li><li>What the player can do. Every key, every click.</li><li>What is on screen that is not the player, and what happens when they touch.</li><li>How score or state is kept, and where it is displayed.</li><li>How it ends. Both ways: winning and losing.</li><li>Then pseudocode, in English, before any Python.</li></ul><p>Sketches are due at the start of session 10. No sketch means no build, which is not a punishment: it is the same rule every working programmer has learned the hard way.</p></section>
+<div class="exits"><div class="exit"><span class="lab">FLOOR</span><p>You committed a written model, ran a hundred games, and can explain why the host is not allowed to open your door or the prize door.</p></div><div class="exit"><span class="lab">MIDDLE</span><p>Floor, plus the convergence table out to 10000 trials, plus you found the switch bug by tracing rather than by being told.</p></div><div class="exit"><span class="lab">STRETCH</span><p>Middle, plus run it with four doors and then five, work out the switching probability for each, and state the general rule. Then explain why it converges to two thirds with three doors but the advantage shrinks as doors are added.</p></div></div><section class="panel"><h2>Teacher panel</h2><h3>Concept this session re-touches</h3><p>Session 8's five-runs-not-one discipline and the idea of a spread. Also session 8's fixed seed, which becomes load-bearing here: the same seed is what makes the stay and switch columns comparable.</p><h3>Standards</h3><table><tr><th>Code</th><th>Statement</th></tr><tr><td class="std">7.SP.C.6</td><td>Approximate the probability of a chance event by collecting data on the chance process that produces it and observing its long-run relative frequency, and predict the approximate relative frequency given the probability.</td></tr>
+<tr><td class="std">7.SP.C.7</td><td>Develop a probability model and use it to find probabilities of events. Compare probabilities from a model to observed frequencies; if the agreement is not good, explain possible sources of the discrepancy.</td></tr>
+<tr><td class="std">7.SP.C.5</td><td>Understand that the probability of a chance event is a number between 0 and 1 that expresses the likelihood of the event occurring. Larger numbers indicate greater likelihood.</td></tr>
+</table><p class="mapnote">Mapped to the Common Core State Standards for Mathematics (Multi-State). Each code and its wording was retrieved from the CASE Network through the Learning Commons Knowledge Graph on 12 September 2026. New York's own Computer Science and Digital Fluency framework and the CSTA standards are not carried in that graph, so no code from either appears anywhere on this site.</p><h3>Timing</h3><p>10 opener, 15 the problem and the vote, 25 reading the code, 25 running and the table, 15 the bug hunt, 10 capstone brief. The written model has to happen before any code runs or the session loses its spine.</p><h3>What to watch for</h3><p>Some of the room will refuse the two thirds answer even after the simulation. That is the correct historical reaction and you should say so. Do not argue them into it. Have them run 100000 trials themselves.</p><p>The bug is the most valuable thing here and it is tempting to skip it for time. Do not. A silent bug that produces a stable, plausible, wrong number is exactly what they will hit in their capstones, and 0.5540 is a much better teacher than any traceback.</p><p>Standard <span class="std">7.SP.C.7</span> asks students to explain sources of discrepancy when a model and the observed frequencies disagree. This session is that standard almost word for word, with the discrepancy supplied by a real bug.</p><h3>Files</h3><p><code>monty_hall.py</code>, seeded with 1963. Both the broken and fixed figures on this page were produced by running it, and are reproducible with that seed.</p><h3>Lifted this week</h3><p><code>random.seed</code> for reproducibility, <code>random.randrange</code>, booleans as function arguments.</p></section>
+<nav class="pager"><a href="wed08_heuristics.html">&larr; Session 8: smarter than brute force</a><a href="advanced_python_hub.html">Course hub</a><a href="wed10_benford.html">Session 10: the first digit &rarr;</a></nav>
+
+</div>
+<script>
+document.addEventListener('click', function(e){
+  var b = e.target.closest('button.rev');
+  if(!b) return;
+  var box = document.getElementById(b.dataset.target);
+  if(!box) return;
+  var open = box.classList.toggle('show');
+  b.textContent = open ? (b.dataset.hide || 'Hide') : (b.dataset.show || 'Show');
+  b.setAttribute('aria-expanded', open ? 'true' : 'false');
+});
+</script>
+</body>
+</html>

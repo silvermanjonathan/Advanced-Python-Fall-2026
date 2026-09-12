@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Session 2: functions that hand something back</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F1F3F2; --ink:#15303C; --soft:#4A6472; --rule:#BFCBCE;
+  --signal:#0E6B62; --predict:#8A5A00; --verified:#185E3B; --fault:#8C2B18;
+  --code-bg:#0E2430; --code-fg:#DCE6E4; --panel:#E4E9E8;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:Archivo,system-ui,sans-serif; font-size:19px; line-height:1.6;
+}
+.wrap{max-width:1000px; margin:0 auto; padding:0 28px 90px}
+p,li{max-width:68ch}
+h1,h2,h3{font-family:"Bricolage Grotesque",Archivo,sans-serif; line-height:1.12; margin:0}
+a{color:var(--signal)}
+a:focus-visible,button:focus-visible{outline:3px solid var(--signal); outline-offset:3px}
+
+/* masthead */
+.top{border-bottom:2px solid var(--ink); padding:22px 0 14px; margin-bottom:34px}
+.top .course{font-size:.8rem; letter-spacing:.06em; color:var(--soft); font-weight:600}
+.top .bar{display:flex; gap:22px; align-items:baseline; flex-wrap:wrap; margin-top:6px}
+.serial{font-family:"Bricolage Grotesque",sans-serif; font-weight:700; font-size:3.6rem;
+  line-height:.85; color:var(--signal)}
+.top h1{font-size:2.1rem; font-weight:700; flex:1 1 340px}
+.when{font-family:"JetBrains Mono",monospace; font-size:.85rem; color:var(--soft);
+  max-width:none}
+
+/* blocks */
+h2{font-size:1.5rem; font-weight:700; margin:48px 0 4px; padding-top:18px;
+  border-top:1px solid var(--rule)}
+.top + h2, .top + .flag + h2{border-top:0; padding-top:0; margin-top:30px}
+h2 .num{color:var(--signal); font-weight:500; margin-right:.5em}
+h3{font-size:1.12rem; font-weight:600; margin:28px 0 6px}
+.lede{font-size:1.2rem; color:var(--soft); max-width:62ch; margin:10px 0 0}
+.mins{font-family:"JetBrains Mono",monospace; font-size:.78rem; color:var(--soft);
+  display:block; margin-top:2px}
+
+pre{background:var(--code-bg); color:var(--code-fg); padding:18px 20px; overflow-x:auto;
+  font-family:"JetBrains Mono",monospace; font-size:16px; line-height:1.5;
+  border-radius:3px; margin:16px 0}
+code{font-family:"JetBrains Mono",monospace; font-size:.92em;
+  background:var(--panel); padding:1px 5px; border-radius:2px}
+pre code{background:none; padding:0; font-size:inherit}
+.fname{font-family:"JetBrains Mono",monospace; font-size:.78rem; color:var(--soft);
+  margin:16px 0 -10px}
+
+.predict{border-left:4px solid var(--predict); background:#F7F2E6; padding:14px 18px; margin:18px 0}
+.predict b{color:var(--predict)}
+.out{border-left:4px solid var(--verified); background:#EAF1EC; padding:6px 18px; margin:14px 0}
+.out .tag{font-family:"JetBrains Mono",monospace; font-size:.72rem; color:var(--verified);
+  font-weight:700; display:block; margin:10px 0 -6px}
+.bug{border-left:4px solid var(--fault); background:#F7EBE8; padding:14px 18px; margin:18px 0}
+.bug b{color:var(--fault)}
+
+button.rev{font:600 .9rem Archivo,sans-serif; background:var(--signal); color:#fff;
+  border:0; padding:9px 16px; border-radius:3px; cursor:pointer; margin:6px 0}
+button.rev:hover{background:#0b544d}
+.ans{display:none; border-left:4px solid var(--signal); background:#E6EFEE;
+  padding:14px 18px; margin:6px 0 18px}
+.ans.show{display:block}
+
+table{border-collapse:collapse; width:100%; margin:18px 0; font-size:.92rem}
+th,td{border-bottom:1px solid var(--rule); padding:8px 10px; text-align:left;
+  vertical-align:top; overflow-wrap:anywhere}
+th{font-weight:600; background:var(--panel)}
+td code{font-size:.86em}
+
+.exits{margin:22px 0}
+.exit{border-top:1px solid var(--rule); padding:12px 0}
+.exit .lab{font-family:"JetBrains Mono",monospace; font-size:.76rem; font-weight:700;
+  color:var(--signal)}
+.exit p{margin:3px 0 0}
+
+.panel{background:var(--panel); border-top:3px solid var(--ink); padding:22px 24px; margin:52px 0 0}
+.panel h2{border:0; margin:0 0 10px; padding:0; font-size:1.3rem}
+.panel h3{margin:20px 0 4px; font-size:1rem}
+.panel p,.panel li{max-width:74ch; font-size:.95rem}
+.std{font-family:"JetBrains Mono",monospace; font-weight:700; color:var(--signal)}
+.mapnote{font-size:.82rem; color:var(--soft); margin-top:14px}
+
+nav.pager{display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap;
+  border-top:2px solid var(--ink); margin-top:46px; padding-top:16px; font-weight:600}
+nav.pager a{text-decoration:none}
+nav.pager .none{color:var(--rule)}
+
+/* hub */
+.grid{border-top:2px solid var(--ink); margin:30px 0 0}
+.row{display:grid; grid-template-columns:48px 76px 1fr; gap:16px;
+  border-bottom:1px solid var(--rule); padding:14px 0; align-items:baseline}
+.row .n{font-family:"Bricolage Grotesque",sans-serif; font-weight:700; font-size:1.5rem;
+  color:var(--signal)}
+.row .d{font-family:"JetBrains Mono",monospace; font-size:.82rem; color:var(--soft)}
+.row .t{font-weight:600; font-size:1.05rem}
+.row .t a{text-decoration:none}
+.row .s{display:block; font-weight:400; font-size:.92rem; color:var(--soft); max-width:62ch}
+.row.off{opacity:.55}
+.row.off .n{color:var(--soft)}
+.flag{background:#F7F2E6; border-left:4px solid var(--predict); padding:14px 18px; margin:22px 0}
+ul.tight{margin:8px 0; padding-left:22px}
+ul.tight li{margin:3px 0}
+.two{display:grid; grid-template-columns:1fr 1fr; gap:0 34px}
+@media (max-width:760px){
+  body{font-size:17px} .wrap{padding:0 18px 70px}
+  .serial{font-size:2.6rem} .top h1{font-size:1.6rem}
+  .row{grid-template-columns:38px 1fr; gap:6px 12px}
+  .row .d{grid-column:2} .row .t{grid-column:2} .two{grid-template-columns:1fr}
+  table{table-layout:fixed} th,td{padding:7px 8px}
+}
+@media print{
+  body{background:#fff; font-size:11pt} button.rev{display:none}
+  .ans{display:block} nav.pager{display:none} pre{border:1px solid #999}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important; animation:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top"><div class="course">Advanced Python &middot; Wednesdays 4:00 to 5:30 &middot; Robofun, 110 West End Avenue</div><div class="bar"><div class="serial">02</div><h1>Functions that hand something back</h1></div><p class="when">Wednesday 23 September 2026</p><p class="lede">Every function you wrote over the summer printed. None of them returned. Today they hand a value back to the line that called them, which is what lets you test a function, build one out of another, and split a program across two files.</p></header>
+<h2><span class="num">1</span>Opener<span class="mins">10 minutes</span></h2><p>Last week you renamed <code>sweep_report.py</code> and found the character that picks index 5 over index 9. On paper, from memory: what were the four numbers it printed, and which one depended on that character?</p><div class="predict"><b>Predict first.</b> Write the four numbers before you click.</div>
+<button class="rev" data-target="a4" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false">Show the answer</button>
+<div class="ans" id="a4"><div class="out"><span class="tag">verified output</span><pre><code>total 503
+average 50.3
+over 55: 6
+best 77 at index 5</code></pre></div>
+<p>The fourth one. Same list, same readings, all term.</p></div>
+<h2><span class="num">2</span>Print is not return<span class="mins">20 minutes</span></h2><p>Two functions that look like they do the same job.</p><pre><code>def show_total(values):
+    running = 0
+    for v in values:
+        running = running + v
+    print(running)
+
+
+def total_of(values):
+    running = 0
+    for v in values:
+        running = running + v
+    return running</code></pre>
+<div class="predict"><b>Predict first.</b> What does <code>doubled = show_total([1, 2, 3]) * 2</code> do? And what does <code>doubled = total_of([1, 2, 3]) * 2</code> do?</div>
+<button class="rev" data-target="a5" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false">Show the answer</button>
+<div class="ans" id="a5"><p>The first one prints 6, then crashes.</p><div class="out"><span class="tag">what Python says</span><pre><code>6
+Traceback (most recent call last):
+  File &quot;demo.py&quot;, line 1, in &lt;module&gt;
+    doubled = show_total([1, 2, 3]) * 2
+              ~~~~~~~~~~~~~~~~~~~~~~^~~
+TypeError: unsupported operand type(s) for *: &#x27;NoneType&#x27; and &#x27;int&#x27;</code></pre></div>
+<p>A function with no <code>return</code> hands back <code>None</code>, and <code>None</code> times 2 is not a thing. The second one puts 12 in <code>doubled</code> and prints nothing at all.</p><p>A printing function shows you a number. A returning function gives you a number. Only the second kind can be used in arithmetic, and only the second kind can be tested.</p></div>
+<div class="predict"><b>This is the grade 8 definition of a function.</b> A rule that assigns to each input exactly one output. <code>total_of</code> takes a list in and hands one number out. <code>show_total</code> assigns nothing to anything, so it is not a function in the mathematical sense at all, whatever the <code>def</code> keyword says.</div><h2><span class="num">3</span>Build the module<span class="mins">25 minutes</span></h2><p>Make a new file. It holds functions and nothing else. No printing, no readings list, no loop at the bottom. A file like that is a module.</p><p class="fname">sweep_tools.py</p>
+<pre><code>&quot;&quot;&quot;Helpers that summarize a list of tower readings.
+
+Every function here hands a value back. None of them print.
+&quot;&quot;&quot;
+
+
+def total_of(values):
+    &quot;&quot;&quot;Return the sum of every number in values.&quot;&quot;&quot;
+    running = 0
+    for v in values:
+        running = running + v
+    return running
+
+
+def average_of(values):
+    &quot;&quot;&quot;Return the mean of values.&quot;&quot;&quot;
+    return total_of(values) / len(values)
+
+
+def count_over(values, limit):
+    &quot;&quot;&quot;Return how many values are strictly greater than limit.&quot;&quot;&quot;
+    hits = 0
+    for v in values:
+        if v &gt; limit:
+            hits = hits + 1
+    return hits
+
+
+def best_index(values):
+    &quot;&quot;&quot;Return the index of the first largest value in values.&quot;&quot;&quot;
+    best = values[0]
+    where = 0
+    for i in range(len(values)):
+        if values[i] &gt; best:
+            best = values[i]
+            where = i
+    return where
+
+
+def last_best_index(values):
+    &quot;&quot;&quot;Return the index of the last largest value in values.&quot;&quot;&quot;
+    best = values[0]
+    where = 0
+    for i in range(len(values)):
+        if values[i] &gt;= best:
+            best = values[i]
+            where = i
+    return where</code></pre>
+<p>Look at <code>average_of</code>. It does not add anything up. It calls <code>total_of</code> and divides. That was impossible last term, because a function that only prints has nothing to give another function.</p><p><code>best_index</code> and <code>last_best_index</code> differ by exactly the character you found last week. Now both questions have a name, and the name says which one you are asking.</p><h2><span class="num">4</span>Import your own file<span class="mins">15 minutes</span></h2><p>Second file, same folder. <code>import sweep_tools</code> sends Python looking for a file called <code>sweep_tools.py</code> and hands you everything inside it.</p><p class="fname">sweep_report2.py</p>
+<pre><code>&quot;&quot;&quot;Summarize tower readings using our own sweep_tools module.&quot;&quot;&quot;
+
+import sweep_tools
+
+readings = [41, 58, 33, 58, 12, 77, 58, 60, 29, 77]
+limit = 55
+
+print(f&quot;total {sweep_tools.total_of(readings)}&quot;)
+print(f&quot;average {sweep_tools.average_of(readings)}&quot;)
+print(f&quot;over {limit}: {sweep_tools.count_over(readings, limit)}&quot;)
+print(f&quot;first best at {sweep_tools.best_index(readings)}&quot;)
+print(f&quot;last best at {sweep_tools.last_best_index(readings)}&quot;)</code></pre>
+<div class="predict"><b>Predict first.</b> Same readings as last week. Will the first three numbers match last week's output exactly?</div>
+<button class="rev" data-target="a6" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false">Show the answer</button>
+<div class="ans" id="a6"><div class="out"><span class="tag">verified output</span><pre><code>total 503
+average 50.3
+over 55: 6
+first best at 5
+last best at 9</code></pre></div>
+<p>Identical, because the arithmetic did not change. Only the shape of the program changed. And now both answers to the index question sit next to each other with names on them.</p></div>
+<h2><span class="num">5</span>Test it, do not trust it<span class="mins">15 minutes</span></h2><p>A returning function can be checked against an answer you worked out yourself. Add these lines. Predict every one before running.</p><pre><code>print(&quot;--- checks ---&quot;)
+print(f&quot;total_of([1, 2, 3]) expected 6 got {sweep_tools.total_of([1, 2, 3])}&quot;)
+print(f&quot;total_of([]) expected 0 got {sweep_tools.total_of([])}&quot;)
+print(f&quot;count_over([5, 5, 5], 5) expected 0 got {sweep_tools.count_over([5, 5, 5], 5)}&quot;)
+print(f&quot;best_index([9, 9]) expected 0 got {sweep_tools.best_index([9, 9])}&quot;)
+print(f&quot;last_best_index([9, 9]) expected 1 got {sweep_tools.last_best_index([9, 9])}&quot;)</code></pre>
+<div class="predict"><b>Predict first.</b> Two of these five are traps. Which two, and why? Write your five expected values first.</div>
+<button class="rev" data-target="a7" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false">Show the answer</button>
+<div class="ans" id="a7"><div class="out"><span class="tag">verified output</span><pre><code>--- checks ---
+total_of([1, 2, 3]) expected 6 got 6
+total_of([]) expected 0 got 0
+count_over([5, 5, 5], 5) expected 0 got 0
+best_index([9, 9]) expected 0 got 0
+last_best_index([9, 9]) expected 1 got 1</code></pre></div>
+<p>All five pass. The traps are the empty list, where <code>total_of</code> sensibly hands back 0, and <code>count_over([5, 5, 5], 5)</code>, where nothing counts because 5 is not strictly greater than 5. Most students predict 3 for that one.</p><p>Now call <code>sweep_tools.average_of([])</code> on purpose.</p><div class="out"><span class="tag">verified traceback</span><pre><code>  File &quot;/home/claude/adv/prog/sweep_tools.py&quot;, line 17, in average_of
+    return total_of(values) / len(values)
+           ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~
+ZeroDivisionError: division by zero</code></pre></div>
+<p>Read the file name in that traceback. The error is reported inside <code>sweep_tools.py</code>, not in the file you ran. A traceback crosses file boundaries and tells you which file broke. That is new this week, and it is most of the reason splitting a program into files is worth the trouble.</p></div>
+<h2><span class="num">6</span>Where to stop<span class="mins">5 minutes</span></h2><div class="exits"><div class="exit"><span class="lab">FLOOR</span><p><code>sweep_tools.py</code> holds <code>total_of</code> and <code>count_over</code>, both returning, and <code>sweep_report2.py</code> imports them and prints the right two numbers.</p></div><div class="exit"><span class="lab">MIDDLE</span><p>All five functions written and imported, output matching session 1, and the five checks passing with your predictions written down first.</p></div><div class="exit"><span class="lab">STRETCH</span><p>Middle, plus add <code>spread_of(values)</code>, returning the largest value minus the smallest, written so it calls other functions in your module rather than looping again. Then break <code>average_of([])</code> on purpose and write down which file the traceback names.</p></div></div><section class="panel"><h2>Teacher panel</h2><h3>Concept this session re-touches</h3><p>The strict <code>&gt;</code> gate from session 1, now given two names. <code>best_index</code> keeps <code>&gt;</code> and <code>last_best_index</code> uses <code>&gt;=</code>, so last week's argument becomes this week's pair of functions.</p><h3>Standards</h3><table><tr><th>Code</th><th>Statement</th></tr><tr><td class="std">8.F.A.1</td><td>Understand that a function is a rule that assigns to each input exactly one output. The graph of a function is the set of ordered pairs consisting of an input and the corresponding output.</td></tr>
+<tr><td class="std">MP7</td><td>Look for and make use of structure.</td></tr>
+<tr><td class="std">6.EE.B.6</td><td>Use variables to represent numbers and write expressions when solving a real-world or mathematical problem; understand that a variable can represent an unknown number, or, depending on the purpose at hand, any number in a specified set.</td></tr>
+</table><p class="mapnote">Mapped to the Common Core State Standards for Mathematics (Multi-State). Each code and its wording was retrieved from the CASE Network through the Learning Commons Knowledge Graph on 12 September 2026. New York's own Computer Science and Digital Fluency framework and the CSTA standards are not carried in that graph, so no code from either appears anywhere on this site.</p><h3>Timing</h3><p>10 opener, 20 print against return, 25 building the module, 15 the import, 15 the checks, 5 exits. The module build runs long. If you are short, ship three functions instead of five and keep the checks.</p><h3>What to watch for</h3><p>The common failure is a function with both a <code>print</code> and a <code>return</code> in it. It works, and it teaches nothing. Make them delete the print. Rule for the term: a module never prints.</p><p>Second common failure is running <code>sweep_tools.py</code> directly, seeing no output, and deciding it is broken. It is not broken. It has nothing to say. Name that moment out loud before it happens.</p><p>Watch for anyone who predicted 3 on <code>count_over([5, 5, 5], 5)</code>. That is last week's strict inequality in a new costume, one week later, which is exactly the retrieval this session is built to force.</p><h3>Files</h3><p><code>sweep_tools.py</code> and <code>sweep_report2.py</code>. All output verified on Python 3.12.3.</p><h3>Lifted this week</h3><p><code>return</code>, <code>len()</code>, and <code>import</code> of your own module. Full list on the <a href="advanced_python_hub.html">hub</a>.</p></section>
+<nav class="pager"><a href="wed01_cold_read.html">&larr; Session 1: cold read</a><a href="advanced_python_hub.html">Course hub</a><a href="wed03_counting.html">Session 3: counting and cracking &rarr;</a></nav>
+
+</div>
+<script>
+document.addEventListener('click', function(e){
+  var b = e.target.closest('button.rev');
+  if(!b) return;
+  var box = document.getElementById(b.dataset.target);
+  if(!box) return;
+  var open = box.classList.toggle('show');
+  b.textContent = open ? (b.dataset.hide || 'Hide') : (b.dataset.show || 'Show');
+  b.setAttribute('aria-expanded', open ? 'true' : 'false');
+});
+</script>
+</body>
+</html>

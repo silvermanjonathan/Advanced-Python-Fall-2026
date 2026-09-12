@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Session 12: objects that remember</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F1F3F2; --ink:#15303C; --soft:#4A6472; --rule:#BFCBCE;
+  --signal:#0E6B62; --predict:#8A5A00; --verified:#185E3B; --fault:#8C2B18;
+  --code-bg:#0E2430; --code-fg:#DCE6E4; --panel:#E4E9E8;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:Archivo,system-ui,sans-serif; font-size:19px; line-height:1.6;
+}
+.wrap{max-width:1000px; margin:0 auto; padding:0 28px 90px}
+p,li{max-width:68ch}
+h1,h2,h3{font-family:"Bricolage Grotesque",Archivo,sans-serif; line-height:1.12; margin:0}
+a{color:var(--signal)}
+a:focus-visible,button:focus-visible{outline:3px solid var(--signal); outline-offset:3px}
+
+/* masthead */
+.top{border-bottom:2px solid var(--ink); padding:22px 0 14px; margin-bottom:34px}
+.top .course{font-size:.8rem; letter-spacing:.06em; color:var(--soft); font-weight:600}
+.top .bar{display:flex; gap:22px; align-items:baseline; flex-wrap:wrap; margin-top:6px}
+.serial{font-family:"Bricolage Grotesque",sans-serif; font-weight:700; font-size:3.6rem;
+  line-height:.85; color:var(--signal)}
+.top h1{font-size:2.1rem; font-weight:700; flex:1 1 340px}
+.when{font-family:"JetBrains Mono",monospace; font-size:.85rem; color:var(--soft);
+  max-width:none}
+
+/* blocks */
+h2{font-size:1.5rem; font-weight:700; margin:48px 0 4px; padding-top:18px;
+  border-top:1px solid var(--rule)}
+.top + h2, .top + .flag + h2{border-top:0; padding-top:0; margin-top:30px}
+h2 .num{color:var(--signal); font-weight:500; margin-right:.5em}
+h3{font-size:1.12rem; font-weight:600; margin:28px 0 6px}
+.lede{font-size:1.2rem; color:var(--soft); max-width:62ch; margin:10px 0 0}
+.mins{font-family:"JetBrains Mono",monospace; font-size:.78rem; color:var(--soft);
+  display:block; margin-top:2px}
+
+pre{background:var(--code-bg); color:var(--code-fg); padding:18px 20px; overflow-x:auto;
+  font-family:"JetBrains Mono",monospace; font-size:16px; line-height:1.5;
+  border-radius:3px; margin:16px 0}
+code{font-family:"JetBrains Mono",monospace; font-size:.92em;
+  background:var(--panel); padding:1px 5px; border-radius:2px}
+pre code{background:none; padding:0; font-size:inherit}
+.fname{font-family:"JetBrains Mono",monospace; font-size:.78rem; color:var(--soft);
+  margin:16px 0 -10px}
+
+.predict{border-left:4px solid var(--predict); background:#F7F2E6; padding:14px 18px; margin:18px 0}
+.predict b{color:var(--predict)}
+.out{border-left:4px solid var(--verified); background:#EAF1EC; padding:6px 18px; margin:14px 0}
+.out .tag{font-family:"JetBrains Mono",monospace; font-size:.72rem; color:var(--verified);
+  font-weight:700; display:block; margin:10px 0 -6px}
+.bug{border-left:4px solid var(--fault); background:#F7EBE8; padding:14px 18px; margin:18px 0}
+.bug b{color:var(--fault)}
+
+button.rev{font:600 .9rem Archivo,sans-serif; background:var(--signal); color:#fff;
+  border:0; padding:9px 16px; border-radius:3px; cursor:pointer; margin:6px 0}
+button.rev:hover{background:#0b544d}
+.ans{display:none; border-left:4px solid var(--signal); background:#E6EFEE;
+  padding:14px 18px; margin:6px 0 18px}
+.ans.show{display:block}
+
+table{border-collapse:collapse; width:100%; margin:18px 0; font-size:.92rem}
+th,td{border-bottom:1px solid var(--rule); padding:8px 10px; text-align:left;
+  vertical-align:top; overflow-wrap:anywhere}
+th{font-weight:600; background:var(--panel)}
+td code{font-size:.86em}
+
+.exits{margin:22px 0}
+.exit{border-top:1px solid var(--rule); padding:12px 0}
+.exit .lab{font-family:"JetBrains Mono",monospace; font-size:.76rem; font-weight:700;
+  color:var(--signal)}
+.exit p{margin:3px 0 0}
+
+.panel{background:var(--panel); border-top:3px solid var(--ink); padding:22px 24px; margin:52px 0 0}
+.panel h2{border:0; margin:0 0 10px; padding:0; font-size:1.3rem}
+.panel h3{margin:20px 0 4px; font-size:1rem}
+.panel p,.panel li{max-width:74ch; font-size:.95rem}
+.std{font-family:"JetBrains Mono",monospace; font-weight:700; color:var(--signal)}
+.mapnote{font-size:.82rem; color:var(--soft); margin-top:14px}
+
+nav.pager{display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap;
+  border-top:2px solid var(--ink); margin-top:46px; padding-top:16px; font-weight:600}
+nav.pager a{text-decoration:none}
+nav.pager .none{color:var(--rule)}
+
+/* hub */
+.grid{border-top:2px solid var(--ink); margin:30px 0 0}
+.row{display:grid; grid-template-columns:48px 76px 1fr; gap:16px;
+  border-bottom:1px solid var(--rule); padding:14px 0; align-items:baseline}
+.row .n{font-family:"Bricolage Grotesque",sans-serif; font-weight:700; font-size:1.5rem;
+  color:var(--signal)}
+.row .d{font-family:"JetBrains Mono",monospace; font-size:.82rem; color:var(--soft)}
+.row .t{font-weight:600; font-size:1.05rem}
+.row .t a{text-decoration:none}
+.row .s{display:block; font-weight:400; font-size:.92rem; color:var(--soft); max-width:62ch}
+.row.off{opacity:.55}
+.row.off .n{color:var(--soft)}
+.flag{background:#F7F2E6; border-left:4px solid var(--predict); padding:14px 18px; margin:22px 0}
+ul.tight{margin:8px 0; padding-left:22px}
+ul.tight li{margin:3px 0}
+.two{display:grid; grid-template-columns:1fr 1fr; gap:0 34px}
+@media (max-width:760px){
+  body{font-size:17px} .wrap{padding:0 18px 70px}
+  .serial{font-size:2.6rem} .top h1{font-size:1.6rem}
+  .row{grid-template-columns:38px 1fr; gap:6px 12px}
+  .row .d{grid-column:2} .row .t{grid-column:2} .two{grid-template-columns:1fr}
+  table{table-layout:fixed} th,td{padding:7px 8px}
+}
+@media print{
+  body{background:#fff; font-size:11pt} button.rev{display:none}
+  .ans{display:block} nav.pager{display:none} pre{border:1px solid #999}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important; animation:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top"><div class="course">Advanced Python &middot; Wednesdays 4:00 to 5:30 &middot; Robofun, 110 West End Avenue</div><div class="bar"><div class="serial">12</div><h1>Objects that remember their own history</h1></div><p class="when">Wednesday 9 December 2026</p><p class="lede">Over the summer you tracked a hundred sparks with five parallel lists and a comment apologising for it. Today each spark is one object that carries its own position, its own speed, and its own trail.</p></header>
+<h2><span class="num">1</span>Opener<span class="mins">10 minutes</span></h2><p>This comment is in your summer code, written by you:</p><pre><code># Parallel lists: spark number i is xs[i], ys[i], speeds[i], sizes[i], colors[i]</code></pre>
+<div class="predict"><b>Predict first.</b> Name two specific things that go wrong with five parallel lists once you start removing sparks that have landed.</div>
+<button class="rev" data-target="a34" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false">Show the answer</button>
+<div class="ans" id="a34"><p>Removing spark 7 means removing index 7 from all five lists, and forgetting one leaves every list after it misaligned, so spark 8 gets spark 9's colour. And you cannot pass one spark to a function: you have to pass five lists plus an index.</p><p>The lists are held together by nothing but your attention.</p></div>
+<h2><span class="num">2</span>One spark, one object<span class="mins">30 minutes</span></h2><p class="fname">plume.py</p>
+<pre><code>class Particle:
+    &quot;&quot;&quot;One thrown speck that keeps a trail of where it has been.&quot;&quot;&quot;
+
+    def __init__(self, x, y, speed, angle):
+        self.x = x
+        self.y = y
+        self.dx = speed * math.cos(math.radians(angle))
+        self.dy = -speed * math.sin(math.radians(angle))
+        self.trail = [(x, y)]
+        self.alive = 1
+
+    def step(self):
+        &quot;&quot;&quot;Move one frame forward and record the new position.&quot;&quot;&quot;
+        self.dy = self.dy + GRAVITY
+        self.x = self.x + self.dx
+        self.y = self.y + self.dy
+        self.trail.append((self.x, self.y))
+        if self.y &gt; HEIGHT - 40:
+            self.alive = 0</code></pre>
+<div class="predict"><b>Predict first.</b> Why is there a minus sign on <code>self.dy</code> in <code>__init__</code> but a plus on <code>GRAVITY</code> in <code>step</code>?</div>
+<button class="rev" data-target="a35" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false">Show the answer</button>
+<div class="ans" id="a35"><p>Because the screen's y axis points down. An angle of 90 degrees means straight up, which on screen means y decreasing, so the initial dy has to be negative. Gravity pulls down the screen, which is y increasing, so it adds.</p><p>This is the coordinate system from session 5's grid, with one axis flipped relative to the one you use in maths class. Say that out loud every time it comes up, because it never stops causing bugs.</p></div>
+<p><code>self</code> is the particular spark this call is about. <code>self.x</code> is that spark's own x, not shared with any other. That one idea replaces all five lists and the comment.</p><h2><span class="num">3</span>A list of objects<span class="mins">25 minutes</span></h2><pre><code>running = 1
+while running:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = 0
+    screen.fill(BLACK)
+    pygame.draw.rect(screen, (90, 108, 116), (0, HEIGHT - 40, WIDTH, 40))
+    for p in particles:
+        if p.alive == 1:
+            p.step()
+        p.draw(screen)
+    pygame.display.flip()
+    clock.tick(60)</code></pre>
+<div class="predict"><b>Predict first.</b> 120 particles launched from the vent at speeds 6 to 11 and angles 60 to 120 degrees. After 240 frames, how many are still in the air, and how high did the highest one get?</div>
+<button class="rev" data-target="a36" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false">Show the answer</button>
+<div class="ans" id="a36"><div class="out"><span class="tag">verified from a headless run</span><pre><code>frames run: 241
+particles: 120, still airborne: 0, landed: 120
+highest point reached: y=64.2 (ground is y=560)
+trail lengths: shortest 92, longest 183</code></pre></div>
+<p>All 120 have landed within four seconds. The highest reached y=64.2, which is near the top of an 800 by 600 window, about 500 pixels above the vent.</p><p>The trail lengths are the useful number: 92 frames for the shortest flight and 183 for the longest, which is exactly what a spread of launch speeds and angles should produce. Every one of those trails lives inside its own object, and no list is keeping them in step.</p></div>
+<p>Note the loop still has the shape you have used all term: <code>while running:</code>, the QUIT listener, <code>clock.tick(60)</code>, and a window that never closes itself. Objects changed what is in the loop, not the loop.</p><div class="exits"><div class="exit"><span class="lab">FLOOR</span><p>A <code>Particle</code> class exists with <code>__init__</code> and <code>step</code>, and one particle moves and falls on screen.</p></div><div class="exit"><span class="lab">MIDDLE</span><p>Floor, plus a list of 120 particles all stepping in one loop, plus trails drawn, plus you can explain the minus sign on the initial dy.</p></div><div class="exit"><span class="lab">STRETCH</span><p>Middle, plus colour each particle by its current vertical speed so the rising ones differ from the falling ones. Then add the shock canopy: make the trail brighter near the top of the arc, where dy passes through zero.</p></div></div><section class="panel"><h2>Teacher panel</h2><h3>Concept this session re-touches</h3><p>The parallel list problem from session 3, now solved properly. Also session 5's row and column coordinates, reappearing as screen coordinates with the y axis flipped.</p><h3>Standards</h3><table><tr><th>Code</th><th>Statement</th></tr><tr><td class="std">6.NS.C.8</td><td>Solve real-world and mathematical problems by graphing points in all four quadrants of the coordinate plane. Include use of coordinates and absolute value to find distances between points with the same first coordinate or the same second coordinate.</td></tr>
+<tr><td class="std">5.G.A.1</td><td>Use a pair of perpendicular number lines, called axes, to define a coordinate system, with the intersection of the lines (the origin) arranged to coincide with the 0 on each line and a given point in the plane located by using an ordered pair of numbers, called its coordinates.</td></tr>
+<tr><td class="std">6.EE.A.2</td><td>Write, read, and evaluate expressions in which letters stand for numbers.</td></tr>
+</table><p class="mapnote">Mapped to the Common Core State Standards for Mathematics (Multi-State). Each code and its wording was retrieved from the CASE Network through the Learning Commons Knowledge Graph on 12 September 2026. New York's own Computer Science and Digital Fluency framework and the CSTA standards are not carried in that graph, so no code from either appears anywhere on this site.</p><h3>Timing</h3><p>10 opener, 30 the class, 25 the list of objects, 20 colour and exits. Typing a class from scratch takes longer than you expect. Have the file on the machines and read it before extending it.</p><h3>What to watch for</h3><p>The predictable error is forgetting <code>self</code> on an attribute inside a method, which gives <code>NameError</code> rather than anything helpful. Second is writing <code>def step(self)</code> and then calling <code>step(p)</code> instead of <code>p.step()</code>.</p><p>Keep <code>pygame.font</code> out of it. Words in the terminal, visuals in the window, same as all term. If they want a readout, print it.</p><p>Your Pet and Tree and Forest assets from the Robofun OOP material are the right on-ramp if the room needs a gentler first class. Use them before this file rather than instead of it.</p><h3>Files</h3><p><code>plume.py</code>, seeded with 20261209. Verified headless with <code>SDL_VIDEODRIVER=dummy</code> over 240 frames on pygame 2.6.1. Confirm pygame is installed on the classroom machines before this session.</p><h3>Lifted this week</h3><p><code>class</code>, <code>__init__</code>, <code>self</code>, methods, a list of objects, <code>pygame.draw.lines</code>.</p></section>
+<nav class="pager"><a href="wed11_markov.html">&larr; Session 11: machines that write</a><a href="advanced_python_hub.html">Course hub</a><a href="wed13_orbits_demo.html">Session 13: orbits, then the demo &rarr;</a></nav>
+
+</div>
+<script>
+document.addEventListener('click', function(e){
+  var b = e.target.closest('button.rev');
+  if(!b) return;
+  var box = document.getElementById(b.dataset.target);
+  if(!box) return;
+  var open = box.classList.toggle('show');
+  b.textContent = open ? (b.dataset.hide || 'Hide') : (b.dataset.show || 'Show');
+  b.setAttribute('aria-expanded', open ? 'true' : 'false');
+});
+</script>
+</body>
+</html>

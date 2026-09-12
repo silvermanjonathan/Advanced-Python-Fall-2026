@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Session 3: counting, and what counting buys you</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F1F3F2; --ink:#15303C; --soft:#4A6472; --rule:#BFCBCE;
+  --signal:#0E6B62; --predict:#8A5A00; --verified:#185E3B; --fault:#8C2B18;
+  --code-bg:#0E2430; --code-fg:#DCE6E4; --panel:#E4E9E8;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:Archivo,system-ui,sans-serif; font-size:19px; line-height:1.6;
+}
+.wrap{max-width:1000px; margin:0 auto; padding:0 28px 90px}
+p,li{max-width:68ch}
+h1,h2,h3{font-family:"Bricolage Grotesque",Archivo,sans-serif; line-height:1.12; margin:0}
+a{color:var(--signal)}
+a:focus-visible,button:focus-visible{outline:3px solid var(--signal); outline-offset:3px}
+
+/* masthead */
+.top{border-bottom:2px solid var(--ink); padding:22px 0 14px; margin-bottom:34px}
+.top .course{font-size:.8rem; letter-spacing:.06em; color:var(--soft); font-weight:600}
+.top .bar{display:flex; gap:22px; align-items:baseline; flex-wrap:wrap; margin-top:6px}
+.serial{font-family:"Bricolage Grotesque",sans-serif; font-weight:700; font-size:3.6rem;
+  line-height:.85; color:var(--signal)}
+.top h1{font-size:2.1rem; font-weight:700; flex:1 1 340px}
+.when{font-family:"JetBrains Mono",monospace; font-size:.85rem; color:var(--soft);
+  max-width:none}
+
+/* blocks */
+h2{font-size:1.5rem; font-weight:700; margin:48px 0 4px; padding-top:18px;
+  border-top:1px solid var(--rule)}
+.top + h2, .top + .flag + h2{border-top:0; padding-top:0; margin-top:30px}
+h2 .num{color:var(--signal); font-weight:500; margin-right:.5em}
+h3{font-size:1.12rem; font-weight:600; margin:28px 0 6px}
+.lede{font-size:1.2rem; color:var(--soft); max-width:62ch; margin:10px 0 0}
+.mins{font-family:"JetBrains Mono",monospace; font-size:.78rem; color:var(--soft);
+  display:block; margin-top:2px}
+
+pre{background:var(--code-bg); color:var(--code-fg); padding:18px 20px; overflow-x:auto;
+  font-family:"JetBrains Mono",monospace; font-size:16px; line-height:1.5;
+  border-radius:3px; margin:16px 0}
+code{font-family:"JetBrains Mono",monospace; font-size:.92em;
+  background:var(--panel); padding:1px 5px; border-radius:2px}
+pre code{background:none; padding:0; font-size:inherit}
+.fname{font-family:"JetBrains Mono",monospace; font-size:.78rem; color:var(--soft);
+  margin:16px 0 -10px}
+
+.predict{border-left:4px solid var(--predict); background:#F7F2E6; padding:14px 18px; margin:18px 0}
+.predict b{color:var(--predict)}
+.out{border-left:4px solid var(--verified); background:#EAF1EC; padding:6px 18px; margin:14px 0}
+.out .tag{font-family:"JetBrains Mono",monospace; font-size:.72rem; color:var(--verified);
+  font-weight:700; display:block; margin:10px 0 -6px}
+.bug{border-left:4px solid var(--fault); background:#F7EBE8; padding:14px 18px; margin:18px 0}
+.bug b{color:var(--fault)}
+
+button.rev{font:600 .9rem Archivo,sans-serif; background:var(--signal); color:#fff;
+  border:0; padding:9px 16px; border-radius:3px; cursor:pointer; margin:6px 0}
+button.rev:hover{background:#0b544d}
+.ans{display:none; border-left:4px solid var(--signal); background:#E6EFEE;
+  padding:14px 18px; margin:6px 0 18px}
+.ans.show{display:block}
+
+table{border-collapse:collapse; width:100%; margin:18px 0; font-size:.92rem}
+th,td{border-bottom:1px solid var(--rule); padding:8px 10px; text-align:left;
+  vertical-align:top; overflow-wrap:anywhere}
+th{font-weight:600; background:var(--panel)}
+td code{font-size:.86em}
+
+.exits{margin:22px 0}
+.exit{border-top:1px solid var(--rule); padding:12px 0}
+.exit .lab{font-family:"JetBrains Mono",monospace; font-size:.76rem; font-weight:700;
+  color:var(--signal)}
+.exit p{margin:3px 0 0}
+
+.panel{background:var(--panel); border-top:3px solid var(--ink); padding:22px 24px; margin:52px 0 0}
+.panel h2{border:0; margin:0 0 10px; padding:0; font-size:1.3rem}
+.panel h3{margin:20px 0 4px; font-size:1rem}
+.panel p,.panel li{max-width:74ch; font-size:.95rem}
+.std{font-family:"JetBrains Mono",monospace; font-weight:700; color:var(--signal)}
+.mapnote{font-size:.82rem; color:var(--soft); margin-top:14px}
+
+nav.pager{display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap;
+  border-top:2px solid var(--ink); margin-top:46px; padding-top:16px; font-weight:600}
+nav.pager a{text-decoration:none}
+nav.pager .none{color:var(--rule)}
+
+/* hub */
+.grid{border-top:2px solid var(--ink); margin:30px 0 0}
+.row{display:grid; grid-template-columns:48px 76px 1fr; gap:16px;
+  border-bottom:1px solid var(--rule); padding:14px 0; align-items:baseline}
+.row .n{font-family:"Bricolage Grotesque",sans-serif; font-weight:700; font-size:1.5rem;
+  color:var(--signal)}
+.row .d{font-family:"JetBrains Mono",monospace; font-size:.82rem; color:var(--soft)}
+.row .t{font-weight:600; font-size:1.05rem}
+.row .t a{text-decoration:none}
+.row .s{display:block; font-weight:400; font-size:.92rem; color:var(--soft); max-width:62ch}
+.row.off{opacity:.55}
+.row.off .n{color:var(--soft)}
+.flag{background:#F7F2E6; border-left:4px solid var(--predict); padding:14px 18px; margin:22px 0}
+ul.tight{margin:8px 0; padding-left:22px}
+ul.tight li{margin:3px 0}
+.two{display:grid; grid-template-columns:1fr 1fr; gap:0 34px}
+@media (max-width:760px){
+  body{font-size:17px} .wrap{padding:0 18px 70px}
+  .serial{font-size:2.6rem} .top h1{font-size:1.6rem}
+  .row{grid-template-columns:38px 1fr; gap:6px 12px}
+  .row .d{grid-column:2} .row .t{grid-column:2} .two{grid-template-columns:1fr}
+  table{table-layout:fixed} th,td{padding:7px 8px}
+}
+@media print{
+  body{background:#fff; font-size:11pt} button.rev{display:none}
+  .ans{display:block} nav.pager{display:none} pre{border:1px solid #999}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important; animation:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top"><div class="course">Advanced Python &middot; Wednesdays 4:00 to 5:30 &middot; Robofun, 110 West End Avenue</div><div class="bar"><div class="serial">03</div><h1>Counting, and what counting buys you</h1></div><p class="when">Wednesday 30 September 2026</p><p class="lede">Your cipher drills tallied letters with parallel lists. A dictionary maps each letter straight to its count, and once you can count letters you can break a Caesar cipher without trying all 26 keys.</p></header>
+<h2><span class="num">1</span>Opener<span class="mins">10 minutes</span></h2><p>Last week a module handed values back. On paper: write a function <code>count_of(values, wanted)</code> that returns how many times <code>wanted</code> appears in <code>values</code>. Four lines plus the <code>def</code>.</p><div class="predict"><b>Predict first.</b> Write yours first.</div>
+<button class="rev" data-target="a8" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false">Show the answer</button>
+<div class="ans" id="a8"><pre><code>def count_of(values, wanted):
+    &quot;&quot;&quot;Return how many times wanted appears in values.&quot;&quot;&quot;
+    hits = 0
+    for v in values:
+        if v == wanted:
+            hits = hits + 1
+    return hits</code></pre>
+<p>Now imagine calling that 26 times, once per letter. It works, and it reads the whole text 26 times. Hold that thought.</p></div>
+<h2><span class="num">2</span>The parallel list problem<span class="mins">15 minutes</span></h2><p>You wrote this shape in camp. Two lists, kept in step by hand.</p><pre><code>letters = [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;]
+counts = [0, 0, 0]
+
+# to count a letter you first have to find where it lives
+for i in range(3):
+    if letters[i] == &quot;b&quot;:
+        counts[i] = counts[i] + 1</code></pre>
+<p>A dictionary removes the search. The letter is the key. The count is the value. No index, no second list, no keeping anything in step.</p><pre><code>counts = {}
+counts[&quot;b&quot;] = 0
+counts[&quot;b&quot;] = counts[&quot;b&quot;] + 1
+print(counts)</code></pre>
+<div class="predict"><b>Predict first.</b> What prints? And what happens if you run <code>counts["z"] + 1</code> without setting <code>counts["z"]</code> first?</div>
+<button class="rev" data-target="a9" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false">Show the answer</button>
+<div class="ans" id="a9"><div class="out"><span class="tag">verified output</span><pre><code>{&#x27;b&#x27;: 1}</code></pre></div>
+<p>The second one raises <code>KeyError: 'z'</code>. A dictionary does not invent a zero for you. That is the whole reason <code>collections.Counter</code> exists.</p></div>
+<h2><span class="num">3</span>Counter, then the crack<span class="mins">40 minutes</span></h2><p>Here is the program. The ciphertext is a real Caesar shift of an English sentence. The program never tries 26 keys. It counts letters, finds the most common one, and assumes it is <code>e</code>.</p><p class="fname">caesar_crack.py</p>
+<pre><code>&quot;&quot;&quot;Break a Caesar cipher by letter frequency instead of by guessing.&quot;&quot;&quot;
+
+from collections import Counter
+
+ciphertext = &quot;wkh vkdshv lq wkh zlqgrz duh qrw wkh vkdshv rq wkh vkhoi&quot;
+
+
+def shift_by(text, amount):
+    &quot;&quot;&quot;Return text with every letter rotated forward by amount.&quot;&quot;&quot;
+    out = &quot;&quot;
+    for ch in text:
+        if ch == &quot; &quot;:
+            out = out + &quot; &quot;
+        else:
+            spot = ord(ch) - ord(&quot;a&quot;)
+            spot = (spot + amount) % 26
+            out = out + chr(spot + ord(&quot;a&quot;))
+    return out
+
+
+def letter_counts(text):
+    &quot;&quot;&quot;Return a Counter of the letters in text, ignoring spaces.&quot;&quot;&quot;
+    letters = &quot;&quot;
+    for ch in text:
+        if ch != &quot; &quot;:
+            letters = letters + ch
+    return Counter(letters)
+
+
+def guess_shift(text):
+    &quot;&quot;&quot;Return the shift that maps the most common letter onto &#x27;e&#x27;.&quot;&quot;&quot;
+    counts = letter_counts(text)
+    top_letter = counts.most_common(1)[0][0]
+    return (ord(top_letter) - ord(&quot;e&quot;)) % 26
+
+
+counts = letter_counts(ciphertext)
+print(&quot;five most common:&quot;, counts.most_common(5))
+print(&quot;distinct letters used:&quot;, len(set(ciphertext.replace(&quot; &quot;, &quot;&quot;))))
+
+k = guess_shift(ciphertext)
+print(f&quot;guessed shift {k}&quot;)
+print(&quot;plaintext:&quot;, shift_by(ciphertext, -k))</code></pre>
+<div class="predict"><b>Predict first.</b> Two predictions. What is the most common letter in that ciphertext, and what shift will the program guess?</div>
+<button class="rev" data-target="a10" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false">Show the answer</button>
+<div class="ans" id="a10"><div class="out"><span class="tag">verified output</span><pre><code>five most common: [(&#x27;h&#x27;, 8), (&#x27;k&#x27;, 7), (&#x27;w&#x27;, 5), (&#x27;v&#x27;, 5), (&#x27;q&#x27;, 4)]
+distinct letters used: 14
+guessed shift 3
+plaintext: the shapes in the window are not the shapes on the shelf</code></pre></div>
+<p><code>h</code> appears 8 times. <code>h</code> is three letters past <code>e</code>, so the shift is 3, and the message comes out first try. Notice the <code>% 26</code>: this is the same clock arithmetic as the shape shelf from session 1, on a different sized clock.</p><p>Two words of caution, and they matter more than the trick. The text has to be long enough for <code>e</code> to actually win, and the text has to be ordinary English. Try it on a short message and watch it fail.</p></div>
+<div class="predict"><b>Frequency counts are ratios.</b> 8 of 45 letters is about 0.18. In ordinary English <code>e</code> runs near 0.12. Your sample is small, so your share is off. This is the same reasoning you use on any small sample, and it comes back hard in session 9.</div><h3>Sets, in one line</h3><p><code>set(text)</code> throws away duplicates and order, and keeps only which things appeared. That is what <code>distinct letters used: 14</code> came from. A set answers which, a Counter answers how many.</p><div class="exits"><div class="exit"><span class="lab">FLOOR</span><p>You can explain why a dictionary beats two parallel lists, and you ran <code>letter_counts</code> on the ciphertext and read the top letter off the output.</p></div><div class="exit"><span class="lab">MIDDLE</span><p>Floor, plus the full crack running, plus you can say why the program divides nothing and still finds a ratio.</p></div><div class="exit"><span class="lab">STRETCH</span><p>Middle, plus break it on purpose: find a message short enough that the most common letter is not <code>e</code>, then write a <code>guess_shift</code> that scores all 26 shifts against English letter frequencies and picks the best total instead of trusting one letter.</p></div></div><section class="panel"><h2>Teacher panel</h2><h3>Concept this session re-touches</h3><p><code>% 26</code> here is the same clock arithmetic as <code>% 9</code> on the shape shelf in session 1. Also the returning functions from session 2: <code>guess_shift</code> is only possible because <code>letter_counts</code> hands a Counter back.</p><h3>Standards</h3><table><tr><th>Code</th><th>Statement</th></tr><tr><td class="std">6.SP.B.5</td><td>Summarize numerical data sets in relation to their context, such as by:</td></tr>
+<tr><td class="std">6.RP.A.3</td><td>Use ratio and rate reasoning to solve real-world and mathematical problems, e.g., by reasoning about tables of equivalent ratios, tape diagrams, double number line diagrams, or equations.</td></tr>
+<tr><td class="std">MP7</td><td>Look for and make use of structure.</td></tr>
+</table><p class="mapnote">Mapped to the Common Core State Standards for Mathematics (Multi-State). Each code and its wording was retrieved from the CASE Network through the Learning Commons Knowledge Graph on 12 September 2026. New York's own Computer Science and Digital Fluency framework and the CSTA standards are not carried in that graph, so no code from either appears anywhere on this site.</p><h3>Timing</h3><p>10 opener, 15 parallel lists, 40 Counter and the crack, 20 sets and exits. The crack is the payoff, so protect it. Cut the sets section if pressed.</p><h3>What to watch for</h3><p><code>KeyError</code> is the new traceback this week and students read it as a crash rather than as information. Say the sentence out loud: a dictionary does not invent a zero for you.</p><p>Some students will want to brute force all 26 shifts because it is easier to write. Let them, then ask what they would do with a Vigenere key of length 7. Brute force stops being available and counting does not.</p><h3>Files</h3><p><code>caesar_crack.py</code>. Output verified on Python 3.12.3. The plaintext is the shape rule from the summer suite, which is deliberate.</p><h3>Lifted this week</h3><p>Dictionaries, sets, <code>collections.Counter</code>, <code>.replace()</code>, <code>ord</code> and <code>chr</code>.</p></section>
+<nav class="pager"><a href="wed02_return_and_modules.html">&larr; Session 2: functions that hand things back</a><a href="advanced_python_hub.html">Course hub</a><a href="wed04_messy_files.html">Session 4: messy files &rarr;</a></nav>
+
+</div>
+<script>
+document.addEventListener('click', function(e){
+  var b = e.target.closest('button.rev');
+  if(!b) return;
+  var box = document.getElementById(b.dataset.target);
+  if(!box) return;
+  var open = box.classList.toggle('show');
+  b.textContent = open ? (b.dataset.hide || 'Hide') : (b.dataset.show || 'Show');
+  b.setAttribute('aria-expanded', open ? 'true' : 'false');
+});
+</script>
+</body>
+</html>
