@@ -124,7 +124,7 @@ ul.tight li{margin:3px 0}
 <body>
 <div class="wrap">
 <header class="top"><div class="course">Advanced Python &middot; Wednesdays 4:00 to 5:30 &middot; Robofun, 110 West End Avenue</div><div class="bar"><div class="serial">01</div><h1>Cold read, then a style pass</h1></div><p class="when">Wednesday 16 September 2026</p><p class="lede">You will read a working program you have never seen, predict what it prints, and only then run it. After that you will rename everything in it so the next reader does not have to work as hard as you just did.</p></header>
-<h2><span class="num">1</span>Opener<span class="mins">10 minutes</span></h2><p>No code yet. On paper, write down what each of these does. One line each. You wrote all of them over the summer.</p><ul class="tight"><li><code>for i in range(10):</code></li><li><code>total = total + r</code></li><li><code>if r &gt; best:</code></li><li><code>slot = (slot + 5) % 9</code></li></ul><p>Keep the paper. You check your answers against a real program in four minutes.</p><h2><span class="num">2</span>The cold read<span class="mins">25 minutes</span></h2><p>Here is the whole program. Read it top to bottom before you touch a keyboard. Do not run it. Do not type it. Read it.</p><p class="fname">sweep_report.py, first half</p>
+<h2><span class="num">1</span>Opener<span class="mins">10 minutes</span></h2><p>No code yet. On paper, write down what each of these does. One line each. These four lines are the floor for this course.</p><ul class="tight"><li><code>for i in range(10):</code></li><li><code>total = total + r</code></li><li><code>if r &gt; best:</code></li><li><code>slot = (slot + 5) % 9</code></li></ul><p>If any of the four is unfamiliar, say so now rather than in November. Nothing later in the course assumes more than these plus lists.</p><p>Keep the paper. You check your answers against a real program in four minutes.</p><h2><span class="num">2</span>The cold read<span class="mins">25 minutes</span></h2><p>Here is the whole program. Read it top to bottom before you touch a keyboard. Do not run it. Do not type it. Read it.</p><p class="fname">sweep_report.py, first half</p>
 <pre><code>readings = [41, 58, 33, 58, 12, 77, 58, 60, 29, 77]
 limit = 55
 
@@ -155,7 +155,7 @@ average 50.3
 over 55: 6
 best 77 at index 5</code></pre></div>
 <p>The list holds 77 twice, at index 5 and at index 9. The program reports index 5. The reason is the single character <code>&gt;</code> in <code>if r &gt; b</code>. When the second 77 arrives, 77 is not greater than 77, so the gate stays shut and <code>bi</code> keeps the value it already had.</p><p>Change that one character to <code>&gt;=</code> and the answer becomes index 9. Neither version is wrong. They answer different questions. The code has to say which question you meant.</p></div>
-<h3>The second half</h3><p>Same file, next four lines. This is the wrap you already know from the shape shelf.</p><p class="fname">sweep_report.py, second half</p>
+<h3>The second half</h3><p>Same file, next four lines. One operator here may be new. <code>%</code> gives the remainder after dividing: <code>41 % 9</code> is 5, because 41 is four nines with 5 left over. It never returns 9 or more.</p><p class="fname">sweep_report.py, second half</p>
 <pre><code>slot = 0
 for i in range(10):
     slot = (slot + readings[i]) % 9
@@ -201,10 +201,40 @@ print(f&quot;average {average}&quot;)
 print(f&quot;over {limit}: {over_limit}&quot;)
 print(f&quot;best {best} at index {best_index}&quot;)</code></pre>
 <p>One name here is still a small lie. <code>best_index</code> holds the first largest index, not the best one, and nothing in the name tells you that. <code>first_best_index</code> is the honest name. Naming is not decoration. It is where the bug hides.</p></div>
-<h3>Your own summer code</h3><p>Open any file you wrote in camp. Run the same pass on it: rename, add a docstring, delete any comment that says what the line already says. A comment earns its place by saying why, not what.</p><h2><span class="num">5</span>Where to stop<span class="mins">15 minutes</span></h2><div class="exits"><div class="exit"><span class="lab">FLOOR</span><p>You traced the four printed numbers and you can point at the character that decides index 5 against index 9. You renamed the four counters.</p></div><div class="exit"><span class="lab">MIDDLE</span><p>Floor, plus you traced the wrap loop by hand and got the first three slots right, plus a full rename with a docstring.</p></div><div class="exit"><span class="lab">STRETCH</span><p>Middle, plus you changed <code>&gt;</code> to <code>&gt;=</code>, predicted the new output, confirmed it, and wrote one sentence on which version answers which question. Then run the style pass on a summer file and bring it next week.</p></div></div><section class="panel"><h2>Teacher panel</h2><h3>Standards</h3><table><tr><th>Code</th><th>Statement</th></tr><tr><td class="std">MP1</td><td>Make sense of problems and persevere in solving them.</td></tr>
+<h3>A second one, harder</h3><p>Same job on a different program. This one counts doors along a corridor, where 1 means open and 0 means shut.</p><p class="fname">gate_log.py</p>
+<pre><code>door = [1, 0, 1, 1, 0, 0, 1, 0, 1, 1, 1, 0]
+
+x = 0
+y = 0
+z = 0
+q = 0
+
+for i in range(12):
+    d = door[i]
+    if d == 1:
+        x = x + 1
+        z = z + 1
+    if d == 0:
+        y = y + 1
+        z = 0
+    if z &gt; q:
+        q = z
+
+print(f&quot;x {x}&quot;)
+print(f&quot;y {y}&quot;)
+print(f&quot;z {z}&quot;)
+print(f&quot;q {q}&quot;)</code></pre>
+<div class="predict"><b>Predict first.</b> Trace all four values, then give each one an honest name. One of the four is much harder to name than the others.</div>
+<button class="rev" data-target="a4" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false">Show the answer</button>
+<div class="ans" id="a4"><div class="out"><span class="tag">verified output</span><pre><code>x 7
+y 5
+z 0
+q 3</code></pre></div>
+<p><code>x</code> is <code>open_count</code>, 7. <code>y</code> is <code>shut_count</code>, 5. <code>q</code> is <code>longest_open_run</code>, 3.</p><p><code>z</code> is the hard one. It prints 0, so it looks like a counter that never worked. It is actually <code>current_open_run</code>, and it reads 0 only because the last door in the list is shut. Name it <code>open_run_so_far</code> and the 0 stops looking like a bug.</p><p>A name that makes a correct value look wrong costs you just as much as a name that makes a wrong value look right.</p></div>
+<p>Delete any comment that says what the line already says. A comment earns its place by saying why, not what.</p><h2><span class="num">5</span>Where to stop<span class="mins">15 minutes</span></h2><div class="exits"><div class="exit"><span class="lab">FLOOR</span><p>You traced the four printed numbers and you can point at the character that decides index 5 against index 9. You renamed the four counters.</p></div><div class="exit"><span class="lab">MIDDLE</span><p>Floor, plus you traced the wrap loop by hand and got the first three slots right, plus a full rename with a docstring.</p></div><div class="exit"><span class="lab">STRETCH</span><p>Middle, plus you changed <code>&gt;</code> to <code>&gt;=</code>, predicted the new output, confirmed it, and wrote one sentence on which version answers which question. Then rename <code>gate_log.py</code> as well, and say which of its four numbers has the most misleading name.</p></div></div><section class="panel"><h2>Teacher panel</h2><h3>Standards</h3><table><tr><th>Code</th><th>Statement</th></tr><tr><td class="std">MP1</td><td>Make sense of problems and persevere in solving them.</td></tr>
 <tr><td class="std">MP6</td><td>Attend to precision.</td></tr>
 <tr><td class="std">MP3</td><td>Construct viable arguments and critique the reasoning of others.</td></tr>
-</table><p class="mapnote">Mapped to the Common Core State Standards for Mathematics (Multi-State). Each code and its wording was retrieved from the CASE Network through the Learning Commons Knowledge Graph on 12 September 2026. New York's own Computer Science and Digital Fluency framework and the CSTA standards are not carried in that graph, so no code from either appears anywhere on this site.</p><h3>Timing</h3><p>10 opener, 25 cold read, 10 run and compare, 30 style pass, 15 exits and pack up. The cold read is the diagnostic and it is the part to protect. If it runs long, cut the summer-code rename and set it as the take-home.</p><h3>What to watch for</h3><p>This session is a placement test in ordinary clothes. Watch for anyone who cannot trace an accumulator at all. That tells you the room has beginners in it regardless of what the enrollment says. Three or more students stuck on <code>total = total + reading</code> means you should slow sessions 2 and 3 and push the module split back a week.</p><p>Expect most of the room to say index 9. That error is the point of the session. Do not soften it, and do not let anyone settle it by running the program. Make them find the character.</p><h3>Files</h3><p><code>sweep_report.py</code>. Every output on this page came from running that file on Python 3.12.3. Re-run it on the classroom machines before Wednesday.</p><h3>Constraints</h3><p>This session stays inside the summer vocabulary on purpose, so the diagnostic measures tracing rather than new syntax. The advanced list opens next week. See the <a href="advanced_python_hub.html">hub</a>.</p></section>
+</table><p class="mapnote">Mapped to the Common Core State Standards for Mathematics (Multi-State). Each code and its wording was retrieved from the CASE Network through the Learning Commons Knowledge Graph on 12 September 2026. New York's own Computer Science and Digital Fluency framework and the CSTA standards are not carried in that graph, so no code from either appears anywhere on this site.</p><h3>Timing</h3><p>10 opener, 25 cold read, 10 run and compare, 30 style pass, 15 exits and pack up. The cold read is the diagnostic and it is the part to protect. If it runs long, cut <code>gate_log.py</code> and set it as the take-home.</p><h3>What to watch for</h3><p>This session is a placement test in ordinary clothes. Watch for anyone who cannot trace an accumulator at all. That tells you the room has beginners in it regardless of what the enrollment says. Three or more students stuck on <code>total = total + reading</code> means you should slow sessions 2 and 3 and push the module split back a week.</p><p>Expect most of the room to say index 9. That error is the point of the session. Do not soften it, and do not let anyone settle it by running the program. Make them find the character.</p><h3>Files</h3><p><code>sweep_report.py</code> and <code>gate_log.py</code>. Every output on this page came from running that file on Python 3.12.3. Re-run it on the classroom machines before Wednesday.</p><h3>Constraints</h3><p>This session uses only the prerequisite vocabulary listed on the hub, so the diagnostic measures tracing rather than new syntax. The list opens from session 2. See the <a href="advanced_python_hub.html">hub</a>.</p></section>
 <nav class="pager"><span class="none">&larr; start of term</span><a href="advanced_python_hub.html">Course hub</a><a href="wed02_return_and_modules.html">Session 2: functions that hand things back &rarr;</a></nav>
 
 </div>

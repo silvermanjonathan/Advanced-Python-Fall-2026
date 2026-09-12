@@ -4,7 +4,7 @@ from collections import Counter
 
 ENGLISH_ORDER = "etaoinshrdlcumwfgypbvkjxqz"
 
-ciphertext = "wkh vkdshv lq wkh zlqgrz duh qrw wkh vkdshv rq wkh vkhoi"
+ciphertext = "uhdg wkh frgh dqg wudfh wkh frgh ehiruh brx hyhu uxq wkh frgh"
 
 
 def shift_by(text, amount):

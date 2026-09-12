@@ -123,10 +123,10 @@ ul.tight li{margin:3px 0}
 </head>
 <body>
 <div class="wrap">
-<header class="top"><div class="course">Advanced Python &middot; Wednesdays 4:00 to 5:30 &middot; Robofun, 110 West End Avenue</div><div class="bar"><div class="serial">02</div><h1>Functions that hand something back</h1></div><p class="when">Wednesday 23 September 2026</p><p class="lede">Every function you wrote over the summer printed. None of them returned. Today they hand a value back to the line that called them, which is what lets you test a function, build one out of another, and split a program across two files.</p></header>
+<header class="top"><div class="course">Advanced Python &middot; Wednesdays 4:00 to 5:30 &middot; Robofun, 110 West End Avenue</div><div class="bar"><div class="serial">02</div><h1>Functions that hand something back</h1></div><p class="when">Wednesday 23 September 2026</p><p class="lede">A function can show you a number or it can give you a number, and those are different things. Today yours start handing values back, which is what lets you test a function, build one out of another, and split a program across two files.</p></header>
 <h2><span class="num">1</span>Opener<span class="mins">10 minutes</span></h2><p>Last week you renamed <code>sweep_report.py</code> and found the character that picks index 5 over index 9. On paper, from memory: what were the four numbers it printed, and which one depended on that character?</p><div class="predict"><b>Predict first.</b> Write the four numbers before you click.</div>
-<button class="rev" data-target="a4" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false">Show the answer</button>
-<div class="ans" id="a4"><div class="out"><span class="tag">verified output</span><pre><code>total 503
+<button class="rev" data-target="a5" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false">Show the answer</button>
+<div class="ans" id="a5"><div class="out"><span class="tag">verified output</span><pre><code>total 503
 average 50.3
 over 55: 6
 best 77 at index 5</code></pre></div>
@@ -144,8 +144,8 @@ def total_of(values):
         running = running + v
     return running</code></pre>
 <div class="predict"><b>Predict first.</b> What does <code>doubled = show_total([1, 2, 3]) * 2</code> do? And what does <code>doubled = total_of([1, 2, 3]) * 2</code> do?</div>
-<button class="rev" data-target="a5" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false">Show the answer</button>
-<div class="ans" id="a5"><p>The first one prints 6, then crashes.</p><div class="out"><span class="tag">what Python says</span><pre><code>6
+<button class="rev" data-target="a6" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false">Show the answer</button>
+<div class="ans" id="a6"><p>The first one prints 6, then crashes.</p><div class="out"><span class="tag">what Python says</span><pre><code>6
 Traceback (most recent call last):
   File &quot;demo.py&quot;, line 1, in &lt;module&gt;
     doubled = show_total([1, 2, 3]) * 2
@@ -201,7 +201,7 @@ def last_best_index(values):
             best = values[i]
             where = i
     return where</code></pre>
-<p>Look at <code>average_of</code>. It does not add anything up. It calls <code>total_of</code> and divides. That was impossible last term, because a function that only prints has nothing to give another function.</p><p><code>best_index</code> and <code>last_best_index</code> differ by exactly the character you found last week. Now both questions have a name, and the name says which one you are asking.</p><h2><span class="num">4</span>Import your own file<span class="mins">15 minutes</span></h2><p>Second file, same folder. <code>import sweep_tools</code> sends Python looking for a file called <code>sweep_tools.py</code> and hands you everything inside it.</p><p class="fname">sweep_report2.py</p>
+<p>Look at <code>average_of</code>. It does not add anything up. It calls <code>total_of</code> and divides. A function that only prints could not be used this way, because it has nothing to give another function.</p><p><code>best_index</code> and <code>last_best_index</code> differ by exactly the character you found last week. Now both questions have a name, and the name says which one you are asking.</p><h2><span class="num">4</span>Import your own file<span class="mins">15 minutes</span></h2><p>Second file, same folder. <code>import sweep_tools</code> sends Python looking for a file called <code>sweep_tools.py</code> and hands you everything inside it.</p><p class="fname">sweep_report2.py</p>
 <pre><code>&quot;&quot;&quot;Summarize tower readings using our own sweep_tools module.&quot;&quot;&quot;
 
 import sweep_tools
@@ -215,8 +215,8 @@ print(f&quot;over {limit}: {sweep_tools.count_over(readings, limit)}&quot;)
 print(f&quot;first best at {sweep_tools.best_index(readings)}&quot;)
 print(f&quot;last best at {sweep_tools.last_best_index(readings)}&quot;)</code></pre>
 <div class="predict"><b>Predict first.</b> Same readings as last week. Will the first three numbers match last week's output exactly?</div>
-<button class="rev" data-target="a6" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false">Show the answer</button>
-<div class="ans" id="a6"><div class="out"><span class="tag">verified output</span><pre><code>total 503
+<button class="rev" data-target="a7" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false">Show the answer</button>
+<div class="ans" id="a7"><div class="out"><span class="tag">verified output</span><pre><code>total 503
 average 50.3
 over 55: 6
 first best at 5
@@ -229,8 +229,8 @@ print(f&quot;count_over([5, 5, 5], 5) expected 0 got {sweep_tools.count_over([5,
 print(f&quot;best_index([9, 9]) expected 0 got {sweep_tools.best_index([9, 9])}&quot;)
 print(f&quot;last_best_index([9, 9]) expected 1 got {sweep_tools.last_best_index([9, 9])}&quot;)</code></pre>
 <div class="predict"><b>Predict first.</b> Two of these five are traps. Which two, and why? Write your five expected values first.</div>
-<button class="rev" data-target="a7" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false">Show the answer</button>
-<div class="ans" id="a7"><div class="out"><span class="tag">verified output</span><pre><code>--- checks ---
+<button class="rev" data-target="a8" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false">Show the answer</button>
+<div class="ans" id="a8"><div class="out"><span class="tag">verified output</span><pre><code>--- checks ---
 total_of([1, 2, 3]) expected 6 got 6
 total_of([]) expected 0 got 0
 count_over([5, 5, 5], 5) expected 0 got 0

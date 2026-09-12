@@ -125,8 +125,8 @@ ul.tight li{margin:3px 0}
 <div class="wrap">
 <header class="top"><div class="course">Advanced Python &middot; Wednesdays 4:00 to 5:30 &middot; Robofun, 110 West End Avenue</div><div class="bar"><div class="serial">08</div><h1>Smarter than brute force</h1></div><p class="when">Wednesday 4 November 2026</p><p class="lede">Last week brute force ran out of road at ten digits. Today you open a seven digit lock in about 170 tries instead of ten million, using nothing but a score, a random change, and a rule about when to keep it.</p></header>
 <h2><span class="num">1</span>Opener<span class="mins">10 minutes</span></h2><p>From last week, from memory: seven digits took about 1.2 seconds to sweep. How many codes is that, and how long would ten digits take?</p><div class="predict"><b>Predict first.</b> Both, on paper.</div>
-<button class="rev" data-target="a22" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false">Show the answer</button>
-<div class="ans" id="a22"><p>Ten million codes, and about twenty minutes for ten digits. Today's target is the same seven digit lock, <code>4703916</code>.</p></div>
+<button class="rev" data-target="a23" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false">Show the answer</button>
+<div class="ans" id="a23"><p>Ten million codes, and about twenty minutes for ten digits. Today's target is the same seven digit lock, <code>4703916</code>.</p></div>
 <h2><span class="num">2</span>A score changes everything<span class="mins">25 minutes</span></h2><p>Brute force gets one bit of information per guess: right or wrong. Suppose instead the lock tells you how many positions are correct. That single change makes the problem easy.</p><p class="fname">smarter_than_brute.py</p>
 <pre><code>def score(guess):
     &quot;&quot;&quot;Return how many positions in guess match the secret.&quot;&quot;&quot;
@@ -154,8 +154,8 @@ def hill_climb():
             best = score(candidate)
     return tries</code></pre>
 <div class="predict"><b>Predict first.</b> Brute force needs about 4.7 million tries on this lock. Guess how many hill climbing needs. Write a number.</div>
-<button class="rev" data-target="a23" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false">Show the answer</button>
-<div class="ans" id="a23"><div class="out"><span class="tag">verified output</span><pre><code>secret is 7 digits, so there are 10000000 codes
+<button class="rev" data-target="a24" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false">Show the answer</button>
+<div class="ans" id="a24"><div class="out"><span class="tag">verified output</span><pre><code>secret is 7 digits, so there are 10000000 codes
 
 brute force        4703917 tries
 random guessing    200000 tries (capped at 200000)
@@ -183,8 +183,8 @@ hill climbing, five runs:
                 child = child[:spot] + random.choice(DIGITS) + child[spot + 1:]
             population.append(child)</code></pre>
 <div class="predict"><b>Predict first.</b> Population of 40, keeping the best 8. It finishes in about 17 generations. Is that better or worse than hill climbing's 170 tries? Careful.</div>
-<button class="rev" data-target="a24" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false">Show the answer</button>
-<div class="ans" id="a24"><div class="out"><span class="tag">verified output</span><pre><code>genetic algorithm, five runs:
+<button class="rev" data-target="a25" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false">Show the answer</button>
+<div class="ans" id="a25"><div class="out"><span class="tag">verified output</span><pre><code>genetic algorithm, five runs:
   run 1: 24 generations, found 4703916
   run 2: 8 generations, found 4703916
   run 3: 4 generations, found 4703916

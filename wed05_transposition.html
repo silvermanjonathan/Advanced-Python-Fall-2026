@@ -123,10 +123,10 @@ ul.tight li{margin:3px 0}
 </head>
 <body>
 <div class="wrap">
-<header class="top"><div class="course">Advanced Python &middot; Wednesdays 4:00 to 5:30 &middot; Robofun, 110 West End Avenue</div><div class="bar"><div class="serial">05</div><h1>Ciphers that move letters instead of replacing them</h1></div><p class="when">Wednesday 14 October 2026</p><p class="lede">Every cipher you have written swaps one letter for another. These two keep every letter and change only where it sits, which means the letter counts stay identical and last session's frequency attack is useless against them.</p></header>
+<header class="top"><div class="course">Advanced Python &middot; Wednesdays 4:00 to 5:30 &middot; Robofun, 110 West End Avenue</div><div class="bar"><div class="serial">05</div><h1>Ciphers that move letters instead of replacing them</h1></div><p class="when">Wednesday 14 October 2026</p><p class="lede">Session 3's Caesar cipher replaced each letter with a different one. These two keep every letter and change only where it sits, which means the letter counts stay identical and last session's frequency attack is useless against them.</p></header>
 <h2><span class="num">1</span>Opener<span class="mins">10 minutes</span></h2><p>Two weeks ago you broke a Caesar cipher by counting letters. Question on paper: if I rearrange the letters of a message without replacing any of them, what happens to the letter counts, and what happens to your attack?</p><div class="predict"><b>Predict first.</b> Answer before you click.</div>
-<button class="rev" data-target="a14" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false">Show the answer</button>
-<div class="ans" id="a14"><p>The counts do not change at all. Not one of them. Your frequency attack learns nothing, because it was never looking at position.</p><p>This is why real systems use both kinds. Substitution hides which letters. Transposition hides where they are.</p></div>
+<button class="rev" data-target="a15" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false">Show the answer</button>
+<div class="ans" id="a15"><p>The counts do not change at all. Not one of them. Your frequency attack learns nothing, because it was never looking at position.</p><p>This is why real systems use both kinds. Substitution hides which letters. Transposition hides where they are.</p></div>
 <h2><span class="num">2</span>Rail fence<span class="mins">30 minutes</span></h2><p>Write the message down a zig-zag across three rails, then read each rail straight across. The message is <code>meetatthenorthgateatdawn</code>.</p><p class="fname">transposition.py</p>
 <pre><code>def rail_encode(text, rails):
     &quot;&quot;&quot;Return text written down a zig-zag of rails, then read across.&quot;&quot;&quot;
@@ -147,8 +147,8 @@ ul.tight li{margin:3px 0}
         joined = joined + row
     return joined</code></pre>
 <div class="predict"><b>Predict first.</b> The two gates set <code>step</code> before <code>r</code> moves. Trace the first seven letters and write down which rail each one lands on.</div>
-<button class="rev" data-target="a15" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false">Show the answer</button>
-<div class="ans" id="a15"><p>Rails go 0, 1, 2, 1, 0, 1, 2. The turn happens at the top and the bottom, and the two gates are flat, not nested, so both get checked every pass.</p><div class="out"><span class="tag">verified output</span><pre><code>message  meetatthenorthgateatdawn
+<button class="rev" data-target="a16" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false">Show the answer</button>
+<div class="ans" id="a16"><p>Rails go 0, 1, 2, 1, 0, 1, 2. The turn happens at the top and the bottom, and the two gates are flat, not nested, so both get checked every pass.</p><div class="out"><span class="tag">verified output</span><pre><code>message  meetatthenorthgateatdawn
 rails 3  maettdetthnrhaetanetogaw
 back     meetatthenorthgateatdawn
 round trip ok: True</code></pre></div>
@@ -169,8 +169,8 @@ round trip ok: True</code></pre></div>
             out = out + grid[r][col]
     return out</code></pre>
 <div class="predict"><b>Predict first.</b> The grid is four columns wide and the key is <code>[2, -4, 1, 3]</code>. Read the first column of output by hand off the grid below.</div>
-<button class="rev" data-target="a16" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false">Show the answer</button>
-<div class="ans" id="a16"><div class="out"><span class="tag">verified output</span><pre><code>  m e e t
+<button class="rev" data-target="a17" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false">Show the answer</button>
+<div class="ans" id="a17"><div class="out"><span class="tag">verified output</span><pre><code>  m e e t
   a t t h
   e n o r
   t h g a
