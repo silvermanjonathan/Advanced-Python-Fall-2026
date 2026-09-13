@@ -4,7 +4,7 @@ import hashlib
 
 
 def letter_sum_seal(text):
-    """Return our summer seal: add up the letter positions, wrap at 97."""
+    """Return a seal: add up the letter positions, wrap at 97."""
     running = 0
     for ch in text:
         running = running + ord(ch)
