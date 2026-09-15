@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Session 1 worksheet: trace it before you run it</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=DM+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F4F0E6; --card:#FFFDF7; --ink:#17181B; --ink-soft:#4A4D53; --rule:#D3CBB8;
+  --teal:#0E4D52; --teal-deep:#0A3A3E; --clay:#9C2B22;
+  --ochre:#8A5A00; --ochre-line:#D99B12; --ochre-tint:#FBF2DC;
+  --green:#1D5B39; --green-tint:#E8F1E9; --green-ink:#122B1C;
+  --code-bg:#EDE7D9;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:'DM Sans',system-ui,sans-serif; font-size:18px; font-weight:500;
+  line-height:1.65;
+}
+.wrap{max-width:900px; margin:0 auto}
+a{color:var(--teal)}
+a:focus-visible,button:focus-visible{outline:3px solid var(--ochre-line); outline-offset:3px}
+
+/* masthead */
+header.top{
+  background:var(--teal); color:#FFFDF7;
+  border-bottom:6px solid var(--ochre-line); padding:30px 22px 26px;
+}
+.eyebrow{
+  font-family:'JetBrains Mono',monospace; font-size:13px; letter-spacing:.14em;
+  text-transform:uppercase; color:#F2D89B; margin:0 0 10px; font-weight:700;
+}
+h1{
+  font-family:'Bricolage Grotesque','DM Sans',sans-serif; font-weight:800;
+  font-size:clamp(29px,4.8vw,44px); line-height:1.1; margin:0 0 10px;
+}
+h2{
+  font-family:'Bricolage Grotesque','DM Sans',sans-serif; font-weight:700;
+  font-size:25px; line-height:1.2; margin:0 0 12px; color:var(--teal-deep);
+}
+h3{
+  font-family:'Bricolage Grotesque','DM Sans',sans-serif; font-weight:700;
+  font-size:20px; margin:18px 0 8px; color:var(--teal-deep);
+}
+header.top h1,header.top h2{color:#FFFDF7}
+.sub{color:#EAE3D2; margin:0 0 16px; font-size:19px; font-weight:400; max-width:70ch}
+.dates{
+  display:flex; flex-wrap:wrap; gap:10px; margin-top:16px;
+  font-family:'JetBrains Mono',monospace; font-size:13.5px;
+}
+.pill{
+  border:2px solid rgba(255,253,247,.4); border-radius:999px; padding:5px 13px;
+  background:rgba(255,253,247,.08);
+}
+.pill b{color:#F2D89B; font-weight:700}
+
+/* sections */
+main{padding:28px 22px 12px}
+section{
+  background:var(--card); border:2px solid var(--rule); border-radius:6px;
+  padding:22px 24px; margin:0 0 20px;
+}
+section.opener{border-left:8px solid var(--green)}
+section.chunk{border-left:8px solid var(--ochre-line)}
+section.brief{border-left:8px solid var(--teal)}
+.chunk-no{
+  font-family:'JetBrains Mono',monospace; font-size:13px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--ochre); margin:0 0 8px; font-weight:700;
+}
+p{margin:0 0 14px; max-width:72ch}
+ul,ol{margin:0 0 14px; padding-left:24px}
+li{margin:0 0 8px; max-width:70ch}
+ul.tight li{margin:0 0 5px}
+.two{display:grid; gap:0 30px; grid-template-columns:1fr}
+@media(min-width:760px){.two{grid-template-columns:1fr 1fr}}
+
+/* code and output */
+code,pre{
+  /* JetBrains Mono ligatures turn != into a slashed equals and <= into a single
+     glyph; students then type a character that does not exist. Keep every
+     operator as the keys that produce it. */
+  font-variant-ligatures:none; font-feature-settings:"liga" 0,"calt" 0,"dlig" 0;
+}
+code{
+  font-family:'JetBrains Mono',monospace; font-size:.9em; font-weight:700;
+  background:var(--code-bg); color:#1E2A2B; padding:2px 6px; border-radius:3px;
+}
+pre{
+  font-family:'JetBrains Mono',monospace; font-size:15.5px; line-height:1.6;
+  background:var(--code-bg); color:var(--ink); border:2px solid var(--rule);
+  border-left:6px solid #B9AF96; border-radius:4px;
+  padding:16px 18px; overflow-x:auto; margin:0 0 16px; font-weight:500;
+}
+pre code{background:none; padding:0; font-size:inherit; font-weight:inherit; color:inherit}
+.fname{
+  font-family:'JetBrains Mono',monospace; font-size:12.5px; letter-spacing:.1em;
+  text-transform:uppercase; color:var(--ink-soft); margin:0 0 6px; font-weight:700;
+}
+.out{margin:0 0 16px}
+.out .tag{
+  font-family:'JetBrains Mono',monospace; font-size:12.5px; letter-spacing:.1em;
+  text-transform:uppercase; color:var(--green); margin:0 0 7px; font-weight:700;
+  display:block;
+}
+.out pre{background:var(--green-tint); border-color:#A9C6B2; border-left:6px solid var(--green); color:var(--green-ink)}
+
+/* predict and reveal */
+.predict{
+  border:2px dashed var(--ochre); border-radius:5px;
+  padding:16px 18px; margin:0 0 16px; background:var(--ochre-tint);
+}
+.predict b{color:var(--ochre)}
+.predict > pre{background:var(--card)}
+button.rev{
+  font-family:'DM Sans',sans-serif; font-size:16px; font-weight:700;
+  background:var(--teal); color:#FFFDF7; border:0; border-radius:4px;
+  padding:10px 18px; cursor:pointer; margin:4px 0 0;
+}
+button.rev:hover{background:var(--teal-deep)}
+.toolbar{display:flex; gap:12px; flex-wrap:wrap; margin:0 0 20px}
+a.btn{
+  display:inline-block; font-family:'DM Sans',sans-serif; font-size:17px; font-weight:700;
+  background:var(--teal); color:#FFFDF7; text-decoration:none; border-radius:4px;
+  padding:12px 20px; border:2px solid var(--teal);
+}
+a.btn:hover{background:var(--teal-deep)}
+a.btn.quiet{background:var(--card); color:var(--teal)}
+a.btn.quiet:hover{background:#EFE9DA}
+.ans{display:none; margin-top:16px; padding-top:16px; border-top:2px solid var(--rule)}
+.ans.show{display:block}
+.ans > :last-child{margin-bottom:0}
+.bug{
+  background:#F7E4E1; border:2px solid var(--clay); border-left:8px solid var(--clay);
+  border-radius:5px; padding:14px 16px; margin:0 0 18px; color:#3A1512;
+}
+.bug b{color:var(--clay)}
+.flag{
+  background:#F7E4E1; border:2px solid var(--clay); border-left:8px solid var(--clay);
+  border-radius:5px; padding:14px 16px; margin:0 0 20px; font-size:16.5px; color:#3A1512;
+}
+.flag b{color:var(--clay)}
+
+/* tables */
+table{border-collapse:collapse; width:100%; margin:0 0 16px; font-size:16.5px}
+th,td{border:2px solid var(--rule); padding:9px 11px; text-align:left; vertical-align:top;
+  overflow-wrap:anywhere}
+th{background:#EFE9DA; font-weight:700; font-size:15px; color:var(--teal-deep)}
+td code{font-size:.86em}
+
+/* exits */
+.exits{display:grid; gap:14px; grid-template-columns:1fr}
+@media(min-width:760px){.exits{grid-template-columns:repeat(3,1fr)}}
+.exit{border:2px solid var(--rule); border-radius:5px; padding:16px; background:var(--card)}
+.exit p{margin:0; font-size:16.5px}
+.exit .lab{
+  font-family:'JetBrains Mono',monospace; font-size:12.5px; letter-spacing:.1em;
+  text-transform:uppercase; margin:0 0 8px; font-weight:700; display:block;
+}
+.exit:nth-child(1){border-top:6px solid var(--green)}
+.exit:nth-child(1) .lab{color:var(--green)}
+.exit:nth-child(2){border-top:6px solid var(--ochre-line)}
+.exit:nth-child(2) .lab{color:var(--ochre)}
+.exit:nth-child(3){border-top:6px solid var(--clay)}
+.exit:nth-child(3) .lab{color:var(--clay)}
+
+/* teacher panel and the capstone block */
+section.panel{border-left:8px solid var(--clay)}
+section.panel > h2{color:var(--clay)}
+.panel p,.panel li{font-size:16.5px}
+.std{font-family:'JetBrains Mono',monospace; font-weight:700; color:var(--teal)}
+.mapnote{font-size:15px; color:var(--ink-soft); border-left:4px solid var(--rule); padding-left:14px}
+
+/* pager and footer */
+nav.pager{
+  max-width:900px; margin:0 auto; padding:8px 22px 34px;
+  display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap;
+  font-family:'JetBrains Mono',monospace; font-size:14px;
+}
+nav.pager a,nav.pager .none{
+  text-decoration:none; font-weight:700; border:2px solid var(--rule);
+  background:var(--card); border-radius:4px; padding:10px 14px;
+}
+nav.pager a{color:var(--teal)}
+nav.pager a:hover{background:#EFE9DA}
+nav.pager .none{color:var(--ink-soft); border-style:dashed}
+footer{
+  background:#EAE4D5; border-top:4px solid var(--teal); padding:22px 22px 36px;
+  font-size:15px; color:var(--ink-soft);
+}
+footer p{margin:0}
+
+/* hub */
+.grid{margin:0}
+.row{
+  border:2px solid var(--rule); border-left:8px solid var(--teal); border-radius:5px;
+  margin:0 0 12px; padding:14px 16px; background:var(--card);
+  display:grid; grid-template-columns:44px 84px 1fr; gap:6px 14px; align-items:baseline;
+}
+.row .n{font-family:'JetBrains Mono',monospace; font-size:24px; font-weight:700; color:var(--teal)}
+.row .d{font-family:'JetBrains Mono',monospace; font-size:13px; color:var(--ink-soft)}
+.row .t{font-weight:700; font-size:19px}
+.row .t a{text-decoration:none}
+.row .s{display:block; font-weight:400; font-size:16px; color:var(--ink-soft); max-width:62ch}
+.row.off{border-left-color:var(--clay); background:#FBF9F3}
+.row.off .n{color:var(--clay)}
+
+@media (max-width:760px){
+  body{font-size:17px} main{padding:22px 16px 8px} header.top{padding:24px 16px 20px}
+  section{padding:18px 16px} .row{grid-template-columns:38px 1fr}
+  .row .d{grid-column:2} .row .t{grid-column:2}
+  table{table-layout:fixed} th,td{padding:7px 8px}
+}
+@media print{
+  body{background:#fff; font-size:11pt}
+  header.top{background:#fff; color:#111; border-bottom:3px solid #111}
+  header.top h1,header.top .sub,header.top .eyebrow,.pill b{color:#111}
+  .pill{border-color:#666}
+  button.rev{display:none} .ans{display:block}
+  nav.pager,footer,.toolbar{display:none}
+  section,.exit{background:#fff; break-inside:avoid} pre{border:1px solid #999}
+  a{color:#111}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important; animation:none!important}}
+</style>
+
+<style>
+header.top .sub:empty{display:none}
+.ws-name{display:flex; gap:24px; flex-wrap:wrap; font-size:17px; margin:0 0 6px}
+.ws-name span{flex:1 1 220px; border-bottom:2px solid var(--ink); padding:0 0 4px}
+.ws-name b{font-family:'JetBrains Mono',monospace; font-size:12.5px; letter-spacing:.1em;
+  text-transform:uppercase; color:var(--ochre); margin-right:8px}
+.lines p{border-bottom:2px solid var(--rule); min-height:34px; margin:0 0 10px; padding:0 0 2px}
+table.trace{table-layout:fixed}
+table.trace th{font-family:'JetBrains Mono',monospace; text-align:center; font-size:14.5px;
+  padding:6px 3px; white-space:normal; overflow-wrap:normal}
+table.trace td{height:36px; text-align:center; font-family:'JetBrains Mono',monospace; font-size:15px}
+table.trace td.i{background:#EFE9DA; font-weight:700}
+table.trace tr.start td{background:#FBF9F3; color:var(--ink-soft)}
+table.trace tr.done td{background:#E8F1E9; color:var(--green-ink)}
+table.trace tr.done td.i{background:#D9E7DC}
+table.trace tr.done td.q{background:#E8F1E9}
+table.trace th.q,table.trace td.q{background:#FBF2DC}
+table.rename td{height:38px}
+table.rename td.old{font-family:'JetBrains Mono',monospace; font-weight:700; width:130px; text-align:center;
+  background:#EFE9DA; white-space:nowrap}
+.two-up{display:grid; gap:18px; grid-template-columns:1fr}
+@media(min-width:760px){.two-up{grid-template-columns:1fr 1fr}}
+.two-up pre{margin:0; font-size:14px; line-height:1.5}
+.nb{font-size:15px; color:var(--ink-soft)}
+.checks p{display:flex; gap:12px; align-items:flex-start; margin:0 0 12px; max-width:none}
+.checks .box{flex:0 0 auto; width:22px; height:22px; border:2px solid var(--ink); border-radius:3px;
+  margin-top:3px}
+@media print{
+  @page{size:letter; margin:14mm 14mm 16mm}
+  body{font-size:12pt; line-height:1.5} main{padding:0}
+  header.top{padding:8px 0 6px; margin-bottom:10px}
+  header.top .dates,header.top .sub{display:none}
+  .ws-name{font-size:12pt; margin:0 0 10px}
+  section{padding:14px 16px; margin:0 0 12px; border-width:1.5px}
+  pre,tr,.lines p{break-inside:avoid} h2,h3,.chunk-no{break-after:avoid}
+  .two-up{grid-template-columns:1fr; gap:12px}
+  .chunk-no{margin:0 0 4px; font-size:9.5pt} h2{font-size:19pt; margin:0 0 8px} h3{font-size:14pt}
+  main section:nth-of-type(4){break-before:page}
+  table{font-size:12pt} table.trace th{font-size:10.5pt} table.trace td{height:34px; font-size:12pt}
+  table.rename td{height:42px} .lines p{min-height:32px; margin:0 0 12px}
+  .nb{font-size:11.5pt} code{font-size:.92em}
+  .checks p{margin:0 0 10px} .checks .box{border-color:#111}
+  .two-up pre{font-size:10.5pt; line-height:1.5; border:1px solid #999}
+  .ws-name span{border-bottom-color:#111}
+}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap"><p class="eyebrow">Advanced Python &middot; Robofun &middot; Session 1 of 13</p><h1>Worksheet: trace it before you run it</h1><p class="sub"></p><div class="dates"><span class="pill"><b>When</b> Wednesday 16 September 2026</span><span class="pill"><b>Time</b> 4:00 to 5:30</span><span class="pill"><b>Length</b> 90 minutes</span></div></div></header>
+<main><div class="wrap">
+
+<div class="ws-name"><span><b>Name</b></span><span><b>Date</b> 16 September 2026</span></div><div class="toolbar"><a class="btn quiet" href="wed01_cold_read.html">Back to the session 1 page</a></div><section class="opener"><p class="chunk-no">Section 1 &middot; 10 minutes</p><h2>Opener</h2><p>One line each. What does the line do? If you are not sure, write that.</p><p class="nb"><code>for i in range(10):</code></p><div class="lines"><p></p></div><p class="nb"><code>total = total + r</code></p><div class="lines"><p></p></div><p class="nb"><code>if r &gt; best:</code></p><div class="lines"><p></p></div><p class="nb"><code>slot = (slot + 5) % 9</code></p><div class="lines"><p></p></div></section>
+<section class="chunk"><p class="chunk-no">Section 2 &middot; 25 minutes</p><h2>The cold read</h2><h3>The first half</h3><p>Read the program. Then fill the table one row per pass through the loop. The top row shows the values before the loop starts. In the two tinted columns write <b>yes</b> or <b>no</b>: did the gate open on this pass? Three rows are done for you, shaded, so you can check your working against them as you go. The rows in between are yours.</p><div class="two-up"><p class="fname">sweep_report.py, first half</p>
+<pre><code>readings = [41, 58, 33, 58, 12, 77, 58, 60, 29, 77]
+limit = 55
+
+t = 0
+c = 0
+b = 0
+bi = 0
+
+for i in range(10):
+    r = readings[i]
+
+    t = t + r
+
+    if r &gt; limit:
+        c = c + 1
+
+    if r &gt; b:
+        b = r
+        bi = i
+
+avg = t / 10
+
+print(f&quot;total {t}&quot;)
+print(f&quot;average {avg}&quot;)
+print(f&quot;over {limit}: {c}&quot;)
+print(f&quot;best {b} at index {bi}&quot;)</code></pre>
+<div><table class="trace"><tr><th>i</th><th>r</th><th>t</th><th class="q">r &gt; limit?</th><th>c</th><th class="q">r &gt; b?</th><th>b</th><th>bi</th></tr><tr class="start"><td>start</td><td></td><td>0</td><td></td><td>0</td><td></td><td>0</td><td>0</td></tr><tr class="done"><td class="i">0</td><td>41</td><td>41</td><td class="q">no</td><td>0</td><td class="q">yes</td><td>41</td><td>0</td></tr><tr><td class="i">1</td><td>58</td><td></td><td class="q"></td><td></td><td class="q"></td><td></td><td></td></tr><tr><td class="i">2</td><td>33</td><td></td><td class="q"></td><td></td><td class="q"></td><td></td><td></td></tr><tr class="done"><td class="i">3</td><td>58</td><td>190</td><td class="q">yes</td><td>2</td><td class="q">no</td><td>58</td><td>1</td></tr><tr><td class="i">4</td><td>12</td><td></td><td class="q"></td><td></td><td class="q"></td><td></td><td></td></tr><tr><td class="i">5</td><td>77</td><td></td><td class="q"></td><td></td><td class="q"></td><td></td><td></td></tr><tr><td class="i">6</td><td>58</td><td></td><td class="q"></td><td></td><td class="q"></td><td></td><td></td></tr><tr class="done"><td class="i">7</td><td>60</td><td>397</td><td class="q">yes</td><td>5</td><td class="q">no</td><td>77</td><td>5</td></tr><tr><td class="i">8</td><td>29</td><td></td><td class="q"></td><td></td><td class="q"></td><td></td><td></td></tr><tr><td class="i">9</td><td>77</td><td></td><td class="q"></td><td></td><td class="q"></td><td></td><td></td></tr></table></div></div><p>Now write the four lines the program will print.</p><p class="nb"><code>total</code></p><div class="lines"><p></p></div><p class="nb"><code>average</code></p><div class="lines"><p></p></div><p class="nb"><code>over 55:</code></p><div class="lines"><p></p></div><p class="nb"><code>best ... at index ...</code></p><div class="lines"><p></p></div><p>The list holds 77 twice, at index 5 and at index 9, and the fourth line names only one of them. The gate <code>if r &gt; b:</code> decides which. Circle the one character in that gate that makes the comparison, then write one sentence: when the second 77 arrives, will the gate say yes or no, and why?</p><div class="lines"><p></p><p></p></div><h3>The second half</h3><p><code>%</code> gives the remainder after dividing. <code>41 % 9</code> is 5, because 41 is four nines with 5 left over. Work the middle column first, then take the remainder. Rows 3, 6, and 9 are done for you, shaded. The first three rows are required, and row 3 is there to check yourself against. Finish the rest if you have time.</p><div class="two-up"><p class="fname">sweep_report.py, second half</p>
+<pre><code>slot = 0
+for i in range(10):
+    slot = (slot + readings[i]) % 9
+    print(f&quot;i={i} reading={readings[i]} slot={slot}&quot;)</code></pre>
+<div><table class="trace"><tr><th>i</th><th>reading</th><th>slot + reading</th><th>% 9 = slot</th></tr><tr class="start"><td>start</td><td></td><td></td><td>0</td></tr><tr><td class="i">0</td><td>41</td><td></td><td></td></tr><tr><td class="i">1</td><td>58</td><td></td><td></td></tr><tr><td class="i">2</td><td>33</td><td></td><td></td></tr><tr class="done"><td class="i">3</td><td>58</td><td>64</td><td>1</td></tr><tr><td class="i">4</td><td>12</td><td></td><td></td></tr><tr><td class="i">5</td><td>77</td><td></td><td></td></tr><tr class="done"><td class="i">6</td><td>58</td><td>58</td><td>4</td></tr><tr><td class="i">7</td><td>60</td><td></td><td></td></tr><tr><td class="i">8</td><td>29</td><td></td><td></td></tr><tr class="done"><td class="i">9</td><td>77</td><td>80</td><td>8</td></tr></table></div></div><p>Rows 1 and 3 both have a reading of 58. Do they land on the same slot? Say why or why not in one sentence.</p><div class="lines"><p></p><p></p></div></section>
+<section class="chunk"><p class="chunk-no">Section 3 &middot; 10 minutes</p><h2>Run it</h2><p>Now run the program. Copy the real output next to your prediction. Mark each line right or wrong. Do not erase a wrong prediction.</p><table class="rename"><tr><th>Line</th><th>What I predicted</th><th>What it printed</th><th>Right?</th></tr><tr><td class="old">total</td><td></td><td></td><td></td></tr><tr><td class="old">average</td><td></td><td></td><td></td></tr><tr><td class="old">over 55</td><td></td><td></td><td></td></tr><tr><td class="old">best</td><td></td><td></td><td></td></tr><tr><td class="old">slot, i=0 to 2</td><td></td><td></td><td></td></tr></table></section>
+<section class="chunk"><p class="chunk-no">Section 4 &middot; 30 minutes</p><h2>The style pass</h2><p>The program works and it is hard to read. Rename every short name so the name says what the value is. Yours does not have to match anyone else's. It has to be a name the next reader understands without scrolling back up.</p><table class="rename"><tr><th>Old name</th><th>What the value is, in words</th><th>Clearer new name</th></tr><tr><td class="old">t</td><td></td><td></td></tr><tr><td class="old">c</td><td></td><td></td></tr><tr><td class="old">b</td><td></td><td></td></tr><tr><td class="old">bi</td><td></td><td></td></tr><tr><td class="old">r</td><td></td><td></td></tr><tr><td class="old">avg</td><td></td><td></td></tr><tr><td class="old">i</td><td></td><td></td></tr></table><p>Then the docstring. A docstring is one sentence, inside triple quotes, on line 1 of the file, saying what the program is for. Python ignores it. The next reader does not. Here is one for this program:</p><p class="fname">line 1 of sweep_report.py</p>
+<pre><code>&quot;&quot;&quot;Summarize a run of tower readings and report where the strongest one sat.&quot;&quot;&quot;</code></pre>
+<p>Copy it onto line 1 of your file. If you would rather say it your own way, write your sentence here first, then type it between the quotes:</p><div class="lines"><p></p></div><h3>A second one, harder</h3><p>This program walks along a corridor of doors, where 1 means open and 0 means shut. Trace all four variables, then name them. A hint: every one of the four variables is counting something about the doors, so every new name should have the word door or open or shut in it. Watch the <code>z</code> column as you fill it in. It climbs and drops back to 0, and the name has to say why. Rows 1, 5, and 9 are done for you, shaded, to check against. One of the four variables is much harder to name than the others.</p><div class="toolbar"><a class="btn quiet" href="wed01_doors_trace.html">Watch this table fill in, one gate at a time</a></div><div class="two-up"><p class="fname">gate_log.py</p>
+<pre><code>door = [1, 0, 1, 1, 0, 0, 1, 0, 1, 1, 1, 0]
+
+x = 0
+y = 0
+z = 0
+q = 0
+
+for i in range(12):
+    d = door[i]
+
+    if d == 1:
+        x = x + 1
+        z = z + 1
+
+    if d == 0:
+        y = y + 1
+        z = 0
+
+    if z &gt; q:
+        q = z
+
+print(f&quot;x {x}&quot;)
+print(f&quot;y {y}&quot;)
+print(f&quot;z {z}&quot;)
+print(f&quot;q {q}&quot;)</code></pre>
+<div><table class="trace"><tr><th>i</th><th>d</th><th>x</th><th>y</th><th>z</th><th>q</th></tr><tr class="start"><td>start</td><td></td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td class="i">0</td><td>1</td><td></td><td></td><td></td><td></td></tr><tr class="done"><td class="i">1</td><td>0</td><td>1</td><td>1</td><td>0</td><td>1</td></tr><tr><td class="i">2</td><td>1</td><td></td><td></td><td></td><td></td></tr><tr><td class="i">3</td><td>1</td><td></td><td></td><td></td><td></td></tr><tr><td class="i">4</td><td>0</td><td></td><td></td><td></td><td></td></tr><tr class="done"><td class="i">5</td><td>0</td><td>3</td><td>3</td><td>0</td><td>2</td></tr><tr><td class="i">6</td><td>1</td><td></td><td></td><td></td><td></td></tr><tr><td class="i">7</td><td>0</td><td></td><td></td><td></td><td></td></tr><tr><td class="i">8</td><td>1</td><td></td><td></td><td></td><td></td></tr><tr class="done"><td class="i">9</td><td>1</td><td>6</td><td>4</td><td>2</td><td>2</td></tr><tr><td class="i">10</td><td>1</td><td></td><td></td><td></td><td></td></tr><tr><td class="i">11</td><td>0</td><td></td><td></td><td></td><td></td></tr></table></div></div><table class="rename"><tr><th>Old name</th><th>What the value is, in words</th><th>Clearer new name</th></tr><tr><td class="old">x</td><td></td><td></td></tr><tr><td class="old">y</td><td></td><td></td></tr><tr><td class="old">z</td><td></td><td></td></tr><tr><td class="old">q</td><td></td><td></td></tr></table><p>Which of the four variables was hardest to name, and why?</p><div class="lines"><p></p><p></p></div></section>
+<section class="chunk"><p class="chunk-no">Section 5 &middot; 15 minutes</p><h2>Where to stop</h2><p>Three landings. Every one of them is a real place to stop. Tick each line you can honestly claim, then circle the exit you reached.</p><div class="checks"><p><span class="box"></span><span><b>Floor.</b> I traced the four printed numbers.</span></p><p><span class="box"></span><span><b>Floor.</b> I can point at the character that decides index 5 against index 9.</span></p><p><span class="box"></span><span><b>Floor.</b> I renamed the four counters.</span></p><p><span class="box"></span><span><b>Middle.</b> I traced the wrap loop by hand and got the first three slots right.</span></p><p><span class="box"></span><span><b>Middle.</b> I did the full rename, with a docstring.</span></p><p><span class="box"></span><span><b>Stretch.</b> I changed <code>&gt;</code> to <code>&gt;=</code>, predicted the new output, confirmed it, and wrote which question each version answers.</span></p><p><span class="box"></span><span><b>Stretch.</b> I renamed <code>gate_log.py</code> and said which of its four names is the most misleading.</span></p></div><p class="nb">I reached: &nbsp; FLOOR &nbsp; &middot; &nbsp; MIDDLE &nbsp; &middot; &nbsp; STRETCH</p><p>One thing I predicted wrong today, and what I believed that made me wrong:</p><div class="lines"><p></p><p></p></div><h3>Stretch, if there is time</h3><p>Change <code>&gt;</code> to <code>&gt;=</code> in <code>if r &gt; b</code>. Predict the new fourth line before you run it, then confirm it. Then write one sentence: which question does each version answer?</p><p class="nb">Prediction with <code>&gt;=</code>:</p><div class="lines"><p></p></div><p class="nb"><code>&gt;</code> answers the question:</p><div class="lines"><p></p></div><p class="nb"><code>&gt;=</code> answers the question:</p><div class="lines"><p></p></div></section>
+</div></main>
+<nav class="pager"><a href="wed01_cold_read.html">&larr; Session 1: the page</a><a href="advanced_python_hub.html">Course hub</a><a href="wed02_return_and_modules.html">Session 2: functions that hand something back &rarr;</a></nav>
+<footer><div class="wrap"><p>Advanced Python, Robofun Fall 2026. Second printing, 13 September 2026. Built by a generator; the page, not the file, is the source of truth for output, because every quoted line came from a run.</p></div></footer>
+<script>
+document.addEventListener('click', function(e){
+  var b = e.target.closest('button.rev');
+  if(!b) return;
+  var box = document.getElementById(b.dataset.target);
+  if(!box) return;
+  var open = box.classList.toggle('show');
+  b.textContent = open ? (b.dataset.hide || 'Hide') : (b.dataset.show || 'Show');
+  b.setAttribute('aria-expanded', open ? 'true' : 'false');
+});
+</script>
+</body>
+</html>

@@ -15,6 +15,11 @@ def day01():
         "reader does not have to work as hard as you just did.",
     )
 
+    b += (
+        '<div class="toolbar"><a class="btn" href="wed01_worksheet.html">Open the '
+        'worksheet</a><a class="btn quiet" href="wed01_doors_trace.html">Watch the door '
+        "trace fill in</a></div>"
+    )
     b += '<h2><span class="num">1</span>Opener<span class="mins">10 minutes</span></h2>'
     b += (
         "<p>No code yet. On paper, write down what each of these does. One line each. "
@@ -34,7 +39,10 @@ def day01():
     b += '<h2><span class="num">2</span>The cold read<span class="mins">25 minutes</span></h2>'
     b += (
         "<p>Here is the whole program. Read it top to bottom before you touch a "
-        "keyboard. Do not run it. Do not type it. Read it.</p>"
+        "keyboard. Do not run it. Do not type it. Read it. There is a "
+        '<a href="wed01_worksheet.html">printed worksheet</a> for this session with a '
+        "trace table for each loop, one row per pass, so you have somewhere to write "
+        "the values down as they change.</p>"
     )
     b += code(
         """readings = [41, 58, 33, 58, 12, 77, 58, 60, 29, 77]
@@ -131,9 +139,13 @@ i=9 reading=77 slot=8"""
         "time during the cold read, and you can measure that cost: it is however long "
         "you spent scrolling back up to find out what <code>bi</code> meant.</p>"
         "<p>Rename every variable so the name says what the value is. Then add a "
-        "docstring at the top of the file. One line, in triple quotes, saying what the "
-        "program is for.</p>"
+        "docstring at the top of the file. A docstring is a new word today, so here is "
+        "the whole idea: one sentence, inside triple quotes, on line 1 of the file, "
+        "saying what the program is for. Python ignores it. The next reader does not. "
+        "Here is one for this program. Copy it onto line 1, or put your own sentence "
+        "between the quotes.</p>"
     )
+    b += code('''"""Summarize a run of tower readings and report where the strongest one sat."""''', "line 1 of sweep_report.py")
     b += reveal(
         "Rename all seven short names on paper before you look. Yours does not have to "
         "match mine. It has to be honest.",
@@ -204,6 +216,8 @@ print(f"z {z}")
 print(f"q {q}")""",
             "gate_log.py",
         )
+        + '<div class="toolbar"><a class="btn quiet" href="wed01_doors_trace.html">Watch '
+        "this trace fill in, one gate at a time</a></div>"
         + reveal(
             "Trace all four values, then give each one an honest name. One of the four "
             "is much harder to name than the others.",
@@ -268,7 +282,7 @@ print(f"q {q}")""",
         "reach that session's floor: they encode by hand and read the top letter off "
         "the output. From session 4 the pace returns to the pages as written.</p>",
         extras=(
-            "<h3>Files</h3><p><code>sweep_report.py</code> and <code>gate_log.py</code>. Every output on this page "
+            "<h3>Files</h3><p><code>wed01_doors_trace.html</code>, an animated trace of <code>gate_log.py</code> for the projector: step or play, and the worksheet table fills in one gate at a time. <code>wed01_worksheet.html</code>, printed one per student, double-sided: a trace table for each loop, one row per pass, and the rename tables. Print it from the browser; the page is laid out for letter paper and the style pass starts on a fresh sheet. <code>sweep_report.py</code> and <code>gate_log.py</code>. Every output on this page "
             "came from running that file on Python 3.12.3. Re-run it on the classroom "
             "machines before Wednesday.</p>"
             "<h3>Constraints</h3><p>This session uses only the prerequisite vocabulary "

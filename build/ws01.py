@@ -1,0 +1,388 @@
+"""Session 1 worksheet: a printed page for tracing the two loops by hand."""
+
+from build import code, esc, masthead, pager
+
+WS_CSS = """
+<style>
+header.top .sub:empty{display:none}
+.ws-name{display:flex; gap:24px; flex-wrap:wrap; font-size:17px; margin:0 0 6px}
+.ws-name span{flex:1 1 220px; border-bottom:2px solid var(--ink); padding:0 0 4px}
+.ws-name b{font-family:'JetBrains Mono',monospace; font-size:12.5px; letter-spacing:.1em;
+  text-transform:uppercase; color:var(--ochre); margin-right:8px}
+.lines p{border-bottom:2px solid var(--rule); min-height:34px; margin:0 0 10px; padding:0 0 2px}
+table.trace{table-layout:fixed}
+table.trace th{font-family:'JetBrains Mono',monospace; text-align:center; font-size:14.5px;
+  padding:6px 3px; white-space:normal; overflow-wrap:normal}
+table.trace td{height:36px; text-align:center; font-family:'JetBrains Mono',monospace; font-size:15px}
+table.trace td.i{background:#EFE9DA; font-weight:700}
+table.trace tr.start td{background:#FBF9F3; color:var(--ink-soft)}
+table.trace tr.done td{background:#E8F1E9; color:var(--green-ink)}
+table.trace tr.done td.i{background:#D9E7DC}
+table.trace tr.done td.q{background:#E8F1E9}
+table.trace th.q,table.trace td.q{background:#FBF2DC}
+table.rename td{height:38px}
+table.rename td.old{font-family:'JetBrains Mono',monospace; font-weight:700; width:130px; text-align:center;
+  background:#EFE9DA; white-space:nowrap}
+.two-up{display:grid; gap:18px; grid-template-columns:1fr}
+@media(min-width:760px){.two-up{grid-template-columns:1fr 1fr}}
+.two-up pre{margin:0; font-size:14px; line-height:1.5}
+.nb{font-size:15px; color:var(--ink-soft)}
+.checks p{display:flex; gap:12px; align-items:flex-start; margin:0 0 12px; max-width:none}
+.checks .box{flex:0 0 auto; width:22px; height:22px; border:2px solid var(--ink); border-radius:3px;
+  margin-top:3px}
+@media print{
+  @page{size:letter; margin:14mm 14mm 16mm}
+  body{font-size:12pt; line-height:1.5} main{padding:0}
+  header.top{padding:8px 0 6px; margin-bottom:10px}
+  header.top .dates,header.top .sub{display:none}
+  .ws-name{font-size:12pt; margin:0 0 10px}
+  section{padding:14px 16px; margin:0 0 12px; border-width:1.5px}
+  pre,tr,.lines p{break-inside:avoid} h2,h3,.chunk-no{break-after:avoid}
+  .two-up{grid-template-columns:1fr; gap:12px}
+  .chunk-no{margin:0 0 4px; font-size:9.5pt} h2{font-size:19pt; margin:0 0 8px} h3{font-size:14pt}
+  main section:nth-of-type(4){break-before:page}
+  table{font-size:12pt} table.trace th{font-size:10.5pt} table.trace td{height:34px; font-size:12pt}
+  table.rename td{height:42px} .lines p{min-height:32px; margin:0 0 12px}
+  .nb{font-size:11.5pt} code{font-size:.92em}
+  .checks p{margin:0 0 10px} .checks .box{border-color:#111}
+  .two-up pre{font-size:10.5pt; line-height:1.5; border:1px solid #999}
+  .ws-name span{border-bottom-color:#111}
+}
+</style>
+"""
+
+FIRST_HALF = """readings = [41, 58, 33, 58, 12, 77, 58, 60, 29, 77]
+limit = 55
+
+t = 0
+c = 0
+b = 0
+bi = 0
+
+for i in range(10):
+    r = readings[i]
+
+    t = t + r
+
+    if r > limit:
+        c = c + 1
+
+    if r > b:
+        b = r
+        bi = i
+
+avg = t / 10
+
+print(f"total {t}")
+print(f"average {avg}")
+print(f"over {limit}: {c}")
+print(f"best {b} at index {bi}")"""
+
+SECOND_HALF = """slot = 0
+for i in range(10):
+    slot = (slot + readings[i]) % 9
+    print(f"i={i} reading={readings[i]} slot={slot}")"""
+
+GATE_LOG = """door = [1, 0, 1, 1, 0, 0, 1, 0, 1, 1, 1, 0]
+
+x = 0
+y = 0
+z = 0
+q = 0
+
+for i in range(12):
+    d = door[i]
+
+    if d == 1:
+        x = x + 1
+        z = z + 1
+
+    if d == 0:
+        y = y + 1
+        z = 0
+
+    if z > q:
+        q = z
+
+print(f"x {x}")
+print(f"y {y}")
+print(f"z {z}")
+print(f"q {q}")"""
+
+READINGS = [41, 58, 33, 58, 12, 77, 58, 60, 29, 77]
+DOORS = [1, 0, 1, 1, 0, 0, 1, 0, 1, 1, 1, 0]
+LIMIT = 55
+
+
+def first_half_rows():
+    """Return every row of the first-half trace, computed the way the program does."""
+    rows = {}
+    t = c = b = bi = 0
+    for i in range(10):
+        r = READINGS[i]
+        t = t + r
+        over = r > LIMIT
+        if over:
+            c = c + 1
+        beats = r > b
+        if beats:
+            b = r
+            bi = i
+        rows[i] = [i, r, t, "yes" if over else "no", c, "yes" if beats else "no", b, bi]
+    return rows
+
+
+def gate_log_rows():
+    """Return every row of the door trace, computed the way gate_log.py does."""
+    rows = {}
+    x = y = z = q = 0
+    for i in range(12):
+        d = DOORS[i]
+        if d == 1:
+            x = x + 1
+            z = z + 1
+        if d == 0:
+            y = y + 1
+            z = 0
+        if z > q:
+            q = z
+        rows[i] = [i, d, x, y, z, q]
+    return rows
+
+
+def second_half_rows():
+    """Return every row of the wrap-loop trace."""
+    rows = {}
+    slot = 0
+    for i in range(10):
+        before = slot + READINGS[i]
+        slot = before % 9
+        rows[i] = [i, READINGS[i], before, slot]
+    return rows
+
+
+def lines(n):
+    """Return n ruled writing lines."""
+    return '<div class="lines">' + "<p></p>" * n + "</div>"
+
+
+def trace_table(headers, start, rows, given, q_cols=(), done=None):
+    """Return a hand-trace table.
+
+    headers: column names. start: values for the row before the loop, or None.
+    rows: list of index values. given: dict column -> function(i) for cells the
+    worksheet fills in for the student. q_cols: columns tinted as yes/no questions.
+    """
+    out = '<table class="trace"><tr>'
+    for h in headers:
+        cls = ' class="q"' if h in q_cols else ""
+        out += f"<th{cls}>{esc(h)}</th>"
+    out += "</tr>"
+    if start is not None:
+        out += '<tr class="start">'
+        for h, v in zip(headers, start):
+            out += f"<td>{esc(str(v))}</td>"
+        out += "</tr>"
+    done = done or {}
+    for i in rows:
+        if i in done:
+            out += '<tr class="done">'
+            for h, v in zip(headers, done[i]):
+                cls = ' class="i"' if h == "i" else (' class="q"' if h in q_cols else "")
+                out += f"<td{cls}>{esc(str(v))}</td>"
+            out += "</tr>"
+            continue
+        out += "<tr>"
+        for h in headers:
+            if h == "i":
+                out += f'<td class="i">{i}</td>'
+            elif h in given:
+                out += f"<td>{esc(str(given[h](i)))}</td>"
+            elif h in q_cols:
+                out += '<td class="q"></td>'
+            else:
+                out += "<td></td>"
+        out += "</tr>"
+    return out + "</table>"
+
+
+def rename_table(names):
+    """Return the three-column rename table."""
+    out = ('<table class="rename"><tr><th>Old name</th><th>What the value is, in words</th>'
+           "<th>Clearer new name</th></tr>")
+    for n in names:
+        out += f'<tr><td class="old">{esc(n)}</td><td></td><td></td></tr>'
+    return out + "</table>"
+
+
+def worksheet01():
+    """Return the session 1 worksheet body."""
+    b = masthead(
+        "01",
+        "Worksheet: trace it before you run it",
+        "Wednesday 16 September 2026",
+        "",
+    )
+    b += (
+        '<div class="ws-name"><span><b>Name</b></span><span><b>Date</b> 16 September 2026'
+        "</span></div>"
+    )
+
+    b += (
+        '<div class="toolbar"><a class="btn quiet" href="wed01_cold_read.html">Back to '
+        "the session 1 page</a></div>"
+    )
+    b += '<h2><span class="num">1</span>Opener<span class="mins">10 minutes</span></h2>'
+    b += (
+        "<p>One line each. What does the line do? If you are not sure, write that.</p>"
+        '<p class="nb"><code>for i in range(10):</code></p>' + lines(1)
+        + '<p class="nb"><code>total = total + r</code></p>' + lines(1)
+        + '<p class="nb"><code>if r &gt; best:</code></p>' + lines(1)
+        + '<p class="nb"><code>slot = (slot + 5) % 9</code></p>' + lines(1)
+    )
+
+    b += '<h2><span class="num">2</span>The cold read<span class="mins">25 minutes</span></h2>'
+    b += "<h3>The first half</h3>"
+    b += (
+        "<p>Read the program. Then fill the table one row per pass through the loop. "
+        "The top row shows the values before the loop starts. In the two tinted columns "
+        "write <b>yes</b> or <b>no</b>: did the gate open on this pass? Three rows are "
+        "done for you, shaded, so you can check your working against them as you go. "
+        "The rows in between are yours.</p>"
+        '<div class="two-up">'
+        + code(FIRST_HALF, "sweep_report.py, first half")
+        + "<div>"
+        + trace_table(
+            ["i", "r", "t", "r > limit?", "c", "r > b?", "b", "bi"],
+            ["start", "", 0, "", 0, "", 0, 0],
+            range(10),
+            {"r": lambda i: READINGS[i]},
+            q_cols=("r > limit?", "r > b?"),
+            done={i: v for i, v in first_half_rows().items() if i in (0, 3, 7)},
+        )
+        + "</div></div>"
+        "<p>Now write the four lines the program will print.</p>"
+        '<p class="nb"><code>total</code></p>' + lines(1)
+        + '<p class="nb"><code>average</code></p>' + lines(1)
+        + '<p class="nb"><code>over 55:</code></p>' + lines(1)
+        + '<p class="nb"><code>best ... at index ...</code></p>' + lines(1)
+        + "<p>The list holds 77 twice, at index 5 and at index 9, and the fourth line "
+        "names only one of them. The gate <code>if r &gt; b:</code> decides which. "
+        "Circle the one character in that gate that makes the comparison, then write one "
+        "sentence: when the second 77 arrives, will the gate say yes or no, and why?</p>" + lines(2)
+    )
+
+    b += "<h3>The second half</h3>"
+    b += (
+        "<p><code>%</code> gives the remainder after dividing. <code>41 % 9</code> is 5, "
+        "because 41 is four nines with 5 left over. Work the middle column first, then "
+        "take the remainder. Rows 3, 6, and 9 are done for you, shaded. The first three "
+        "rows are required, and row 3 is there to check yourself against. Finish the rest "
+        "if you have time.</p>"
+        '<div class="two-up">'
+        + code(SECOND_HALF, "sweep_report.py, second half")
+        + "<div>"
+        + trace_table(
+            ["i", "reading", "slot + reading", "% 9 = slot"],
+            ["start", "", "", 0],
+            range(10),
+            {"reading": lambda i: READINGS[i]},
+            done={i: v for i, v in second_half_rows().items() if i in (3, 6, 9)},
+        )
+        + "</div></div>"
+        "<p>Rows 1 and 3 both have a reading of 58. Do they land on the same slot? Say "
+        "why or why not in one sentence.</p>" + lines(2)
+    )
+
+    b += '<h2><span class="num">3</span>Run it<span class="mins">10 minutes</span></h2>'
+    b += (
+        "<p>Now run the program. Copy the real output next to your prediction. Mark "
+        "each line right or wrong. Do not erase a wrong prediction.</p>"
+        '<table class="rename"><tr><th>Line</th><th>What I predicted</th>'
+        "<th>What it printed</th><th>Right?</th></tr>"
+        '<tr><td class="old">total</td><td></td><td></td><td></td></tr>'
+        '<tr><td class="old">average</td><td></td><td></td><td></td></tr>'
+        '<tr><td class="old">over 55</td><td></td><td></td><td></td></tr>'
+        '<tr><td class="old">best</td><td></td><td></td><td></td></tr>'
+        '<tr><td class="old">slot, i=0 to 2</td><td></td><td></td><td></td></tr>'
+        "</table>"
+    )
+
+    b += '<h2><span class="num">4</span>The style pass<span class="mins">30 minutes</span></h2>'
+    b += (
+        "<p>The program works and it is hard to read. Rename every short name so the "
+        "name says what the value is. Yours does not have to match anyone else's. It "
+        "has to be a name the next reader understands without scrolling back up.</p>"
+        + rename_table(["t", "c", "b", "bi", "r", "avg", "i"])
+        + "<p>Then the docstring. A docstring is one sentence, inside triple quotes, on "
+        "line 1 of the file, saying what the program is for. Python ignores it. The next "
+        "reader does not. Here is one for this program:</p>"
+        + code('''"""Summarize a run of tower readings and report where the strongest one sat."""''', "line 1 of sweep_report.py")
+        + "<p>Copy it onto line 1 of your file. If you would rather say it your own way, "
+        "write your sentence here first, then type it between the quotes:</p>" + lines(1)
+    )
+    b += "<h3>A second one, harder</h3>"
+    b += (
+        "<p>This program walks along a corridor of doors, where 1 means open and 0 "
+        "means shut. Trace all four variables, then name them. A hint: every one of the "
+        "four variables is counting something about the doors, so every new name should have the "
+        "word door or open or shut in it. Watch the <code>z</code> column as you fill it "
+        "in. It climbs and drops back to 0, and the name has to say why. Rows 1, 5, and 9 "
+        "are done for you, shaded, to check against. One of the four variables is much "
+        "harder to name than the others.</p>"
+        '<div class="toolbar"><a class="btn quiet" href="wed01_doors_trace.html">Watch '
+        "this table fill in, one gate at a time</a></div>"
+        '<div class="two-up">'
+        + code(GATE_LOG, "gate_log.py")
+        + "<div>"
+        + trace_table(
+            ["i", "d", "x", "y", "z", "q"],
+            ["start", "", 0, 0, 0, 0],
+            range(12),
+            {"d": lambda i: DOORS[i]},
+            done={i: v for i, v in gate_log_rows().items() if i in (1, 5, 9)},
+        )
+        + "</div></div>"
+        + rename_table(["x", "y", "z", "q"])
+        + "<p>Which of the four variables was hardest to name, and why?</p>" + lines(2)
+    )
+
+    b += '<h2><span class="num">5</span>Where to stop<span class="mins">15 minutes</span></h2>'
+    b += (
+        "<p>Three landings. Every one of them is a real place to stop. Tick each line "
+        "you can honestly claim, then circle the exit you reached.</p>"
+        '<div class="checks">'
+        '<p><span class="box"></span><span><b>Floor.</b> I traced the four printed numbers.</span></p>'
+        '<p><span class="box"></span><span><b>Floor.</b> I can point at the character that '
+        "decides index 5 against index 9.</span></p>"
+        '<p><span class="box"></span><span><b>Floor.</b> I renamed the four counters.</span></p>'
+        '<p><span class="box"></span><span><b>Middle.</b> I traced the wrap loop by hand and '
+        "got the first three slots right.</span></p>"
+        '<p><span class="box"></span><span><b>Middle.</b> I did the full rename, with a '
+        "docstring.</span></p>"
+        '<p><span class="box"></span><span><b>Stretch.</b> I changed <code>&gt;</code> to '
+        "<code>&gt;=</code>, predicted the new output, confirmed it, and wrote which "
+        "question each version answers.</span></p>"
+        '<p><span class="box"></span><span><b>Stretch.</b> I renamed <code>gate_log.py</code> '
+        "and said which of its four names is the most misleading.</span></p>"
+        "</div>"
+        '<p class="nb">I reached: &nbsp; FLOOR &nbsp; &middot; &nbsp; MIDDLE &nbsp; '
+        "&middot; &nbsp; STRETCH</p>"
+        "<p>One thing I predicted wrong today, and what I believed that made me wrong:</p>"
+        + lines(2)
+    )
+    b += "<h3>Stretch, if there is time</h3>"
+    b += (
+        "<p>Change <code>&gt;</code> to <code>&gt;=</code> in <code>if r &gt; b</code>. "
+        "Predict the new fourth line before you run it, then confirm it. Then write one "
+        "sentence: which question does each version answer?</p>"
+        '<p class="nb">Prediction with <code>&gt;=</code>:</p>' + lines(1)
+        + '<p class="nb"><code>&gt;</code> answers the question:</p>' + lines(1)
+        + '<p class="nb"><code>&gt;=</code> answers the question:</p>' + lines(1)
+    )
+
+    b += pager(
+        ("wed01_cold_read.html", "Session 1: the page"),
+        ("wed02_return_and_modules.html", "Session 2: functions that hand something back"),
+    )
+    return b
