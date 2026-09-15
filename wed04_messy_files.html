@@ -4,131 +4,229 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Session 4: messy files</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=DM+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --paper:#F1F3F2; --ink:#15303C; --soft:#4A6472; --rule:#BFCBCE;
-  --signal:#0E6B62; --predict:#8A5A00; --verified:#185E3B; --fault:#8C2B18;
-  --code-bg:#0E2430; --code-fg:#DCE6E4; --panel:#E4E9E8;
+  --paper:#F4F0E6; --card:#FFFDF7; --ink:#17181B; --ink-soft:#4A4D53; --rule:#D3CBB8;
+  --teal:#0E4D52; --teal-deep:#0A3A3E; --clay:#9C2B22;
+  --ochre:#8A5A00; --ochre-line:#D99B12; --ochre-tint:#FBF2DC;
+  --green:#1D5B39; --green-tint:#E8F1E9; --green-ink:#122B1C;
+  --code-bg:#EDE7D9;
 }
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
 body{
   margin:0; background:var(--paper); color:var(--ink);
-  font-family:Archivo,system-ui,sans-serif; font-size:19px; line-height:1.6;
+  font-family:'DM Sans',system-ui,sans-serif; font-size:18px; font-weight:500;
+  line-height:1.65;
 }
-.wrap{max-width:1000px; margin:0 auto; padding:0 28px 90px}
-p,li{max-width:68ch}
-h1,h2,h3{font-family:"Bricolage Grotesque",Archivo,sans-serif; line-height:1.12; margin:0}
-a{color:var(--signal)}
-a:focus-visible,button:focus-visible{outline:3px solid var(--signal); outline-offset:3px}
+.wrap{max-width:900px; margin:0 auto}
+a{color:var(--teal)}
+a:focus-visible,button:focus-visible{outline:3px solid var(--ochre-line); outline-offset:3px}
 
 /* masthead */
-.top{border-bottom:2px solid var(--ink); padding:22px 0 14px; margin-bottom:34px}
-.top .course{font-size:.8rem; letter-spacing:.06em; color:var(--soft); font-weight:600}
-.top .bar{display:flex; gap:22px; align-items:baseline; flex-wrap:wrap; margin-top:6px}
-.serial{font-family:"Bricolage Grotesque",sans-serif; font-weight:700; font-size:3.6rem;
-  line-height:.85; color:var(--signal)}
-.top h1{font-size:2.1rem; font-weight:700; flex:1 1 340px}
-.when{font-family:"JetBrains Mono",monospace; font-size:.85rem; color:var(--soft);
-  max-width:none}
+header.top{
+  background:var(--teal); color:#FFFDF7;
+  border-bottom:6px solid var(--ochre-line); padding:30px 22px 26px;
+}
+.eyebrow{
+  font-family:'JetBrains Mono',monospace; font-size:13px; letter-spacing:.14em;
+  text-transform:uppercase; color:#F2D89B; margin:0 0 10px; font-weight:700;
+}
+h1{
+  font-family:'Bricolage Grotesque','DM Sans',sans-serif; font-weight:800;
+  font-size:clamp(29px,4.8vw,44px); line-height:1.1; margin:0 0 10px;
+}
+h2{
+  font-family:'Bricolage Grotesque','DM Sans',sans-serif; font-weight:700;
+  font-size:25px; line-height:1.2; margin:0 0 12px; color:var(--teal-deep);
+}
+h3{
+  font-family:'Bricolage Grotesque','DM Sans',sans-serif; font-weight:700;
+  font-size:20px; margin:18px 0 8px; color:var(--teal-deep);
+}
+header.top h1,header.top h2{color:#FFFDF7}
+.sub{color:#EAE3D2; margin:0 0 16px; font-size:19px; font-weight:400; max-width:70ch}
+.dates{
+  display:flex; flex-wrap:wrap; gap:10px; margin-top:16px;
+  font-family:'JetBrains Mono',monospace; font-size:13.5px;
+}
+.pill{
+  border:2px solid rgba(255,253,247,.4); border-radius:999px; padding:5px 13px;
+  background:rgba(255,253,247,.08);
+}
+.pill b{color:#F2D89B; font-weight:700}
 
-/* blocks */
-h2{font-size:1.5rem; font-weight:700; margin:48px 0 4px; padding-top:18px;
-  border-top:1px solid var(--rule)}
-.top + h2, .top + .flag + h2{border-top:0; padding-top:0; margin-top:30px}
-h2 .num{color:var(--signal); font-weight:500; margin-right:.5em}
-h3{font-size:1.12rem; font-weight:600; margin:28px 0 6px}
-.lede{font-size:1.2rem; color:var(--soft); max-width:62ch; margin:10px 0 0}
-.mins{font-family:"JetBrains Mono",monospace; font-size:.78rem; color:var(--soft);
-  display:block; margin-top:2px}
+/* sections */
+main{padding:28px 22px 12px}
+section{
+  background:var(--card); border:2px solid var(--rule); border-radius:6px;
+  padding:22px 24px; margin:0 0 20px;
+}
+section.opener{border-left:8px solid var(--green)}
+section.chunk{border-left:8px solid var(--ochre-line)}
+section.brief{border-left:8px solid var(--teal)}
+.chunk-no{
+  font-family:'JetBrains Mono',monospace; font-size:13px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--ochre); margin:0 0 8px; font-weight:700;
+}
+p{margin:0 0 14px; max-width:72ch}
+ul,ol{margin:0 0 14px; padding-left:24px}
+li{margin:0 0 8px; max-width:70ch}
+ul.tight li{margin:0 0 5px}
+.two{display:grid; gap:0 30px; grid-template-columns:1fr}
+@media(min-width:760px){.two{grid-template-columns:1fr 1fr}}
 
-pre{background:var(--code-bg); color:var(--code-fg); padding:18px 20px; overflow-x:auto;
-  font-family:"JetBrains Mono",monospace; font-size:16px; line-height:1.5;
-  border-radius:3px; margin:16px 0}
-code{font-family:"JetBrains Mono",monospace; font-size:.92em;
-  background:var(--panel); padding:1px 5px; border-radius:2px}
-pre code{background:none; padding:0; font-size:inherit}
-.fname{font-family:"JetBrains Mono",monospace; font-size:.78rem; color:var(--soft);
-  margin:16px 0 -10px}
+/* code and output */
+code,pre{
+  /* JetBrains Mono ligatures turn != into a slashed equals and <= into a single
+     glyph; students then type a character that does not exist. Keep every
+     operator as the keys that produce it. */
+  font-variant-ligatures:none; font-feature-settings:"liga" 0,"calt" 0,"dlig" 0;
+}
+code{
+  font-family:'JetBrains Mono',monospace; font-size:.9em; font-weight:700;
+  background:var(--code-bg); color:#1E2A2B; padding:2px 6px; border-radius:3px;
+}
+pre{
+  font-family:'JetBrains Mono',monospace; font-size:15.5px; line-height:1.6;
+  background:var(--code-bg); color:var(--ink); border:2px solid var(--rule);
+  border-left:6px solid #B9AF96; border-radius:4px;
+  padding:16px 18px; overflow-x:auto; margin:0 0 16px; font-weight:500;
+}
+pre code{background:none; padding:0; font-size:inherit; font-weight:inherit; color:inherit}
+.fname{
+  font-family:'JetBrains Mono',monospace; font-size:12.5px; letter-spacing:.1em;
+  text-transform:uppercase; color:var(--ink-soft); margin:0 0 6px; font-weight:700;
+}
+.out{margin:0 0 16px}
+.out .tag{
+  font-family:'JetBrains Mono',monospace; font-size:12.5px; letter-spacing:.1em;
+  text-transform:uppercase; color:var(--green); margin:0 0 7px; font-weight:700;
+  display:block;
+}
+.out pre{background:var(--green-tint); border-color:#A9C6B2; border-left:6px solid var(--green); color:var(--green-ink)}
 
-.predict{border-left:4px solid var(--predict); background:#F7F2E6; padding:14px 18px; margin:18px 0}
-.predict b{color:var(--predict)}
-.out{border-left:4px solid var(--verified); background:#EAF1EC; padding:6px 18px; margin:14px 0}
-.out .tag{font-family:"JetBrains Mono",monospace; font-size:.72rem; color:var(--verified);
-  font-weight:700; display:block; margin:10px 0 -6px}
-.bug{border-left:4px solid var(--fault); background:#F7EBE8; padding:14px 18px; margin:18px 0}
-.bug b{color:var(--fault)}
-
-button.rev{font:600 .9rem Archivo,sans-serif; background:var(--signal); color:#fff;
-  border:0; padding:9px 16px; border-radius:3px; cursor:pointer; margin:6px 0}
-button.rev:hover{background:#0b544d}
-.ans{display:none; border-left:4px solid var(--signal); background:#E6EFEE;
-  padding:14px 18px; margin:6px 0 18px}
+/* predict and reveal */
+.predict{
+  border:2px dashed var(--ochre); border-radius:5px;
+  padding:16px 18px; margin:0 0 16px; background:var(--ochre-tint);
+}
+.predict b{color:var(--ochre)}
+.predict > pre{background:var(--card)}
+button.rev{
+  font-family:'DM Sans',sans-serif; font-size:16px; font-weight:700;
+  background:var(--teal); color:#FFFDF7; border:0; border-radius:4px;
+  padding:10px 18px; cursor:pointer; margin:4px 0 0;
+}
+button.rev:hover{background:var(--teal-deep)}
+.ans{display:none; margin-top:16px; padding-top:16px; border-top:2px solid var(--rule)}
 .ans.show{display:block}
+.ans > :last-child{margin-bottom:0}
+.bug{
+  background:#F7E4E1; border:2px solid var(--clay); border-left:8px solid var(--clay);
+  border-radius:5px; padding:14px 16px; margin:0 0 18px; color:#3A1512;
+}
+.bug b{color:var(--clay)}
+.flag{
+  background:#F7E4E1; border:2px solid var(--clay); border-left:8px solid var(--clay);
+  border-radius:5px; padding:14px 16px; margin:0 0 20px; font-size:16.5px; color:#3A1512;
+}
+.flag b{color:var(--clay)}
 
-table{border-collapse:collapse; width:100%; margin:18px 0; font-size:.92rem}
-th,td{border-bottom:1px solid var(--rule); padding:8px 10px; text-align:left;
-  vertical-align:top; overflow-wrap:anywhere}
-th{font-weight:600; background:var(--panel)}
+/* tables */
+table{border-collapse:collapse; width:100%; margin:0 0 16px; font-size:16.5px}
+th,td{border:2px solid var(--rule); padding:9px 11px; text-align:left; vertical-align:top;
+  overflow-wrap:anywhere}
+th{background:#EFE9DA; font-weight:700; font-size:15px; color:var(--teal-deep)}
 td code{font-size:.86em}
 
-.exits{margin:22px 0}
-.exit{border-top:1px solid var(--rule); padding:12px 0}
-.exit .lab{font-family:"JetBrains Mono",monospace; font-size:.76rem; font-weight:700;
-  color:var(--signal)}
-.exit p{margin:3px 0 0}
+/* exits */
+.exits{display:grid; gap:14px; grid-template-columns:1fr}
+@media(min-width:760px){.exits{grid-template-columns:repeat(3,1fr)}}
+.exit{border:2px solid var(--rule); border-radius:5px; padding:16px; background:var(--card)}
+.exit p{margin:0; font-size:16.5px}
+.exit .lab{
+  font-family:'JetBrains Mono',monospace; font-size:12.5px; letter-spacing:.1em;
+  text-transform:uppercase; margin:0 0 8px; font-weight:700; display:block;
+}
+.exit:nth-child(1){border-top:6px solid var(--green)}
+.exit:nth-child(1) .lab{color:var(--green)}
+.exit:nth-child(2){border-top:6px solid var(--ochre-line)}
+.exit:nth-child(2) .lab{color:var(--ochre)}
+.exit:nth-child(3){border-top:6px solid var(--clay)}
+.exit:nth-child(3) .lab{color:var(--clay)}
 
-.panel{background:var(--panel); border-top:3px solid var(--ink); padding:22px 24px; margin:52px 0 0}
-.panel h2{border:0; margin:0 0 10px; padding:0; font-size:1.3rem}
-.panel h3{margin:20px 0 4px; font-size:1rem}
-.panel p,.panel li{max-width:74ch; font-size:.95rem}
-.std{font-family:"JetBrains Mono",monospace; font-weight:700; color:var(--signal)}
-.mapnote{font-size:.82rem; color:var(--soft); margin-top:14px}
+/* teacher panel and the capstone block */
+section.panel{border-left:8px solid var(--clay)}
+section.panel > h2{color:var(--clay)}
+.panel p,.panel li{font-size:16.5px}
+.std{font-family:'JetBrains Mono',monospace; font-weight:700; color:var(--teal)}
+.mapnote{font-size:15px; color:var(--ink-soft); border-left:4px solid var(--rule); padding-left:14px}
 
-nav.pager{display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap;
-  border-top:2px solid var(--ink); margin-top:46px; padding-top:16px; font-weight:600}
-nav.pager a{text-decoration:none}
-nav.pager .none{color:var(--rule)}
+/* pager and footer */
+nav.pager{
+  max-width:900px; margin:0 auto; padding:8px 22px 34px;
+  display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap;
+  font-family:'JetBrains Mono',monospace; font-size:14px;
+}
+nav.pager a,nav.pager .none{
+  text-decoration:none; font-weight:700; border:2px solid var(--rule);
+  background:var(--card); border-radius:4px; padding:10px 14px;
+}
+nav.pager a{color:var(--teal)}
+nav.pager a:hover{background:#EFE9DA}
+nav.pager .none{color:var(--ink-soft); border-style:dashed}
+footer{
+  background:#EAE4D5; border-top:4px solid var(--teal); padding:22px 22px 36px;
+  font-size:15px; color:var(--ink-soft);
+}
+footer p{margin:0}
 
 /* hub */
-.grid{border-top:2px solid var(--ink); margin:30px 0 0}
-.row{display:grid; grid-template-columns:48px 76px 1fr; gap:16px;
-  border-bottom:1px solid var(--rule); padding:14px 0; align-items:baseline}
-.row .n{font-family:"Bricolage Grotesque",sans-serif; font-weight:700; font-size:1.5rem;
-  color:var(--signal)}
-.row .d{font-family:"JetBrains Mono",monospace; font-size:.82rem; color:var(--soft)}
-.row .t{font-weight:600; font-size:1.05rem}
+.grid{margin:0}
+.row{
+  border:2px solid var(--rule); border-left:8px solid var(--teal); border-radius:5px;
+  margin:0 0 12px; padding:14px 16px; background:var(--card);
+  display:grid; grid-template-columns:44px 84px 1fr; gap:6px 14px; align-items:baseline;
+}
+.row .n{font-family:'JetBrains Mono',monospace; font-size:24px; font-weight:700; color:var(--teal)}
+.row .d{font-family:'JetBrains Mono',monospace; font-size:13px; color:var(--ink-soft)}
+.row .t{font-weight:700; font-size:19px}
 .row .t a{text-decoration:none}
-.row .s{display:block; font-weight:400; font-size:.92rem; color:var(--soft); max-width:62ch}
-.row.off{opacity:.55}
-.row.off .n{color:var(--soft)}
-.flag{background:#F7F2E6; border-left:4px solid var(--predict); padding:14px 18px; margin:22px 0}
-ul.tight{margin:8px 0; padding-left:22px}
-ul.tight li{margin:3px 0}
-.two{display:grid; grid-template-columns:1fr 1fr; gap:0 34px}
+.row .s{display:block; font-weight:400; font-size:16px; color:var(--ink-soft); max-width:62ch}
+.row.off{border-left-color:var(--clay); background:#FBF9F3}
+.row.off .n{color:var(--clay)}
+
 @media (max-width:760px){
-  body{font-size:17px} .wrap{padding:0 18px 70px}
-  .serial{font-size:2.6rem} .top h1{font-size:1.6rem}
-  .row{grid-template-columns:38px 1fr; gap:6px 12px}
-  .row .d{grid-column:2} .row .t{grid-column:2} .two{grid-template-columns:1fr}
+  body{font-size:17px} main{padding:22px 16px 8px} header.top{padding:24px 16px 20px}
+  section{padding:18px 16px} .row{grid-template-columns:38px 1fr}
+  .row .d{grid-column:2} .row .t{grid-column:2}
   table{table-layout:fixed} th,td{padding:7px 8px}
 }
 @media print{
-  body{background:#fff; font-size:11pt} button.rev{display:none}
-  .ans{display:block} nav.pager{display:none} pre{border:1px solid #999}
+  body{background:#fff; font-size:11pt}
+  header.top{background:#fff; color:#111; border-bottom:3px solid #111}
+  header.top h1,header.top .sub,header.top .eyebrow,.pill b{color:#111}
+  .pill{border-color:#666}
+  button.rev{display:none} .ans{display:block}
+  nav.pager,footer{display:none}
+  section,.exit{background:#fff; break-inside:avoid} pre{border:1px solid #999}
+  a{color:#111}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important; animation:none!important}}
 </style>
 </head>
 <body>
-<div class="wrap">
-<header class="top"><div class="course">Advanced Python &middot; Wednesdays 4:00 to 5:30 &middot; Robofun, 110 West End Avenue</div><div class="bar"><div class="serial">04</div><h1>Messy files, and saying what you threw away</h1></div><p class="when">Wednesday 7 October 2026</p><p class="lede">Real data arrives dirty. Today you read a file off the disk, decide line by line what is usable, keep a record of what you rejected and why, and write your results back out to a second file.</p></header>
-<h2><span class="num">1</span>Opener<span class="mins">10 minutes</span></h2><p>From memory, no looking: what does <code>Counter("banana")</code> hand back? Write it exactly, brackets and all.</p><div class="predict"><b>Predict first.</b> Write it first.</div>
+<header class="top"><div class="wrap"><p class="eyebrow">Advanced Python &middot; Robofun &middot; Session 4 of 13</p><h1>Messy files, and saying what you threw away</h1><p class="sub">Real data arrives dirty. Today you read a file off the disk, decide line by line what is usable, keep a record of what you rejected and why, and write your results back out to a second file.</p><div class="dates"><span class="pill"><b>When</b> Wednesday 7 October 2026</span><span class="pill"><b>Time</b> 4:00 to 5:30</span><span class="pill"><b>Length</b> 90 minutes</span></div></div></header>
+<main><div class="wrap">
+
+<section class="opener"><p class="chunk-no">Section 1 &middot; 10 minutes</p><h2>Opener</h2><p>From memory, no looking: what does <code>Counter("banana")</code> hand back? Write it exactly, brackets and all.</p><div class="predict"><b>Predict first.</b> Write it first.
 <button class="rev" data-target="a14" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a14">Show the answer</button>
 <div class="ans" id="a14"><div class="out"><span class="tag">verified output</span><pre><code>Counter({&#x27;a&#x27;: 3, &#x27;n&#x27;: 2, &#x27;b&#x27;: 1})</code></pre></div>
-<p>Ordered by count, highest first. That ordering is a Counter feature, not a dictionary feature.</p></div>
-<h2><span class="num">2</span>The file, and the boundary<span class="mins">20 minutes</span></h2><p>Every program that reads from outside itself has a boundary, and the boundary is where programs break. Two things can go wrong before you even see a number: the file might not exist, and a line might not be a number.</p><p><code>try</code> and <code>except</code> let you say what to do instead of crashing.</p><pre><code>def read_lines(filename):
+<p>Ordered by count, highest first. That ordering is a Counter feature, not a dictionary feature.</p></div></div>
+</section>
+<section class="chunk"><p class="chunk-no">Section 2 &middot; 20 minutes</p><h2>The file, and the boundary</h2><p>Every program that reads from outside itself has a boundary, and the boundary is where programs break. Two things can go wrong before you even see a number: the file might not exist, and a line might not be a number.</p><p><code>try</code> and <code>except</code> let you say what to do instead of crashing.</p><pre><code>def read_lines(filename):
     &quot;&quot;&quot;Return every line in the file, or an empty list if it is missing.&quot;&quot;&quot;
     try:
         handle = open(filename, &quot;r&quot;)
@@ -138,10 +236,11 @@ ul.tight li{margin:3px 0}
     lines = handle.readlines()
     handle.close()
     return lines</code></pre>
-<div class="predict"><b>Predict first.</b> Why is <code>handle.readlines()</code> outside the <code>try</code> block rather than inside it?</div>
+<div class="predict"><b>Predict first.</b> Why is <code>handle.readlines()</code> outside the <code>try</code> block rather than inside it?
 <button class="rev" data-target="a15" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a15">Show the answer</button>
-<div class="ans" id="a15"><p>Because the only error being handled is the file not existing. Once <code>open</code> succeeds, a failure in <code>readlines</code> is a different problem and should not be quietly swallowed by an <code>except</code> written for something else.</p><p>Catch one named thing. Never write a bare <code>except:</code>. It hides bugs you have not met yet.</p></div>
-<h2><span class="num">3</span>Clean it<span class="mins">35 minutes</span></h2><p>The input file holds thirteen lines. Some have spaces around them, one has a comma stuck on, one is blank, one spells a number as a word, and one is negative. Here it is as it sits on disk.</p><p class="fname">readings_raw.txt</p>
+<div class="ans" id="a15"><p>Because the only error being handled is the file not existing. Once <code>open</code> succeeds, a failure in <code>readlines</code> is a different problem and should not be quietly swallowed by an <code>except</code> written for something else.</p><p>Catch one named thing. Never write a bare <code>except:</code>. It hides bugs you have not met yet.</p></div></div>
+</section>
+<section class="chunk"><p class="chunk-no">Section 3 &middot; 35 minutes</p><h2>Clean it</h2><p>The input file holds thirteen lines. Some have spaces around them, one has a comma stuck on, one is blank, one spells a number as a word, and one is negative. Here it is as it sits on disk.</p><p class="fname">readings_raw.txt</p>
 <pre><code>41
 58
   33
@@ -176,7 +275,7 @@ twelve
                 else:
                     good.append(value)
     return good, rejected</code></pre>
-<div class="predict"><b>Predict first.</b> Thirteen lines go in. How many numbers come out, and what is their total? You have seen this total before.</div>
+<div class="predict"><b>Predict first.</b> Thirteen lines go in. How many numbers come out, and what is their total? You have seen this total before.
 <button class="rev" data-target="a16" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a16">Show the answer</button>
 <div class="ans" id="a16"><div class="out"><span class="tag">verified output</span><pre><code>lines in the file: 13
 kept: [41, 58, 33, 58, 12, 77, 58, 60, 29, 77]
@@ -191,8 +290,9 @@ kept 10 readings
 rejected 3 lines
 total 503
 average 50.3</code></pre></div>
-<p>503 and 50.3. That is session 1's list, exactly. The dirty file held the same ten readings you have been working with since the first day, buried in three lines of rubbish.</p><p>Notice <code>else</code> attached to <code>try</code>. It runs only when no exception happened, which keeps the negative check out of the block that is watching for <code>ValueError</code>.</p></div>
-<div class="predict"><b>The rejected list is the point.</b> A program that silently drops three lines and reports an average is worse than one that crashes, because you will believe it. Say what you threw away and why, every time.</div><h2><span class="num">4</span>Write it back out<span class="mins">15 minutes</span></h2><p>Reading was <code>open(filename, "r")</code>. Writing is the same call with <code>"w"</code>, and then <code>handle.write</code> instead of <code>handle.readlines</code>. One line at a time, and you put the <code>\n</code> on yourself.</p><p class="fname">clean_readings.py, the report</p>
+<p>503 and 50.3. That is session 1's list, exactly. The dirty file held the same ten readings you have been working with since the first day, buried in three lines of rubbish.</p><p>Notice <code>else</code> attached to <code>try</code>. It runs only when no exception happened, which keeps the negative check out of the block that is watching for <code>ValueError</code>.</p></div></div>
+<div class="predict"><b>The rejected list is the point.</b> A program that silently drops three lines and reports an average is worse than one that crashes, because you will believe it. Say what you threw away and why, every time.</div></section>
+<section class="chunk"><p class="chunk-no">Section 4 &middot; 15 minutes</p><h2>Write it back out</h2><p>Reading was <code>open(filename, "r")</code>. Writing is the same call with <code>"w"</code>, and then <code>handle.write</code> instead of <code>handle.readlines</code>. One line at a time, and you put the <code>\n</code> on yourself.</p><p class="fname">clean_readings.py, the report</p>
 <pre><code>def write_report(filename, good, rejected):
     &quot;&quot;&quot;Write a short report next to the data.&quot;&quot;&quot;
     handle = open(filename, &quot;w&quot;)
@@ -204,16 +304,18 @@ average 50.3</code></pre></div>
     handle.write(f&quot;total {total}\n&quot;)
     handle.write(f&quot;average {total / len(good)}\n&quot;)
     handle.close()</code></pre>
-<div class="predict"><b>Predict first.</b> Suppose every line in the file was rubbish, so <code>good</code> is empty. Which line of <code>write_report</code> breaks, and what does Python say?</div>
+<div class="predict"><b>Predict first.</b> Suppose every line in the file was rubbish, so <code>good</code> is empty. Which line of <code>write_report</code> breaks, and what does Python say?
 <button class="rev" data-target="a17" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a17">Show the answer</button>
-<div class="ans" id="a17"><p>The average line. <code>total / len(good)</code> divides by zero and Python stops with <code>ZeroDivisionError: division by zero</code>, the same error session 2's <code>average_of([])</code> gave. The report file is left half written, with the first three lines in it and no average.</p><p>That is a boundary too. A file with nothing usable in it is a real case, and a report that says <code>kept 0 readings</code> is more honest than a crash. Guard the average with an <code>if</code> before you divide.</p></div>
-<div class="exits"><div class="exit"><span class="lab">FLOOR</span><p>Your program opens the file, survives a missing file without crashing, and prints how many lines it read.</p></div><div class="exit"><span class="lab">MIDDLE</span><p>Floor, plus the full clean with a rejected list carrying reasons, plus a written report file, plus total 503 confirmed against session 1.</p></div><div class="exit"><span class="lab">STRETCH</span><p>Middle, plus decide and defend a fourth rejection rule of your own, such as a reading above 200. Then write the rejected lines to their own file so someone could fix them by hand and re-run.</p></div></div><section class="panel"><h2>Teacher panel</h2><h3>Concept this session re-touches</h3><p>Session 1's reading list and its total of 503, arriving this time as a file that has to be cleaned before the arithmetic works. Session 2's returning functions carry the results back.</p><h3>Standards</h3><table><tr><th>Code</th><th>Statement</th></tr><tr><td class="std">6.SP.B.5.a</td><td>Summarize numerical data sets in relation to their context, such as by reporting the number of observations.</td></tr>
+<div class="ans" id="a17"><p>The average line. <code>total / len(good)</code> divides by zero and Python stops with <code>ZeroDivisionError: division by zero</code>, the same error session 2's <code>average_of([])</code> gave. The report file is left half written, with the first three lines in it and no average.</p><p>That is a boundary too. A file with nothing usable in it is a real case, and a report that says <code>kept 0 readings</code> is more honest than a crash. Guard the average with an <code>if</code> before you divide.</p></div></div>
+</section>
+<section class="brief"><h2>Exits</h2><div class="exits"><div class="exit"><span class="lab">FLOOR</span><p>Your program opens the file, survives a missing file without crashing, and prints how many lines it read.</p></div><div class="exit"><span class="lab">MIDDLE</span><p>Floor, plus the full clean with a rejected list carrying reasons, plus a written report file, plus total 503 confirmed against session 1.</p></div><div class="exit"><span class="lab">STRETCH</span><p>Middle, plus decide and defend a fourth rejection rule of your own, such as a reading above 200. Then write the rejected lines to their own file so someone could fix them by hand and re-run.</p></div></div></section>
+<section class="panel"><h2>Teacher panel</h2><h3>Concept this session re-touches</h3><p>Session 1's reading list and its total of 503, arriving this time as a file that has to be cleaned before the arithmetic works. Session 2's returning functions carry the results back.</p><h3>Standards</h3><table><tr><th>Code</th><th>Statement</th></tr><tr><td class="std">6.SP.B.5.a</td><td>Summarize numerical data sets in relation to their context, such as by reporting the number of observations.</td></tr>
 <tr><td class="std">6.SP.B.5.c</td><td>Summarize numerical data sets in relation to their context, such as by giving quantitative measures of center (median and/or mean) and variability (interquartile range and/or mean absolute deviation), as well as describing any overall pattern and any striking deviations from the overall pattern with reference to the context in which the data were gathered.</td></tr>
 <tr><td class="std">MP6</td><td>Attend to precision.</td></tr>
 </table><p class="mapnote">Mapped to the Common Core State Standards for Mathematics (Multi-State). Each code and its wording was retrieved from the CASE Network through the Learning Commons Knowledge Graph on 12 September 2026. New York's own Computer Science and Digital Fluency framework and the CSTA standards are not carried in that graph, so no code from either appears anywhere on this site.</p><p class="mapnote">Two deliberate deviations from the retrieved text. The "for example…" illustrations attached to 7.SP.C.6 and 8.EE.A.1 are omitted, since they illustrate rather than state the standard. And where the source carries markup, italics or mathematical notation, it is rendered as plain text: 7.SP.C.5's fraction appears here as 1/2, and the italic stem of 6.SP.B.5.a and 6.SP.B.5.c is plain. Nothing else was shortened. Codes 6.SP.B.5.a and 6.SP.B.5.c are the lettered children of 6.SP.B.5, whose own statement is only a stem ending in a colon; the children carry that stem and are quoted in full.</p><h3>Timing</h3><p>10 opener, 20 the boundary, 35 cleaning, 15 report writing, 10 exits. Typing the dirty file by hand wastes time, so put <code>readings_raw.txt</code> on the machines beforehand.</p><h3>What to watch for</h3><p>Two failures to expect. First, <code>int("  33")</code> actually works in Python, so some students will conclude <code>.strip()</code> is pointless. It is not: <code>int("77,")</code> fails, which is why the comma is in the file. Second, students will write a bare <code>except:</code> because it is shorter. Do not allow it.</p><p>The reveal that this is session 1's data lands well if you do not telegraph it. Let them compute 503 and notice.</p><h3>Files</h3><p><code>clean_readings.py</code> writes and then reads <code>readings_raw.txt</code>, and writes <code>readings_report.txt</code>. Verified on Python 3.12.3.</p><h3>Lifted this week</h3><p>File reading and writing, <code>try</code> and <code>except</code> with a named error, <code>try/else</code>, <code>.strip()</code>, <code>.append()</code>, returning two values at once.</p></section>
+</div></main>
 <nav class="pager"><a href="wed03_counting.html">&larr; Session 3: counting and cracking</a><a href="advanced_python_hub.html">Course hub</a><a href="wed05_transposition.html">Session 5: moving letters &rarr;</a></nav>
-
-</div>
+<footer><div class="wrap"><p>Advanced Python, Robofun Fall 2026. Second printing, 13 September 2026. Built by a generator; the page, not the file, is the source of truth for output, because every quoted line came from a run.</p></div></footer>
 <script>
 document.addEventListener('click', function(e){
   var b = e.target.closest('button.rev');

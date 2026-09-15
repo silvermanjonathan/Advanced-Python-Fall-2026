@@ -5,7 +5,7 @@ from days38 import exits
 from stds import panel
 
 CAPSTONE = (
-    '<section class="panel" style="border-top-color:#8A5A00;background:#F7F2E6">'
+    '<section class="panel" style="border-left-color:var(--ochre-line);background:var(--ochre-tint)">'
     "<h2>Capstone thread</h2>"
     "<p>The capstone is a thread from here to 16 December, not a session. Before any "
     "code is written, one page on paper is required, and it is the same page for "

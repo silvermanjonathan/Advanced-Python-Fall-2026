@@ -4,127 +4,224 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Session 12: objects that remember</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=DM+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --paper:#F1F3F2; --ink:#15303C; --soft:#4A6472; --rule:#BFCBCE;
-  --signal:#0E6B62; --predict:#8A5A00; --verified:#185E3B; --fault:#8C2B18;
-  --code-bg:#0E2430; --code-fg:#DCE6E4; --panel:#E4E9E8;
+  --paper:#F4F0E6; --card:#FFFDF7; --ink:#17181B; --ink-soft:#4A4D53; --rule:#D3CBB8;
+  --teal:#0E4D52; --teal-deep:#0A3A3E; --clay:#9C2B22;
+  --ochre:#8A5A00; --ochre-line:#D99B12; --ochre-tint:#FBF2DC;
+  --green:#1D5B39; --green-tint:#E8F1E9; --green-ink:#122B1C;
+  --code-bg:#EDE7D9;
 }
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
 body{
   margin:0; background:var(--paper); color:var(--ink);
-  font-family:Archivo,system-ui,sans-serif; font-size:19px; line-height:1.6;
+  font-family:'DM Sans',system-ui,sans-serif; font-size:18px; font-weight:500;
+  line-height:1.65;
 }
-.wrap{max-width:1000px; margin:0 auto; padding:0 28px 90px}
-p,li{max-width:68ch}
-h1,h2,h3{font-family:"Bricolage Grotesque",Archivo,sans-serif; line-height:1.12; margin:0}
-a{color:var(--signal)}
-a:focus-visible,button:focus-visible{outline:3px solid var(--signal); outline-offset:3px}
+.wrap{max-width:900px; margin:0 auto}
+a{color:var(--teal)}
+a:focus-visible,button:focus-visible{outline:3px solid var(--ochre-line); outline-offset:3px}
 
 /* masthead */
-.top{border-bottom:2px solid var(--ink); padding:22px 0 14px; margin-bottom:34px}
-.top .course{font-size:.8rem; letter-spacing:.06em; color:var(--soft); font-weight:600}
-.top .bar{display:flex; gap:22px; align-items:baseline; flex-wrap:wrap; margin-top:6px}
-.serial{font-family:"Bricolage Grotesque",sans-serif; font-weight:700; font-size:3.6rem;
-  line-height:.85; color:var(--signal)}
-.top h1{font-size:2.1rem; font-weight:700; flex:1 1 340px}
-.when{font-family:"JetBrains Mono",monospace; font-size:.85rem; color:var(--soft);
-  max-width:none}
+header.top{
+  background:var(--teal); color:#FFFDF7;
+  border-bottom:6px solid var(--ochre-line); padding:30px 22px 26px;
+}
+.eyebrow{
+  font-family:'JetBrains Mono',monospace; font-size:13px; letter-spacing:.14em;
+  text-transform:uppercase; color:#F2D89B; margin:0 0 10px; font-weight:700;
+}
+h1{
+  font-family:'Bricolage Grotesque','DM Sans',sans-serif; font-weight:800;
+  font-size:clamp(29px,4.8vw,44px); line-height:1.1; margin:0 0 10px;
+}
+h2{
+  font-family:'Bricolage Grotesque','DM Sans',sans-serif; font-weight:700;
+  font-size:25px; line-height:1.2; margin:0 0 12px; color:var(--teal-deep);
+}
+h3{
+  font-family:'Bricolage Grotesque','DM Sans',sans-serif; font-weight:700;
+  font-size:20px; margin:18px 0 8px; color:var(--teal-deep);
+}
+header.top h1,header.top h2{color:#FFFDF7}
+.sub{color:#EAE3D2; margin:0 0 16px; font-size:19px; font-weight:400; max-width:70ch}
+.dates{
+  display:flex; flex-wrap:wrap; gap:10px; margin-top:16px;
+  font-family:'JetBrains Mono',monospace; font-size:13.5px;
+}
+.pill{
+  border:2px solid rgba(255,253,247,.4); border-radius:999px; padding:5px 13px;
+  background:rgba(255,253,247,.08);
+}
+.pill b{color:#F2D89B; font-weight:700}
 
-/* blocks */
-h2{font-size:1.5rem; font-weight:700; margin:48px 0 4px; padding-top:18px;
-  border-top:1px solid var(--rule)}
-.top + h2, .top + .flag + h2{border-top:0; padding-top:0; margin-top:30px}
-h2 .num{color:var(--signal); font-weight:500; margin-right:.5em}
-h3{font-size:1.12rem; font-weight:600; margin:28px 0 6px}
-.lede{font-size:1.2rem; color:var(--soft); max-width:62ch; margin:10px 0 0}
-.mins{font-family:"JetBrains Mono",monospace; font-size:.78rem; color:var(--soft);
-  display:block; margin-top:2px}
+/* sections */
+main{padding:28px 22px 12px}
+section{
+  background:var(--card); border:2px solid var(--rule); border-radius:6px;
+  padding:22px 24px; margin:0 0 20px;
+}
+section.opener{border-left:8px solid var(--green)}
+section.chunk{border-left:8px solid var(--ochre-line)}
+section.brief{border-left:8px solid var(--teal)}
+.chunk-no{
+  font-family:'JetBrains Mono',monospace; font-size:13px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--ochre); margin:0 0 8px; font-weight:700;
+}
+p{margin:0 0 14px; max-width:72ch}
+ul,ol{margin:0 0 14px; padding-left:24px}
+li{margin:0 0 8px; max-width:70ch}
+ul.tight li{margin:0 0 5px}
+.two{display:grid; gap:0 30px; grid-template-columns:1fr}
+@media(min-width:760px){.two{grid-template-columns:1fr 1fr}}
 
-pre{background:var(--code-bg); color:var(--code-fg); padding:18px 20px; overflow-x:auto;
-  font-family:"JetBrains Mono",monospace; font-size:16px; line-height:1.5;
-  border-radius:3px; margin:16px 0}
-code{font-family:"JetBrains Mono",monospace; font-size:.92em;
-  background:var(--panel); padding:1px 5px; border-radius:2px}
-pre code{background:none; padding:0; font-size:inherit}
-.fname{font-family:"JetBrains Mono",monospace; font-size:.78rem; color:var(--soft);
-  margin:16px 0 -10px}
+/* code and output */
+code,pre{
+  /* JetBrains Mono ligatures turn != into a slashed equals and <= into a single
+     glyph; students then type a character that does not exist. Keep every
+     operator as the keys that produce it. */
+  font-variant-ligatures:none; font-feature-settings:"liga" 0,"calt" 0,"dlig" 0;
+}
+code{
+  font-family:'JetBrains Mono',monospace; font-size:.9em; font-weight:700;
+  background:var(--code-bg); color:#1E2A2B; padding:2px 6px; border-radius:3px;
+}
+pre{
+  font-family:'JetBrains Mono',monospace; font-size:15.5px; line-height:1.6;
+  background:var(--code-bg); color:var(--ink); border:2px solid var(--rule);
+  border-left:6px solid #B9AF96; border-radius:4px;
+  padding:16px 18px; overflow-x:auto; margin:0 0 16px; font-weight:500;
+}
+pre code{background:none; padding:0; font-size:inherit; font-weight:inherit; color:inherit}
+.fname{
+  font-family:'JetBrains Mono',monospace; font-size:12.5px; letter-spacing:.1em;
+  text-transform:uppercase; color:var(--ink-soft); margin:0 0 6px; font-weight:700;
+}
+.out{margin:0 0 16px}
+.out .tag{
+  font-family:'JetBrains Mono',monospace; font-size:12.5px; letter-spacing:.1em;
+  text-transform:uppercase; color:var(--green); margin:0 0 7px; font-weight:700;
+  display:block;
+}
+.out pre{background:var(--green-tint); border-color:#A9C6B2; border-left:6px solid var(--green); color:var(--green-ink)}
 
-.predict{border-left:4px solid var(--predict); background:#F7F2E6; padding:14px 18px; margin:18px 0}
-.predict b{color:var(--predict)}
-.out{border-left:4px solid var(--verified); background:#EAF1EC; padding:6px 18px; margin:14px 0}
-.out .tag{font-family:"JetBrains Mono",monospace; font-size:.72rem; color:var(--verified);
-  font-weight:700; display:block; margin:10px 0 -6px}
-.bug{border-left:4px solid var(--fault); background:#F7EBE8; padding:14px 18px; margin:18px 0}
-.bug b{color:var(--fault)}
-
-button.rev{font:600 .9rem Archivo,sans-serif; background:var(--signal); color:#fff;
-  border:0; padding:9px 16px; border-radius:3px; cursor:pointer; margin:6px 0}
-button.rev:hover{background:#0b544d}
-.ans{display:none; border-left:4px solid var(--signal); background:#E6EFEE;
-  padding:14px 18px; margin:6px 0 18px}
+/* predict and reveal */
+.predict{
+  border:2px dashed var(--ochre); border-radius:5px;
+  padding:16px 18px; margin:0 0 16px; background:var(--ochre-tint);
+}
+.predict b{color:var(--ochre)}
+.predict > pre{background:var(--card)}
+button.rev{
+  font-family:'DM Sans',sans-serif; font-size:16px; font-weight:700;
+  background:var(--teal); color:#FFFDF7; border:0; border-radius:4px;
+  padding:10px 18px; cursor:pointer; margin:4px 0 0;
+}
+button.rev:hover{background:var(--teal-deep)}
+.ans{display:none; margin-top:16px; padding-top:16px; border-top:2px solid var(--rule)}
 .ans.show{display:block}
+.ans > :last-child{margin-bottom:0}
+.bug{
+  background:#F7E4E1; border:2px solid var(--clay); border-left:8px solid var(--clay);
+  border-radius:5px; padding:14px 16px; margin:0 0 18px; color:#3A1512;
+}
+.bug b{color:var(--clay)}
+.flag{
+  background:#F7E4E1; border:2px solid var(--clay); border-left:8px solid var(--clay);
+  border-radius:5px; padding:14px 16px; margin:0 0 20px; font-size:16.5px; color:#3A1512;
+}
+.flag b{color:var(--clay)}
 
-table{border-collapse:collapse; width:100%; margin:18px 0; font-size:.92rem}
-th,td{border-bottom:1px solid var(--rule); padding:8px 10px; text-align:left;
-  vertical-align:top; overflow-wrap:anywhere}
-th{font-weight:600; background:var(--panel)}
+/* tables */
+table{border-collapse:collapse; width:100%; margin:0 0 16px; font-size:16.5px}
+th,td{border:2px solid var(--rule); padding:9px 11px; text-align:left; vertical-align:top;
+  overflow-wrap:anywhere}
+th{background:#EFE9DA; font-weight:700; font-size:15px; color:var(--teal-deep)}
 td code{font-size:.86em}
 
-.exits{margin:22px 0}
-.exit{border-top:1px solid var(--rule); padding:12px 0}
-.exit .lab{font-family:"JetBrains Mono",monospace; font-size:.76rem; font-weight:700;
-  color:var(--signal)}
-.exit p{margin:3px 0 0}
+/* exits */
+.exits{display:grid; gap:14px; grid-template-columns:1fr}
+@media(min-width:760px){.exits{grid-template-columns:repeat(3,1fr)}}
+.exit{border:2px solid var(--rule); border-radius:5px; padding:16px; background:var(--card)}
+.exit p{margin:0; font-size:16.5px}
+.exit .lab{
+  font-family:'JetBrains Mono',monospace; font-size:12.5px; letter-spacing:.1em;
+  text-transform:uppercase; margin:0 0 8px; font-weight:700; display:block;
+}
+.exit:nth-child(1){border-top:6px solid var(--green)}
+.exit:nth-child(1) .lab{color:var(--green)}
+.exit:nth-child(2){border-top:6px solid var(--ochre-line)}
+.exit:nth-child(2) .lab{color:var(--ochre)}
+.exit:nth-child(3){border-top:6px solid var(--clay)}
+.exit:nth-child(3) .lab{color:var(--clay)}
 
-.panel{background:var(--panel); border-top:3px solid var(--ink); padding:22px 24px; margin:52px 0 0}
-.panel h2{border:0; margin:0 0 10px; padding:0; font-size:1.3rem}
-.panel h3{margin:20px 0 4px; font-size:1rem}
-.panel p,.panel li{max-width:74ch; font-size:.95rem}
-.std{font-family:"JetBrains Mono",monospace; font-weight:700; color:var(--signal)}
-.mapnote{font-size:.82rem; color:var(--soft); margin-top:14px}
+/* teacher panel and the capstone block */
+section.panel{border-left:8px solid var(--clay)}
+section.panel > h2{color:var(--clay)}
+.panel p,.panel li{font-size:16.5px}
+.std{font-family:'JetBrains Mono',monospace; font-weight:700; color:var(--teal)}
+.mapnote{font-size:15px; color:var(--ink-soft); border-left:4px solid var(--rule); padding-left:14px}
 
-nav.pager{display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap;
-  border-top:2px solid var(--ink); margin-top:46px; padding-top:16px; font-weight:600}
-nav.pager a{text-decoration:none}
-nav.pager .none{color:var(--rule)}
+/* pager and footer */
+nav.pager{
+  max-width:900px; margin:0 auto; padding:8px 22px 34px;
+  display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap;
+  font-family:'JetBrains Mono',monospace; font-size:14px;
+}
+nav.pager a,nav.pager .none{
+  text-decoration:none; font-weight:700; border:2px solid var(--rule);
+  background:var(--card); border-radius:4px; padding:10px 14px;
+}
+nav.pager a{color:var(--teal)}
+nav.pager a:hover{background:#EFE9DA}
+nav.pager .none{color:var(--ink-soft); border-style:dashed}
+footer{
+  background:#EAE4D5; border-top:4px solid var(--teal); padding:22px 22px 36px;
+  font-size:15px; color:var(--ink-soft);
+}
+footer p{margin:0}
 
 /* hub */
-.grid{border-top:2px solid var(--ink); margin:30px 0 0}
-.row{display:grid; grid-template-columns:48px 76px 1fr; gap:16px;
-  border-bottom:1px solid var(--rule); padding:14px 0; align-items:baseline}
-.row .n{font-family:"Bricolage Grotesque",sans-serif; font-weight:700; font-size:1.5rem;
-  color:var(--signal)}
-.row .d{font-family:"JetBrains Mono",monospace; font-size:.82rem; color:var(--soft)}
-.row .t{font-weight:600; font-size:1.05rem}
+.grid{margin:0}
+.row{
+  border:2px solid var(--rule); border-left:8px solid var(--teal); border-radius:5px;
+  margin:0 0 12px; padding:14px 16px; background:var(--card);
+  display:grid; grid-template-columns:44px 84px 1fr; gap:6px 14px; align-items:baseline;
+}
+.row .n{font-family:'JetBrains Mono',monospace; font-size:24px; font-weight:700; color:var(--teal)}
+.row .d{font-family:'JetBrains Mono',monospace; font-size:13px; color:var(--ink-soft)}
+.row .t{font-weight:700; font-size:19px}
 .row .t a{text-decoration:none}
-.row .s{display:block; font-weight:400; font-size:.92rem; color:var(--soft); max-width:62ch}
-.row.off{opacity:.55}
-.row.off .n{color:var(--soft)}
-.flag{background:#F7F2E6; border-left:4px solid var(--predict); padding:14px 18px; margin:22px 0}
-ul.tight{margin:8px 0; padding-left:22px}
-ul.tight li{margin:3px 0}
-.two{display:grid; grid-template-columns:1fr 1fr; gap:0 34px}
+.row .s{display:block; font-weight:400; font-size:16px; color:var(--ink-soft); max-width:62ch}
+.row.off{border-left-color:var(--clay); background:#FBF9F3}
+.row.off .n{color:var(--clay)}
+
 @media (max-width:760px){
-  body{font-size:17px} .wrap{padding:0 18px 70px}
-  .serial{font-size:2.6rem} .top h1{font-size:1.6rem}
-  .row{grid-template-columns:38px 1fr; gap:6px 12px}
-  .row .d{grid-column:2} .row .t{grid-column:2} .two{grid-template-columns:1fr}
+  body{font-size:17px} main{padding:22px 16px 8px} header.top{padding:24px 16px 20px}
+  section{padding:18px 16px} .row{grid-template-columns:38px 1fr}
+  .row .d{grid-column:2} .row .t{grid-column:2}
   table{table-layout:fixed} th,td{padding:7px 8px}
 }
 @media print{
-  body{background:#fff; font-size:11pt} button.rev{display:none}
-  .ans{display:block} nav.pager{display:none} pre{border:1px solid #999}
+  body{background:#fff; font-size:11pt}
+  header.top{background:#fff; color:#111; border-bottom:3px solid #111}
+  header.top h1,header.top .sub,header.top .eyebrow,.pill b{color:#111}
+  .pill{border-color:#666}
+  button.rev{display:none} .ans{display:block}
+  nav.pager,footer{display:none}
+  section,.exit{background:#fff; break-inside:avoid} pre{border:1px solid #999}
+  a{color:#111}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important; animation:none!important}}
 </style>
 </head>
 <body>
-<div class="wrap">
-<header class="top"><div class="course">Advanced Python &middot; Wednesdays 4:00 to 5:30 &middot; Robofun, 110 West End Avenue</div><div class="bar"><div class="serial">12</div><h1>Objects that remember their own history</h1></div><p class="when">Wednesday 9 December 2026</p><p class="lede">Tracking four moving sparks takes five lists kept in step by hand, and the lists are held together by nothing but your attention. Today each spark is one object that carries its own position, its own speed, and its own trail.</p></header>
-<h2><span class="num">1</span>Opener<span class="mins">10 minutes</span></h2><p>Session 3 showed two lists kept in step to count letters. Here are five, tracking four sparks that are being pulled downward one frame at a time.</p><p class="fname">sparks_parallel.py</p>
+<header class="top"><div class="wrap"><p class="eyebrow">Advanced Python &middot; Robofun &middot; Session 12 of 13</p><h1>Objects that remember their own history</h1><p class="sub">Tracking four moving sparks takes five lists kept in step by hand, and the lists are held together by nothing but your attention. Today each spark is one object that carries its own position, its own speed, and its own trail.</p><div class="dates"><span class="pill"><b>When</b> Wednesday 9 December 2026</span><span class="pill"><b>Time</b> 4:00 to 5:30</span><span class="pill"><b>Length</b> 90 minutes</span></div></div></header>
+<main><div class="wrap">
+
+<section class="opener"><p class="chunk-no">Section 1 &middot; 10 minutes</p><h2>Opener</h2><p>Session 3 showed two lists kept in step to count letters. Here are five, tracking four sparks that are being pulled downward one frame at a time.</p><p class="fname">sparks_parallel.py</p>
 <pre><code>xs = [100, 100, 100, 100]
 ys = [500, 500, 500, 500]
 dxs = [2, -1, 3, 0]
@@ -135,7 +232,7 @@ ys.pop(1)
 dxs.pop(1)
 dys.pop(1)
 # colors.pop(1) is missing on purpose</code></pre>
-<div class="predict"><b>Predict first.</b> Before the removal, spark 2 was red. What colour is it afterwards, and what else is now wrong?</div>
+<div class="predict"><b>Predict first.</b> Before the removal, spark 2 was red. What colour is it afterwards, and what else is now wrong?
 <button class="rev" data-target="a39" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a39">Show the answer</button>
 <div class="ans" id="a39"><div class="out"><span class="tag">verified output</span><pre><code>frame 2
   spark 0: x=106 y=488 dy=-3 gold
@@ -148,8 +245,9 @@ after removing from four lists but forgetting the fifth:
   spark 0: x=106 y=488 gold
   spark 1: x=109 y=485 orange
   spark 2: x=100 y=494 red</code></pre></div>
-<p>The spark that was at x=109 was red and is now orange. Every colour after the removal point is off by one, and the program does not complain, because nothing in it knows those five lists were ever related.</p><p>There is a second problem that is worse. You cannot hand one spark to a function. You have to hand over five lists and an index, and hope the caller keeps them together.</p></div>
-<h2><span class="num">2</span>One spark, one object<span class="mins">30 minutes</span></h2><p>One line in the class below needs explaining first. A spark is launched with a speed and an angle, but the program has to move it in two separate directions each frame: some amount across, and some amount up. Splitting one speed-and-angle into those two amounts is what <code>cos</code> and <code>sin</code> do.</p><p>Speed 10 at 60 degrees gives 5.0 across and 8.66 up. You can check those two numbers are right without knowing any trigonometry: 5.0 squared plus 8.66 squared is 100, and the speed squared is also 100. The across-amount and the up-amount always fit the original speed exactly.</p><p><code>math.radians</code> is a unit change, nothing more. Python's <code>cos</code> and <code>sin</code> want radians and you are thinking in degrees, so you convert. Treat all three as tools you are handed today.</p><p class="fname">plume.py</p>
+<p>The spark that was at x=109 was red and is now orange. Every colour after the removal point is off by one, and the program does not complain, because nothing in it knows those five lists were ever related.</p><p>There is a second problem that is worse. You cannot hand one spark to a function. You have to hand over five lists and an index, and hope the caller keeps them together.</p></div></div>
+</section>
+<section class="chunk"><p class="chunk-no">Section 2 &middot; 30 minutes</p><h2>One spark, one object</h2><p>One line in the class below needs explaining first. A spark is launched with a speed and an angle, but the program has to move it in two separate directions each frame: some amount across, and some amount up. Splitting one speed-and-angle into those two amounts is what <code>cos</code> and <code>sin</code> do.</p><p>Speed 10 at 60 degrees gives 5.0 across and 8.66 up. You can check those two numbers are right without knowing any trigonometry: 5.0 squared plus 8.66 squared is 100, and the speed squared is also 100. The across-amount and the up-amount always fit the original speed exactly.</p><p><code>math.radians</code> is a unit change, nothing more. Python's <code>cos</code> and <code>sin</code> want radians and you are thinking in degrees, so you convert. Treat all three as tools you are handed today.</p><p class="fname">plume.py</p>
 <pre><code>class Particle:
     &quot;&quot;&quot;One thrown speck that keeps a trail of where it has been.&quot;&quot;&quot;
 
@@ -169,10 +267,11 @@ after removing from four lists but forgetting the fifth:
         self.trail.append((self.x, self.y))
         if self.y &gt; HEIGHT - 40:
             self.alive = 0</code></pre>
-<div class="predict"><b>Predict first.</b> Why is there a minus sign on <code>self.dy</code> in <code>__init__</code> but a plus on <code>GRAVITY</code> in <code>step</code>?</div>
+<div class="predict"><b>Predict first.</b> Why is there a minus sign on <code>self.dy</code> in <code>__init__</code> but a plus on <code>GRAVITY</code> in <code>step</code>?
 <button class="rev" data-target="a40" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a40">Show the answer</button>
-<div class="ans" id="a40"><p>Because the screen's y axis points down. <code>dy</code> is how much <code>y</code> changes each frame, so a positive <code>dy</code> moves the particle down the screen and a negative <code>dy</code> moves it up. An angle of 90 degrees means straight up, which on screen means y decreasing, so the initial dy has to be negative. Gravity pulls down the screen, which is y increasing, so it adds.</p><p>This is the coordinate system from session 5's grid, with one axis flipped relative to the one you use in maths class. Say that out loud every time it comes up, because it never stops causing bugs.</p></div>
-<p><code>self</code> is the particular spark this call is about. <code>self.x</code> is that spark's own x, not shared with any other. That one idea replaces all five lists and the comment.</p><h2><span class="num">3</span>A list of objects<span class="mins">25 minutes</span></h2><pre><code>running = 1
+<div class="ans" id="a40"><p>Because the screen's y axis points down. <code>dy</code> is how much <code>y</code> changes each frame, so a positive <code>dy</code> moves the particle down the screen and a negative <code>dy</code> moves it up. An angle of 90 degrees means straight up, which on screen means y decreasing, so the initial dy has to be negative. Gravity pulls down the screen, which is y increasing, so it adds.</p><p>This is the coordinate system from session 5's grid, with one axis flipped relative to the one you use in maths class. Say that out loud every time it comes up, because it never stops causing bugs.</p></div></div>
+<p><code>self</code> is the particular spark this call is about. <code>self.x</code> is that spark's own x, not shared with any other. That one idea replaces all five lists and the comment.</p></section>
+<section class="chunk"><p class="chunk-no">Section 3 &middot; 25 minutes</p><h2>A list of objects</h2><pre><code>running = 1
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -185,20 +284,22 @@ while running:
         p.draw(screen)
     pygame.display.flip()
     clock.tick(60)</code></pre>
-<div class="predict"><b>Predict first.</b> 120 particles launched from the vent at speeds 6 to 11 and angles 60 to 120 degrees. After 240 frames, how many are still in the air, and how high did the highest one get?</div>
+<div class="predict"><b>Predict first.</b> 120 particles launched from the vent at speeds 6 to 11 and angles 60 to 120 degrees. After 240 frames, how many are still in the air, and how high did the highest one get?
 <button class="rev" data-target="a41" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a41">Show the answer</button>
 <div class="ans" id="a41"><div class="out"><span class="tag">verified from a headless run</span><pre><code>frames run: 241
 particles: 120, still airborne: 0, landed: 120
 highest point reached: y=64.2 (ground is y=560)
 trail lengths: shortest 92, longest 183</code></pre></div>
-<p>All 120 have landed within four seconds. The highest reached y=64.2, which is near the top of an 800 by 600 window, about 500 pixels above the vent.</p><p>The trail lengths are the useful number: 92 frames for the shortest flight and 183 for the longest, which is exactly what a spread of launch speeds and angles should produce. Every one of those trails lives inside its own object, and no list is keeping them in step.</p></div>
-<p>The loop has the same shape as the histogram in session 10: <code>while running:</code>, the QUIT listener, <code>clock.tick(60)</code>, and a window that never closes itself. Objects changed what is in the loop, not the loop.</p><div class="exits"><div class="exit"><span class="lab">FLOOR</span><p>You can say what went wrong in the opener, and a <code>Particle</code> class exists with <code>__init__</code> and <code>step</code>, and one particle moves and falls on screen.</p></div><div class="exit"><span class="lab">MIDDLE</span><p>Floor, plus a list of 120 particles all stepping in one loop, plus trails drawn, plus you can explain the minus sign on the initial dy.</p></div><div class="exit"><span class="lab">STRETCH</span><p>Middle, plus colour each particle by its current vertical speed so the rising ones differ from the falling ones. Then add the shock canopy: make the trail brighter near the top of the arc, where dy passes through zero.</p></div></div><section class="panel"><h2>Teacher panel</h2><h3>Concept this session re-touches</h3><p>The parallel list problem from session 3, now solved properly. Also session 5's row and column coordinates, reappearing as screen coordinates with the y axis flipped.</p><h3>Standards</h3><table><tr><th>Code</th><th>Statement</th></tr><tr><td class="std">6.NS.C.8</td><td>Solve real-world and mathematical problems by graphing points in all four quadrants of the coordinate plane. Include use of coordinates and absolute value to find distances between points with the same first coordinate or the same second coordinate.</td></tr>
+<p>All 120 have landed within four seconds. The highest reached y=64.2, which is near the top of an 800 by 600 window, about 500 pixels above the vent.</p><p>The trail lengths are the useful number: 92 frames for the shortest flight and 183 for the longest, which is exactly what a spread of launch speeds and angles should produce. Every one of those trails lives inside its own object, and no list is keeping them in step.</p></div></div>
+<p>The loop has the same shape as the histogram in session 10: <code>while running:</code>, the QUIT listener, <code>clock.tick(60)</code>, and a window that never closes itself. Objects changed what is in the loop, not the loop.</p></section>
+<section class="brief"><h2>Exits</h2><div class="exits"><div class="exit"><span class="lab">FLOOR</span><p>You can say what went wrong in the opener, and a <code>Particle</code> class exists with <code>__init__</code> and <code>step</code>, and one particle moves and falls on screen.</p></div><div class="exit"><span class="lab">MIDDLE</span><p>Floor, plus a list of 120 particles all stepping in one loop, plus trails drawn, plus you can explain the minus sign on the initial dy.</p></div><div class="exit"><span class="lab">STRETCH</span><p>Middle, plus colour each particle by its current vertical speed so the rising ones differ from the falling ones. Then add the shock canopy: make the trail brighter near the top of the arc, where dy passes through zero.</p></div></div></section>
+<section class="panel"><h2>Teacher panel</h2><h3>Concept this session re-touches</h3><p>The parallel list problem from session 3, now solved properly. Also session 5's row and column coordinates, reappearing as screen coordinates with the y axis flipped.</p><h3>Standards</h3><table><tr><th>Code</th><th>Statement</th></tr><tr><td class="std">6.NS.C.8</td><td>Solve real-world and mathematical problems by graphing points in all four quadrants of the coordinate plane. Include use of coordinates and absolute value to find distances between points with the same first coordinate or the same second coordinate.</td></tr>
 <tr><td class="std">5.G.A.1</td><td>Use a pair of perpendicular number lines, called axes, to define a coordinate system, with the intersection of the lines (the origin) arranged to coincide with the 0 on each line and a given point in the plane located by using an ordered pair of numbers, called its coordinates.</td></tr>
 <tr><td class="std">6.EE.A.2</td><td>Write, read, and evaluate expressions in which letters stand for numbers.</td></tr>
 </table><p class="mapnote">Mapped to the Common Core State Standards for Mathematics (Multi-State). Each code and its wording was retrieved from the CASE Network through the Learning Commons Knowledge Graph on 12 September 2026. New York's own Computer Science and Digital Fluency framework and the CSTA standards are not carried in that graph, so no code from either appears anywhere on this site.</p><p class="mapnote">Two deliberate deviations from the retrieved text. The "for example…" illustrations attached to 7.SP.C.6 and 8.EE.A.1 are omitted, since they illustrate rather than state the standard. And where the source carries markup, italics or mathematical notation, it is rendered as plain text: 7.SP.C.5's fraction appears here as 1/2, and the italic stem of 6.SP.B.5.a and 6.SP.B.5.c is plain. Nothing else was shortened. Codes 6.SP.B.5.a and 6.SP.B.5.c are the lettered children of 6.SP.B.5, whose own statement is only a stem ending in a colon; the children carry that stem and are quoted in full.</p><h3>Timing</h3><p>10 opener, 30 the class, 25 the list of objects, 20 colour and exits. Typing a class from scratch takes longer than you expect. Have the file on the machines and read it before extending it.</p><h3>Capstone checkpoint</h3><p>Students extending the plume start their addition in the stretch exit today. Check each one against the first rubric line before they leave: it runs, and the window closes only when they close it. Students extending the orbit do the stretch exit as written and start next week.</p><h3>What to watch for</h3><p>The predictable error is forgetting <code>self</code> on an attribute inside a method, which gives <code>NameError</code> rather than anything helpful. Second is writing <code>def step(self)</code> and then calling <code>step(p)</code> instead of <code>p.step()</code>.</p><p>Keep <code>pygame.font</code> out of it. Words in the terminal, visuals in the window, the rule set in session 10. If they want a readout, print it.</p><p>If the room needs a gentler first class, write a two-attribute one on the board first: a <code>Pet</code> with a name and a hunger level, one method that feeds it. Five minutes, then come back to the particle.</p><h3>Files</h3><p><code>sparks_parallel.py</code> for the opener, then <code>plume.py</code>, seeded with 20261209. Verified headless with <code>SDL_VIDEODRIVER=dummy</code> over 240 frames on pygame 2.6.1. Confirm pygame is installed on the classroom machines before this session.</p><h3>Lifted this week</h3><p><code>class</code>, <code>__init__</code>, <code>self</code>, methods, a list of objects, <code>pygame.draw.lines</code>.</p></section>
+</div></main>
 <nav class="pager"><a href="wed11_markov.html">&larr; Session 11: machines that write</a><a href="advanced_python_hub.html">Course hub</a><a href="wed13_orbits_demo.html">Session 13: orbits, then the demo &rarr;</a></nav>
-
-</div>
+<footer><div class="wrap"><p>Advanced Python, Robofun Fall 2026. Second printing, 13 September 2026. Built by a generator; the page, not the file, is the source of truth for output, because every quoted line came from a run.</p></div></footer>
 <script>
 document.addEventListener('click', function(e){
   var b = e.target.closest('button.rev');

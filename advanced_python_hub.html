@@ -4,129 +4,235 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Advanced Python, Fall 2026, Robofun</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=DM+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --paper:#F1F3F2; --ink:#15303C; --soft:#4A6472; --rule:#BFCBCE;
-  --signal:#0E6B62; --predict:#8A5A00; --verified:#185E3B; --fault:#8C2B18;
-  --code-bg:#0E2430; --code-fg:#DCE6E4; --panel:#E4E9E8;
+  --paper:#F4F0E6; --card:#FFFDF7; --ink:#17181B; --ink-soft:#4A4D53; --rule:#D3CBB8;
+  --teal:#0E4D52; --teal-deep:#0A3A3E; --clay:#9C2B22;
+  --ochre:#8A5A00; --ochre-line:#D99B12; --ochre-tint:#FBF2DC;
+  --green:#1D5B39; --green-tint:#E8F1E9; --green-ink:#122B1C;
+  --code-bg:#EDE7D9;
 }
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
 body{
   margin:0; background:var(--paper); color:var(--ink);
-  font-family:Archivo,system-ui,sans-serif; font-size:19px; line-height:1.6;
+  font-family:'DM Sans',system-ui,sans-serif; font-size:18px; font-weight:500;
+  line-height:1.65;
 }
-.wrap{max-width:1000px; margin:0 auto; padding:0 28px 90px}
-p,li{max-width:68ch}
-h1,h2,h3{font-family:"Bricolage Grotesque",Archivo,sans-serif; line-height:1.12; margin:0}
-a{color:var(--signal)}
-a:focus-visible,button:focus-visible{outline:3px solid var(--signal); outline-offset:3px}
+.wrap{max-width:900px; margin:0 auto}
+a{color:var(--teal)}
+a:focus-visible,button:focus-visible{outline:3px solid var(--ochre-line); outline-offset:3px}
 
 /* masthead */
-.top{border-bottom:2px solid var(--ink); padding:22px 0 14px; margin-bottom:34px}
-.top .course{font-size:.8rem; letter-spacing:.06em; color:var(--soft); font-weight:600}
-.top .bar{display:flex; gap:22px; align-items:baseline; flex-wrap:wrap; margin-top:6px}
-.serial{font-family:"Bricolage Grotesque",sans-serif; font-weight:700; font-size:3.6rem;
-  line-height:.85; color:var(--signal)}
-.top h1{font-size:2.1rem; font-weight:700; flex:1 1 340px}
-.when{font-family:"JetBrains Mono",monospace; font-size:.85rem; color:var(--soft);
-  max-width:none}
+header.top{
+  background:var(--teal); color:#FFFDF7;
+  border-bottom:6px solid var(--ochre-line); padding:30px 22px 26px;
+}
+.eyebrow{
+  font-family:'JetBrains Mono',monospace; font-size:13px; letter-spacing:.14em;
+  text-transform:uppercase; color:#F2D89B; margin:0 0 10px; font-weight:700;
+}
+h1{
+  font-family:'Bricolage Grotesque','DM Sans',sans-serif; font-weight:800;
+  font-size:clamp(29px,4.8vw,44px); line-height:1.1; margin:0 0 10px;
+}
+h2{
+  font-family:'Bricolage Grotesque','DM Sans',sans-serif; font-weight:700;
+  font-size:25px; line-height:1.2; margin:0 0 12px; color:var(--teal-deep);
+}
+h3{
+  font-family:'Bricolage Grotesque','DM Sans',sans-serif; font-weight:700;
+  font-size:20px; margin:18px 0 8px; color:var(--teal-deep);
+}
+header.top h1,header.top h2{color:#FFFDF7}
+.sub{color:#EAE3D2; margin:0 0 16px; font-size:19px; font-weight:400; max-width:70ch}
+.dates{
+  display:flex; flex-wrap:wrap; gap:10px; margin-top:16px;
+  font-family:'JetBrains Mono',monospace; font-size:13.5px;
+}
+.pill{
+  border:2px solid rgba(255,253,247,.4); border-radius:999px; padding:5px 13px;
+  background:rgba(255,253,247,.08);
+}
+.pill b{color:#F2D89B; font-weight:700}
 
-/* blocks */
-h2{font-size:1.5rem; font-weight:700; margin:48px 0 4px; padding-top:18px;
-  border-top:1px solid var(--rule)}
-.top + h2, .top + .flag + h2{border-top:0; padding-top:0; margin-top:30px}
-h2 .num{color:var(--signal); font-weight:500; margin-right:.5em}
-h3{font-size:1.12rem; font-weight:600; margin:28px 0 6px}
-.lede{font-size:1.2rem; color:var(--soft); max-width:62ch; margin:10px 0 0}
-.mins{font-family:"JetBrains Mono",monospace; font-size:.78rem; color:var(--soft);
-  display:block; margin-top:2px}
+/* sections */
+main{padding:28px 22px 12px}
+section{
+  background:var(--card); border:2px solid var(--rule); border-radius:6px;
+  padding:22px 24px; margin:0 0 20px;
+}
+section.opener{border-left:8px solid var(--green)}
+section.chunk{border-left:8px solid var(--ochre-line)}
+section.brief{border-left:8px solid var(--teal)}
+.chunk-no{
+  font-family:'JetBrains Mono',monospace; font-size:13px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--ochre); margin:0 0 8px; font-weight:700;
+}
+p{margin:0 0 14px; max-width:72ch}
+ul,ol{margin:0 0 14px; padding-left:24px}
+li{margin:0 0 8px; max-width:70ch}
+ul.tight li{margin:0 0 5px}
+.two{display:grid; gap:0 30px; grid-template-columns:1fr}
+@media(min-width:760px){.two{grid-template-columns:1fr 1fr}}
 
-pre{background:var(--code-bg); color:var(--code-fg); padding:18px 20px; overflow-x:auto;
-  font-family:"JetBrains Mono",monospace; font-size:16px; line-height:1.5;
-  border-radius:3px; margin:16px 0}
-code{font-family:"JetBrains Mono",monospace; font-size:.92em;
-  background:var(--panel); padding:1px 5px; border-radius:2px}
-pre code{background:none; padding:0; font-size:inherit}
-.fname{font-family:"JetBrains Mono",monospace; font-size:.78rem; color:var(--soft);
-  margin:16px 0 -10px}
+/* code and output */
+code,pre{
+  /* JetBrains Mono ligatures turn != into a slashed equals and <= into a single
+     glyph; students then type a character that does not exist. Keep every
+     operator as the keys that produce it. */
+  font-variant-ligatures:none; font-feature-settings:"liga" 0,"calt" 0,"dlig" 0;
+}
+code{
+  font-family:'JetBrains Mono',monospace; font-size:.9em; font-weight:700;
+  background:var(--code-bg); color:#1E2A2B; padding:2px 6px; border-radius:3px;
+}
+pre{
+  font-family:'JetBrains Mono',monospace; font-size:15.5px; line-height:1.6;
+  background:var(--code-bg); color:var(--ink); border:2px solid var(--rule);
+  border-left:6px solid #B9AF96; border-radius:4px;
+  padding:16px 18px; overflow-x:auto; margin:0 0 16px; font-weight:500;
+}
+pre code{background:none; padding:0; font-size:inherit; font-weight:inherit; color:inherit}
+.fname{
+  font-family:'JetBrains Mono',monospace; font-size:12.5px; letter-spacing:.1em;
+  text-transform:uppercase; color:var(--ink-soft); margin:0 0 6px; font-weight:700;
+}
+.out{margin:0 0 16px}
+.out .tag{
+  font-family:'JetBrains Mono',monospace; font-size:12.5px; letter-spacing:.1em;
+  text-transform:uppercase; color:var(--green); margin:0 0 7px; font-weight:700;
+  display:block;
+}
+.out pre{background:var(--green-tint); border-color:#A9C6B2; border-left:6px solid var(--green); color:var(--green-ink)}
 
-.predict{border-left:4px solid var(--predict); background:#F7F2E6; padding:14px 18px; margin:18px 0}
-.predict b{color:var(--predict)}
-.out{border-left:4px solid var(--verified); background:#EAF1EC; padding:6px 18px; margin:14px 0}
-.out .tag{font-family:"JetBrains Mono",monospace; font-size:.72rem; color:var(--verified);
-  font-weight:700; display:block; margin:10px 0 -6px}
-.bug{border-left:4px solid var(--fault); background:#F7EBE8; padding:14px 18px; margin:18px 0}
-.bug b{color:var(--fault)}
-
-button.rev{font:600 .9rem Archivo,sans-serif; background:var(--signal); color:#fff;
-  border:0; padding:9px 16px; border-radius:3px; cursor:pointer; margin:6px 0}
-button.rev:hover{background:#0b544d}
-.ans{display:none; border-left:4px solid var(--signal); background:#E6EFEE;
-  padding:14px 18px; margin:6px 0 18px}
+/* predict and reveal */
+.predict{
+  border:2px dashed var(--ochre); border-radius:5px;
+  padding:16px 18px; margin:0 0 16px; background:var(--ochre-tint);
+}
+.predict b{color:var(--ochre)}
+.predict > pre{background:var(--card)}
+button.rev{
+  font-family:'DM Sans',sans-serif; font-size:16px; font-weight:700;
+  background:var(--teal); color:#FFFDF7; border:0; border-radius:4px;
+  padding:10px 18px; cursor:pointer; margin:4px 0 0;
+}
+button.rev:hover{background:var(--teal-deep)}
+.ans{display:none; margin-top:16px; padding-top:16px; border-top:2px solid var(--rule)}
 .ans.show{display:block}
+.ans > :last-child{margin-bottom:0}
+.bug{
+  background:#F7E4E1; border:2px solid var(--clay); border-left:8px solid var(--clay);
+  border-radius:5px; padding:14px 16px; margin:0 0 18px; color:#3A1512;
+}
+.bug b{color:var(--clay)}
+.flag{
+  background:#F7E4E1; border:2px solid var(--clay); border-left:8px solid var(--clay);
+  border-radius:5px; padding:14px 16px; margin:0 0 20px; font-size:16.5px; color:#3A1512;
+}
+.flag b{color:var(--clay)}
 
-table{border-collapse:collapse; width:100%; margin:18px 0; font-size:.92rem}
-th,td{border-bottom:1px solid var(--rule); padding:8px 10px; text-align:left;
-  vertical-align:top; overflow-wrap:anywhere}
-th{font-weight:600; background:var(--panel)}
+/* tables */
+table{border-collapse:collapse; width:100%; margin:0 0 16px; font-size:16.5px}
+th,td{border:2px solid var(--rule); padding:9px 11px; text-align:left; vertical-align:top;
+  overflow-wrap:anywhere}
+th{background:#EFE9DA; font-weight:700; font-size:15px; color:var(--teal-deep)}
 td code{font-size:.86em}
 
-.exits{margin:22px 0}
-.exit{border-top:1px solid var(--rule); padding:12px 0}
-.exit .lab{font-family:"JetBrains Mono",monospace; font-size:.76rem; font-weight:700;
-  color:var(--signal)}
-.exit p{margin:3px 0 0}
+/* exits */
+.exits{display:grid; gap:14px; grid-template-columns:1fr}
+@media(min-width:760px){.exits{grid-template-columns:repeat(3,1fr)}}
+.exit{border:2px solid var(--rule); border-radius:5px; padding:16px; background:var(--card)}
+.exit p{margin:0; font-size:16.5px}
+.exit .lab{
+  font-family:'JetBrains Mono',monospace; font-size:12.5px; letter-spacing:.1em;
+  text-transform:uppercase; margin:0 0 8px; font-weight:700; display:block;
+}
+.exit:nth-child(1){border-top:6px solid var(--green)}
+.exit:nth-child(1) .lab{color:var(--green)}
+.exit:nth-child(2){border-top:6px solid var(--ochre-line)}
+.exit:nth-child(2) .lab{color:var(--ochre)}
+.exit:nth-child(3){border-top:6px solid var(--clay)}
+.exit:nth-child(3) .lab{color:var(--clay)}
 
-.panel{background:var(--panel); border-top:3px solid var(--ink); padding:22px 24px; margin:52px 0 0}
-.panel h2{border:0; margin:0 0 10px; padding:0; font-size:1.3rem}
-.panel h3{margin:20px 0 4px; font-size:1rem}
-.panel p,.panel li{max-width:74ch; font-size:.95rem}
-.std{font-family:"JetBrains Mono",monospace; font-weight:700; color:var(--signal)}
-.mapnote{font-size:.82rem; color:var(--soft); margin-top:14px}
+/* teacher panel and the capstone block */
+section.panel{border-left:8px solid var(--clay)}
+section.panel > h2{color:var(--clay)}
+.panel p,.panel li{font-size:16.5px}
+.std{font-family:'JetBrains Mono',monospace; font-weight:700; color:var(--teal)}
+.mapnote{font-size:15px; color:var(--ink-soft); border-left:4px solid var(--rule); padding-left:14px}
 
-nav.pager{display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap;
-  border-top:2px solid var(--ink); margin-top:46px; padding-top:16px; font-weight:600}
-nav.pager a{text-decoration:none}
-nav.pager .none{color:var(--rule)}
+/* pager and footer */
+nav.pager{
+  max-width:900px; margin:0 auto; padding:8px 22px 34px;
+  display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap;
+  font-family:'JetBrains Mono',monospace; font-size:14px;
+}
+nav.pager a,nav.pager .none{
+  text-decoration:none; font-weight:700; border:2px solid var(--rule);
+  background:var(--card); border-radius:4px; padding:10px 14px;
+}
+nav.pager a{color:var(--teal)}
+nav.pager a:hover{background:#EFE9DA}
+nav.pager .none{color:var(--ink-soft); border-style:dashed}
+footer{
+  background:#EAE4D5; border-top:4px solid var(--teal); padding:22px 22px 36px;
+  font-size:15px; color:var(--ink-soft);
+}
+footer p{margin:0}
 
 /* hub */
-.grid{border-top:2px solid var(--ink); margin:30px 0 0}
-.row{display:grid; grid-template-columns:48px 76px 1fr; gap:16px;
-  border-bottom:1px solid var(--rule); padding:14px 0; align-items:baseline}
-.row .n{font-family:"Bricolage Grotesque",sans-serif; font-weight:700; font-size:1.5rem;
-  color:var(--signal)}
-.row .d{font-family:"JetBrains Mono",monospace; font-size:.82rem; color:var(--soft)}
-.row .t{font-weight:600; font-size:1.05rem}
+.grid{margin:0}
+.row{
+  border:2px solid var(--rule); border-left:8px solid var(--teal); border-radius:5px;
+  margin:0 0 12px; padding:14px 16px; background:var(--card);
+  display:grid; grid-template-columns:44px 84px 1fr; gap:6px 14px; align-items:baseline;
+}
+.row .n{font-family:'JetBrains Mono',monospace; font-size:24px; font-weight:700; color:var(--teal)}
+.row .d{font-family:'JetBrains Mono',monospace; font-size:13px; color:var(--ink-soft)}
+.row .t{font-weight:700; font-size:19px}
 .row .t a{text-decoration:none}
-.row .s{display:block; font-weight:400; font-size:.92rem; color:var(--soft); max-width:62ch}
-.row.off{opacity:.55}
-.row.off .n{color:var(--soft)}
-.flag{background:#F7F2E6; border-left:4px solid var(--predict); padding:14px 18px; margin:22px 0}
-ul.tight{margin:8px 0; padding-left:22px}
-ul.tight li{margin:3px 0}
-.two{display:grid; grid-template-columns:1fr 1fr; gap:0 34px}
+.row .s{display:block; font-weight:400; font-size:16px; color:var(--ink-soft); max-width:62ch}
+.row.off{border-left-color:var(--clay); background:#FBF9F3}
+.row.off .n{color:var(--clay)}
+
 @media (max-width:760px){
-  body{font-size:17px} .wrap{padding:0 18px 70px}
-  .serial{font-size:2.6rem} .top h1{font-size:1.6rem}
-  .row{grid-template-columns:38px 1fr; gap:6px 12px}
-  .row .d{grid-column:2} .row .t{grid-column:2} .two{grid-template-columns:1fr}
+  body{font-size:17px} main{padding:22px 16px 8px} header.top{padding:24px 16px 20px}
+  section{padding:18px 16px} .row{grid-template-columns:38px 1fr}
+  .row .d{grid-column:2} .row .t{grid-column:2}
   table{table-layout:fixed} th,td{padding:7px 8px}
 }
 @media print{
-  body{background:#fff; font-size:11pt} button.rev{display:none}
-  .ans{display:block} nav.pager{display:none} pre{border:1px solid #999}
+  body{background:#fff; font-size:11pt}
+  header.top{background:#fff; color:#111; border-bottom:3px solid #111}
+  header.top h1,header.top .sub,header.top .eyebrow,.pill b{color:#111}
+  .pill{border-color:#666}
+  button.rev{display:none} .ans{display:block}
+  nav.pager,footer{display:none}
+  section,.exit{background:#fff; break-inside:avoid} pre{border:1px solid #999}
+  a{color:#111}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important; animation:none!important}}
 </style>
 </head>
 <body>
-<div class="wrap">
-<header class="top"><div class="course">Robofun &middot; Fall 2026 &middot; 110 West End Avenue</div><div class="bar"><h1>Advanced Python</h1></div><p class="when">16 September to 16 December 2026 &middot; 13 Wednesdays &middot; 4:00 to 5:30 &middot; grades 5 to 8</p><p class="lede">A course about the machine underneath. You will read code before you run it, measure what a program costs instead of guessing, and build the mechanisms that look like magic from the outside: a cipher that breaks itself, a simulation that settles an argument, a program that writes sentences.</p></header>
-<h2>The thirteen sessions</h2><div class="grid"><div class="row"><span class="n">01</span><span class="d">16 Sep</span><span class="t"><a href="wed01_cold_read.html">Cold read, then a style pass</a><span class="s">Trace 60 lines of an unfamiliar working program, then rename everything in it. Diagnostic routing.</span></span></div><div class="row"><span class="n">02</span><span class="d">23 Sep</span><span class="t"><a href="wed02_return_and_modules.html">Functions that hand something back</a><span class="s">return, composition, and splitting a program into your own importable module.</span></span></div><div class="row"><span class="n">03</span><span class="d">30 Sep</span><span class="t"><a href="wed03_counting.html">Counting, and what counting buys you</a><span class="s">Dictionaries and sets, then collections.Counter, then break a Caesar cipher by frequency.</span></span></div><div class="row"><span class="n">04</span><span class="d">7 Oct</span><span class="t"><a href="wed04_messy_files.html">Messy files, and saying what you threw away</a><span class="s">Read a dirty file, clean it, record the rejects, write a report. try and except at the boundary.</span></span></div><div class="row"><span class="n">05</span><span class="d">14 Oct</span><span class="t"><a href="wed05_transposition.html">Ciphers that move letters</a><span class="s">Rail fence, then a route cipher on a list-of-lists grid with a signed key.</span></span></div><div class="row"><span class="n">06</span><span class="d">21 Oct</span><span class="t"><a href="wed06_hashing.html">Your seal, and a real one</a><span class="s">Build a letter-sum seal, find a collision in it, then hashlib.sha256 and the avalanche property, measured in bits.</span></span></div><div class="row"><span class="n">07</span><span class="d">28 Oct</span><span class="t"><a href="wed07_what_it_costs.html">What a program costs</a><span class="s">Linear against binary search, brute force with itertools.product, and a runtime-against-digits table you time yourself.</span></span></div><div class="row"><span class="n">08</span><span class="d">4 Nov</span><span class="t"><a href="wed08_heuristics.html">Smarter than brute force</a><span class="s">Fitness, mutation, selection. Hill climbing, then a small genetic algorithm, then an honest comparison of the two.</span></span></div><div class="row off"><span class="n">&middot;</span><span class="d">11 Nov</span><span class="t">No class, Veterans Day<span class="s">Fourteen Wednesdays fall in the term. This is the one that comes out, which is what makes it a thirteen session course. Session 9's opener is built to cover the two week gap.</span></span></div><div class="row"><span class="n">09</span><span class="d">18 Nov</span><span class="t"><a href="wed09_monte_carlo.html">Settling an argument by simulation</a><span class="s">Monty Hall: trials, tally, convergence, and a silent bug that produces a stable wrong answer. Capstone brief issued.</span></span></div><div class="row"><span class="n">10</span><span class="d">25 Nov</span><span class="t"><a href="wed10_benford.html">The first digit tells on you</a><span class="s">Benford's law on two CSV files, one grown and one invented, with a histogram drawn in pygame.</span></span></div><div class="row"><span class="n">11</span><span class="d">2 Dec</span><span class="t"><a href="wed11_markov.html">Machines that write</a><span class="s">A word-pair model trained on a text file, then the honest conversation about what a language model is doing. Capstone sketches due.</span></span></div><div class="row"><span class="n">12</span><span class="d">9 Dec</span><span class="t"><a href="wed12_classes.html">Objects that remember their own history</a><span class="s">class, __init__, self, methods, and a list of objects stepped in one loop. A particle plume with gravity and trails.</span></span></div><div class="row"><span class="n">13</span><span class="d">16 Dec</span><span class="t"><a href="wed13_orbits_demo.html">Orbits, then the demo</a><span class="s">Gravity as acceleration toward a body, time steps, and the sixty second parent demo.</span></span></div></div><div class="flag"><b>Two dates to confirm against Robofun's closure list before this syllabus goes to parents.</b> 30 September falls in the intermediate days of Sukkot, which some Upper West Side programs skip. 25 November is the day before Thanksgiving, and attendance is usually light. Session 10 is built to be self-contained for that reason: nothing later in the term depends on it.</div><h2>What this course is for</h2><p>A model can write code for you. That is now true and it is not going to stop being true. What it cannot do is tell you whether the code is right, what it will cost to run, or why it produced the number it produced. Those are the skills this course is about.</p><p>So the order is always the same. Read it, trace it, then run it. Every page asks you to predict the output before you see it, because a prediction you got wrong teaches you something and a program you watched run does not.</p><p>Three sessions are built around a wrong answer rather than a right one. In session 9 a program converges confidently on 0.5540 when the truth is 0.6667, with no error message anywhere. Finding out why is the most useful thing in the term.</p><h2>What this course assumes</h2><p>This course starts from nothing but the list below and builds everything else in front of you. It does not assume you took any particular class before this one. Where a session needs an idea from an earlier session, that session says which one and re-derives it.</p><p>You should already be able to read and write these. You do not need to be fast at them.</p><ul class="tight"><li>Variables, and reassigning one.</li><li><code>print</code>, and an f-string like <code>f"total {n}"</code>.</li><li><code>if</code>, <code>elif</code>, <code>else</code>, and comparisons.</li><li><code>for i in range(n):</code>, and a counter or a running total inside a loop.</li><li>A list, and reading one item out of it with <code>values[i]</code>.</li><li><code>def</code> with parameters, even if your functions have only ever printed.</li></ul><p>Everything else arrives during the term and is listed below. <code>return</code> values, dictionaries, files, and classes are all treated as new.</p><p>No mathematics beyond grade 5 arithmetic is assumed either. Four things the course needs are introduced where they are first used, from nothing, and none of them is assumed on the way in:</p><table><tr><th>Introduced in</th><th>What, and how far it goes</th></tr><tr><td>Session 3</td><td>Cryptography from zero: what a Caesar cipher does, and the words plaintext, ciphertext, and key. Students encode by hand before any code.</td></tr><tr><td>Session 10</td><td>Logarithms, only as far as "what power of ten gives this number". The calculator does the arithmetic.</td></tr><tr><td>Session 12</td><td>Splitting a speed and an angle into an across amount and an up amount. Presented as a tool, with a squares check students can verify themselves.</td></tr><tr><td>Session 13</td><td>The Pythagorean theorem, stated plainly as the distance rule.</td></tr></table><div class="flag"><b>If session 1 goes badly for a third of the room, the course is mispaced, not the room.</b> Advanced enrollment at an after-school program is usually chosen by a parent rather than verified against a skill check, and the grade band here is 5 to 8. Session 1 is built as a diagnostic for exactly this reason: it uses only the list above, so what it measures is tracing. Slow sessions 2 and 3 if the tracing is not there.</div><h2>Code rules</h2><p>Version 1, dated 12 September 2026. If you are holding a page that contradicts this list, this list wins.</p><h3>Opened this term, session by session</h3><table><tr><th>From</th><th>Now allowed</th></tr><tr><td>Session 2</td><td><code>return</code> values, <code>len()</code>, <code>import</code> of your own module</td></tr><tr><td>Session 3</td><td>dictionaries, sets, <code>collections.Counter</code>, <code>.replace()</code>, <code>ord</code> and <code>chr</code></td></tr><tr><td>Session 4</td><td>file reading and writing, <code>try</code> and <code>except</code> with a named error, <code>try/else</code>, <code>.strip()</code>, <code>.append()</code>, returning two values</td></tr><tr><td>Session 5</td><td>list of lists as a grid, slicing, <code>range</code> with a negative step, <code>abs</code>, <code>.join()</code></td></tr><tr><td>Session 6</td><td><code>hashlib</code>, <code>.encode()</code>, <code>int(text, 16)</code>, <code>format</code> with a bit spec</td></tr><tr><td>Session 7</td><td><code>itertools.product</code>, <code>time.perf_counter</code>, <code>//</code>, compound <code>while</code> conditions</td></tr><tr><td>Session 8</td><td><code>random.randrange</code>, <code>random.random</code>, <code>sort</code> with a <code>key</code></td></tr><tr><td>Session 9</td><td><code>random.seed</code> for reproducibility</td></tr><tr><td>Session 10</td><td><code>csv.DictReader</code>, <code>math.log10</code>, <code>pygame.draw.rect</code> for a histogram</td></tr><tr><td>Session 11</td><td><code>collections.defaultdict</code>, tuples as dictionary keys, <code>.split()</code>, multiple assignment</td></tr><tr><td>Session 12</td><td><code>class</code>, <code>__init__</code>, <code>self</code>, methods, a list of objects, <code>pygame.draw.lines</code></td></tr><tr><td>Session 13</td><td><code>math.sqrt</code> for distance, vector components, a time step</td></tr></table><p>Session 1 uses nothing beyond the prerequisites above, on purpose, so the cold read measures tracing rather than new syntax.</p><h3>Still closed, or closed on purpose</h3><table><tr><th>Rule</th><th>Why</th></tr><tr><td>Nested gates</td><td>Flat <code>if</code> / <code>elif</code> / <code>else</code> only, all term. Two flat gates in a row beat one nested pair, and session 5's rail fence shows why.</td></tr><tr><td><code>break</code></td><td>Lifted, but only in session 7 and after, and only where the loop exit is itself the topic. Before that, every <code>while</code> names its exit condition.</td></tr><tr><td>Bare <code>except:</code></td><td>Never. Catch one named error. A bare except hides bugs you have not met.</td></tr><tr><td><code>pygame.font</code></td><td>Not used. Words go in the terminal, visuals go in the window.</td></tr><tr><td>Self-closing windows</td><td>A pygame window never closes itself. <code>while running:</code>, an <code>event.get()</code> loop, a QUIT listener, and <code>clock.tick(60)</code>. One idiom, all term.</td></tr><tr><td>A module that prints</td><td>Never. A module holds functions. The program that imports it does the printing.</td></tr><tr><td>turtle</td><td>Not available in our VS Code setup, so every graphic on this course is pygame.</td></tr></table><h2>The Cartridge Ledger</h2><p>One printed card for the whole term, not one per session. Thirteen rows, one per Wednesday, each with room for the date, the thing you built, and one line in your own handwriting on what you would tell someone else about it.</p><p>There are seven days between sessions and nothing survives on the machines, so the card is the only thing that carries from week to week. Bring it every time. It gets stamped at the door.</p><p>Thirteen stamps is a full card. Bring the full card to the demo on 16 December.</p><h2>Capstone</h2><p>The capstone runs as a thread from session 9, not as a session of its own. The brief goes out on 18 November and the sketch is due on 2 December. There is no separate build session: the capstone is an addition to one of the two programs the course hands you in sessions 12 and 13, the particle plume or the orbit, and it is built inside those two sessions' stretch exits and shown at the demo on 16 December.</p><p>Before any code: one page on paper with a hand drawn screen, every player action, everything on screen that is not the player, how score is kept, both ways the program can end, and then pseudocode in English. No sketch means no build. Session 9's page carries the four yes-or-no checks it is judged by.</p><h2>Standards</h2><p>All 27 codes below were retrieved from the CASE Network through the Learning Commons Knowledge Graph on 12 September 2026, and each statement is quoted in full apart from the two deviations named under the table. Each session maps to at most three.</p><table><tr><th>Code</th><th>Statement</th></tr><tr><td class="std">5.G.A.1</td><td>Use a pair of perpendicular number lines, called axes, to define a coordinate system, with the intersection of the lines (the origin) arranged to coincide with the 0 on each line and a given point in the plane located by using an ordered pair of numbers, called its coordinates.</td></tr><tr><td class="std">6.EE.A.2</td><td>Write, read, and evaluate expressions in which letters stand for numbers.</td></tr><tr><td class="std">6.EE.B.6</td><td>Use variables to represent numbers and write expressions when solving a real-world or mathematical problem; understand that a variable can represent an unknown number, or, depending on the purpose at hand, any number in a specified set.</td></tr><tr><td class="std">6.NS.C.8</td><td>Solve real-world and mathematical problems by graphing points in all four quadrants of the coordinate plane. Include use of coordinates and absolute value to find distances between points with the same first coordinate or the same second coordinate.</td></tr><tr><td class="std">6.RP.A.3</td><td>Use ratio and rate reasoning to solve real-world and mathematical problems, e.g., by reasoning about tables of equivalent ratios, tape diagrams, double number line diagrams, or equations.</td></tr><tr><td class="std">6.SP.B.4</td><td>Display numerical data in plots on a number line, including dot plots, histograms, and box plots.</td></tr><tr><td class="std">6.SP.B.5.a</td><td>Summarize numerical data sets in relation to their context, such as by reporting the number of observations.</td></tr><tr><td class="std">6.SP.B.5.c</td><td>Summarize numerical data sets in relation to their context, such as by giving quantitative measures of center (median and/or mean) and variability (interquartile range and/or mean absolute deviation), as well as describing any overall pattern and any striking deviations from the overall pattern with reference to the context in which the data were gathered.</td></tr><tr><td class="std">7.RP.A.2</td><td>Recognize and represent proportional relationships between quantities.</td></tr><tr><td class="std">7.SP.A.1</td><td>Understand that statistics can be used to gain information about a population by examining a sample of the population; generalizations about a population from a sample are valid only if the sample is representative of that population. Understand that random sampling tends to produce representative samples and support valid inferences.</td></tr><tr><td class="std">7.SP.C.5</td><td>Understand that the probability of a chance event is a number between 0 and 1 that expresses the likelihood of the event occurring. Larger numbers indicate greater likelihood. A probability near 0 indicates an unlikely event, a probability around 1/2 indicates an event that is neither unlikely nor likely, and a probability near 1 indicates a likely event.</td></tr><tr><td class="std">7.SP.C.6</td><td>Approximate the probability of a chance event by collecting data on the chance process that produces it and observing its long-run relative frequency, and predict the approximate relative frequency given the probability.</td></tr><tr><td class="std">7.SP.C.7</td><td>Develop a probability model and use it to find probabilities of events. Compare probabilities from a model to observed frequencies; if the agreement is not good, explain possible sources of the discrepancy.</td></tr><tr><td class="std">7.SP.C.8</td><td>Find probabilities of compound events using organized lists, tables, tree diagrams, and simulation.</td></tr><tr><td class="std">8.EE.A.1</td><td>Know and apply the properties of integer exponents to generate equivalent numerical expressions.</td></tr><tr><td class="std">8.F.A.1</td><td>Understand that a function is a rule that assigns to each input exactly one output. The graph of a function is the set of ordered pairs consisting of an input and the corresponding output.</td></tr><tr><td class="std">8.F.B.4</td><td>Construct a function to model a linear relationship between two quantities. Determine the rate of change and initial value of the function from a description of a relationship or from two (x, y) values, including reading these from a table or from a graph. Interpret the rate of change and initial value of a linear function in terms of the situation it models, and in terms of its graph or a table of values.</td></tr><tr><td class="std">8.F.B.5</td><td>Describe qualitatively the functional relationship between two quantities by analyzing a graph (e.g., where the function is increasing or decreasing, linear or nonlinear). Sketch a graph that exhibits the qualitative features of a function that has been described verbally.</td></tr><tr><td class="std">8.G.B.7</td><td>Apply the Pythagorean Theorem to determine unknown side lengths in right triangles in real-world and mathematical problems in two and three dimensions.</td></tr><tr><td class="std">MP1</td><td>Make sense of problems and persevere in solving them.</td></tr><tr><td class="std">MP2</td><td>Reason abstractly and quantitatively.</td></tr><tr><td class="std">MP3</td><td>Construct viable arguments and critique the reasoning of others.</td></tr><tr><td class="std">MP4</td><td>Model with mathematics.</td></tr><tr><td class="std">MP5</td><td>Use appropriate tools strategically.</td></tr><tr><td class="std">MP6</td><td>Attend to precision.</td></tr><tr><td class="std">MP7</td><td>Look for and make use of structure.</td></tr><tr><td class="std">MP8</td><td>Look for and express regularity in repeated reasoning.</td></tr></table><p class="mapnote">Mapped to the Common Core State Standards for Mathematics (Multi-State). Each code and its wording was retrieved from the CASE Network through the Learning Commons Knowledge Graph on 12 September 2026. New York's own Computer Science and Digital Fluency framework and the CSTA standards are not carried in that graph, so no code from either appears anywhere on this site.</p><p class="mapnote">Two deliberate deviations from the retrieved text. The "for example…" illustrations attached to 7.SP.C.6 and 8.EE.A.1 are omitted, since they illustrate rather than state the standard. And where the source carries markup, italics or mathematical notation, it is rendered as plain text: 7.SP.C.5's fraction appears here as 1/2, and the italic stem of 6.SP.B.5.a and 6.SP.B.5.c is plain. Nothing else was shortened. Codes 6.SP.B.5.a and 6.SP.B.5.c are the lettered children of 6.SP.B.5, whose own statement is only a stem ending in a colon; the children carry that stem and are quoted in full.</p><div class="flag"><b>On New York and CSTA.</b> The Learning Commons graph carries Common Core and state-adopted frameworks. It returned nothing for New York's Computer Science and Digital Fluency codes, and it rejects CSTA as a jurisdiction outright. So the anchor here is the Common Core mathematics framework, which is the national option. No CSTA or New York code appears anywhere on this site, because none could be verified. Paste the codes you want and they can be added with the usual verification flags.</div><h2>Open decisions</h2><p>These are built one way and can be built the other. Each one is a real choice, not an oversight.</p><table><tr><th>Decision</th><th>Built as</th><th>If you change it</th></tr><tr><td>Are classes lifted?</td><td>Yes, from session 12</td><td>Sessions 12 and 13 restructure around functions plus parallel lists, and the plume and the orbit both go. Those two sessions would need replacing.</td></tr><tr><td>Environment</td><td>VS Code throughout, pygame for all graphics</td><td>Sessions 10, 12, and 13 need pygame on the machines. Sessions 1 to 9 and 11 are terminal only and run anywhere.</td></tr><tr><td>Theme</td><td>None. The content carries itself.</td><td>Sessions 3, 5, and 6 share a cryptography thread and would take a single skin cleanly. Sessions 7 to 13 would not.</td></tr><tr><td>Data files</td><td>Four needed on disk</td><td><code>readings_raw.txt</code>, <code>honest_ledger.csv</code>, <code>cooked_ledger.csv</code>, <code>corpus.txt</code>. All four are generated by scripts in the repo, so nothing needs fetching over the network.</td></tr><tr><td>Capstone sketch deadline</td><td>Session 11, 2 December</td><td>It was session 10, the light attendance day, and moved because the sketch describes a window and session 10 is the first window students see. No build time is lost, since the build lives in the session 12 and 13 stretch exits.</td></tr></table><h2>Programs in this repo</h2><p>Every output printed on these pages came from running these files on Python 3.12.3, with pygame 2.6.1 for the two graphics sessions, verified headless. Timings in session 7 are machine specific and will not match your classroom machines. Re-run before Wednesday.</p><table><tr><th>File</th><th>Session</th></tr><tr><td><code>sweep_report.py</code>, <code>gate_log.py</code></td><td>1</td></tr><tr><td><code>sweep_tools.py</code>, <code>sweep_report2.py</code></td><td>2</td></tr><tr><td><code>caesar_crack.py</code></td><td>3</td></tr><tr><td><code>clean_readings.py</code></td><td>4</td></tr><tr><td><code>transposition.py</code></td><td>5</td></tr><tr><td><code>avalanche.py</code></td><td>6</td></tr><tr><td><code>what_it_costs.py</code></td><td>7</td></tr><tr><td><code>smarter_than_brute.py</code></td><td>8</td></tr><tr><td><code>monty_hall.py</code></td><td>9</td></tr><tr><td><code>make_data.py</code>, <code>benford.py</code>, <code>benford_histogram.py</code></td><td>10</td></tr><tr><td><code>markov.py</code>, <code>corpus.txt</code></td><td>11</td></tr><tr><td><code>sparks_parallel.py</code>, <code>plume.py</code>, <code>verify_plume.py</code></td><td>12</td></tr><tr><td><code>orbit.py</code>, <code>verify_orbit.py</code>, <code>verify_orbit_band.py</code></td><td>13</td></tr></table><nav class="pager"><span class="none">&nbsp;</span><a href="wed01_cold_read.html">Start with session 1 &rarr;</a></nav>
+<header class="top"><div class="wrap"><p class="eyebrow">Robofun &middot; Fall 2026 &middot; 110 West End Avenue</p><h1>Advanced Python</h1><p class="sub">A course about the machine underneath. You will read code before you run it, measure what a program costs instead of guessing, and build the mechanisms that look like magic from the outside: a cipher that breaks itself, a simulation that settles an argument, a program that writes sentences.</p><div class="dates"><span class="pill"><b>Wednesdays</b> 16 Sep to 16 Dec 2026, 13 sessions</span><span class="pill"><b>Time</b> 4:00 to 5:30</span><span class="pill"><b>Grades</b> 5 to 8</span><span class="pill"><b>Demo day</b> 16 December</span></div></div></header>
+<main><div class="wrap">
 
-</div>
+<section><h2>The thirteen sessions</h2><div class="grid"><div class="row"><span class="n">01</span><span class="d">16 Sep</span><span class="t"><a href="wed01_cold_read.html">Cold read, then a style pass</a><span class="s">Trace 60 lines of an unfamiliar working program, then rename everything in it. Diagnostic routing.</span></span></div><div class="row"><span class="n">02</span><span class="d">23 Sep</span><span class="t"><a href="wed02_return_and_modules.html">Functions that hand something back</a><span class="s">return, composition, and splitting a program into your own importable module.</span></span></div><div class="row"><span class="n">03</span><span class="d">30 Sep</span><span class="t"><a href="wed03_counting.html">Counting, and what counting buys you</a><span class="s">Dictionaries and sets, then collections.Counter, then break a Caesar cipher by frequency.</span></span></div><div class="row"><span class="n">04</span><span class="d">7 Oct</span><span class="t"><a href="wed04_messy_files.html">Messy files, and saying what you threw away</a><span class="s">Read a dirty file, clean it, record the rejects, write a report. try and except at the boundary.</span></span></div><div class="row"><span class="n">05</span><span class="d">14 Oct</span><span class="t"><a href="wed05_transposition.html">Ciphers that move letters</a><span class="s">Rail fence, then a route cipher on a list-of-lists grid with a signed key.</span></span></div><div class="row"><span class="n">06</span><span class="d">21 Oct</span><span class="t"><a href="wed06_hashing.html">Your seal, and a real one</a><span class="s">Build a letter-sum seal, find a collision in it, then hashlib.sha256 and the avalanche property, measured in bits.</span></span></div><div class="row"><span class="n">07</span><span class="d">28 Oct</span><span class="t"><a href="wed07_what_it_costs.html">What a program costs</a><span class="s">Linear against binary search, brute force with itertools.product, and a runtime-against-digits table you time yourself.</span></span></div><div class="row"><span class="n">08</span><span class="d">4 Nov</span><span class="t"><a href="wed08_heuristics.html">Smarter than brute force</a><span class="s">Fitness, mutation, selection. Hill climbing, then a small genetic algorithm, then an honest comparison of the two.</span></span></div><div class="row off"><span class="n">&middot;</span><span class="d">11 Nov</span><span class="t">No class, Veterans Day<span class="s">Fourteen Wednesdays fall in the term. This is the one that comes out, which is what makes it a thirteen session course. Session 9's opener is built to cover the two week gap.</span></span></div><div class="row"><span class="n">09</span><span class="d">18 Nov</span><span class="t"><a href="wed09_monte_carlo.html">Settling an argument by simulation</a><span class="s">Monty Hall: trials, tally, convergence, and a silent bug that produces a stable wrong answer. Capstone brief issued.</span></span></div><div class="row"><span class="n">10</span><span class="d">25 Nov</span><span class="t"><a href="wed10_benford.html">The first digit tells on you</a><span class="s">Benford's law on two CSV files, one grown and one invented, with a histogram drawn in pygame.</span></span></div><div class="row"><span class="n">11</span><span class="d">2 Dec</span><span class="t"><a href="wed11_markov.html">Machines that write</a><span class="s">A word-pair model trained on a text file, then the honest conversation about what a language model is doing. Capstone sketches due.</span></span></div><div class="row"><span class="n">12</span><span class="d">9 Dec</span><span class="t"><a href="wed12_classes.html">Objects that remember their own history</a><span class="s">class, __init__, self, methods, and a list of objects stepped in one loop. A particle plume with gravity and trails.</span></span></div><div class="row"><span class="n">13</span><span class="d">16 Dec</span><span class="t"><a href="wed13_orbits_demo.html">Orbits, then the demo</a><span class="s">Gravity as acceleration toward a body, time steps, and the sixty second parent demo.</span></span></div></div><div class="flag"><b>Two dates to confirm against Robofun's closure list before this syllabus goes to parents.</b> 30 September falls in the intermediate days of Sukkot, which some Upper West Side programs skip. 25 November is the day before Thanksgiving, and attendance is usually light. Session 10 is built to be self-contained for that reason: nothing later in the term depends on it.</div></section>
+<section><h2>What this course is for</h2><p>A model can write code for you. That is now true and it is not going to stop being true. What it cannot do is tell you whether the code is right, what it will cost to run, or why it produced the number it produced. Those are the skills this course is about.</p><p>So the order is always the same. Read it, trace it, then run it. Every page asks you to predict the output before you see it, because a prediction you got wrong teaches you something and a program you watched run does not.</p><p>Three sessions are built around a wrong answer rather than a right one. In session 9 a program converges confidently on 0.5540 when the truth is 0.6667, with no error message anywhere. Finding out why is the most useful thing in the term.</p></section>
+<section><h2>What this course assumes</h2><p>This course starts from nothing but the list below and builds everything else in front of you. It does not assume you took any particular class before this one. Where a session needs an idea from an earlier session, that session says which one and re-derives it.</p><p>You should already be able to read and write these. You do not need to be fast at them.</p><ul class="tight"><li>Variables, and reassigning one.</li><li><code>print</code>, and an f-string like <code>f"total {n}"</code>.</li><li><code>if</code>, <code>elif</code>, <code>else</code>, and comparisons.</li><li><code>for i in range(n):</code>, and a counter or a running total inside a loop.</li><li>A list, and reading one item out of it with <code>values[i]</code>.</li><li><code>def</code> with parameters, even if your functions have only ever printed.</li></ul><p>Everything else arrives during the term and is listed below. <code>return</code> values, dictionaries, files, and classes are all treated as new.</p><p>No mathematics beyond grade 5 arithmetic is assumed either. Four things the course needs are introduced where they are first used, from nothing, and none of them is assumed on the way in:</p><table><tr><th>Introduced in</th><th>What, and how far it goes</th></tr><tr><td>Session 3</td><td>Cryptography from zero: what a Caesar cipher does, and the words plaintext, ciphertext, and key. Students encode by hand before any code.</td></tr><tr><td>Session 10</td><td>Logarithms, only as far as "what power of ten gives this number". The calculator does the arithmetic.</td></tr><tr><td>Session 12</td><td>Splitting a speed and an angle into an across amount and an up amount. Presented as a tool, with a squares check students can verify themselves.</td></tr><tr><td>Session 13</td><td>The Pythagorean theorem, stated plainly as the distance rule.</td></tr></table><div class="flag"><b>If session 1 goes badly for a third of the room, the course is mispaced, not the room.</b> Advanced enrollment at an after-school program is usually chosen by a parent rather than verified against a skill check, and the grade band here is 5 to 8. Session 1 is built as a diagnostic for exactly this reason: it uses only the list above, so what it measures is tracing. Slow sessions 2 and 3 if the tracing is not there.</div></section>
+<section><h2>Code rules</h2><p>Version 1, dated 12 September 2026. If you are holding a page that contradicts this list, this list wins.</p><h3>Opened this term, session by session</h3><table><tr><th>From</th><th>Now allowed</th></tr><tr><td>Session 2</td><td><code>return</code> values, <code>len()</code>, <code>import</code> of your own module</td></tr><tr><td>Session 3</td><td>dictionaries, sets, <code>collections.Counter</code>, <code>.replace()</code>, <code>ord</code> and <code>chr</code></td></tr><tr><td>Session 4</td><td>file reading and writing, <code>try</code> and <code>except</code> with a named error, <code>try/else</code>, <code>.strip()</code>, <code>.append()</code>, returning two values</td></tr><tr><td>Session 5</td><td>list of lists as a grid, slicing, <code>range</code> with a negative step, <code>abs</code>, <code>.join()</code></td></tr><tr><td>Session 6</td><td><code>hashlib</code>, <code>.encode()</code>, <code>int(text, 16)</code>, <code>format</code> with a bit spec</td></tr><tr><td>Session 7</td><td><code>itertools.product</code>, <code>time.perf_counter</code>, <code>//</code>, compound <code>while</code> conditions</td></tr><tr><td>Session 8</td><td><code>random.randrange</code>, <code>random.random</code>, <code>sort</code> with a <code>key</code></td></tr><tr><td>Session 9</td><td><code>random.seed</code> for reproducibility</td></tr><tr><td>Session 10</td><td><code>csv.DictReader</code>, <code>math.log10</code>, <code>pygame.draw.rect</code> for a histogram</td></tr><tr><td>Session 11</td><td><code>collections.defaultdict</code>, tuples as dictionary keys, <code>.split()</code>, multiple assignment</td></tr><tr><td>Session 12</td><td><code>class</code>, <code>__init__</code>, <code>self</code>, methods, a list of objects, <code>pygame.draw.lines</code></td></tr><tr><td>Session 13</td><td><code>math.sqrt</code> for distance, vector components, a time step</td></tr></table><p>Session 1 uses nothing beyond the prerequisites above, on purpose, so the cold read measures tracing rather than new syntax.</p><h3>Still closed, or closed on purpose</h3><table><tr><th>Rule</th><th>Why</th></tr><tr><td>Nested gates</td><td>Flat <code>if</code> / <code>elif</code> / <code>else</code> only, all term. Two flat gates in a row beat one nested pair, and session 5's rail fence shows why.</td></tr><tr><td><code>break</code></td><td>Lifted, but only in session 7 and after, and only where the loop exit is itself the topic. Before that, every <code>while</code> names its exit condition.</td></tr><tr><td>Bare <code>except:</code></td><td>Never. Catch one named error. A bare except hides bugs you have not met.</td></tr><tr><td><code>pygame.font</code></td><td>Not used. Words go in the terminal, visuals go in the window.</td></tr><tr><td>Self-closing windows</td><td>A pygame window never closes itself. <code>while running:</code>, an <code>event.get()</code> loop, a QUIT listener, and <code>clock.tick(60)</code>. One idiom, all term.</td></tr><tr><td>A module that prints</td><td>Never. A module holds functions. The program that imports it does the printing.</td></tr><tr><td>turtle</td><td>Not available in our VS Code setup, so every graphic on this course is pygame.</td></tr></table></section>
+<section><h2>The Cartridge Ledger</h2><p>One printed card for the whole term, not one per session. Thirteen rows, one per Wednesday, each with room for the date, the thing you built, and one line in your own handwriting on what you would tell someone else about it.</p><p>There are seven days between sessions and nothing survives on the machines, so the card is the only thing that carries from week to week. Bring it every time. It gets stamped at the door.</p><p>Thirteen stamps is a full card. Bring the full card to the demo on 16 December.</p></section>
+<section><h2>Capstone</h2><p>The capstone runs as a thread from session 9, not as a session of its own. The brief goes out on 18 November and the sketch is due on 2 December. There is no separate build session: the capstone is an addition to one of the two programs the course hands you in sessions 12 and 13, the particle plume or the orbit, and it is built inside those two sessions' stretch exits and shown at the demo on 16 December.</p><p>Before any code: one page on paper with a hand drawn screen, every player action, everything on screen that is not the player, how score is kept, both ways the program can end, and then pseudocode in English. No sketch means no build. Session 9's page carries the four yes-or-no checks it is judged by.</p></section>
+<section><h2>Standards</h2><p>All 27 codes below were retrieved from the CASE Network through the Learning Commons Knowledge Graph on 12 September 2026, and each statement is quoted in full apart from the two deviations named under the table. Each session maps to at most three.</p><table><tr><th>Code</th><th>Statement</th></tr><tr><td class="std">5.G.A.1</td><td>Use a pair of perpendicular number lines, called axes, to define a coordinate system, with the intersection of the lines (the origin) arranged to coincide with the 0 on each line and a given point in the plane located by using an ordered pair of numbers, called its coordinates.</td></tr><tr><td class="std">6.EE.A.2</td><td>Write, read, and evaluate expressions in which letters stand for numbers.</td></tr><tr><td class="std">6.EE.B.6</td><td>Use variables to represent numbers and write expressions when solving a real-world or mathematical problem; understand that a variable can represent an unknown number, or, depending on the purpose at hand, any number in a specified set.</td></tr><tr><td class="std">6.NS.C.8</td><td>Solve real-world and mathematical problems by graphing points in all four quadrants of the coordinate plane. Include use of coordinates and absolute value to find distances between points with the same first coordinate or the same second coordinate.</td></tr><tr><td class="std">6.RP.A.3</td><td>Use ratio and rate reasoning to solve real-world and mathematical problems, e.g., by reasoning about tables of equivalent ratios, tape diagrams, double number line diagrams, or equations.</td></tr><tr><td class="std">6.SP.B.4</td><td>Display numerical data in plots on a number line, including dot plots, histograms, and box plots.</td></tr><tr><td class="std">6.SP.B.5.a</td><td>Summarize numerical data sets in relation to their context, such as by reporting the number of observations.</td></tr><tr><td class="std">6.SP.B.5.c</td><td>Summarize numerical data sets in relation to their context, such as by giving quantitative measures of center (median and/or mean) and variability (interquartile range and/or mean absolute deviation), as well as describing any overall pattern and any striking deviations from the overall pattern with reference to the context in which the data were gathered.</td></tr><tr><td class="std">7.RP.A.2</td><td>Recognize and represent proportional relationships between quantities.</td></tr><tr><td class="std">7.SP.A.1</td><td>Understand that statistics can be used to gain information about a population by examining a sample of the population; generalizations about a population from a sample are valid only if the sample is representative of that population. Understand that random sampling tends to produce representative samples and support valid inferences.</td></tr><tr><td class="std">7.SP.C.5</td><td>Understand that the probability of a chance event is a number between 0 and 1 that expresses the likelihood of the event occurring. Larger numbers indicate greater likelihood. A probability near 0 indicates an unlikely event, a probability around 1/2 indicates an event that is neither unlikely nor likely, and a probability near 1 indicates a likely event.</td></tr><tr><td class="std">7.SP.C.6</td><td>Approximate the probability of a chance event by collecting data on the chance process that produces it and observing its long-run relative frequency, and predict the approximate relative frequency given the probability.</td></tr><tr><td class="std">7.SP.C.7</td><td>Develop a probability model and use it to find probabilities of events. Compare probabilities from a model to observed frequencies; if the agreement is not good, explain possible sources of the discrepancy.</td></tr><tr><td class="std">7.SP.C.8</td><td>Find probabilities of compound events using organized lists, tables, tree diagrams, and simulation.</td></tr><tr><td class="std">8.EE.A.1</td><td>Know and apply the properties of integer exponents to generate equivalent numerical expressions.</td></tr><tr><td class="std">8.F.A.1</td><td>Understand that a function is a rule that assigns to each input exactly one output. The graph of a function is the set of ordered pairs consisting of an input and the corresponding output.</td></tr><tr><td class="std">8.F.B.4</td><td>Construct a function to model a linear relationship between two quantities. Determine the rate of change and initial value of the function from a description of a relationship or from two (x, y) values, including reading these from a table or from a graph. Interpret the rate of change and initial value of a linear function in terms of the situation it models, and in terms of its graph or a table of values.</td></tr><tr><td class="std">8.F.B.5</td><td>Describe qualitatively the functional relationship between two quantities by analyzing a graph (e.g., where the function is increasing or decreasing, linear or nonlinear). Sketch a graph that exhibits the qualitative features of a function that has been described verbally.</td></tr><tr><td class="std">8.G.B.7</td><td>Apply the Pythagorean Theorem to determine unknown side lengths in right triangles in real-world and mathematical problems in two and three dimensions.</td></tr><tr><td class="std">MP1</td><td>Make sense of problems and persevere in solving them.</td></tr><tr><td class="std">MP2</td><td>Reason abstractly and quantitatively.</td></tr><tr><td class="std">MP3</td><td>Construct viable arguments and critique the reasoning of others.</td></tr><tr><td class="std">MP4</td><td>Model with mathematics.</td></tr><tr><td class="std">MP5</td><td>Use appropriate tools strategically.</td></tr><tr><td class="std">MP6</td><td>Attend to precision.</td></tr><tr><td class="std">MP7</td><td>Look for and make use of structure.</td></tr><tr><td class="std">MP8</td><td>Look for and express regularity in repeated reasoning.</td></tr></table><p class="mapnote">Mapped to the Common Core State Standards for Mathematics (Multi-State). Each code and its wording was retrieved from the CASE Network through the Learning Commons Knowledge Graph on 12 September 2026. New York's own Computer Science and Digital Fluency framework and the CSTA standards are not carried in that graph, so no code from either appears anywhere on this site.</p><p class="mapnote">Two deliberate deviations from the retrieved text. The "for example…" illustrations attached to 7.SP.C.6 and 8.EE.A.1 are omitted, since they illustrate rather than state the standard. And where the source carries markup, italics or mathematical notation, it is rendered as plain text: 7.SP.C.5's fraction appears here as 1/2, and the italic stem of 6.SP.B.5.a and 6.SP.B.5.c is plain. Nothing else was shortened. Codes 6.SP.B.5.a and 6.SP.B.5.c are the lettered children of 6.SP.B.5, whose own statement is only a stem ending in a colon; the children carry that stem and are quoted in full.</p><div class="flag"><b>On New York and CSTA.</b> The Learning Commons graph carries Common Core and state-adopted frameworks. It returned nothing for New York's Computer Science and Digital Fluency codes, and it rejects CSTA as a jurisdiction outright. So the anchor here is the Common Core mathematics framework, which is the national option. No CSTA or New York code appears anywhere on this site, because none could be verified. Paste the codes you want and they can be added with the usual verification flags.</div></section>
+<section><h2>Open decisions</h2><p>These are built one way and can be built the other. Each one is a real choice, not an oversight.</p><table><tr><th>Decision</th><th>Built as</th><th>If you change it</th></tr><tr><td>Are classes lifted?</td><td>Yes, from session 12</td><td>Sessions 12 and 13 restructure around functions plus parallel lists, and the plume and the orbit both go. Those two sessions would need replacing.</td></tr><tr><td>Environment</td><td>VS Code throughout, pygame for all graphics</td><td>Sessions 10, 12, and 13 need pygame on the machines. Sessions 1 to 9 and 11 are terminal only and run anywhere.</td></tr><tr><td>Theme</td><td>None. The content carries itself.</td><td>Sessions 3, 5, and 6 share a cryptography thread and would take a single skin cleanly. Sessions 7 to 13 would not.</td></tr><tr><td>Data files</td><td>Four needed on disk</td><td><code>readings_raw.txt</code>, <code>honest_ledger.csv</code>, <code>cooked_ledger.csv</code>, <code>corpus.txt</code>. All four are generated by scripts in the repo, so nothing needs fetching over the network.</td></tr><tr><td>Capstone sketch deadline</td><td>Session 11, 2 December</td><td>It was session 10, the light attendance day, and moved because the sketch describes a window and session 10 is the first window students see. No build time is lost, since the build lives in the session 12 and 13 stretch exits.</td></tr></table></section>
+<section><h2>Programs in this repo</h2><p>Every output printed on these pages came from running these files on Python 3.12.3, with pygame 2.6.1 for the two graphics sessions, verified headless. Timings in session 7 are machine specific and will not match your classroom machines. Re-run before Wednesday.</p><table><tr><th>File</th><th>Session</th></tr><tr><td><code>sweep_report.py</code>, <code>gate_log.py</code></td><td>1</td></tr><tr><td><code>sweep_tools.py</code>, <code>sweep_report2.py</code></td><td>2</td></tr><tr><td><code>caesar_crack.py</code></td><td>3</td></tr><tr><td><code>clean_readings.py</code></td><td>4</td></tr><tr><td><code>transposition.py</code></td><td>5</td></tr><tr><td><code>avalanche.py</code></td><td>6</td></tr><tr><td><code>what_it_costs.py</code></td><td>7</td></tr><tr><td><code>smarter_than_brute.py</code></td><td>8</td></tr><tr><td><code>monty_hall.py</code></td><td>9</td></tr><tr><td><code>make_data.py</code>, <code>benford.py</code>, <code>benford_histogram.py</code></td><td>10</td></tr><tr><td><code>markov.py</code>, <code>corpus.txt</code></td><td>11</td></tr><tr><td><code>sparks_parallel.py</code>, <code>plume.py</code>, <code>verify_plume.py</code></td><td>12</td></tr><tr><td><code>orbit.py</code>, <code>verify_orbit.py</code>, <code>verify_orbit_band.py</code></td><td>13</td></tr></table></section>
+</div></main>
+<nav class="pager"><span class="none">&nbsp;</span><a href="wed01_cold_read.html">Start with session 1 &rarr;</a></nav>
+<footer><div class="wrap"><p>Advanced Python, Robofun Fall 2026. Second printing, 13 September 2026. Built by a generator; the page, not the file, is the source of truth for output, because every quoted line came from a run.</p></div></footer>
 <script>
 document.addEventListener('click', function(e){
   var b = e.target.closest('button.rev');

@@ -93,16 +93,19 @@ HELD = [
 def hub():
     """Return the hub page body."""
     b = (
-        '<header class="top"><div class="course">Robofun &middot; Fall 2026 &middot; '
-        "110 West End Avenue</div>"
-        '<div class="bar"><h1>Advanced Python</h1></div>'
-        '<p class="when">16 September to 16 December 2026 &middot; 13 Wednesdays &middot; '
-        "4:00 to 5:30 &middot; grades 5 to 8</p>"
-        '<p class="lede">A course about the machine underneath. You will read code '
+        '<header class="top"><div class="wrap">'
+        '<p class="eyebrow">Robofun &middot; Fall 2026 &middot; 110 West End Avenue</p>'
+        "<h1>Advanced Python</h1>"
+        '<p class="sub">A course about the machine underneath. You will read code '
         "before you run it, measure what a program costs instead of guessing, and build "
         "the mechanisms that look like magic from the outside: a cipher that breaks "
         "itself, a simulation that settles an argument, a program that writes "
-        "sentences.</p></header>\n"
+        "sentences.</p>"
+        '<div class="dates"><span class="pill"><b>Wednesdays</b> 16 Sep to 16 Dec 2026, '
+        '13 sessions</span><span class="pill"><b>Time</b> 4:00 to 5:30</span>'
+        '<span class="pill"><b>Grades</b> 5 to 8</span>'
+        '<span class="pill"><b>Demo day</b> 16 December</span></div>'
+        "</div></header>\n"
     )
 
     b += "<h2>The thirteen sessions</h2>"
