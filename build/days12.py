@@ -25,7 +25,7 @@ def day01():
     b += '<h2><span class="num">1</span>Opener<span class="mins">10 minutes</span></h2>'
     b += (
         "<p>No code yet. On paper, write down what each of these does. One line each. "
-        "These four lines are the floor for this course.</p>"
+        "These four lines are what this course assumes you already know.</p>"
         '<ul class="tight">'
         "<li><code>for i in range(10):</code></li>"
         "<li><code>total = total + r</code></li>"
@@ -127,30 +127,22 @@ i=9 reading=77 slot=8"""
     b += '<h2><span class="num">3</span>Run it<span class="mins">10 minutes</span></h2>'
     b += (
         "<p>Now type it, or open the copy on the machine, and run it. Compare the real "
-        "output against your paper. Mark every line you got wrong. Those marks are the "
-        "only useful information in this session, so do not tidy them away.</p>"
-        '<div class="predict"><b>Rule for the term.</b> Read it, trace it, then run it. '
-        "Running first tells you what happened. Tracing first tells you why it "
-        "happened. You need the second one.</div>"
+        "output against your paper. Mark every line you got wrong. Do not erase the marks. For each wrong line, find the pass in your trace where the value went off.</p>"
+        '<div class="predict"><b>Read it, trace it, then run it.</b> Running shows you what the program printed. Tracing shows you why. That is the order for every program in this course.</div>'
     )
 
     b += '<h2><span class="num">4</span>The style pass<span class="mins">30 minutes</span></h2>'
     b += (
-        "<p>The program works and it is hard to read. Those are separate facts. "
-        "<code>t</code>, <code>c</code>, <code>b</code>, and <code>bi</code> cost you "
-        "time during the cold read, and you can measure that cost: it is however long "
-        "you spent scrolling back up to find out what <code>bi</code> meant.</p>"
+        "<p>The program works and it is hard to read. <code>t</code>, <code>c</code>, <code>b</code>, and <code>bi</code> made the cold read slower: every time you met one, you had to scroll back up to find out what it was.</p>"
         "<p>Rename every variable so the name says what the value is. Then add a "
-        "docstring at the top of the file. A docstring is a new word today, so here is "
-        "the whole idea: one sentence, inside triple quotes, on line 1 of the file, "
+        "docstring at the top of the file. A docstring is a new word today. It is one sentence, inside triple quotes, on line 1 of the file, "
         "saying what the program is for. Python ignores it. The next reader does not. "
         "Here is one for this program. Copy it onto line 1, or put your own sentence "
         "between the quotes.</p>"
     )
     b += code('''"""Summarize a run of tower readings and report where the strongest one sat."""''', "line 1 of sweep_report.py")
     b += reveal(
-        "Rename all seven short names on paper before you look. Yours does not have to "
-        "match mine. It has to be honest.",
+        "Rename all seven short names on paper before you look. Yours does not have to match mine. It has to say what the value is.",
         code(
             '''"""Summarize a run of tower readings and report where the strongest one sat."""
 
@@ -181,10 +173,7 @@ print(f"average {average}")
 print(f"over {limit}: {over_limit}")
 print(f"best {best} at index {best_index}")'''
         )
-        + "<p>One name here is still a small lie. <code>best_index</code> holds the "
-        "first largest index, not the best one, and nothing in the name tells you that. "
-        "<code>first_best_index</code> is the honest name. Naming is not decoration. It "
-        "is where the bug hides.</p>",
+        + "<p>One name here can still mislead. <code>best_index</code> holds the index of the first largest value, and nothing in the name says first. <code>first_best_index</code> says it. A name that leaves something out sends the next reader the wrong way.</p>",
     )
     b += (
         "<h3>A second one, harder</h3>"
@@ -221,8 +210,7 @@ print(f"q {q}")""",
         + '<div class="toolbar"><a class="btn quiet" href="wed01_doors_trace.html">Watch '
         "this trace fill in, one gate at a time</a></div>"
         + reveal(
-            "Trace all four values, then give each one an honest name. One of the four "
-            "is much harder to name than the others.",
+            "Trace all four variables, then give each one a clear name. All four count something about the doors. One of the four is much harder to name than the others.",
             output("x 7\ny 5\nz 0\nq 3")
             + "<p><code>x</code> is <code>open_count</code>, 7. <code>y</code> is "
             "<code>shut_count</code>, 5. <code>q</code> is "
@@ -231,11 +219,9 @@ print(f"q {q}")""",
             "that never worked. It is actually <code>current_open_run</code>, and it "
             "reads 0 only because the last door in the list is shut. Name it "
             "<code>open_run_so_far</code> and the 0 stops looking like a bug.</p>"
-            "<p>A name that makes a correct value look wrong costs you just as much as "
-            "a name that makes a wrong value look right.</p>",
+            "<p><code>z</code> was right, and its name made it look wrong. A clear name has to make a right value look right.</p>",
         )
-        + "<p>Delete any comment that says what the line already says. A comment earns "
-        "its place by saying why, not what.</p>"
+        + "<p>Delete any comment that says what the line already says. A comment should say why the line is there. The line already says what it does.</p>"
     )
 
     b += panel(
@@ -277,7 +263,7 @@ print(f"q {q}")""",
         ),
     )
     b += pager(
-        None, ("wed02_return_and_modules.html", "Session 2: functions that hand things back")
+        None, ("wed02_return_and_modules.html", "Session 2: functions that return a value")
     )
     return b
 
@@ -329,7 +315,7 @@ def day02():
     """Session 2: return values and your own module."""
     b = masthead(
         "02",
-        "Functions that hand something back",
+        "Functions that return a value",
         "Wednesday 23 September 2026",
         "A function can show you a number or it can give you a number, and those are "
         "different things. Today yours start handing values back, which is what lets "

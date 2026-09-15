@@ -46,7 +46,7 @@ copy of the syllabus link table.
 | 8 | 4 Nov | `wed08_heuristics.html` | Hill climbing, a genetic algorithm, honest comparison |
 | 9 | 18 Nov | `wed09_monte_carlo.html` | Monty Hall, convergence, and a silent bug. Capstone brief |
 | 10 | 25 Nov | `wed10_benford.html` | Benford on two CSVs, histogram in pygame |
-| 11 | 2 Dec | `wed11_markov.html` | Word-pair model, then the honest LLM conversation. Sketches due |
+| 11 | 2 Dec | `wed11_markov.html` | Word-pair model, then what the big language models do. Sketches due |
 | 12 | 9 Dec | `wed12_classes.html` | `class`, `__init__`, `self`, a list of objects, the plume |
 | 13 | 16 Dec | `wed13_orbits_demo.html` | Gravity toward a body, time steps, parent demo |
 
@@ -319,6 +319,13 @@ standards, 21 programs, 4 data files, 44 predict-and-reveal prompts. Faults foun
 18. Standards in every teacher panel are now written as lines, code first then the full
     statement, instead of a two-column table. The `make.py` guard against truncated stems
     was rewritten for the new markup and negative-tested again.
+19. A prose pass over every student-facing page and both worksheet pages, using the
+    plain-teaching-prose skill built from the teacher's corrections in review: no
+    epigrams or balanced pairs, no value words for code (honest, earns, lie), no body
+    metaphors for return, no commentary about the lesson, no scope words that overreach,
+    questions with a named referent and an answer shape. Session 2 is retitled
+    "Functions that return a value", session 3 "Counting, and what counting lets you do",
+    and session 11's section 4 "What the big ones do". Programs and outputs unchanged.
 
 Known corrections made before first printing:
 

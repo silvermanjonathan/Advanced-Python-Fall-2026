@@ -6,8 +6,8 @@ from stds import panel
 
 CAPSTONE = (
     '<section class="panel" style="border-left-color:var(--ochre-line);background:var(--ochre-tint)">'
-    "<h2>Capstone thread</h2>"
-    "<p>The capstone is a thread from here to 16 December, not a session. Before any "
+    "<h2>Capstone</h2>"
+    "<p>The capstone runs from today to 16 December. It is not a session of its own. Before any "
     "code is written, one page on paper is required, and it is the same page for "
     "everyone:</p>"
     '<ul class="tight">'
@@ -18,10 +18,8 @@ CAPSTONE = (
     "<li>How it ends. Both ways: winning and losing.</li>"
     "<li>Then pseudocode, in English, before any Python.</li>"
     "</ul>"
-    "<p>Sketches are due at the start of session 11, two weeks from today. No sketch means no build, which is "
-    "not a punishment: it is the same rule every working programmer has learned the hard "
-    "way.</p>"
-    "<p>What you build on is fixed, so the sketch has something to stand on. In sessions "
+    "<p>Sketches are due at the start of session 11, two weeks from today. No sketch means no build.</p>"
+    "<p>What you build on is fixed, so the sketch describes something real. In sessions "
     "12 and 13 you get two working programs with moving objects and gravity: a plume of "
     "particles, and a ship going round a planet. Your capstone is what you add to one of "
     "them, and the sketch page describes that addition. A fuel budget and a target orbit. "
@@ -40,9 +38,7 @@ CAPSTONE = (
     "<h3>Where the time is</h3>"
     "<p>Session 10: bring questions about the sketch, and see your first window. Session "
     "11: sketch handed in at the start, and five minutes at the end where you say which "
-    "program you are extending and what the first addition is. Session 12: the plume "
-    "arrives, and the stretch exit is the first capstone addition. Session 13: the "
-    "orbit arrives, the stretch exit is a fuel budget and a target, and the last 45 "
+    "program you are extending and what the first addition is. Session 12: you get the plume, and the stretch exit is the first capstone addition. Session 13: you get the orbit, the stretch exit is a fuel budget and a target, and the last 45 "
     "minutes are rehearsal and demo. There is no separate build session, so the "
     "addition has to be small enough to finish inside two stretch exits.</p>"
     "</section>\n"
@@ -60,8 +56,7 @@ def day09():
         "thousand times and read the answer off the screen.",
     )
     b += (
-        '<div class="flag"><b>No class on 11 November.</b> Veterans Day. Session 8 was '
-        "two weeks ago, so the opener does more work than usual today.</div>"
+        '<div class="flag"><b>No class on 11 November.</b> Veterans Day. Session 8 was two weeks ago. The opener goes back to it.</div>'
     )
     b += '<h2><span class="num">1</span>Opener<span class="mins">10 minutes</span></h2>'
     b += (
@@ -72,10 +67,9 @@ def day09():
     )
     b += reveal(
         "Both answers before you click.",
-        "<p>The score said how many positions were right, which turns one bit per guess "
-        "into seven. And five runs because a method that starts from a random place has "
+        "<p>The score said how many positions were right, so each guess told the climber seven things instead of one. And five runs because a method that starts from a random place has "
         "a spread, not a single running time. Ours ran from 50 to 238.</p>"
-        "<p>Hold on to the word spread. Today it is the entire lesson.</p>",
+        "<p>Keep the word spread. Today is about how a spread narrows as you run more trials.</p>",
     )
 
     b += '<h2><span class="num">2</span>The problem<span class="mins">15 minutes</span></h2>'
@@ -120,12 +114,10 @@ def day09():
     b += reveal(
         "Why does the host's loop need both gates, and what happens when your first "
         "pick is already the prize?",
-        "<p>The host may not open the prize door and may not open your door, so both "
-        "gates are doing real work. When your pick is the prize, two doors qualify and "
+        "<p>The host may not open the prize door and may not open your door, so both gates are needed. When your pick is the prize, two doors qualify and "
         "the loop keeps the later one. That is fine, because a real host could open "
         "either.</p>"
-        "<p>Read the switch block too. It looks reasonable. Hold your opinion of it "
-        "until section 5.</p>",
+        "<p>Read the switch block too. It looks reasonable. Section 5 comes back to it.</p>",
     )
 
     b += '<h2><span class="num">4</span>Run it until it settles<span class="mins">20 minutes</span></h2>'
@@ -147,13 +139,11 @@ def day09():
         )
         + "<p>Read the last row. Staying settles on 0.3332, which is one third. "
         "Switching settles on 0.5540, which is not two thirds and not one half. It is "
-        "not anything. A number that converges cleanly onto nothing recognisable is the "
-        "signature of a bug, not of a surprising truth.</p>",
+        "not anything. When a number settles on a value that matches nothing you can explain, suspect a bug before you suspect a surprise.</p>",
     )
     b += (
         '<div class="bug"><b>This is the session\'s bug hunt.</b> The program above is '
-        "the broken one. It has no traceback, it never crashes, and it produces a stable "
-        "wrong answer with five digits of apparent precision. Your model says switching "
+        "the broken one. It has no traceback, it never crashes, and it produces a steady wrong answer to four decimal places. Your model says switching "
         "wins two thirds of the time, or 0.6667. The program says 0.5540. One of them is "
         "wrong and you have to find out which.</div>"
     )
@@ -207,9 +197,7 @@ the model says stay 1/3 and switch 2/3:
         + "<p>0.3332 and 0.6668, against 0.3333 and 0.6667. Now the two columns add to "
         "exactly 100000, because with the same seed every game that staying lost, "
         "switching won.</p>"
-        "<p>Look at the 10-trial row: 0.4 and 0.6. Ten games tells you nothing. The "
-        "answer only appears as the trials pile up, and the model and the measurement "
-        "only agree in the last row.</p>",
+        "<p>Look at the 10-trial row: 0.4 and 0.6. Ten games tells you almost nothing. The answer appears as the number of trials grows, and the model and the measurement agree in the last row.</p>",
     )
     b += CAPSTONE
     b += exits(
@@ -226,8 +214,7 @@ the model says stay 1/3 and switch 2/3:
         "<p>10 opener, 15 the problem and the vote, 20 reading the code, 20 running and "
         "the table, 15 the bug hunt, 10 capstone brief. That is 90 with no slack. If "
         "section 3 runs long, take the minutes from section 4 by running the table on "
-        "the projector once rather than on every machine. The written model has to "
-        "happen before any code runs or the session loses its spine, and the capstone "
+        "the projector once rather than on every machine. The written model has to happen before any code runs, because the whole session compares the model against the run, and the capstone "
         "brief has to be read aloud, because the sketch is due in two weeks and next week "
         "is the light attendance day.</p>",
         "<p>Some of the room will refuse the two thirds answer even after the "
@@ -330,10 +317,7 @@ def benford_expected(digit):
         "10 squared is 100. <code>log10(2)</code> is about 0.301, because 10 to the "
         "0.301 is 2. You do not need more than that today, and the calculator does "
         "the work.</p>"
-        "<p>Why a logarithm turns up in a rule about first digits is a fair question "
-        "and the honest short answer is that quantities which grow by multiplying "
-        "spend equal stretches of time in each power of ten, and the gap from 1 to 2 "
-        "is a longer stretch than the gap from 9 to 10.</p>"
+        "<p>Why does a logarithm turn up in a rule about first digits? A quantity that grows by multiplying takes as long to go from 1 to 10 as from 10 to 100. Inside each of those stretches, going from 1 to 2 is a doubling and takes a long time; going from 9 to 10 is a small step and takes a short time. So the quantity spends more of its time with a leading 1 than with a leading 9.</p>"
     )
     b += reveal(
         "<code>benford_expected(1)</code> and <code>benford_expected(9)</code>. Work "
@@ -341,9 +325,7 @@ def benford_expected(digit):
         "<p>log of 2, which is 0.301, and log of one and a ninth, which is 0.046. So 1 "
         "should lead about thirty percent of the time and 9 about five percent: roughly "
         "six times as often.</p>"
-        "<p>Check that the nine shares add to 1. They do, exactly, because the logs "
-        "telescope: each term is log of (d+1) minus log of d, and the whole sum "
-        "collapses to log 10 minus log 1.</p>",
+        "<p>Check that the nine shares add to 1. They do, exactly. Each share is log of (d+1) minus log of d, so when you add all nine, every middle term cancels and what is left is log of 10 minus log of 1, which is 1.</p>",
     )
 
     b += '<h2><span class="num">3</span>Which one was invented<span class="mins">30 minutes</span></h2>'
@@ -380,8 +362,7 @@ cooked_ledger.csv
         "percentage point on every digit. The invented numbers sit near 0.11 everywhere, "
         "because a random pick between 100 and 9999 treats every leading digit alike.</p>"
         "<p>Go back to the tally on the board from the opener. Compare it to the second "
-        "table. It usually looks a lot like the cooked file, which is the point: you "
-        "invent numbers the same way the generator does.</p>",
+        "table. It usually looks a lot like the cooked file. People invent numbers the same way the random generator does.</p>",
     )
 
     b += '<h2><span class="num">4</span>Draw it<span class="mins">25 minutes</span></h2>'
@@ -440,9 +421,8 @@ pygame.quit()''',
         "The loop runs sixty times a second and draws the same nine bars every time. "
         "What happens if you take the <code>for event</code> loop out?",
         "<p>The window stops answering. Nothing reads the close button, so the program "
-        "never learns you clicked it, and you have to kill it from the terminal. That "
-        "loop is not decoration. It is how the window listens.</p>"
-        "<p>Four things in this loop will be in every window you write this term: "
+        "never learns you clicked it, and you have to kill it from the terminal. That loop is how the window finds out what you did.</p>"
+        "<p>Four things in this loop will be in every window you write in this course: "
         "<code>while running:</code>, the <code>event.get()</code> loop with its QUIT "
         "check, <code>display.flip()</code>, and <code>clock.tick(60)</code>. A window "
         "never closes itself. You close it.</p>",
@@ -459,9 +439,7 @@ pygame.quit()''',
         "Floor, plus you computed the Benford shares yourself and checked they sum to 1, "
         "plus a working histogram of one file.",
         "Middle, plus both histograms with the expectation line drawn, plus tally the "
-        "room's own invented numbers from the opener into a third CSV and test it. Then "
-        "answer honestly: does one class's worth of numbers give you enough to conclude "
-        "anything?",
+        "room's own invented numbers from the opener into a third CSV and test it. Then decide: does one class's worth of numbers give you enough to conclude anything?",
     )
     b += panel(
         ["6.SP.B.4", "7.SP.A.1", "MP4"],
@@ -512,9 +490,7 @@ def day11():
         "11",
         "Machines that write, and what they are actually doing",
         "Wednesday 2 December 2026",
-        "You are going to build the thing that makes a chatbot feel like magic, out of a "
-        "list, a loop, and a dictionary. It takes about forty lines. Once you have built "
-        "it, it will not feel like magic any more, and that is the point of the session.",
+        "You are going to build a small version of the program behind a chatbot, out of a list, a loop, and a dictionary. It takes about forty lines. Once you have built it, you will know what that program is doing.",
     )
     b += '<h2><span class="num">1</span>Opener<span class="mins">10 minutes</span></h2>'
     b += (
@@ -531,9 +507,7 @@ def day11():
 
     b += '<h2><span class="num">2</span>The table<span class="mins">30 minutes</span></h2>'
     b += (
-        "<p>Read a text file. Walk through it a word at a time. For every pair of "
-        "consecutive words, record which word came next. That record is the whole "
-        "model.</p>"
+        "<p>Read a text file. Walk through it a word at a time. For every pair of words that sit next to each other, record which word came next. That record is the model.</p>"
     )
     b += code(
         '''def build_model(words):
@@ -560,8 +534,7 @@ what followed ('the', 'machine'):
         "those two words somewhere in the text. The list on the page is the set, with "
         "repeats removed. The table itself holds all eleven: <code>does</code>, "
         "<code>is</code>, <code>knows</code>, and <code>was</code> twice each, and "
-        "the other three once. Nothing in that list is a guess and nothing in it is "
-        "understood. It is a record of what happened.</p>"
+        "the other three once. Nothing in that list is a guess. It is a record of what happened in the text.</p>"
         "<p>340 words produced 250 distinct pairs. Most pairs occur once, which is why "
         "a small corpus generates text that quotes itself in long stretches.</p>",
     )
@@ -605,15 +578,13 @@ what followed ('the', 'machine'):
         "Sentence 3 reads almost perfectly. Sentence 1 falls apart at "
         "<code>the word not. you are</code>, because the chain walked into a pair that "
         "only occurred once and had nowhere sensible to go.</p>"
-        "<p>Now the question worth the whole session: which of those four sentences did "
-        "the program understand? None. It looked up two words and picked from a list. "
-        "That is the entire mechanism.</p>",
+        "<p>Which of those four sentences did the program understand? None. It looked up two words and picked from a list. That is all it does.</p>",
     )
 
-    b += '<h2><span class="num">4</span>The honest conversation<span class="mins">20 minutes</span></h2>'
+    b += '<h2><span class="num">4</span>What the big ones do<span class="mins">20 minutes</span></h2>'
     b += (
         "<p>The programs that write text for people are built on a much bigger version "
-        "of what you just wrote. The differences are real and worth naming plainly:</p>"
+        "of what you just wrote. Three things are different:</p>"
         '<ul class="tight">'
         "<li>They look back over hundreds or thousands of words, not two.</li>"
         "<li>They do not store a list per pair. They learn a function that scores every "
@@ -621,11 +592,8 @@ what followed ('the', 'machine'):
         "<li>They are trained on an enormous amount of text, then adjusted further using "
         "human feedback about which answers are wanted.</li>"
         "</ul>"
-        "<p>What does not change is the shape: look at what came before, produce a "
-        "distribution over what might come next, pick from it. When one of those systems "
-        "produces something confident and wrong, this is why. Nothing in the mechanism "
-        "checks the world. It checks what usually follows.</p>"
-        '<div class="predict"><b>Your model is a probability model.</b> Seven options '
+        "<p>What does not change: look at what came before, work out which words might come next and how likely each is, pick one. When one of those systems says something confident and wrong, this is why. Nothing in it checks the world. It checks what usually follows.</p>"
+        '<div class="predict"><b>Your model gives probabilities.</b> Seven options '
         "for <code>(\"the\", \"machine\")</code> does not mean one in seven each. The "
         "table holds eleven entries, so <code>does</code> gets two chances in eleven "
         "and <code>reads</code> gets one. Session 9 had you write a model down and then "
@@ -661,8 +629,7 @@ what followed ('the', 'machine'):
         "almost exactly the original, which shows memorisation and generalisation "
         "trading off. That conversation transfers directly to the real systems.</p>"
         "<p>One code note. <code>model[(first, second)]</code> on a "
-        "<code>defaultdict</code> silently inserts an empty list for a missing key, so "
-        "generating quietly grows the model. Harmless here, worth pointing at, and a "
+        "<code>defaultdict</code> silently inserts an empty list for a missing key, so generating adds keys to the model without telling you. Harmless here, worth pointing at, and a "
         "good stretch fix using <code>.get</code> instead.</p>",
         retouch=(
             "Session 3's dictionary and KeyError, now solved a second way with "
@@ -739,9 +706,7 @@ after removing from four lists but forgetting the fifth:
         + "<p>The spark that was at x=109 was red and is now orange. Every colour after "
         "the removal point is off by one, and the program does not complain, because "
         "nothing in it knows those five lists were ever related.</p>"
-        "<p>There is a second problem that is worse. You cannot hand one spark to a "
-        "function. You have to hand over five lists and an index, and hope the caller "
-        "keeps them together.</p>",
+        "<p>There is a second problem. You cannot pass one spark to a function. You have to pass five lists and an index, and trust that whoever calls the function keeps them together.</p>",
     )
 
     b += '<h2><span class="num">2</span>One spark, one object<span class="mins">30 minutes</span></h2>'
@@ -757,7 +722,7 @@ after removing from four lists but forgetting the fifth:
         "and the up-amount always fit the original speed exactly.</p>"
         "<p><code>math.radians</code> is a unit change, nothing more. Python's "
         "<code>cos</code> and <code>sin</code> want radians and you are thinking in "
-        "degrees, so you convert. Treat all three as tools you are handed today.</p>"
+        "degrees, so you convert. Treat all three as tools for today. You do not need to know how they work inside.</p>"
     )
     b += code(
         '''class Particle:
@@ -793,13 +758,11 @@ after removing from four lists but forgetting the fifth:
         "initial dy has to be negative. Gravity pulls down the screen, which is y "
         "increasing, so it adds.</p>"
         "<p>This is the coordinate system from session 5's grid, with one axis flipped "
-        "relative to the one you use in maths class. Say that out loud every time it "
-        "comes up, because it never stops causing bugs.</p>",
+        "relative to the one you use in maths class. It causes bugs in every program that draws, so say it out loud each time it comes up.</p>",
     )
     b += (
         "<p><code>self</code> is the particular spark this call is about. "
-        "<code>self.x</code> is that spark's own x, not shared with any other. That one "
-        "idea replaces all five lists and the comment.</p>"
+        "<code>self.x</code> is that spark's own x, not shared with any other. That one idea replaces all five lists and the comment that was holding them together.</p>"
     )
 
     b += '<h2><span class="num">3</span>A list of objects<span class="mins">25 minutes</span></h2>'
@@ -833,16 +796,13 @@ trail lengths: shortest 92, longest 183""",
         )
         + "<p>All 120 have landed within four seconds. The highest reached y=64.2, which "
         "is near the top of an 800 by 600 window, about 500 pixels above the vent.</p>"
-        "<p>The trail lengths are the useful number: 92 frames for the shortest flight "
-        "and 183 for the longest, which is exactly what a spread of launch speeds and "
-        "angles should produce. Every one of those trails lives inside its own object, "
+        "<p>Look at the trail lengths: 92 frames for the shortest flight and 183 for the longest. A range of launch speeds and angles gives a range of flight times. Every one of those trails lives inside its own object, "
         "and no list is keeping them in step.</p>",
     )
     b += (
         "<p>The loop has the same shape as the histogram in session 10: "
         "<code>while running:</code>, the QUIT listener, <code>clock.tick(60)</code>, "
-        "and a window that never closes itself. Objects changed what is in the loop, not "
-        "the loop.</p>"
+        "and a window that never closes itself. The objects changed what is inside the loop. The loop itself is the same.</p>"
     )
     b += exits(
         "You can say what went wrong in the opener, and a <code>Particle</code> class "
@@ -920,11 +880,8 @@ def day13():
         "<p>The general rule, in case you have not met it: if two points are "
         "<code>a</code> apart across and <code>b</code> apart up, the straight-line "
         "distance between them is the square root of <code>a</code> squared plus "
-        "<code>b</code> squared. That is the Pythagorean theorem, and it is the only "
-        "piece of geometry this session needs. Here the across gap is 0, so it "
-        "collapses to 300 minus 120.</p>"
-        "<p>With gaps of 100 across and 80 up it does not collapse: the distance is "
-        "the square root of 10000 plus 6400, which is about 128.</p>"
+        "<code>b</code> squared. That is the Pythagorean theorem, and it is the one piece of geometry this session needs. Here the across gap is 0, so the distance is just 300 minus 120.</p>"
+        "<p>With gaps of 100 across and 80 up you need the whole rule: the distance is the square root of 10000 plus 6400, which is about 128.</p>"
         "<p>When the ship is off to one side, both differences matter and you need the "
         "full calculation.</p>",
     )
@@ -1017,13 +974,11 @@ distance at a few frames:
         "guess.</p>",
     )
     b += (
-        '<div class="predict"><b>DT is a lie you are choosing.</b> Real gravity acts '
-        "continuously, and this program applies it in jumps of 0.6. Set <code>DT</code> "
+        '<div class="predict"><b>DT is a shortcut.</b> Real gravity acts all the time, without gaps. This program applies it in jumps of 0.6. Set <code>DT</code> '
         "to 3.0 and the arithmetic is unchanged but the loop stops closing on itself: "
         "each pass lands a little to one side of the last, and the trail becomes a set of "
         "overlapping loops. The two rows at the bottom of the table show it. At 3.0 the ship "
-        "still holds between 62 and 180, and it takes a DT of about 8 before a single "
-        "jump is big enough to fling it off screen. That is worth seeing once.</div>"
+        "still holds between 62 and 180, and it takes a DT of about 8 before a single jump is big enough to send it off screen.</div>"
     )
 
     b += '<h2><span class="num">3</span>The demo<span class="mins">45 minutes</span></h2>'
@@ -1036,11 +991,8 @@ distance at a few frames:
         "<li><b>Tell them.</b> One sentence on the hardest bug you fixed and how you "
         "found it.</li>"
         "</ul>"
-        "<p>The third part is the one that matters, and it is the one to rehearse. "
-        "Anybody can run a program. Explaining how you found a bug is the evidence that "
-        "you wrote it.</p>"
-        "<p>Rehearse in pairs first, twice through, with a timer. Sixty seconds is "
-        "shorter than it sounds.</p>"
+        "<p>Rehearse the third part most. Anybody can run a program. Explaining how you found a bug shows that you wrote it.</p>"
+        "<p>Rehearse in pairs first, twice through, with a timer. Sixty seconds goes quickly.</p>"
     )
     b += exits(
         "Your orbit program runs and the ship goes round at least once without crashing "

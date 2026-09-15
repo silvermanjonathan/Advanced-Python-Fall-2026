@@ -5,11 +5,10 @@ from stds import MAPNOTE, STD
 
 SESSIONS = [
     ("01", "16 Sep", "wed01_cold_read.html", "Cold read, then a style pass",
-     "Trace 60 lines of an unfamiliar working program, then rename everything in it. "
-     "Diagnostic routing."),
-    ("02", "23 Sep", "wed02_return_and_modules.html", "Functions that hand something back",
+     "Trace 60 lines of an unfamiliar working program, then rename everything in it. Session 1 also shows where the room is."),
+    ("02", "23 Sep", "wed02_return_and_modules.html", "Functions that return a value",
      "return, composition, and splitting a program into your own importable module."),
-    ("03", "30 Sep", "wed03_counting.html", "Counting, and what counting buys you",
+    ("03", "30 Sep", "wed03_counting.html", "Counting, and what counting lets you do",
      "Dictionaries and sets, then collections.Counter, then break a Caesar cipher by "
      "frequency."),
     ("04", "7 Oct", "wed04_messy_files.html", "Messy files, and saying what you threw away",
@@ -24,8 +23,7 @@ SESSIONS = [
      "Linear against binary search, brute force with itertools.product, and a "
      "runtime-against-digits table you time yourself."),
     ("08", "4 Nov", "wed08_heuristics.html", "Smarter than brute force",
-     "Fitness, mutation, selection. Hill climbing, then a small genetic algorithm, then "
-     "an honest comparison of the two."),
+     "Fitness, mutation, selection. Hill climbing, then a small genetic algorithm, then a fair comparison of the two."),
     ("09", "18 Nov", "wed09_monte_carlo.html", "Settling an argument by simulation",
      "Monty Hall: trials, tally, convergence, and a silent bug that produces a stable "
      "wrong answer. Capstone brief issued."),
@@ -33,8 +31,7 @@ SESSIONS = [
      "Benford's law on two CSV files, one grown and one invented, with a histogram drawn "
      "in pygame."),
     ("11", "2 Dec", "wed11_markov.html", "Machines that write",
-     "A word-pair model trained on a text file, then the honest conversation about what "
-     "a language model is doing. Capstone sketches due."),
+     "A word-pair model trained on a text file, then what the big language models do differently, and what they do the same. Capstone sketches due."),
     ("12", "9 Dec", "wed12_classes.html", "Objects that remember their own history",
      "class, __init__, self, methods, and a list of objects stepped in one loop. A "
      "particle plume with gravity and trails."),
@@ -82,7 +79,7 @@ HELD = [
      "window."),
     ("Self-closing windows", "A pygame window never closes itself. "
      "<code>while running:</code>, an <code>event.get()</code> loop, a QUIT listener, "
-     "and <code>clock.tick(60)</code>. One idiom, all term."),
+     "and <code>clock.tick(60)</code>. The same loop in every window."),
     ("A module that prints", "Never. A module holds functions. The program that imports "
      "it does the printing."),
     ("turtle", "Not available in our VS Code setup, so every graphic on this course is "
@@ -97,10 +94,7 @@ def hub():
         '<p class="eyebrow">Robofun &middot; Fall 2026 &middot; 110 West End Avenue</p>'
         "<h1>Advanced Python</h1>"
         '<p class="sub">A course about the machine underneath. You will read code '
-        "before you run it, measure what a program costs instead of guessing, and build "
-        "the mechanisms that look like magic from the outside: a cipher that breaks "
-        "itself, a simulation that settles an argument, a program that writes "
-        "sentences.</p>"
+        "before you run it, measure what a program costs instead of guessing, and build three things that look hard from the outside: a cipher that breaks itself, a simulation that settles an argument, a program that writes sentences.</p>"
         '<div class="dates"><span class="pill"><b>Wednesdays</b> 16 Sep to 16 Dec 2026, '
         '13 sessions</span><span class="pill"><b>Time</b> 4:00 to 5:30</span>'
         '<span class="pill"><b>Grades</b> 5 to 8</span>'
@@ -139,17 +133,13 @@ def hub():
 
     b += "<h2>What this course is for</h2>"
     b += (
-        "<p>A model can write code for you. That is now true and it is not going to stop "
-        "being true. What it cannot do is tell you whether the code is right, what it "
+        "<p>A model can write code for you. What it cannot do is tell you whether the code is right, what it "
         "will cost to run, or why it produced the number it produced. Those are the "
         "skills this course is about.</p>"
         "<p>So the order is always the same. Read it, trace it, then run it. Every page "
         "asks you to predict the output before you see it, because a prediction you got "
         "wrong teaches you something and a program you watched run does not.</p>"
-        "<p>Three sessions are built around a wrong answer rather than a right one. In "
-        "session 9 a program converges confidently on 0.5540 when the truth is 0.6667, "
-        "with no error message anywhere. Finding out why is the most useful thing in the "
-        "term.</p>"
+        "<p>Three sessions are built around a wrong answer. In session 8 the fancier method loses. In session 12 five lists fall out of step. In session 9 a program settles on 0.5540 when the true value is 0.6667, with no error message anywhere, and finding out why is the point of that session.</p>"
     )
 
     b += "<h2>What this course assumes</h2>"
@@ -170,7 +160,7 @@ def hub():
         "<li><code>def</code> with parameters, even if your functions have only ever "
         "printed.</li>"
         "</ul>"
-        "<p>Everything else arrives during the term and is listed below. "
+        "<p>Everything else is taught during the term and is listed below. "
         "<code>return</code> values, dictionaries, files, and classes are all treated "
         "as new.</p>"
         "<p>No mathematics beyond grade 5 arithmetic is assumed either. Four things the "
@@ -230,7 +220,7 @@ def hub():
 
     b += "<h2>Capstone</h2>"
     b += (
-        "<p>The capstone runs as a thread from session 9, not as a session of its own. "
+        "<p>The capstone runs from session 9 to the demo, not as a session of its own. "
         "The brief goes out on 18 November and the sketch is due on 2 December. There "
         "is no separate build session: the capstone is an addition to one of the two "
         "programs the course gives you in sessions 12 and 13, the particle plume or the "
@@ -276,9 +266,8 @@ def hub():
         "<tr><td>Environment</td><td>VS Code throughout, pygame for all graphics</td>"
         "<td>Sessions 10, 12, and 13 need pygame on the machines. Sessions 1 to 9 and 11 "
         "are terminal only and run anywhere.</td></tr>"
-        "<tr><td>Theme</td><td>None. The content carries itself.</td>"
-        "<td>Sessions 3, 5, and 6 share a cryptography thread and would take a single "
-        "skin cleanly. Sessions 7 to 13 would not.</td></tr>"
+        "<tr><td>Theme</td><td>None.</td>"
+        "<td>Sessions 3, 5, and 6 are all about ciphers and could share one theme. Sessions 7 to 13 would not.</td></tr>"
         "<tr><td>Data files</td><td>Four needed on disk</td>"
         "<td><code>readings_raw.txt</code>, <code>honest_ledger.csv</code>, "
         "<code>cooked_ledger.csv</code>, <code>corpus.txt</code>. All four are generated "

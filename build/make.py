@@ -17,7 +17,7 @@ PAGES = [
     ("wed01_cold_read.html", "Session 1: cold read, then a style pass", day01),
     ("wed01_worksheet.html", "Session 1 worksheet: trace it before you run it", worksheet01),
     ("wed01_doors_trace.html", "Session 1: watch the door trace fill in", trace01),
-    ("wed02_return_and_modules.html", "Session 2: functions that hand something back", day02),
+    ("wed02_return_and_modules.html", "Session 2: functions that return a value", day02),
     ("wed03_counting.html", "Session 3: counting, and what counting buys you", day03),
     ("wed04_messy_files.html", "Session 4: messy files", day04),
     ("wed05_transposition.html", "Session 5: ciphers that move letters", day05),

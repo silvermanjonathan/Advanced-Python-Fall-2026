@@ -349,6 +349,6 @@ def worksheet01():
 
     b += pager(
         ("wed01_cold_read.html", "Session 1: the page"),
-        ("wed02_return_and_modules.html", "Session 2: functions that hand something back"),
+        ("wed02_return_and_modules.html", "Session 2: functions that return a value"),
     )
     return b

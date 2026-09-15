@@ -19,7 +19,7 @@ def day03():
     """Session 3: dicts, sets, counting, and cracking a Caesar."""
     b = masthead(
         "03",
-        "Counting, and what counting buys you",
+        "Counting, and what counting lets you do",
         "Wednesday 30 September 2026",
         "A dictionary maps each letter straight to its count, which saves you keeping "
         "two lists in step by hand. Then you will build a Caesar cipher from nothing, "
@@ -43,8 +43,7 @@ def day03():
             hits = hits + 1
     return hits"""
         )
-        + "<p>Now imagine calling that 26 times, once per letter. It works, and it "
-        "reads the whole text 26 times. Hold that thought.</p>",
+        + "<p>Now imagine calling that 26 times, once per letter. It works, and it reads the whole text 26 times. Section 2 fixes that.</p>",
     )
 
     b += '<h2><span class="num">2</span>The parallel list problem<span class="mins">15 minutes</span></h2>'
@@ -74,9 +73,7 @@ print(counts)"""
         "What prints? And what happens if you run <code>counts[\"z\"] + 1</code> "
         "without setting <code>counts[\"z\"]</code> first?",
         output("{'b': 1}")
-        + "<p>The second one raises <code>KeyError: 'z'</code>. A dictionary does not "
-        "invent a zero for you. That is the whole reason "
-        "<code>collections.Counter</code> exists.</p>",
+        + "<p>The second one raises <code>KeyError: 'z'</code>. A dictionary does not start a missing key at zero for you. <code>collections.Counter</code> does, which is why it exists.</p>",
     )
 
     b += (
@@ -84,8 +81,7 @@ print(counts)"""
         '<span class="mins">20 minutes</span></h2>'
     )
     b += (
-        "<p>Nothing in this course has needed a cipher yet, so here is the whole idea in "
-        "one sentence. Pick a number, move every letter forward in the alphabet by that "
+        "<p>A Caesar cipher is a way to scramble a message. Pick a number, move every letter forward in the alphabet by that "
         "number, and wrap around from z back to a.</p>"
         "<p>Three words come with it and get used for the next four sessions. The number "
         "is the <b>key</b>. The readable message is the <b>plaintext</b>. The scrambled "
@@ -94,19 +90,17 @@ print(counts)"""
         "the alphabet along the top of your page if it helps.</p>"
     )
     b += reveal(
-        "Encode <code>dawn</code> with key 3. Then encode <code>zebra</code> with the "
-        "same key. The second one is the interesting one.",
+        "Encode <code>dawn</code> with key 3. Then encode <code>zebra</code> with the same key. Watch what happens to the z.",
         "<p><code>dawn</code> becomes <code>gdzq</code>. d goes to g, a goes to d, w "
         "goes to z, n goes to q.</p>"
-        "<p><code>zebra</code> becomes <code>cheud</code>. The z is the interesting "
-        "part: three past z runs off the end of the alphabet and comes back round to c. "
+        "<p><code>zebra</code> becomes <code>cheud</code>. Three past z runs off the end of the alphabet and comes back round to c. "
         "Without that wrap the cipher would break on a quarter of the alphabet.</p>"
         "<p>To decode, move backwards by the same key. A Caesar cipher undoes itself "
         "with a negative key, which is why one function can do both jobs.</p>",
     )
     b += "<h3>Letters into numbers</h3>"
     b += (
-        "<p>Python will not add 3 to a letter. Two functions get you across. "
+        "<p>Python will not add 3 to a letter. Two functions change a letter into a number and back. "
         "<code>ord</code> turns a character into the number the machine stores it as, "
         "and <code>chr</code> turns a number back into a character.</p>"
     )
@@ -129,8 +123,7 @@ print(chr(103))   # g"""
         "122 - ord(\"a\")       25     the position of z\n"
         "(25 + 3) % 26         2     wraps past the end\n"
         "chr(2 + ord(\"a\"))   'c'    back to a letter</code></pre>"
-        "<p>This is the <code>%</code> wrap from session 1 doing real work. There it "
-        "kept a number under 9. Here it keeps a letter inside the alphabet.</p>",
+        "<p>This is the <code>%</code> wrap from session 1. There it kept a number under 9. Here it keeps a letter inside the alphabet.</p>",
     )
 
     b += (
@@ -138,9 +131,7 @@ print(chr(103))   # g"""
         '<span class="mins">30 minutes</span></h2>'
     )
     b += (
-        "<p>Here is a message somebody encoded with a key you do not have. You could "
-        "try all 26 keys, and for a Caesar cipher that is genuinely fast enough. Do "
-        "something better instead: count the letters.</p>"
+        "<p>Here is a message somebody encoded with a key you do not have. You could try all 26 keys, and for a Caesar cipher that is fast enough. There is a faster way: count the letters.</p>"
         "<p>In ordinary English, <code>e</code> is the most common letter. If the most "
         "common letter in the ciphertext is <code>h</code>, then <code>e</code> was "
         "probably shifted to <code>h</code>, and the key is 3. One count, no "
@@ -204,15 +195,14 @@ plaintext: read the code and trace the code before you ever run the code"""
         + "<p><code>h</code> appears 12 times, well clear of the 5 behind it. So the key "
         "is 3 and the message comes out on the first try, with no key and no "
         "guessing.</p>"
-        "<p>Two words of caution, and they matter more than the trick. The text has to "
+        "<p>Two limits. The text has to "
         "be long enough for <code>e</code> to actually win, and the text has to be "
         "ordinary English. Try it on a short message and watch it fail.</p>",
     )
     b += (
         '<div class="predict"><b>Frequency counts are ratios.</b> 12 of 49 letters is '
         "about 0.24. In ordinary English <code>e</code> runs near 0.12. Your sample is "
-        "small, so your share is off. This is the same reasoning you use on any small "
-        "sample, and it comes back hard in session 9.</div>"
+        "small, so your share is off. Any small sample has this problem. Session 9 is about it.</div>"
     )
     b += (
         "<h3>Sets, in one line</h3>"
@@ -235,9 +225,7 @@ plaintext: read the code and trace the code before you ever run the code"""
     b += panel(
         ["6.SP.B.5.a", "6.RP.A.3", "MP7"],
         "<p>10 opener, 15 parallel lists and Counter, 20 building the cipher, 30 the "
-        "crack, 15 sets and exits. Assume no student has seen a cipher before. Do not "
-        "cut section 3 to save the crack: a crack on something they did not build is a "
-        "magic trick, not a lesson. Cut the sets section if pressed.</p>",
+        "crack, 15 sets and exits. Assume no student has seen a cipher before. Do not cut section 3 to save the crack. Cracking a cipher the students did not build teaches nothing about the cipher. Cut the sets section if pressed.</p>",
         "<p>The hand encode is the part to insist on. Students who go straight to "
         "<code>ord</code> without doing <code>dawn</code> on paper will not spot the "
         "wrap, and the wrap is the only hard part of the cipher.</p>"
@@ -269,7 +257,7 @@ plaintext: read the code and trace the code before you ever run the code"""
         ),
     )
     b += pager(
-        ("wed02_return_and_modules.html", "Session 2: functions that hand things back"),
+        ("wed02_return_and_modules.html", "Session 2: functions that return a value"),
         ("wed04_messy_files.html", "Session 4: messy files"),
     )
     return b
@@ -287,8 +275,7 @@ def day04():
     )
     b += '<h2><span class="num">1</span>Opener<span class="mins">10 minutes</span></h2>'
     b += (
-        "<p>From memory, no looking: what does <code>Counter(\"banana\")</code> hand "
-        "back? Write it exactly, brackets and all.</p>"
+        "<p>From memory, no looking: what does <code>Counter(\"banana\")</code> return? Write it exactly, brackets and all.</p>"
     )
     b += reveal(
         "Write it first.",
@@ -299,8 +286,7 @@ def day04():
 
     b += '<h2><span class="num">2</span>The file, and the boundary<span class="mins">20 minutes</span></h2>'
     b += (
-        "<p>Every program that reads from outside itself has a boundary, and the "
-        "boundary is where programs break. Two things can go wrong before you even see "
+        "<p>A program that reads a file depends on something it did not make. Call that a <b>boundary</b>: the place where the program meets the outside. Boundaries are where programs break. Two things can go wrong before you even see "
         "a number: the file might not exist, and a line might not be a number.</p>"
         "<p><code>try</code> and <code>except</code> let you say what to do instead of "
         "crashing.</p>"
@@ -321,9 +307,7 @@ def day04():
         "Why is <code>handle.readlines()</code> outside the <code>try</code> block "
         "rather than inside it?",
         "<p>Because the only error being handled is the file not existing. Once "
-        "<code>open</code> succeeds, a failure in <code>readlines</code> is a different "
-        "problem and should not be quietly swallowed by an <code>except</code> written "
-        "for something else.</p>"
+        "<code>open</code> succeeds, a failure in <code>readlines</code> is a different problem and should not be hidden by an <code>except</code> written for a different error.</p>"
         "<p>Catch one named thing. Never write a bare <code>except:</code>. It hides "
         "bugs you have not met yet.</p>",
     )
@@ -399,7 +383,7 @@ average 50.3"""
         "watching for <code>ValueError</code>.</p>",
     )
     b += (
-        '<div class="predict"><b>The rejected list is the point.</b> A program that '
+        '<div class="predict"><b>The rejected list is the important part.</b> A program that '
         "silently drops three lines and reports an average is worse than one that "
         "crashes, because you will believe it. Say what you threw away and why, every "
         "time.</div>"
@@ -433,12 +417,10 @@ average 50.3"""
         "Suppose every line in the file was rubbish, so <code>good</code> is empty. "
         "Which line of <code>write_report</code> breaks, and what does Python say?",
         "<p>The average line. <code>total / len(good)</code> divides by zero and Python "
-        "stops with <code>ZeroDivisionError: division by zero</code>, the same error "
-        "session 2's <code>average_of([])</code> gave. The report file is left half "
+        "stops with <code>ZeroDivisionError: division by zero</code>, the same error <code>average_of([])</code> would give in your session 2 module. The report file is left half "
         "written, with the first three lines in it and no average.</p>"
         "<p>That is a boundary too. A file with nothing usable in it is a real case, "
-        "and a report that says <code>kept 0 readings</code> is more honest than a "
-        "crash. Guard the average with an <code>if</code> before you divide.</p>",
+        "and a report that says <code>kept 0 readings</code> tells the reader more than a crash does. Guard the average with an <code>if</code> before you divide.</p>",
     )
     b += exits(
         "Your program opens the file, survives a missing file without crashing, and "
@@ -463,8 +445,7 @@ average 50.3"""
         "telegraph it. Let them compute 503 and notice.</p>",
         retouch=(
             "Session 1's reading list and its total of 503, arriving this time as a file "
-            "that has to be cleaned before the arithmetic works. Session 2's returning "
-            "functions carry the results back."
+            "that has to be cleaned before the arithmetic works. Session 2's functions return the results."
         ),
         extras=(
             "<h3>Files</h3><p><code>clean_readings.py</code> writes and then reads "
@@ -502,8 +483,7 @@ def day05():
     )
     b += reveal(
         "Answer before you click.",
-        "<p>The counts do not change at all. Not one of them. Your frequency attack "
-        "learns nothing, because it was never looking at position.</p>"
+        "<p>The counts do not change at all. Not one of them. Your frequency attack finds nothing, because it never looked at where the letters sit.</p>"
         "<p>This is why real systems use both kinds. Substitution hides which letters. "
         "Transposition hides where they are.</p>",
     )
@@ -540,10 +520,9 @@ def day05():
         "transposition.py",
     )
     b += reveal(
-        "The two gates set <code>step</code> before <code>r</code> moves. Trace the "
+        "The two gates set <code>step</code> before <code>r</code> changes. Trace the "
         "first seven letters and write down which rail each one lands on.",
-        "<p>Rails go 0, 1, 2, 1, 0, 1, 2. The turn happens at the top and the bottom, "
-        "and the two gates are flat, not nested, so both get checked every pass.</p>"
+        "<p>Rails go 0, 1, 2, 1, 0, 1, 2. The turn happens at the top rail and the bottom rail. The two gates are one after the other, not one inside the other, so both get checked every pass.</p>"
         + output(
             """message  meetatthenorthgateatdawn
 rails 3  maettdetthnrhaetanetogaw
@@ -555,8 +534,7 @@ round trip ok: True"""
         "pattern first, then fill it in, because you need to know how many letters "
         "landed on each rail before you can cut the ciphertext up.</p>"
         "<p><code>rail_decode</code> is yours to write. Plan it on paper first: build "
-        "the list of rail numbers the same way <code>rail_encode</code> did, then hand "
-        "out ciphertext letters to those positions one rail at a time. The file on the "
+        "the list of rail numbers the same way <code>rail_encode</code> did, then put the ciphertext letters into those positions one rail at a time. The file on the "
         "machines has a finished one to compare against when yours round-trips.</p>",
     )
 
@@ -616,9 +594,7 @@ route    etnheantarhtmaettdetogaw"""
         )
         + "<p>Key entry 2 means column 2 top to bottom, which is "
         "<code>etnhea</code>. Then -4 means column 4 bottom to top, "
-        "<code>ntarht</code> reversed off the grid. A grid position is an ordered pair, "
-        "row and column, and the key is a rule that turns each pair into a place in the "
-        "output.</p>",
+        "<code>ntarht</code> reversed off the grid. A grid position is a pair of numbers, row and column. The key says which column to read and which way, so every pair ends up at one place in the output.</p>",
     )
     b += exits(
         "Rail fence encoding works on your own message and you can point at the two "
@@ -626,7 +602,7 @@ route    etnheantarhtmaettdetogaw"""
         "Floor, plus <code>rail_decode</code> round-tripping true, plus the grid built "
         "and one column read out by hand.",
         "Middle, plus full route encoding with a signed key, then write "
-        "<code>route_decode</code>. It is genuinely harder than it looks, because you "
+        "<code>route_decode</code>. It is harder than it looks, because you "
         "have to work out the column heights before you can cut the string.",
     )
     b += panel(
@@ -643,7 +619,7 @@ route    etnheantarhtmaettdetogaw"""
         retouch=(
             "Session 3's frequency attack, revisited to show what it cannot do. The "
             "opener makes students state that letter counts survive transposition, "
-            "which is the reason this session exists."
+            "which is what this session is about."
         ),
         extras=(
             "<h3>Files</h3><p><code>transposition.py</code>. Round trip verified true "
@@ -687,8 +663,7 @@ def day06():
     )
     b += (
         "<p>Send the message and the seal. The reader recomputes the seal and compares. "
-        "If the two disagree, the message changed. That is the whole idea, and it "
-        "works.</p>"
+        "If the two disagree, the message changed.</p>"
         "<p>Now break it. On paper: what is the seal of <code>ab</code>, and what is the "
         "seal of <code>ba</code>?</p>"
     )
@@ -729,13 +704,13 @@ sha256 'attack at dusk'
 sha256 'attack at dawn.'
   9156781e12f9522c7e8c5aef869a43a495be33b3f42c8c8fe9206dd7e2458b39"""
         )
-        + "<p>All of it. Not a corner of it. Adding a single full stop to the end of "
+        + "<p>All of it. Adding a single full stop to the end of "
         "<code>dawn</code> also changes everything.</p>",
     )
 
     b += '<h2><span class="num">3</span>Measure the avalanche<span class="mins">30 minutes</span></h2>'
     b += (
-        "<p>Do not take my word for all of it. Count. A sha256 digest is 256 bits, so "
+        "<p>Do not take my word for it. Count. A sha256 digest is 256 bits, so "
         "convert both digests to bits and count how many positions differ.</p>"
     )
     b += code(
@@ -764,14 +739,11 @@ dawn vs dawn+period: 124 of 256 bits differ"""
         )
         + "<p>Around 128 both times, which is half. That is the design goal: each "
         "output bit should flip with probability about one half whenever the input "
-        "changes at all, no matter how small the change. 130 and 124 are what half of "
-        "256 looks like when you only sample twice.</p>"
-        "<p>Think about what that rules out. You cannot steer the output by nudging the "
-        "input, because a tiny nudge scatters everything. And you cannot work backwards "
-        "from a digest, because it holds no trace of which input produced it.</p>",
+        "changes at all, no matter how small the change. 130 and 124 are both close to 128. Two tries is a small sample, so neither lands on it exactly.</p>"
+        "<p>Two things follow. You cannot push the output in a chosen direction by making small changes to the input, because every small change changes about half the bits. And you cannot work backwards from a digest to the input, because nothing in the digest tells you which input produced it.</p>",
     )
     b += (
-        '<div class="predict"><b>One honest limit.</b> A hash proves a file was not '
+        '<div class="predict"><b>One limit.</b> A hash proves a file was not '
         "changed. It does not hide anything and it does not prove who sent it. If "
         "someone can replace both the file and its posted hash, you learn nothing.</div>"
     )
@@ -848,7 +820,7 @@ searching for 1999, which is not there
         )
         + "<p>1000 against 10. Halving 1000 ten times gets you below 1. That is where "
         "the 10 comes from, and it is why doubling the list only adds one look.</p>"
-        "<p>The missing-value case is the interesting one. Both searches do their worst "
+        "<p>Look at the missing-value case. Both searches do their worst "
         "work when the answer is not there, and the scan has no way to stop early.</p>"
         "<p>Here are the two searches that produced those numbers. Both return two "
         "values: where the target was, and how many values they looked at.</p>"
@@ -884,8 +856,7 @@ def binary_find(values, target):
         )
         + "<p><code>//</code> divides and throws the remainder away, so <code>mid</code> "
         "is always a whole index. The <code>while</code> keeps going only while the "
-        "two ends have not crossed, which is the first loop this term whose exit "
-        "condition has two parts.</p>",
+        "two ends have not crossed, the first loop in this course whose stopping condition has two parts.</p>",
     )
 
     b += '<h2><span class="num">2</span>Every code, timed<span class="mins">35 minutes</span></h2>'
@@ -938,9 +909,7 @@ for n in range(1, 8):
         + "<p>Each row multiplies the one above it by ten. So eight digits is about 12 "
         "seconds, nine is about two minutes, ten is about twenty minutes, and twelve is "
         "about a day and a half. Nothing about the program changed. You added digits.</p>"
-        "<p>The exponent is doing all the work here. Ten to the seventh is ten million, "
-        "and the seconds column tracks it exactly, which is what makes this table worth "
-        "building yourself instead of being told about.</p>",
+        "<p>Ten to the seventh is ten million, and the seconds column follows it. Every extra digit multiplies the time by ten.</p>",
     )
     b += (
         '<div class="predict"><b>These timings are from one machine.</b> Yours will '
@@ -952,8 +921,7 @@ for n in range(1, 8):
         "<h3>Plot it</h3>"
         "<p>Put digits on the horizontal axis and seconds on the vertical. Sketch it by "
         "hand. Then sketch a second graph with the same data and seconds on a scale "
-        "where each step up is ten times the last. One of those two graphs is readable "
-        "and the other is not, and knowing which to reach for is a real skill.</p>"
+        "where each step up is ten times the last. On the first graph the small rows are flat against the bottom and only the last one shows. On the second, every row is readable.</p>"
     )
     b += exits(
         "You ran both searches and can say why binary needs 10 looks where the scan "
@@ -973,8 +941,7 @@ for n in range(1, 8):
         "not understood the table; students who say 12 have. Make them commit out loud "
         "before running.</p>"
         "<p><code>perf_counter</code> measurements bounce around on a shared machine. "
-        "Run each row three times and take the middle. That is worth saying explicitly, "
-        "because otherwise a noisy row looks like a discovery.</p>",
+        "Run each row three times and take the middle. Say so, because otherwise a noisy row looks like a discovery.</p>",
         retouch=(
             "Session 5's brute-force instinct, now priced. Students who wanted to try "
             "all 26 Caesar shifts in session 3 meet the version of that idea that does "
@@ -1008,20 +975,17 @@ def day08():
     )
     b += '<h2><span class="num">1</span>Opener<span class="mins">10 minutes</span></h2>'
     b += (
-        "<p>From last week, from memory: seven digits took about 1.2 seconds to sweep. "
-        "How many codes is that, and how long would ten digits take?</p>"
+        "<p>From last week: every extra digit made the sweep ten times slower. Seven digits took about a second. About how long would ten digits take, and why?</p>"
     )
     b += reveal(
         "Both, on paper.",
-        "<p>Ten million codes, and about twenty minutes for ten digits. Today's target "
-        "is the same seven digit lock, <code>4703916</code>.</p>",
+        "<p>About twenty minutes, because three more digits is three more multiplications by ten: a second, ten seconds, a hundred seconds, a thousand seconds. Today's target is the same seven digit lock, <code>4703916</code>.</p>",
     )
 
     b += '<h2><span class="num">2</span>A score changes everything<span class="mins">25 minutes</span></h2>'
     b += (
-        "<p>Brute force gets one bit of information per guess: right or wrong. Suppose "
-        "instead the lock tells you how many positions are correct. That single change "
-        "makes the problem easy.</p>"
+        "<p>Brute force learns one thing per guess: right or wrong. Suppose "
+        "instead the lock tells you how many positions are correct. That one change makes the problem much easier.</p>"
     )
     b += code(
         '''def score(guess):
@@ -1072,17 +1036,13 @@ hill climbing, five runs:
         )
         + "<p>About 170. That is roughly twenty eight thousand times less work than the "
         "sweep. Note the middle line too: random guessing of whole codes failed inside "
-        "200000 tries, so randomness alone buys you nothing. The score is what "
-        "helps.</p>"
-        "<p>The five runs differ a lot, from 50 to 238. A method with a random start "
-        "does not have a running time, it has a spread, which is why one run tells you "
-        "almost nothing and five start to.</p>",
+        "200000 tries, so random guessing on its own does not help. The score is what helps.</p>"
+        "<p>The five runs differ a lot, from 50 to 238. A method with a random start does not have one running time. It has a range. One run tells you almost nothing about the range; five runs start to.</p>",
     )
     b += (
         "<p>Why <code>&gt;=</code> rather than <code>&gt;</code> in the keep rule? "
         "Because a change that leaves the score alone still moves you sideways, and "
-        "sideways moves are how you escape a position where every single-digit change "
-        "makes things worse. That character again, third time this term.</p>"
+        "sideways moves are how you get out of a position where every single-digit change makes the score worse. It is the same <code>&gt;</code> against <code>&gt;=</code> question as session 1.</p>"
     )
 
     b += '<h2><span class="num">3</span>Breeding codes<span class="mins">30 minutes</span></h2>'
@@ -1123,12 +1083,10 @@ hill climbing, five runs:
   run 5: 38 generations, found 4703916
   average 17.0 generations of 40 codes each"""
         )
-        + "<p>Worse, and this is the best thing in the session. Seventeen generations of "
+        + "<p>Worse. Seventeen generations of "
         "forty codes is about 680 scored guesses. Hill climbing used 170. The genetic "
         "algorithm looks faster only if you count generations instead of work.</p>"
-        "<p>Compare like with like. A generation is not a try. On a lock this simple the "
-        "population is wasted effort, and the honest conclusion is that the fancier "
-        "method lost.</p>",
+        "<p>Compare like with like. A generation is not a try. On a lock this simple the population is wasted effort. The fancier method lost.</p>",
     )
     b += exits(
         "You ran hill climbing and can explain what <code>score</code> gives you that a "
@@ -1150,8 +1108,7 @@ hill climbing, five runs:
         "five is how people fool themselves.</p>"
         "<p>The seed is fixed at 4703 in the file so your numbers match this page. Take "
         "the seed out once and let them see the numbers move, then put it back. That "
-        "sets up session 9 and session 10, where reproducibility becomes the whole "
-        "point.</p>"
+        "sets up session 9 and session 10, where a fixed seed is what makes the run repeatable.</p>"
         "<p>Expect resistance to the conclusion that the genetic algorithm lost. Good. "
         "Make them do the multiplication on the board.</p>",
         retouch=(
