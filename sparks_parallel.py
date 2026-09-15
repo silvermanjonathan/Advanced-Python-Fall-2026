@@ -13,6 +13,7 @@ for frame in range(3):
         dys[i] = dys[i] + GRAVITY
         xs[i] = xs[i] + dxs[i]
         ys[i] = ys[i] + dys[i]
+
     print(f"frame {frame}")
     for i in range(4):
         print(f"  spark {i}: x={xs[i]} y={ys[i]} dy={dys[i]} {colors[i]}")

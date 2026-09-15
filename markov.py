@@ -30,8 +30,10 @@ def generate(model, seed_pair, length):
         options = model[(first, second)]
         if len(options) == 0:
             return " ".join(out)
+
         nxt = random.choice(options)
         out.append(nxt)
+
         first, second = second, nxt
     return " ".join(out)
 

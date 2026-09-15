@@ -7,12 +7,15 @@ q = 0
 
 for i in range(12):
     d = door[i]
+
     if d == 1:
         x = x + 1
         z = z + 1
+
     if d == 0:
         y = y + 1
         z = 0
+
     if z > q:
         q = z
 

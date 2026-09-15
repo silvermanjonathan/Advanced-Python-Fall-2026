@@ -47,9 +47,12 @@ bi = 0
 
 for i in range(10):
     r = readings[i]
+
     t = t + r
+
     if r > limit:
         c = c + 1
+
     if r > b:
         b = r
         bi = i
@@ -147,9 +150,12 @@ best_index = 0
 
 for i in range(10):
     reading = readings[i]
+
     total = total + reading
+
     if reading > limit:
         over_limit = over_limit + 1
+
     if reading > best:
         best = reading
         best_index = i
@@ -180,12 +186,15 @@ q = 0
 
 for i in range(12):
     d = door[i]
+
     if d == 1:
         x = x + 1
         z = z + 1
+
     if d == 0:
         y = y + 1
         z = 0
+
     if z > q:
         q = z
 

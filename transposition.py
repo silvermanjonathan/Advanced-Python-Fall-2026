@@ -8,15 +8,19 @@ def rail_encode(text, rails):
     rows = []
     for r in range(rails):
         rows.append("")
+
     r = 0
     step = 1
     for ch in text:
         rows[r] = rows[r] + ch
+
         if r == 0:
             step = 1
         if r == rails - 1:
             step = -1
+
         r = r + step
+
     joined = ""
     for row in rows:
         joined = joined + row
@@ -30,11 +34,14 @@ def rail_decode(text, rails):
     step = 1
     for ch in text:
         pattern.append(r)
+
         if r == 0:
             step = 1
         if r == rails - 1:
             step = -1
+
         r = r + step
+
     out = [""] * len(text)
     spot = 0
     for target in range(rails):
@@ -42,6 +49,7 @@ def rail_decode(text, rails):
             if pattern[i] == target:
                 out[i] = text[spot]
                 spot = spot + 1
+
     joined = ""
     for ch in out:
         joined = joined + ch
@@ -57,6 +65,7 @@ def to_grid(text, width):
         if len(row) == width:
             grid.append(row)
             row = []
+
     if len(row) > 0:
         while len(row) < width:
             row.append("x")
@@ -76,6 +85,7 @@ def route_encode(text, key):
         rows = range(len(grid))
         if signed < 0:
             rows = range(len(grid) - 1, -1, -1)
+
         for r in rows:
             out = out + grid[r][col]
     return out

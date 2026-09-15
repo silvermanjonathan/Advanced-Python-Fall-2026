@@ -231,15 +231,19 @@ footer p{margin:0}
     rows = []
     for r in range(rails):
         rows.append(&quot;&quot;)
+
     r = 0
     step = 1
     for ch in text:
         rows[r] = rows[r] + ch
+
         if r == 0:
             step = 1
         if r == rails - 1:
             step = -1
+
         r = r + step
+
     joined = &quot;&quot;
     for row in rows:
         joined = joined + row
@@ -261,6 +265,7 @@ round trip ok: True</code></pre></div>
         if len(row) == width:
             grid.append(row)
             row = []
+
     if len(row) &gt; 0:
         while len(row) &lt; width:
             row.append(&quot;x&quot;)
@@ -280,6 +285,7 @@ def route_encode(text, key):
         rows = range(len(grid))
         if signed &lt; 0:
             rows = range(len(grid) - 1, -1, -1)
+
         for r in rows:
             out = out + grid[r][col]
     return out</code></pre>

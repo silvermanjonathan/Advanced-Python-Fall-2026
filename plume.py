@@ -30,7 +30,9 @@ class Particle:
         self.dy = self.dy + GRAVITY
         self.x = self.x + self.dx
         self.y = self.y + self.dy
+
         self.trail.append((self.x, self.y))
+
         if self.y > HEIGHT - 40:
             self.alive = 0
 
@@ -69,12 +71,14 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = 0
+
     screen.fill(BLACK)
     pygame.draw.rect(screen, (90, 108, 116), (0, HEIGHT - 40, WIDTH, 40))
     for p in particles:
         if p.alive == 1:
             p.step()
         p.draw(screen)
+
     pygame.display.flip()
     clock.tick(60)
 

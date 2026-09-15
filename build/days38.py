@@ -357,6 +357,7 @@ twelve
     for raw in lines:
         text = raw.strip()
         text = text.replace(",", "")
+
         if text == "":
             rejected.append((raw, "blank"))
         else:
@@ -415,11 +416,14 @@ average 50.3"""
         '''def write_report(filename, good, rejected):
     """Write a short report next to the data."""
     handle = open(filename, "w")
+
     handle.write(f"kept {len(good)} readings\\n")
     handle.write(f"rejected {len(rejected)} lines\\n")
     total = 0
+
     for v in good:
         total = total + v
+
     handle.write(f"total {total}\\n")
     handle.write(f"average {total / len(good)}\\n")
     handle.close()''',
@@ -516,15 +520,19 @@ def day05():
     rows = []
     for r in range(rails):
         rows.append("")
+
     r = 0
     step = 1
     for ch in text:
         rows[r] = rows[r] + ch
+
         if r == 0:
             step = 1
         if r == rails - 1:
             step = -1
+
         r = r + step
+
     joined = ""
     for row in rows:
         joined = joined + row
@@ -568,6 +576,7 @@ round trip ok: True"""
         if len(row) == width:
             grid.append(row)
             row = []
+
     if len(row) > 0:
         while len(row) < width:
             row.append("x")
@@ -587,6 +596,7 @@ def route_encode(text, key):
         rows = range(len(grid))
         if signed < 0:
             rows = range(len(grid) - 1, -1, -1)
+
         for r in rows:
             out = out + grid[r][col]
     return out"""
@@ -739,6 +749,7 @@ def bits_differing(a, b):
     """Return how many bit positions differ between two hex digests."""
     left = bits_of(a)
     right = bits_of(b)
+
     count = 0
     for i in range(256):
         if left[i] != right[i]:
@@ -860,8 +871,10 @@ def binary_find(values, target):
     while low <= high:
         mid = (low + high) // 2
         looks = looks + 1
+
         if values[mid] == target:
             return mid, looks
+
         if values[mid] < target:
             low = mid + 1
         else:
@@ -892,6 +905,7 @@ def sweep(digits):
     tries = 0
     winner = ""
     target = CODE[:digits]
+
     for guess in product("0123456789", repeat=digits):
         tries = tries + 1
         attempt = "".join(guess)
@@ -1024,12 +1038,14 @@ def hill_climb():
     current = ""
     for i in range(len(SECRET)):
         current = current + random.choice(DIGITS)
+
     best = score(current)
     tries = 1
     while best < len(SECRET):
         spot = random.randrange(len(SECRET))
         new_digit = random.choice(DIGITS)
         candidate = current[:spot] + new_digit + current[spot + 1:]
+
         tries = tries + 1
         if score(candidate) >= best:
             current = candidate
@@ -1079,16 +1095,20 @@ hill climbing, five runs:
         """        population.sort(key=score, reverse=True)
         if score(population[0]) == len(SECRET):
             return generation, population[0]
+
         parents = population[:keep]
         population = list(parents)
+
         while len(population) < pop_size:
             mum = random.choice(parents)
             dad = random.choice(parents)
             cut = random.randrange(1, len(SECRET))
             child = mum[:cut] + dad[cut:]
+
             if random.random() < 0.3:
                 spot = random.randrange(len(SECRET))
                 child = child[:spot] + random.choice(DIGITS) + child[spot + 1:]
+
             population.append(child)"""
     )
     b += reveal(

@@ -24,8 +24,10 @@ def binary_find(values, target):
     while low <= high:
         mid = (low + high) // 2
         looks = looks + 1
+
         if values[mid] == target:
             return mid, looks
+
         if values[mid] < target:
             low = mid + 1
         else:
@@ -38,6 +40,7 @@ def sweep(digits):
     tries = 0
     winner = ""
     target = CODE[:digits]
+
     for guess in product("0123456789", repeat=digits):
         tries = tries + 1
         attempt = "".join(guess)

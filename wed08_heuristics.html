@@ -240,12 +240,14 @@ def hill_climb():
     current = &quot;&quot;
     for i in range(len(SECRET)):
         current = current + random.choice(DIGITS)
+
     best = score(current)
     tries = 1
     while best &lt; len(SECRET):
         spot = random.randrange(len(SECRET))
         new_digit = random.choice(DIGITS)
         candidate = current[:spot] + new_digit + current[spot + 1:]
+
         tries = tries + 1
         if score(candidate) &gt;= best:
             current = candidate
@@ -270,16 +272,20 @@ hill climbing, five runs:
 <section class="chunk"><p class="chunk-no">Section 3 &middot; 30 minutes</p><h2>Breeding codes</h2><p>A genetic algorithm keeps a population instead of one candidate. Sort by score, keep the best few, and build the rest by cutting two parents together and occasionally changing one digit at random.</p><pre><code>        population.sort(key=score, reverse=True)
         if score(population[0]) == len(SECRET):
             return generation, population[0]
+
         parents = population[:keep]
         population = list(parents)
+
         while len(population) &lt; pop_size:
             mum = random.choice(parents)
             dad = random.choice(parents)
             cut = random.randrange(1, len(SECRET))
             child = mum[:cut] + dad[cut:]
+
             if random.random() &lt; 0.3:
                 spot = random.randrange(len(SECRET))
                 child = child[:spot] + random.choice(DIGITS) + child[spot + 1:]
+
             population.append(child)</code></pre>
 <div class="predict"><b>Predict first.</b> Population of 40, keeping the best 8. It finishes in about 17 generations. Is that better or worse than hill climbing's 170 tries? Careful.
 <button class="rev" data-target="a28" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a28">Show the answer</button>

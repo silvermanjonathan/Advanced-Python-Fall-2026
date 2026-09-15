@@ -26,6 +26,7 @@ def bits_differing(a, b):
     """Return how many bit positions differ between two hex digests."""
     left = bits_of(a)
     right = bits_of(b)
+
     count = 0
     for i in range(256):
         if left[i] != right[i]:

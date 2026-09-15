@@ -8,9 +8,12 @@ bi = 0
 
 for i in range(10):
     r = readings[i]
+
     t = t + r
+
     if r > limit:
         c = c + 1
+
     if r > b:
         b = r
         bi = i

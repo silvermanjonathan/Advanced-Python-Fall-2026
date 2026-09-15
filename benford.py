@@ -31,15 +31,18 @@ def benford_expected(digit):
 for filename in ["honest_ledger.csv", "cooked_ledger.csv"]:
     counts = tally_file(filename)
     total = sum(counts.values())
+
     print(filename)
     print("  digit   count    actual   benford predicts")
     for d in range(1, 10):
         actual = counts[d] / total
         print(f"  {d:>5}   {counts[d]:>5}   {actual:>7.3f}   {benford_expected(d):>15.3f}")
+
     worst = 0
     for d in range(1, 10):
         gap = abs(counts[d] / total - benford_expected(d))
         if gap > worst:
             worst = gap
+
     print(f"  largest gap from Benford: {worst:.3f}")
     print()

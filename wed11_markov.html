@@ -250,8 +250,10 @@ what followed (&#x27;the&#x27;, &#x27;machine&#x27;):
         options = model[(first, second)]
         if len(options) == 0:
             return &quot; &quot;.join(out)
+
         nxt = random.choice(options)
         out.append(nxt)
+
         first, second = second, nxt
     return &quot; &quot;.join(out)</code></pre>
 <div class="predict"><b>Predict first.</b> Starting from <code>("the", "machine")</code>, twenty two words. Will the output be grammatical? Will it make sense? Those are two separate questions.

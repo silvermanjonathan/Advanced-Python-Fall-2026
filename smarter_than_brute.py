@@ -44,12 +44,14 @@ def hill_climb():
     current = ""
     for i in range(len(SECRET)):
         current = current + random.choice(DIGITS)
+
     best = score(current)
     tries = 1
     while best < len(SECRET):
         spot = random.randrange(len(SECRET))
         new_digit = random.choice(DIGITS)
         candidate = current[:spot] + new_digit + current[spot + 1:]
+
         tries = tries + 1
         if score(candidate) >= best:
             current = candidate
@@ -69,19 +71,24 @@ def genetic(pop_size, keep):
     generation = 0
     while True:
         generation = generation + 1
+
         population.sort(key=score, reverse=True)
         if score(population[0]) == len(SECRET):
             return generation, population[0]
+
         parents = population[:keep]
         population = list(parents)
+
         while len(population) < pop_size:
             mum = random.choice(parents)
             dad = random.choice(parents)
             cut = random.randrange(1, len(SECRET))
             child = mum[:cut] + dad[cut:]
+
             if random.random() < 0.3:
                 spot = random.randrange(len(SECRET))
                 child = child[:spot] + random.choice(DIGITS) + child[spot + 1:]
+
             population.append(child)
 
 

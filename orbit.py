@@ -39,10 +39,13 @@ class Ship:
         gap_y = PLANET_Y - self.y
         r = self.distance()
         pull = PULL / (r * r)
+
         self.dx = self.dx + pull * (gap_x / r) * DT
         self.dy = self.dy + pull * (gap_y / r) * DT
+
         self.x = self.x + self.dx * DT
         self.y = self.y + self.dy * DT
+
         self.trail.append((self.x, self.y))
 
     def speed(self):
@@ -65,10 +68,12 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = 0
+
     screen.fill(BLACK)
     pygame.draw.circle(screen, (198, 142, 60), (PLANET_X, PLANET_Y), 26)
     ship.step()
     ship.draw(screen)
+
     pygame.display.flip()
     clock.tick(60)
 

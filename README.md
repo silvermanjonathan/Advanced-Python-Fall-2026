@@ -284,6 +284,11 @@ standards, 21 programs, 4 data files, 44 predict-and-reveal prompts. Faults foun
     page rule was added under Self-containment: anything an exit assesses must appear on
     the student side of the page. Session 5 was brought under it (`to_grid` shown,
     `rail_decode` stated as the student's to write).
+13. Readability pass on every program and every code block on the pages: one blank line
+    between the steps of a loop or function body (read, accumulate, gate; velocity,
+    position, trail). Programs and page blocks were edited together so they still match.
+    Output is unchanged and `crosscheck.py` passes. `sweep_tools.py` was left alone so
+    the line number in session 2's quoted traceback stays 17.
 
 Known corrections made before first printing:
 

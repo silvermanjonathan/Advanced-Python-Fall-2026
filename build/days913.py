@@ -420,6 +420,7 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = 0
+
     screen.fill(BLACK)
     for d in range(1, 10):
         share = counts[d] / total
@@ -428,6 +429,7 @@ while running:
         pygame.draw.rect(screen, TEAL, (x, 520 - height, 54, height))
         expected = int(benford_expected(d) * 900)
         pygame.draw.line(screen, AMBER, (x, 520 - expected), (x + 54, 520 - expected), 3)
+
     pygame.display.flip()
     clock.tick(60)
 
@@ -580,8 +582,10 @@ what followed ('the', 'machine'):
         options = model[(first, second)]
         if len(options) == 0:
             return " ".join(out)
+
         nxt = random.choice(options)
         out.append(nxt)
+
         first, second = second, nxt
     return " ".join(out)'''
     )
@@ -772,7 +776,9 @@ after removing from four lists but forgetting the fifth:
         self.dy = self.dy + GRAVITY
         self.x = self.x + self.dx
         self.y = self.y + self.dy
+
         self.trail.append((self.x, self.y))
+
         if self.y > HEIGHT - 40:
             self.alive = 0''',
         "plume.py",
@@ -803,12 +809,14 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = 0
+
     screen.fill(BLACK)
     pygame.draw.rect(screen, (90, 108, 116), (0, HEIGHT - 40, WIDTH, 40))
     for p in particles:
         if p.alive == 1:
             p.step()
         p.draw(screen)
+
     pygame.display.flip()
     clock.tick(60)"""
     )
@@ -935,10 +943,13 @@ def day13():
         gap_y = PLANET_Y - self.y
         r = self.distance()
         pull = PULL / (r * r)
+
         self.dx = self.dx + pull * (gap_x / r) * DT
         self.dy = self.dy + pull * (gap_y / r) * DT
+
         self.x = self.x + self.dx * DT
         self.y = self.y + self.dy * DT
+
         self.trail.append((self.x, self.y))''',
         "orbit.py",
     )

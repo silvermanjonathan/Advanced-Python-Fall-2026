@@ -55,6 +55,7 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = 0
+
     screen.fill(BLACK)
     for d in range(1, 10):
         share = counts[d] / total
@@ -63,6 +64,7 @@ while running:
         pygame.draw.rect(screen, TEAL, (x, 520 - height, 54, height))
         expected = int(benford_expected(d) * 900)
         pygame.draw.line(screen, AMBER, (x, 520 - expected), (x + 54, 520 - expected), 3)
+
     pygame.display.flip()
     clock.tick(60)
 

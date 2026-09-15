@@ -238,10 +238,13 @@ footer p{margin:0}
         gap_y = PLANET_Y - self.y
         r = self.distance()
         pull = PULL / (r * r)
+
         self.dx = self.dx + pull * (gap_x / r) * DT
         self.dy = self.dy + pull * (gap_y / r) * DT
+
         self.x = self.x + self.dx * DT
         self.y = self.y + self.dy * DT
+
         self.trail.append((self.x, self.y))</code></pre>
 <p>Three things are happening. <code>PULL / (r * r)</code> makes gravity weaker further out. <code>gap_x / r</code> and <code>gap_y / r</code> split that pull into its across and down parts, in proportion to how much of the gap lies along each axis. And <code>DT</code> is how big a slice of time each frame stands for.</p><div class="predict"><b>Predict first.</b> The ship starts at (400, 120) with <code>dx = 3.8</code> and <code>dy = 0</code>, so it is moving sideways at 180 pixels out. Does it fall into the planet, fly away, or go round?
 <button class="rev" data-target="a43" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a43">Show the answer</button>

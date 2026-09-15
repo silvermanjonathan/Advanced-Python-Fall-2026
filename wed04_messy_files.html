@@ -262,6 +262,7 @@ twelve
     for raw in lines:
         text = raw.strip()
         text = text.replace(&quot;,&quot;, &quot;&quot;)
+
         if text == &quot;&quot;:
             rejected.append((raw, &quot;blank&quot;))
         else:
@@ -296,11 +297,14 @@ average 50.3</code></pre></div>
 <pre><code>def write_report(filename, good, rejected):
     &quot;&quot;&quot;Write a short report next to the data.&quot;&quot;&quot;
     handle = open(filename, &quot;w&quot;)
+
     handle.write(f&quot;kept {len(good)} readings\n&quot;)
     handle.write(f&quot;rejected {len(rejected)} lines\n&quot;)
     total = 0
+
     for v in good:
         total = total + v
+
     handle.write(f&quot;total {total}\n&quot;)
     handle.write(f&quot;average {total / len(good)}\n&quot;)
     handle.close()</code></pre>

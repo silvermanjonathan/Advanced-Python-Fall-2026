@@ -45,6 +45,7 @@ def clean(lines):
     for raw in lines:
         text = raw.strip()
         text = text.replace(",", "")
+
         if text == "":
             rejected.append((raw, "blank"))
         else:
@@ -63,11 +64,14 @@ def clean(lines):
 def write_report(filename, good, rejected):
     """Write a short report next to the data."""
     handle = open(filename, "w")
+
     handle.write(f"kept {len(good)} readings\n")
     handle.write(f"rejected {len(rejected)} lines\n")
     total = 0
+
     for v in good:
         total = total + v
+
     handle.write(f"total {total}\n")
     handle.write(f"average {total / len(good)}\n")
     handle.close()
