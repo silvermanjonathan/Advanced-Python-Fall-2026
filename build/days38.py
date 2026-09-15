@@ -27,7 +27,7 @@ def day03():
     )
     b += '<h2><span class="num">1</span>Opener<span class="mins">10 minutes</span></h2>'
     b += (
-        "<p>Last week a module handed values back. On paper: write a function "
+        "<p>Last week you wrote a module of functions that return values. On paper: write a function "
         "<code>count_of(values, wanted)</code> that returns how many times "
         "<code>wanted</code> appears in <code>values</code>. Four lines plus the "
         "<code>def</code>.</p>"
@@ -850,7 +850,7 @@ searching for 1999, which is not there
         "the 10 comes from, and it is why doubling the list only adds one look.</p>"
         "<p>The missing-value case is the interesting one. Both searches do their worst "
         "work when the answer is not there, and the scan has no way to stop early.</p>"
-        "<p>Here are the two searches that produced those numbers. Both hand back two "
+        "<p>Here are the two searches that produced those numbers. Both return two "
         "values: where the target was, and how many values they looked at.</p>"
         + code(
             '''def linear_find(values, target):

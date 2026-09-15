@@ -566,7 +566,7 @@ what followed ('the', 'machine'):
         "a small corpus generates text that quotes itself in long stretches.</p>",
     )
     b += (
-        "<p><code>defaultdict(list)</code> hands you an empty list for a key you have "
+        "<p><code>defaultdict(list)</code> gives you an empty list for a key you have "
         "not seen, so <code>.append</code> works the first time. Compare that to session "
         "3, where a plain dictionary raised <code>KeyError</code> and you had to check "
         "first.</p>"

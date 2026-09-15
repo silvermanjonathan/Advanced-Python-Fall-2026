@@ -132,12 +132,12 @@ def panel(codes, timing, watch, retouch=None, extras=""):
     assert len(codes) <= 3, f"more than three standards: {codes}"
     rows = ""
     for c in codes:
-        rows += f'<tr><td class="std">{esc(c)}</td><td>{esc(STD[c])}</td></tr>\n'
+        rows += f'<p class="stdline"><span class="std">{esc(c)}</span> {esc(STD[c])}</p>\n'
     rt = f"<h3>Concept this session re-touches</h3><p>{retouch}</p>" if retouch else ""
     return (
         '<section class="panel"><h2>Teacher panel</h2>'
         f"{rt}<h3>Standards</h3>"
-        f"<table><tr><th>Code</th><th>Statement</th></tr>{rows}</table>"
+        f"{rows}"
         f"{MAPNOTE}<h3>Timing</h3>{timing}"
         f"<h3>What to watch for</h3>{watch}{extras}</section>\n"
     )

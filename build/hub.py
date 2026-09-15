@@ -233,7 +233,7 @@ def hub():
         "<p>The capstone runs as a thread from session 9, not as a session of its own. "
         "The brief goes out on 18 November and the sketch is due on 2 December. There "
         "is no separate build session: the capstone is an addition to one of the two "
-        "programs the course hands you in sessions 12 and 13, the particle plume or the "
+        "programs the course gives you in sessions 12 and 13, the particle plume or the "
         "orbit, and it is built inside those two sessions' stretch exits and shown at "
         "the demo on 16 December.</p>"
         "<p>Before any code: one page on paper with a hand drawn screen, every player "

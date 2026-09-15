@@ -189,7 +189,8 @@ td code{font-size:.86em}
 section.panel{border-left:8px solid var(--clay)}
 section.panel > h2{color:var(--clay)}
 .panel p,.panel li{font-size:16.5px}
-.std{font-family:'JetBrains Mono',monospace; font-weight:700; color:var(--teal)}
+.std{font-family:'JetBrains Mono',monospace; font-weight:700; color:var(--teal); margin-right:6px}
+.stdline{max-width:80ch; margin:0 0 10px; padding-left:1.4em; text-indent:-1.4em}
 .mapnote{font-size:15px; color:var(--ink-soft); border-left:4px solid var(--rule); padding-left:14px}
 
 /* pager and footer */
@@ -435,7 +436,7 @@ def validate(paths):
             problems.append(f"{base}: contains an em or en dash")
         if "&mdash;" in doc or "&ndash;" in doc:
             problems.append(f"{base}: contains a dash entity")
-        for cell in re.findall(r'<td class="std">.*?</td><td>(.*?)</td>', doc, re.S):
+        for cell in re.findall(r'<p class="stdline"><span class="std">[^<]*</span>(.*?)</p>', doc, re.S):
             txt = re.sub(r"<[^>]+>", "", cell).strip()
             if txt.endswith((":", ";", "such as", "such as by", "by")):
                 problems.append(f"{base}: standard statement is a truncated stem: {txt[-40:]!r}")

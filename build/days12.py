@@ -1,5 +1,7 @@
 """Sessions 1 and 2."""
 
+import os
+
 from build import code, masthead, output, pager, reveal
 from stds import panel
 
@@ -258,9 +260,7 @@ print(f"q {q}")""",
         "<p>Session 2: replace the opener with the wrap loop from this session, traced "
         "again by hand with a new list of five readings. Build only "
         "<code>total_of</code>, <code>count_over</code>, and <code>best_index</code>, "
-        "and drop <code>average_of</code> and <code>last_best_index</code>. Keep "
-        "section 5, because the five checks are the second trace of the strict gate "
-        "and the retrieval the course depends on. The floor exit does not change.</p>"
+        "and drop <code>average_of</code> and <code>last_best_index</code>.</p>"
         "<p>Session 3: keep the hand encode and the dictionary. Run the crack as a "
         "projected trace you do together rather than a build, and cut the sets "
         "section. Students who could not trace an accumulator in session 1 still "
@@ -282,6 +282,49 @@ print(f"q {q}")""",
     return b
 
 
+READINGS = [41, 58, 33, 58, 12, 77, 58, 60, 29, 77]
+LIMIT = 55
+
+
+_HERE = os.path.dirname(os.path.abspath(__file__))
+_ROOT = os.path.dirname(_HERE)
+
+
+def _shipped(name, start):
+    """Return the tail of a shipped program from the line that begins with start."""
+    text = open(os.path.join(_ROOT, name)).read()
+    return text[text.find(start):].rstrip("\n")
+
+
+funcs_text = _shipped("sweep_tools_more.py", "def smallest_of")
+prints_text = _shipped("sweep_report3.py", 'print(f"smallest')
+
+
+def day02_extras():
+    """Return (name, description, answer) for the section 5 functions, computed."""
+    r = READINGS
+    over = [v for v in r if v > LIMIT]
+    return [
+        ("smallest_of(values)", "The smallest reading.", min(r)),
+        ("largest_of(values)", "The largest reading.", max(r)),
+        ("spread_of(values)",
+         "The largest minus the smallest. Write it by calling the two above.",
+         max(r) - min(r)),
+        ("count_under(values, limit)",
+         "How many readings are strictly less than the limit. Use 55.",
+         sum(1 for v in r if v < LIMIT)),
+        ("count_between(values, low, high)",
+         "How many readings are from low to high, both ends included. Use 30 and 60.",
+         sum(1 for v in r if 30 <= v <= 60)),
+        ("total_over(values, limit)",
+         "The total of the readings that are strictly over the limit. Use 55.",
+         sum(over)),
+        ("first_over_index(values, limit)",
+         "The index of the first reading strictly over the limit. Use 55.",
+         next(i for i, v in enumerate(r) if v > LIMIT)),
+    ]
+
+
 def day02():
     """Session 2: return values and your own module."""
     b = masthead(
@@ -296,14 +339,30 @@ def day02():
 
     b += '<h2><span class="num">1</span>Opener<span class="mins">10 minutes</span></h2>'
     b += (
-        "<p>Last week you renamed <code>sweep_report.py</code> and found the character "
-        "that picks index 5 over index 9. On paper, from memory: what were the four "
-        "numbers it printed, and which one depended on that character?</p>"
+        "<p>Three questions about last week. Talk them through with the person next to "
+        "you, then we take answers from the room.</p>"
+        '<ul class="tight">'
+        "<li>Why did we trace the program on paper before running it? What did the "
+        "trace table show you that running the program would not have?</li>"
+        "<li>We renamed <code>t</code>, <code>c</code>, <code>b</code>, and "
+        "<code>bi</code>. What does a good variable name do for the next person who "
+        "reads the file?</li>"
+        "<li>One character, <code>&gt;</code> against <code>&gt;=</code>, changed the "
+        "answer. What does that tell you about reading code?</li>"
+        "</ul>"
     )
     b += reveal(
-        "Write the four numbers before you click.",
-        output("total 503\naverage 50.3\nover 55: 6\nbest 77 at index 5")
-        + "<p>The fourth one. Same list, same readings, all term.</p>",
+        "Talk through all three before you click. The wording does not matter. Check "
+        "whether you had the idea.",
+        "<p><b>Tracing.</b> Running shows you what the program printed. Tracing shows "
+        "you why, one pass at a time. The trace table showed the pass where the second "
+        "77 arrived and the gate stayed shut. The printed output does not show that.</p>"
+        "<p><b>Names.</b> A good name says what the value is, so the next reader does "
+        "not have to scroll back up to work it out. The next reader is usually you, a "
+        "week later.</p>"
+        "<p><b>One character.</b> A single character can change which question the "
+        "program answers, so you have to read every character. That is why the rule "
+        "is read it, trace it, then run it.</p>",
     )
 
     b += (
@@ -328,7 +387,8 @@ def total_of(values):
     b += reveal(
         "What does <code>doubled = show_total([1, 2, 3]) * 2</code> do? And what does "
         "<code>doubled = total_of([1, 2, 3]) * 2</code> do?",
-        "<p>The first one prints 6, then crashes.</p>"
+        "<p><b>The first one</b>, with <code>show_total</code>, prints 6 and then "
+        "crashes on the multiplication.</p>"
         + output(
             """6
 Traceback (most recent call last):
@@ -338,19 +398,24 @@ Traceback (most recent call last):
 TypeError: unsupported operand type(s) for *: 'NoneType' and 'int'""",
             "what Python says",
         )
-        + "<p>A function with no <code>return</code> hands back <code>None</code>, and "
-        "<code>None</code> times 2 is not a thing. The second one puts 12 in "
-        "<code>doubled</code> and prints nothing at all.</p>"
-        "<p>A printing function shows you a number. A returning function gives you a "
-        "number. Only the second kind can be used in arithmetic, and only the second "
-        "kind can be tested.</p>",
+        + "<p>A function with no <code>return</code> returns <code>None</code>, and "
+        "<code>None</code> times 2 is an error.</p>"
+        "<p><b>The second one</b>, with <code>total_of</code>, prints nothing. "
+        "<code>total_of([1, 2, 3])</code> returns 6, 6 times 2 is 12, and 12 is "
+        "stored in <code>doubled</code>. Nothing appears on the screen because nothing "
+        "in that line prints.</p>"
+        "<p>A printing function shows you a number on the screen and then it is gone. "
+        "A returning function gives the number back to the line that called it, so "
+        "that line can store it in a variable, do arithmetic with it, or pass it to "
+        "another function.</p>",
     )
     b += (
-        '<div class="predict"><b>This is the grade 8 definition of a function.</b> '
-        "A rule that assigns to each input exactly one output. <code>total_of</code> "
-        "takes a list in and hands one number out. <code>show_total</code> assigns "
-        "nothing to anything, so it is not a function in the mathematical sense at all, "
-        "whatever the <code>def</code> keyword says.</div>"
+        '<div class="predict"><b>Same word as in math class.</b> In math, a function '
+        "is a machine: you put a number in and exactly one number comes out. "
+        "<code>total_of</code> works that way. Put a list in, one number comes out. "
+        "<code>show_total</code> puts a number on the screen, but nothing comes out of "
+        "it for the rest of the program to use. From now on, when this course says "
+        "function, it means the kind something comes out of.</div>"
     )
 
     b += '<h2><span class="num">3</span>Build the module<span class="mins">25 minutes</span></h2>'
@@ -361,7 +426,7 @@ TypeError: unsupported operand type(s) for *: 'NoneType' and 'int'""",
     b += code(
         '''"""Helpers that summarize a list of tower readings.
 
-Every function here hands a value back. None of them print.
+Every function here returns a value. None of them print.
 """
 
 
@@ -421,7 +486,7 @@ def last_best_index(values):
     b += '<h2><span class="num">4</span>Import your own file<span class="mins">15 minutes</span></h2>'
     b += (
         "<p>Second file, same folder. <code>import sweep_tools</code> sends Python "
-        "looking for a file called <code>sweep_tools.py</code> and hands you everything "
+        "looking for a file called <code>sweep_tools.py</code> and gives you everything "
         "inside it.</p>"
     )
     b += code(
@@ -454,86 +519,98 @@ last best at 9"""
         "other with names on them.</p>",
     )
 
+    b += '<h2><span class="num">5</span>Add to the module<span class="mins">20 minutes</span></h2>'
     b += (
-        '<h2><span class="num">5</span>Test it, do not trust it'
-        '<span class="mins">15 minutes</span></h2>'
-    )
-    b += (
-        "<p>A returning function can be checked against an answer you worked out "
-        "yourself. Add these lines. Predict every one before running.</p>"
-    )
-    b += code(
-        '''print("--- checks ---")
-print(f"total_of([1, 2, 3]) expected 6 got {sweep_tools.total_of([1, 2, 3])}")
-print(f"total_of([]) expected 0 got {sweep_tools.total_of([])}")
-print(f"count_over([5, 5, 5], 5) expected 0 got {sweep_tools.count_over([5, 5, 5], 5)}")
-print(f"best_index([9, 9]) expected 0 got {sweep_tools.best_index([9, 9])}")
-print(f"last_best_index([9, 9]) expected 1 got {sweep_tools.last_best_index([9, 9])}")'''
+        "<p>Your module has five functions. Add more. Pick from the list below, or "
+        "invent your own, and write each one in <code>sweep_tools.py</code>. Every one "
+        "takes the readings list in and returns one value. None of them print.</p>"
+        "<p>Then open <code>sweep_report2.py</code> and add one <code>print</code> line "
+        "for each new function, in the same style as the five already there. The "
+        "answer column is what your print line should show for the readings list, so "
+        "you can check your function without asking anyone.</p>"
+        "<table><tr><th>Function</th><th>What it returns</th><th>Answer on the readings</th></tr>"
+        + "".join(
+            f"<tr><td><code>{name}</code></td><td>{what}</td><td><code>{answer}</code></td></tr>"
+            for name, what, answer in day02_extras()
+        )
+        + "</table>"
+        "<p>Two rules from earlier today still apply. A function that prints instead of "
+        "returning cannot be used in a print line, so it fails the moment you try. And "
+        "if a new function can be written by calling ones you already have, call them: "
+        "<code>spread_of</code> should not contain a loop.</p>"
     )
     b += reveal(
-        "Two of these five are traps. Which two, and why? Write your five expected "
-        "values first.",
-        output(
-            """--- checks ---
-total_of([1, 2, 3]) expected 6 got 6
-total_of([]) expected 0 got 0
-count_over([5, 5, 5], 5) expected 0 got 0
-best_index([9, 9]) expected 0 got 0
-last_best_index([9, 9]) expected 1 got 1"""
+        "Write <code>smallest_of</code> and its print line on paper before you look. "
+        "Where does the running value start, and why does 0 not work?",
+        code(
+            '''def smallest_of(values):
+    """Return the smallest number in values."""
+    smallest = values[0]
+    for v in values:
+        if v < smallest:
+            smallest = v
+    return smallest''',
+            "sweep_tools.py, added at the bottom",
         )
-        + "<p>All five pass. The traps are the empty list, where <code>total_of</code> "
-        "sensibly hands back 0, and <code>count_over([5, 5, 5], 5)</code>, where nothing "
-        "counts because 5 is not strictly greater than 5. Most students predict 3 for "
-        "that one.</p>"
-        "<p>Now call <code>sweep_tools.average_of([])</code> on purpose.</p>"
-        + output(
-            """  File "sweep_tools.py", line 17, in average_of
-    return total_of(values) / len(values)
-           ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~
-ZeroDivisionError: division by zero""",
-            "verified traceback",
+        + code(
+            '''print(f"smallest {sweep_tools.smallest_of(readings)}")''',
+            "sweep_report2.py, added at the bottom",
         )
-        + "<p>Read the file name in that traceback. Your machine will show the full "
-        "path; the point is the file name. The error is reported inside "
-        "<code>sweep_tools.py</code>, not in the file you ran. A traceback crosses file "
-        "boundaries and tells you which file broke. That is new this week, and it is "
-        "most of the reason splitting a program into files is worth the trouble.</p>",
+        + "<p>The running value starts at the first reading, not at 0. Start it at 0 "
+        "and nothing is ever smaller than 0, so the function returns 0 for every list "
+        "that has no negatives in it. That is the same kind of mistake as the "
+        "<code>&gt;</code> against <code>&gt;=</code> question from session 1: the "
+        "starting value decides the answer.</p>"
+        "<p>The print line is the same shape as the five above it: a label, then the "
+        "module name, a dot, the function name, and the readings list in the "
+        "brackets.</p>",
     )
-
-    b += '<h2><span class="num">6</span>Where to stop<span class="mins">5 minutes</span></h2>'
-    b += (
-        '<div class="exits">'
-        '<div class="exit"><span class="lab">FLOOR</span><p><code>sweep_tools.py</code> '
-        "holds <code>total_of</code> and <code>count_over</code>, both returning, and "
-        "<code>sweep_report2.py</code> imports them and prints the right two "
-        "numbers.</p></div>"
-        '<div class="exit"><span class="lab">MIDDLE</span><p>All five functions written '
-        "and imported, output matching session 1, and the five checks passing with your "
-        "predictions written down first.</p></div>"
-        '<div class="exit"><span class="lab">STRETCH</span><p>Middle, plus add '
-        "<code>spread_of(values)</code>, returning the largest value minus the "
-        "smallest, written so it calls other functions in your module rather than "
-        "looping again. Then break <code>average_of([])</code> on purpose and write "
-        "down which file the traceback names.</p></div>"
-        "</div>"
+    b += reveal(
+        "All seven, written out. Look only after yours run, or when you are stuck on "
+        "one and have already tried it on paper.",
+        code(funcs_text, "sweep_tools_more.py, the seven functions")
+        + code(prints_text, "sweep_report3.py, the seven print lines")
+        + output(
+            """smallest 12
+largest 77
+spread 65
+under 55: 4
+between 30 and 60: 6
+total over 55: 388
+first over 55 at index 1"""
+        )
+        + "<p>Two things to notice. <code>spread_of</code> is one line, because the "
+        "two functions it needs already exist. And <code>count_between</code> uses "
+        "one gate inside another: a reading has to pass <code>v &gt;= low</code> "
+        "before it is even asked about <code>v &lt;= high</code>.</p>",
+        show="Show all seven answers",
+        hide="Hide the answers",
     )
 
     b += panel(
         ["8.F.A.1", "MP7", "6.EE.B.6"],
         "<p>10 opener, 20 print against return, 25 building the module, 15 the import, "
-        "15 the checks, 5 exits. The module build runs long. If you are short, ship "
-        "three functions instead of five and keep the checks.</p>",
+        "20 adding to the module. No slack. The module build runs long. If you are "
+        "short, ship three functions instead of five in section 3 and let section 5 "
+        "make up the difference: a student who adds <code>smallest_of</code> and "
+        "<code>largest_of</code> has written five functions either way. Section 5 is "
+        "where the room spreads out: two new functions is the floor, "
+        "<code>count_between</code> with two limits is the middle, and a function of "
+        "their own invention with a print line to match is the stretch.</p>",
         "<p>The common failure is a function with both a <code>print</code> and a "
         "<code>return</code> in it. It works, and it teaches nothing. Make them delete "
         "the print. Rule for the term: a module never prints.</p>"
         "<p>Second common failure is running <code>sweep_tools.py</code> directly, "
         "seeing no output, and deciding it is broken. It is not broken. It has nothing "
         "to say. Name that moment out loud before it happens.</p>"
-        "<p>Watch for anyone who predicted 3 on <code>count_over([5, 5, 5], 5)</code>. "
-        "That is last week's strict inequality in a new costume, one week later, which "
-        "is exactly the retrieval this session is built to force.</p>",
+        "<p>When <code>count_over</code> is written, ask the room what "
+        "<code>count_over([5, 5, 5], 5)</code> returns. Anyone who says 3 has forgotten "
+        "last week's strict <code>&gt;</code>, and that question is the retrieval this "
+        "session is built to force.</p>",
         retouch=(
-            "The strict <code>&gt;</code> gate from session 1, now given two names. "
+            "Session 1's three habits, asked for in the opener as ideas rather than "
+            "numbers: trace before you run, name the value, and read every character. "
+            "Then the strict <code>&gt;</code> gate from session 1, now given two names: "
             "<code>best_index</code> keeps <code>&gt;</code> and "
             "<code>last_best_index</code> uses <code>&gt;=</code>, so last week's "
             "argument becomes this week's pair of functions."

@@ -28,11 +28,12 @@ CHECKS = {
         "total 503", "average 50.3", "over 55: 6", "best 77 at index 5",
         "i=1 reading=58 slot=0", "i=9 reading=77 slot=8",
     ]),
+    "wed02_return_and_modules.html#5": ("python3 sweep_report3.py", [
+        "smallest 12", "largest 77", "spread 65", "under 55: 4",
+        "between 30 and 60: 6", "total over 55: 388", "first over 55 at index 1",
+    ]),
     "wed02_return_and_modules.html": ("python3 sweep_report2.py", [
         "first best at 5", "last best at 9",
-        "total_of([]) expected 0 got 0",
-        "count_over([5, 5, 5], 5) expected 0 got 0",
-        "last_best_index([9, 9]) expected 1 got 1",
     ]),
     "wed03_counting.html": ("python3 caesar_crack.py", [
         "five most common: [('h', 12), ('u', 5), ('g', 5), ('r', 5), ('w', 4)]",

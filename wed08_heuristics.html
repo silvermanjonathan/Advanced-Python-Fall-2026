@@ -170,7 +170,8 @@ td code{font-size:.86em}
 section.panel{border-left:8px solid var(--clay)}
 section.panel > h2{color:var(--clay)}
 .panel p,.panel li{font-size:16.5px}
-.std{font-family:'JetBrains Mono',monospace; font-weight:700; color:var(--teal)}
+.std{font-family:'JetBrains Mono',monospace; font-weight:700; color:var(--teal); margin-right:6px}
+.stdline{max-width:80ch; margin:0 0 10px; padding-left:1.4em; text-indent:-1.4em}
 .mapnote{font-size:15px; color:var(--ink-soft); border-left:4px solid var(--rule); padding-left:14px}
 
 /* pager and footer */
@@ -231,8 +232,8 @@ footer p{margin:0}
 <main><div class="wrap">
 
 <section class="opener"><p class="chunk-no">Section 1 &middot; 10 minutes</p><h2>Opener</h2><p>From last week, from memory: seven digits took about 1.2 seconds to sweep. How many codes is that, and how long would ten digits take?</p><div class="predict"><b>Predict first.</b> Both, on paper.
-<button class="rev" data-target="a26" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a26">Show the answer</button>
-<div class="ans" id="a26"><p>Ten million codes, and about twenty minutes for ten digits. Today's target is the same seven digit lock, <code>4703916</code>.</p></div></div>
+<button class="rev" data-target="a27" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a27">Show the answer</button>
+<div class="ans" id="a27"><p>Ten million codes, and about twenty minutes for ten digits. Today's target is the same seven digit lock, <code>4703916</code>.</p></div></div>
 </section>
 <section class="chunk"><p class="chunk-no">Section 2 &middot; 25 minutes</p><h2>A score changes everything</h2><p>Brute force gets one bit of information per guess: right or wrong. Suppose instead the lock tells you how many positions are correct. That single change makes the problem easy.</p><p class="fname">smarter_than_brute.py</p>
 <pre><code>def score(guess):
@@ -263,8 +264,8 @@ def hill_climb():
             best = score(candidate)
     return tries</code></pre>
 <div class="predict"><b>Predict first.</b> Brute force needs about 4.7 million tries on this lock. Guess how many hill climbing needs. Write a number.
-<button class="rev" data-target="a27" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a27">Show the answer</button>
-<div class="ans" id="a27"><div class="out"><span class="tag">verified output</span><pre><code>secret is 7 digits, so there are 10000000 codes
+<button class="rev" data-target="a28" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a28">Show the answer</button>
+<div class="ans" id="a28"><div class="out"><span class="tag">verified output</span><pre><code>secret is 7 digits, so there are 10000000 codes
 
 brute force        4703917 tries
 random guessing    200000 tries (capped at 200000)
@@ -297,8 +298,8 @@ hill climbing, five runs:
 
             population.append(child)</code></pre>
 <div class="predict"><b>Predict first.</b> Population of 40, keeping the best 8. It finishes in about 17 generations. Is that better or worse than hill climbing's 170 tries? Careful.
-<button class="rev" data-target="a28" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a28">Show the answer</button>
-<div class="ans" id="a28"><div class="out"><span class="tag">verified output</span><pre><code>genetic algorithm, five runs:
+<button class="rev" data-target="a29" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a29">Show the answer</button>
+<div class="ans" id="a29"><div class="out"><span class="tag">verified output</span><pre><code>genetic algorithm, five runs:
   run 1: 24 generations, found 4703916
   run 2: 8 generations, found 4703916
   run 3: 4 generations, found 4703916
@@ -308,10 +309,10 @@ hill climbing, five runs:
 <p>Worse, and this is the best thing in the session. Seventeen generations of forty codes is about 680 scored guesses. Hill climbing used 170. The genetic algorithm looks faster only if you count generations instead of work.</p><p>Compare like with like. A generation is not a try. On a lock this simple the population is wasted effort, and the honest conclusion is that the fancier method lost.</p></div></div>
 </section>
 <section class="brief"><h2>Exits</h2><div class="exits"><div class="exit"><span class="lab">FLOOR</span><p>You ran hill climbing and can explain what <code>score</code> gives you that a yes-or-no answer does not.</p></div><div class="exit"><span class="lab">MIDDLE</span><p>Floor, plus five runs recorded with their spread, plus you can say why the keep rule uses <code>&gt;=</code>.</p></div><div class="exit"><span class="lab">STRETCH</span><p>Middle, plus count scored guesses rather than generations for the genetic algorithm and settle which method actually wins. Then find a lock where the population does help: make the score reward only exact whole-code matches and watch hill climbing fall apart.</p></div></div></section>
-<section class="panel"><h2>Teacher panel</h2><h3>Concept this session re-touches</h3><p>Session 7's runtime table, which priced brute force at ten million tries for this exact lock. The opener re-derives that number before the alternative appears.</p><h3>Standards</h3><table><tr><th>Code</th><th>Statement</th></tr><tr><td class="std">8.F.B.5</td><td>Describe qualitatively the functional relationship between two quantities by analyzing a graph (e.g., where the function is increasing or decreasing, linear or nonlinear). Sketch a graph that exhibits the qualitative features of a function that has been described verbally.</td></tr>
-<tr><td class="std">MP1</td><td>Make sense of problems and persevere in solving them.</td></tr>
-<tr><td class="std">MP8</td><td>Look for and express regularity in repeated reasoning.</td></tr>
-</table><p class="mapnote">Mapped to the Common Core State Standards for Mathematics (Multi-State). Each code and its wording was retrieved from the CASE Network through the Learning Commons Knowledge Graph on 12 September 2026. New York's own Computer Science and Digital Fluency framework and the CSTA standards are not carried in that graph, so no code from either appears anywhere on this site.</p><p class="mapnote">Two deliberate deviations from the retrieved text. The "for example…" illustrations attached to 7.SP.C.6 and 8.EE.A.1 are omitted, since they illustrate rather than state the standard. And where the source carries markup, italics or mathematical notation, it is rendered as plain text: 7.SP.C.5's fraction appears here as 1/2, and the italic stem of 6.SP.B.5.a and 6.SP.B.5.c is plain. Nothing else was shortened. Codes 6.SP.B.5.a and 6.SP.B.5.c are the lettered children of 6.SP.B.5, whose own statement is only a stem ending in a colon; the children carry that stem and are quoted in full.</p><h3>Timing</h3><p>10 opener, 25 hill climbing, 30 the genetic algorithm, 25 the comparison argument and exits. The comparison is the real content, so do not let it get squeezed.</p><h3>What to watch for</h3><p>Students will report their best run as the result. Insist on five runs and a range. A method with a random start has a spread, and reporting the best of five is how people fool themselves.</p><p>The seed is fixed at 4703 in the file so your numbers match this page. Take the seed out once and let them see the numbers move, then put it back. That sets up session 9 and session 10, where reproducibility becomes the whole point.</p><p>Expect resistance to the conclusion that the genetic algorithm lost. Good. Make them do the multiplication on the board.</p><h3>Files</h3><p><code>smarter_than_brute.py</code>, seeded with 4703. All five-run figures verified on Python 3.12.3 and reproducible with that seed.</p><h3>Lifted this week</h3><p><code>random.randrange</code>, <code>random.random</code>, <code>list.sort</code> with a <code>key</code>, string slicing to replace one character.</p></section>
+<section class="panel"><h2>Teacher panel</h2><h3>Concept this session re-touches</h3><p>Session 7's runtime table, which priced brute force at ten million tries for this exact lock. The opener re-derives that number before the alternative appears.</p><h3>Standards</h3><p class="stdline"><span class="std">8.F.B.5</span> Describe qualitatively the functional relationship between two quantities by analyzing a graph (e.g., where the function is increasing or decreasing, linear or nonlinear). Sketch a graph that exhibits the qualitative features of a function that has been described verbally.</p>
+<p class="stdline"><span class="std">MP1</span> Make sense of problems and persevere in solving them.</p>
+<p class="stdline"><span class="std">MP8</span> Look for and express regularity in repeated reasoning.</p>
+<p class="mapnote">Mapped to the Common Core State Standards for Mathematics (Multi-State). Each code and its wording was retrieved from the CASE Network through the Learning Commons Knowledge Graph on 12 September 2026. New York's own Computer Science and Digital Fluency framework and the CSTA standards are not carried in that graph, so no code from either appears anywhere on this site.</p><p class="mapnote">Two deliberate deviations from the retrieved text. The "for example…" illustrations attached to 7.SP.C.6 and 8.EE.A.1 are omitted, since they illustrate rather than state the standard. And where the source carries markup, italics or mathematical notation, it is rendered as plain text: 7.SP.C.5's fraction appears here as 1/2, and the italic stem of 6.SP.B.5.a and 6.SP.B.5.c is plain. Nothing else was shortened. Codes 6.SP.B.5.a and 6.SP.B.5.c are the lettered children of 6.SP.B.5, whose own statement is only a stem ending in a colon; the children carry that stem and are quoted in full.</p><h3>Timing</h3><p>10 opener, 25 hill climbing, 30 the genetic algorithm, 25 the comparison argument and exits. The comparison is the real content, so do not let it get squeezed.</p><h3>What to watch for</h3><p>Students will report their best run as the result. Insist on five runs and a range. A method with a random start has a spread, and reporting the best of five is how people fool themselves.</p><p>The seed is fixed at 4703 in the file so your numbers match this page. Take the seed out once and let them see the numbers move, then put it back. That sets up session 9 and session 10, where reproducibility becomes the whole point.</p><p>Expect resistance to the conclusion that the genetic algorithm lost. Good. Make them do the multiplication on the board.</p><h3>Files</h3><p><code>smarter_than_brute.py</code>, seeded with 4703. All five-run figures verified on Python 3.12.3 and reproducible with that seed.</p><h3>Lifted this week</h3><p><code>random.randrange</code>, <code>random.random</code>, <code>list.sort</code> with a <code>key</code>, string slicing to replace one character.</p></section>
 </div></main>
 <nav class="pager"><a href="wed07_what_it_costs.html">&larr; Session 7: what a program costs</a><a href="advanced_python_hub.html">Course hub</a><a href="wed09_monte_carlo.html">Session 9: settling it by simulation &rarr;</a></nav>
 <footer><div class="wrap"><p>Advanced Python, Robofun Fall 2026. Second printing, 13 September 2026. Built by a generator; the page, not the file, is the source of truth for output, because every quoted line came from a run.</p></div></footer>

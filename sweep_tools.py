@@ -1,6 +1,6 @@
 """Helpers that summarize a list of tower readings.
 
-Every function here hands a value back. None of them print.
+Every function here returns a value. None of them print.
 """
 
 

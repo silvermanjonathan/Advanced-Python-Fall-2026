@@ -170,7 +170,8 @@ td code{font-size:.86em}
 section.panel{border-left:8px solid var(--clay)}
 section.panel > h2{color:var(--clay)}
 .panel p,.panel li{font-size:16.5px}
-.std{font-family:'JetBrains Mono',monospace; font-weight:700; color:var(--teal)}
+.std{font-family:'JetBrains Mono',monospace; font-weight:700; color:var(--teal); margin-right:6px}
+.stdline{max-width:80ch; margin:0 0 10px; padding-left:1.4em; text-indent:-1.4em}
 .mapnote{font-size:15px; color:var(--ink-soft); border-left:4px solid var(--rule); padding-left:14px}
 
 /* pager and footer */
@@ -230,13 +231,9 @@ footer p{margin:0}
 <header class="top"><div class="wrap"><p class="eyebrow">Advanced Python &middot; Robofun &middot; Session 2 of 13</p><h1>Functions that hand something back</h1><p class="sub">A function can show you a number or it can give you a number, and those are different things. Today yours start handing values back, which is what lets you test a function, build one out of another, and split a program across two files.</p><div class="dates"><span class="pill"><b>When</b> Wednesday 23 September 2026</span><span class="pill"><b>Time</b> 4:00 to 5:30</span><span class="pill"><b>Length</b> 90 minutes</span></div></div></header>
 <main><div class="wrap">
 
-<section class="opener"><p class="chunk-no">Section 1 &middot; 10 minutes</p><h2>Opener</h2><p>Last week you renamed <code>sweep_report.py</code> and found the character that picks index 5 over index 9. On paper, from memory: what were the four numbers it printed, and which one depended on that character?</p><div class="predict"><b>Predict first.</b> Write the four numbers before you click.
+<section class="opener"><p class="chunk-no">Section 1 &middot; 10 minutes</p><h2>Opener</h2><p>Three questions about last week. Talk them through with the person next to you, then we take answers from the room.</p><ul class="tight"><li>Why did we trace the program on paper before running it? What did the trace table show you that running the program would not have?</li><li>We renamed <code>t</code>, <code>c</code>, <code>b</code>, and <code>bi</code>. What does a good variable name do for the next person who reads the file?</li><li>One character, <code>&gt;</code> against <code>&gt;=</code>, changed the answer. What does that tell you about reading code?</li></ul><div class="predict"><b>Predict first.</b> Talk through all three before you click. The wording does not matter. Check whether you had the idea.
 <button class="rev" data-target="a5" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a5">Show the answer</button>
-<div class="ans" id="a5"><div class="out"><span class="tag">verified output</span><pre><code>total 503
-average 50.3
-over 55: 6
-best 77 at index 5</code></pre></div>
-<p>The fourth one. Same list, same readings, all term.</p></div></div>
+<div class="ans" id="a5"><p><b>Tracing.</b> Running shows you what the program printed. Tracing shows you why, one pass at a time. The trace table showed the pass where the second 77 arrived and the gate stayed shut. The printed output does not show that.</p><p><b>Names.</b> A good name says what the value is, so the next reader does not have to scroll back up to work it out. The next reader is usually you, a week later.</p><p><b>One character.</b> A single character can change which question the program answers, so you have to read every character. That is why the rule is read it, trace it, then run it.</p></div></div>
 </section>
 <section class="chunk"><p class="chunk-no">Section 2 &middot; 20 minutes</p><h2>Print is not return</h2><p>Two functions that look like they do the same job.</p><pre><code>def show_total(values):
     running = 0
@@ -252,18 +249,18 @@ def total_of(values):
     return running</code></pre>
 <div class="predict"><b>Predict first.</b> What does <code>doubled = show_total([1, 2, 3]) * 2</code> do? And what does <code>doubled = total_of([1, 2, 3]) * 2</code> do?
 <button class="rev" data-target="a6" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a6">Show the answer</button>
-<div class="ans" id="a6"><p>The first one prints 6, then crashes.</p><div class="out"><span class="tag">what Python says</span><pre><code>6
+<div class="ans" id="a6"><p><b>The first one</b>, with <code>show_total</code>, prints 6 and then crashes on the multiplication.</p><div class="out"><span class="tag">what Python says</span><pre><code>6
 Traceback (most recent call last):
   File &quot;demo.py&quot;, line 1, in &lt;module&gt;
     doubled = show_total([1, 2, 3]) * 2
               ~~~~~~~~~~~~~~~~~~~~~~^~~
 TypeError: unsupported operand type(s) for *: &#x27;NoneType&#x27; and &#x27;int&#x27;</code></pre></div>
-<p>A function with no <code>return</code> hands back <code>None</code>, and <code>None</code> times 2 is not a thing. The second one puts 12 in <code>doubled</code> and prints nothing at all.</p><p>A printing function shows you a number. A returning function gives you a number. Only the second kind can be used in arithmetic, and only the second kind can be tested.</p></div></div>
-<div class="predict"><b>This is the grade 8 definition of a function.</b> A rule that assigns to each input exactly one output. <code>total_of</code> takes a list in and hands one number out. <code>show_total</code> assigns nothing to anything, so it is not a function in the mathematical sense at all, whatever the <code>def</code> keyword says.</div></section>
+<p>A function with no <code>return</code> returns <code>None</code>, and <code>None</code> times 2 is an error.</p><p><b>The second one</b>, with <code>total_of</code>, prints nothing. <code>total_of([1, 2, 3])</code> returns 6, 6 times 2 is 12, and 12 is stored in <code>doubled</code>. Nothing appears on the screen because nothing in that line prints.</p><p>A printing function shows you a number on the screen and then it is gone. A returning function gives the number back to the line that called it, so that line can store it in a variable, do arithmetic with it, or pass it to another function.</p></div></div>
+<div class="predict"><b>Same word as in math class.</b> In math, a function is a machine: you put a number in and exactly one number comes out. <code>total_of</code> works that way. Put a list in, one number comes out. <code>show_total</code> puts a number on the screen, but nothing comes out of it for the rest of the program to use. From now on, when this course says function, it means the kind something comes out of.</div></section>
 <section class="chunk"><p class="chunk-no">Section 3 &middot; 25 minutes</p><h2>Build the module</h2><p>Make a new file. It holds functions and nothing else. No printing, no readings list, no loop at the bottom. A file like that is a module.</p><p class="fname">sweep_tools.py</p>
 <pre><code>&quot;&quot;&quot;Helpers that summarize a list of tower readings.
 
-Every function here hands a value back. None of them print.
+Every function here returns a value. None of them print.
 &quot;&quot;&quot;
 
 
@@ -310,7 +307,7 @@ def last_best_index(values):
             where = i
     return where</code></pre>
 <p>Look at <code>average_of</code>. It does not add anything up. It calls <code>total_of</code> and divides. A function that only prints could not be used this way, because it has nothing to give another function.</p><p><code>best_index</code> and <code>last_best_index</code> differ by exactly the character you found last week. Now both questions have a name, and the name says which one you are asking.</p></section>
-<section class="chunk"><p class="chunk-no">Section 4 &middot; 15 minutes</p><h2>Import your own file</h2><p>Second file, same folder. <code>import sweep_tools</code> sends Python looking for a file called <code>sweep_tools.py</code> and hands you everything inside it.</p><p class="fname">sweep_report2.py</p>
+<section class="chunk"><p class="chunk-no">Section 4 &middot; 15 minutes</p><h2>Import your own file</h2><p>Second file, same folder. <code>import sweep_tools</code> sends Python looking for a file called <code>sweep_tools.py</code> and gives you everything inside it.</p><p class="fname">sweep_report2.py</p>
 <pre><code>&quot;&quot;&quot;Summarize tower readings using our own sweep_tools module.&quot;&quot;&quot;
 
 import sweep_tools
@@ -332,32 +329,100 @@ first best at 5
 last best at 9</code></pre></div>
 <p>Identical, because the arithmetic did not change. Only the shape of the program changed. And now both answers to the index question sit next to each other with names on them.</p></div></div>
 </section>
-<section class="chunk"><p class="chunk-no">Section 5 &middot; 15 minutes</p><h2>Test it, do not trust it</h2><p>A returning function can be checked against an answer you worked out yourself. Add these lines. Predict every one before running.</p><pre><code>print(&quot;--- checks ---&quot;)
-print(f&quot;total_of([1, 2, 3]) expected 6 got {sweep_tools.total_of([1, 2, 3])}&quot;)
-print(f&quot;total_of([]) expected 0 got {sweep_tools.total_of([])}&quot;)
-print(f&quot;count_over([5, 5, 5], 5) expected 0 got {sweep_tools.count_over([5, 5, 5], 5)}&quot;)
-print(f&quot;best_index([9, 9]) expected 0 got {sweep_tools.best_index([9, 9])}&quot;)
-print(f&quot;last_best_index([9, 9]) expected 1 got {sweep_tools.last_best_index([9, 9])}&quot;)</code></pre>
-<div class="predict"><b>Predict first.</b> Two of these five are traps. Which two, and why? Write your five expected values first.
+<section class="chunk"><p class="chunk-no">Section 5 &middot; 20 minutes</p><h2>Add to the module</h2><p>Your module has five functions. Add more. Pick from the list below, or invent your own, and write each one in <code>sweep_tools.py</code>. Every one takes the readings list in and returns one value. None of them print.</p><p>Then open <code>sweep_report2.py</code> and add one <code>print</code> line for each new function, in the same style as the five already there. The answer column is what your print line should show for the readings list, so you can check your function without asking anyone.</p><table><tr><th>Function</th><th>What it returns</th><th>Answer on the readings</th></tr><tr><td><code>smallest_of(values)</code></td><td>The smallest reading.</td><td><code>12</code></td></tr><tr><td><code>largest_of(values)</code></td><td>The largest reading.</td><td><code>77</code></td></tr><tr><td><code>spread_of(values)</code></td><td>The largest minus the smallest. Write it by calling the two above.</td><td><code>65</code></td></tr><tr><td><code>count_under(values, limit)</code></td><td>How many readings are strictly less than the limit. Use 55.</td><td><code>4</code></td></tr><tr><td><code>count_between(values, low, high)</code></td><td>How many readings are from low to high, both ends included. Use 30 and 60.</td><td><code>6</code></td></tr><tr><td><code>total_over(values, limit)</code></td><td>The total of the readings that are strictly over the limit. Use 55.</td><td><code>388</code></td></tr><tr><td><code>first_over_index(values, limit)</code></td><td>The index of the first reading strictly over the limit. Use 55.</td><td><code>1</code></td></tr></table><p>Two rules from earlier today still apply. A function that prints instead of returning cannot be used in a print line, so it fails the moment you try. And if a new function can be written by calling ones you already have, call them: <code>spread_of</code> should not contain a loop.</p><div class="predict"><b>Predict first.</b> Write <code>smallest_of</code> and its print line on paper before you look. Where does the running value start, and why does 0 not work?
 <button class="rev" data-target="a8" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a8">Show the answer</button>
-<div class="ans" id="a8"><div class="out"><span class="tag">verified output</span><pre><code>--- checks ---
-total_of([1, 2, 3]) expected 6 got 6
-total_of([]) expected 0 got 0
-count_over([5, 5, 5], 5) expected 0 got 0
-best_index([9, 9]) expected 0 got 0
-last_best_index([9, 9]) expected 1 got 1</code></pre></div>
-<p>All five pass. The traps are the empty list, where <code>total_of</code> sensibly hands back 0, and <code>count_over([5, 5, 5], 5)</code>, where nothing counts because 5 is not strictly greater than 5. Most students predict 3 for that one.</p><p>Now call <code>sweep_tools.average_of([])</code> on purpose.</p><div class="out"><span class="tag">verified traceback</span><pre><code>  File &quot;sweep_tools.py&quot;, line 17, in average_of
-    return total_of(values) / len(values)
-           ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~
-ZeroDivisionError: division by zero</code></pre></div>
-<p>Read the file name in that traceback. Your machine will show the full path; the point is the file name. The error is reported inside <code>sweep_tools.py</code>, not in the file you ran. A traceback crosses file boundaries and tells you which file broke. That is new this week, and it is most of the reason splitting a program into files is worth the trouble.</p></div></div>
+<div class="ans" id="a8"><p class="fname">sweep_tools.py, added at the bottom</p>
+<pre><code>def smallest_of(values):
+    &quot;&quot;&quot;Return the smallest number in values.&quot;&quot;&quot;
+    smallest = values[0]
+    for v in values:
+        if v &lt; smallest:
+            smallest = v
+    return smallest</code></pre>
+<p class="fname">sweep_report2.py, added at the bottom</p>
+<pre><code>print(f&quot;smallest {sweep_tools.smallest_of(readings)}&quot;)</code></pre>
+<p>The running value starts at the first reading, not at 0. Start it at 0 and nothing is ever smaller than 0, so the function returns 0 for every list that has no negatives in it. That is the same kind of mistake as the <code>&gt;</code> against <code>&gt;=</code> question from session 1: the starting value decides the answer.</p><p>The print line is the same shape as the five above it: a label, then the module name, a dot, the function name, and the readings list in the brackets.</p></div></div>
+<div class="predict"><b>Predict first.</b> All seven, written out. Look only after yours run, or when you are stuck on one and have already tried it on paper.
+<button class="rev" data-target="a9" data-show="Show all seven answers" data-hide="Hide the answers" aria-expanded="false" aria-controls="a9">Show all seven answers</button>
+<div class="ans" id="a9"><p class="fname">sweep_tools_more.py, the seven functions</p>
+<pre><code>def smallest_of(values):
+    &quot;&quot;&quot;Return the smallest number in values.&quot;&quot;&quot;
+    smallest = values[0]
+    for v in values:
+        if v &lt; smallest:
+            smallest = v
+    return smallest
+
+
+def largest_of(values):
+    &quot;&quot;&quot;Return the largest number in values.&quot;&quot;&quot;
+    largest = values[0]
+    for v in values:
+        if v &gt; largest:
+            largest = v
+    return largest
+
+
+def spread_of(values):
+    &quot;&quot;&quot;Return the largest minus the smallest, using the two functions above.&quot;&quot;&quot;
+    return largest_of(values) - smallest_of(values)
+
+
+def count_under(values, limit):
+    &quot;&quot;&quot;Return how many values are strictly less than limit.&quot;&quot;&quot;
+    hits = 0
+    for v in values:
+        if v &lt; limit:
+            hits = hits + 1
+    return hits
+
+
+def count_between(values, low, high):
+    &quot;&quot;&quot;Return how many values are from low to high, both ends included.&quot;&quot;&quot;
+    hits = 0
+    for v in values:
+        if v &gt;= low:
+            if v &lt;= high:
+                hits = hits + 1
+    return hits
+
+
+def total_over(values, limit):
+    &quot;&quot;&quot;Return the total of the values that are strictly greater than limit.&quot;&quot;&quot;
+    running = 0
+    for v in values:
+        if v &gt; limit:
+            running = running + v
+    return running
+
+
+def first_over_index(values, limit):
+    &quot;&quot;&quot;Return the index of the first value strictly greater than limit, or -1.&quot;&quot;&quot;
+    for i in range(len(values)):
+        if values[i] &gt; limit:
+            return i
+    return -1</code></pre>
+<p class="fname">sweep_report3.py, the seven print lines</p>
+<pre><code>print(f&quot;smallest {sweep_tools_more.smallest_of(readings)}&quot;)
+print(f&quot;largest {sweep_tools_more.largest_of(readings)}&quot;)
+print(f&quot;spread {sweep_tools_more.spread_of(readings)}&quot;)
+print(f&quot;under {limit}: {sweep_tools_more.count_under(readings, limit)}&quot;)
+print(f&quot;between 30 and 60: {sweep_tools_more.count_between(readings, 30, 60)}&quot;)
+print(f&quot;total over {limit}: {sweep_tools_more.total_over(readings, limit)}&quot;)
+print(f&quot;first over {limit} at index {sweep_tools_more.first_over_index(readings, limit)}&quot;)</code></pre>
+<div class="out"><span class="tag">verified output</span><pre><code>smallest 12
+largest 77
+spread 65
+under 55: 4
+between 30 and 60: 6
+total over 55: 388
+first over 55 at index 1</code></pre></div>
+<p>Two things to notice. <code>spread_of</code> is one line, because the two functions it needs already exist. And <code>count_between</code> uses one gate inside another: a reading has to pass <code>v &gt;= low</code> before it is even asked about <code>v &lt;= high</code>.</p></div></div>
 </section>
-<section class="chunk"><p class="chunk-no">Section 6 &middot; 5 minutes</p><h2>Where to stop</h2></section>
-<section class="brief"><h2>Exits</h2><div class="exits"><div class="exit"><span class="lab">FLOOR</span><p><code>sweep_tools.py</code> holds <code>total_of</code> and <code>count_over</code>, both returning, and <code>sweep_report2.py</code> imports them and prints the right two numbers.</p></div><div class="exit"><span class="lab">MIDDLE</span><p>All five functions written and imported, output matching session 1, and the five checks passing with your predictions written down first.</p></div><div class="exit"><span class="lab">STRETCH</span><p>Middle, plus add <code>spread_of(values)</code>, returning the largest value minus the smallest, written so it calls other functions in your module rather than looping again. Then break <code>average_of([])</code> on purpose and write down which file the traceback names.</p></div></div></section>
-<section class="panel"><h2>Teacher panel</h2><h3>Concept this session re-touches</h3><p>The strict <code>&gt;</code> gate from session 1, now given two names. <code>best_index</code> keeps <code>&gt;</code> and <code>last_best_index</code> uses <code>&gt;=</code>, so last week's argument becomes this week's pair of functions.</p><h3>Standards</h3><table><tr><th>Code</th><th>Statement</th></tr><tr><td class="std">8.F.A.1</td><td>Understand that a function is a rule that assigns to each input exactly one output. The graph of a function is the set of ordered pairs consisting of an input and the corresponding output.</td></tr>
-<tr><td class="std">MP7</td><td>Look for and make use of structure.</td></tr>
-<tr><td class="std">6.EE.B.6</td><td>Use variables to represent numbers and write expressions when solving a real-world or mathematical problem; understand that a variable can represent an unknown number, or, depending on the purpose at hand, any number in a specified set.</td></tr>
-</table><p class="mapnote">Mapped to the Common Core State Standards for Mathematics (Multi-State). Each code and its wording was retrieved from the CASE Network through the Learning Commons Knowledge Graph on 12 September 2026. New York's own Computer Science and Digital Fluency framework and the CSTA standards are not carried in that graph, so no code from either appears anywhere on this site.</p><p class="mapnote">Two deliberate deviations from the retrieved text. The "for example…" illustrations attached to 7.SP.C.6 and 8.EE.A.1 are omitted, since they illustrate rather than state the standard. And where the source carries markup, italics or mathematical notation, it is rendered as plain text: 7.SP.C.5's fraction appears here as 1/2, and the italic stem of 6.SP.B.5.a and 6.SP.B.5.c is plain. Nothing else was shortened. Codes 6.SP.B.5.a and 6.SP.B.5.c are the lettered children of 6.SP.B.5, whose own statement is only a stem ending in a colon; the children carry that stem and are quoted in full.</p><h3>Timing</h3><p>10 opener, 20 print against return, 25 building the module, 15 the import, 15 the checks, 5 exits. The module build runs long. If you are short, ship three functions instead of five and keep the checks.</p><h3>What to watch for</h3><p>The common failure is a function with both a <code>print</code> and a <code>return</code> in it. It works, and it teaches nothing. Make them delete the print. Rule for the term: a module never prints.</p><p>Second common failure is running <code>sweep_tools.py</code> directly, seeing no output, and deciding it is broken. It is not broken. It has nothing to say. Name that moment out loud before it happens.</p><p>Watch for anyone who predicted 3 on <code>count_over([5, 5, 5], 5)</code>. That is last week's strict inequality in a new costume, one week later, which is exactly the retrieval this session is built to force.</p><h3>Files</h3><p><code>sweep_tools.py</code> and <code>sweep_report2.py</code>. All output verified on Python 3.12.3.</p><h3>Lifted this week</h3><p><code>return</code>, <code>len()</code>, and <code>import</code> of your own module. Full list on the <a href="advanced_python_hub.html">hub</a>.</p></section>
+<section class="panel"><h2>Teacher panel</h2><h3>Concept this session re-touches</h3><p>Session 1's three habits, asked for in the opener as ideas rather than numbers: trace before you run, name the value, and read every character. Then the strict <code>&gt;</code> gate from session 1, now given two names: <code>best_index</code> keeps <code>&gt;</code> and <code>last_best_index</code> uses <code>&gt;=</code>, so last week's argument becomes this week's pair of functions.</p><h3>Standards</h3><p class="stdline"><span class="std">8.F.A.1</span> Understand that a function is a rule that assigns to each input exactly one output. The graph of a function is the set of ordered pairs consisting of an input and the corresponding output.</p>
+<p class="stdline"><span class="std">MP7</span> Look for and make use of structure.</p>
+<p class="stdline"><span class="std">6.EE.B.6</span> Use variables to represent numbers and write expressions when solving a real-world or mathematical problem; understand that a variable can represent an unknown number, or, depending on the purpose at hand, any number in a specified set.</p>
+<p class="mapnote">Mapped to the Common Core State Standards for Mathematics (Multi-State). Each code and its wording was retrieved from the CASE Network through the Learning Commons Knowledge Graph on 12 September 2026. New York's own Computer Science and Digital Fluency framework and the CSTA standards are not carried in that graph, so no code from either appears anywhere on this site.</p><p class="mapnote">Two deliberate deviations from the retrieved text. The "for example…" illustrations attached to 7.SP.C.6 and 8.EE.A.1 are omitted, since they illustrate rather than state the standard. And where the source carries markup, italics or mathematical notation, it is rendered as plain text: 7.SP.C.5's fraction appears here as 1/2, and the italic stem of 6.SP.B.5.a and 6.SP.B.5.c is plain. Nothing else was shortened. Codes 6.SP.B.5.a and 6.SP.B.5.c are the lettered children of 6.SP.B.5, whose own statement is only a stem ending in a colon; the children carry that stem and are quoted in full.</p><h3>Timing</h3><p>10 opener, 20 print against return, 25 building the module, 15 the import, 20 adding to the module. No slack. The module build runs long. If you are short, ship three functions instead of five in section 3 and let section 5 make up the difference: a student who adds <code>smallest_of</code> and <code>largest_of</code> has written five functions either way. Section 5 is where the room spreads out: two new functions is the floor, <code>count_between</code> with two limits is the middle, and a function of their own invention with a print line to match is the stretch.</p><h3>What to watch for</h3><p>The common failure is a function with both a <code>print</code> and a <code>return</code> in it. It works, and it teaches nothing. Make them delete the print. Rule for the term: a module never prints.</p><p>Second common failure is running <code>sweep_tools.py</code> directly, seeing no output, and deciding it is broken. It is not broken. It has nothing to say. Name that moment out loud before it happens.</p><p>When <code>count_over</code> is written, ask the room what <code>count_over([5, 5, 5], 5)</code> returns. Anyone who says 3 has forgotten last week's strict <code>&gt;</code>, and that question is the retrieval this session is built to force.</p><h3>Files</h3><p><code>sweep_tools.py</code> and <code>sweep_report2.py</code>. All output verified on Python 3.12.3.</p><h3>Lifted this week</h3><p><code>return</code>, <code>len()</code>, and <code>import</code> of your own module. Full list on the <a href="advanced_python_hub.html">hub</a>.</p></section>
 </div></main>
 <nav class="pager"><a href="wed01_cold_read.html">&larr; Session 1: cold read</a><a href="advanced_python_hub.html">Course hub</a><a href="wed03_counting.html">Session 3: counting and cracking &rarr;</a></nav>
 <footer><div class="wrap"><p>Advanced Python, Robofun Fall 2026. Second printing, 13 September 2026. Built by a generator; the page, not the file, is the source of truth for output, because every quoted line came from a run.</p></div></footer>
