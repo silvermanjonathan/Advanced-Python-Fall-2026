@@ -347,40 +347,6 @@ def worksheet01():
         + "<p>Which of the four variables was hardest to name, and why?</p>" + lines(2)
     )
 
-    b += '<h2><span class="num">5</span>Where to stop<span class="mins">15 minutes</span></h2>'
-    b += (
-        "<p>Three landings. Every one of them is a real place to stop. Tick each line "
-        "you can honestly claim, then circle the exit you reached.</p>"
-        '<div class="checks">'
-        '<p><span class="box"></span><span><b>Floor.</b> I traced the four printed numbers.</span></p>'
-        '<p><span class="box"></span><span><b>Floor.</b> I can point at the character that '
-        "decides index 5 against index 9.</span></p>"
-        '<p><span class="box"></span><span><b>Floor.</b> I renamed the four counters.</span></p>'
-        '<p><span class="box"></span><span><b>Middle.</b> I traced the wrap loop by hand and '
-        "got the first three slots right.</span></p>"
-        '<p><span class="box"></span><span><b>Middle.</b> I did the full rename, with a '
-        "docstring.</span></p>"
-        '<p><span class="box"></span><span><b>Stretch.</b> I changed <code>&gt;</code> to '
-        "<code>&gt;=</code>, predicted the new output, confirmed it, and wrote which "
-        "question each version answers.</span></p>"
-        '<p><span class="box"></span><span><b>Stretch.</b> I renamed <code>gate_log.py</code> '
-        "and said which of its four names is the most misleading.</span></p>"
-        "</div>"
-        '<p class="nb">I reached: &nbsp; FLOOR &nbsp; &middot; &nbsp; MIDDLE &nbsp; '
-        "&middot; &nbsp; STRETCH</p>"
-        "<p>One thing I predicted wrong today, and what I believed that made me wrong:</p>"
-        + lines(2)
-    )
-    b += "<h3>Stretch, if there is time</h3>"
-    b += (
-        "<p>Change <code>&gt;</code> to <code>&gt;=</code> in <code>if r &gt; b</code>. "
-        "Predict the new fourth line before you run it, then confirm it. Then write one "
-        "sentence: which question does each version answer?</p>"
-        '<p class="nb">Prediction with <code>&gt;=</code>:</p>' + lines(1)
-        + '<p class="nb"><code>&gt;</code> answers the question:</p>' + lines(1)
-        + '<p class="nb"><code>&gt;=</code> answers the question:</p>' + lines(1)
-    )
-
     b += pager(
         ("wed01_cold_read.html", "Session 1: the page"),
         ("wed02_return_and_modules.html", "Session 2: functions that hand something back"),

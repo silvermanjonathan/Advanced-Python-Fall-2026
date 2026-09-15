@@ -301,6 +301,9 @@ standards, 21 programs, 4 data files, 44 predict-and-reveal prompts. Faults foun
     highlighted, the current door marked, and a sentence saying whether each gate said yes
     or no. Step, play, back, reset; arrow keys work. The table it produces was checked
     row by row against `gate_log.py` under node. Sixteen pages now.
+16. Session 1 no longer has a "Where to stop" section. The session ends after the
+    `gate_log.py` style pass, which is the exit, and the worksheet ends in the same place.
+    Every other session keeps its floor, middle, and stretch exits.
 
 Known corrections made before first printing:
 

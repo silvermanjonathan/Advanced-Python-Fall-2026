@@ -236,28 +236,13 @@ print(f"q {q}")""",
         "its place by saying why, not what.</p>"
     )
 
-    b += '<h2><span class="num">5</span>Where to stop<span class="mins">15 minutes</span></h2>'
-    b += (
-        '<div class="exits">'
-        '<div class="exit"><span class="lab">FLOOR</span><p>You traced the four printed '
-        "numbers and you can point at the character that decides index 5 against index "
-        "9. You renamed the four counters.</p></div>"
-        '<div class="exit"><span class="lab">MIDDLE</span><p>Floor, plus you traced the '
-        "wrap loop by hand and got the first three slots right, plus a full rename with "
-        "a docstring.</p></div>"
-        '<div class="exit"><span class="lab">STRETCH</span><p>Middle, plus you changed '
-        "<code>&gt;</code> to <code>&gt;=</code>, predicted the new output, confirmed "
-        "it, and wrote one sentence on which version answers which question. Then "
-        "rename <code>gate_log.py</code> as well, and say which of its four numbers "
-        "has the most misleading name.</p></div>"
-        "</div>"
-    )
-
     b += panel(
         ["MP1", "MP6", "MP3"],
-        "<p>10 opener, 25 cold read, 10 run and compare, 30 style pass, 15 exits and "
-        "pack up. The cold read is the diagnostic and it is the part to protect. If it "
-        "runs long, cut <code>gate_log.py</code> and set it as the take-home.</p>",
+        "<p>10 opener, 25 cold read, 10 run and compare, 30 style pass, and the last 15 "
+        "go to <code>gate_log.py</code> and packing up. The session stops after the "
+        "doors: there is no separate exits section, because the style pass is the exit. "
+        "The cold read is the diagnostic and it is the part to protect. If it runs long, "
+        "the doors are what gets cut, and they become the take-home.</p>",
         "<p>This session is a placement test in ordinary clothes. Watch for anyone who "
         "cannot trace an accumulator at all. That tells you the room has beginners in "
         "it regardless of what the enrollment says. Three or more students stuck on "
