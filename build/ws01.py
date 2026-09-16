@@ -11,6 +11,20 @@ header.top .sub:empty{display:none}
   text-transform:uppercase; color:var(--ochre); margin-right:8px}
 .lines p{border-bottom:2px solid var(--rule); min-height:34px; margin:0 0 10px; padding:0 0 2px}
 .key{background:var(--green-tint); color:var(--green-ink)}
+[contenteditable="true"]{cursor:text; outline:none; min-height:1.4em}
+[contenteditable="true"]:focus{background:var(--ochre-tint); box-shadow:inset 0 0 0 3px var(--ochre-line)}
+[contenteditable="true"]:empty::before{content:attr(data-hint); color:#B9AF96; font-weight:400}
+table.trace td[contenteditable="true"]{font-size:19px; font-weight:700; color:var(--green-ink)}
+table.rename td[contenteditable="true"],.lines p[contenteditable="true"]{font-size:18px; color:var(--green-ink); text-align:left}
+.lines p[contenteditable="true"]{min-height:38px; padding:4px 8px}
+.livebar{display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin:0 0 20px; padding:12px 16px;
+  border:2px dashed var(--teal); border-radius:5px; background:var(--card)}
+.livebar p{margin:0; font-size:16px}
+.livebar button{font-family:'DM Sans',sans-serif; font-size:15px; font-weight:700; background:var(--card);
+  color:var(--teal); border:2px solid var(--rule); border-radius:4px; padding:8px 14px; cursor:pointer}
+.livebar button:hover{background:#EFE9DA}
+@media print{.livebar{display:none} [contenteditable="true"]:empty::before{content:none}
+  [contenteditable="true"]{color:var(--ink)}}
 .lines p.key{min-height:0; padding:8px 10px; border-bottom:0; border-left:4px solid var(--green)}
 table.trace tr.done td{}
 table.trace{table-layout:fixed}
@@ -27,7 +41,6 @@ table.rename td{height:38px}
 table.rename td.old{font-family:'JetBrains Mono',monospace; font-weight:700; width:130px; text-align:center;
   background:#EFE9DA; white-space:nowrap}
 .two-up{display:grid; gap:18px; grid-template-columns:1fr}
-@media(min-width:760px){.two-up{grid-template-columns:1fr 1fr}}
 .two-up pre{margin:0; font-size:14px; line-height:1.5}
 .nb{font-size:15px; color:var(--ink-soft)}
 .checks p{display:flex; gap:12px; align-items:flex-start; margin:0 0 12px; max-width:none}
@@ -257,6 +270,44 @@ RENAMES_2 = {
 }
 
 
+LIVE_JS = """
+<script>
+(function(){
+  var blanks = [];
+  document.querySelectorAll('table.trace td, table.rename td, .lines p').forEach(function(el){
+    if (el.classList.contains('i') || el.classList.contains('old')) return;
+    if (el.closest('tr.done') || el.closest('tr.start')) return;
+    if (el.textContent.trim() !== '') return;
+    el.setAttribute('contenteditable', 'true');
+    el.setAttribute('tabindex', '0');
+    el.setAttribute('data-hint', el.tagName === 'P' ? 'type here' : '');
+    blanks.push(el);
+  });
+  document.addEventListener('keydown', function(e){
+    var el = document.activeElement;
+    if (!el || el.getAttribute('contenteditable') !== 'true') return;
+    if (e.key === 'Enter' || (e.key === 'Tab' && !e.shiftKey)) {
+      if (e.key === 'Enter' && el.tagName === 'P' && e.shiftKey) return;
+      e.preventDefault();
+      var i = blanks.indexOf(el);
+      if (i >= 0 && i + 1 < blanks.length) blanks[i + 1].focus();
+    }
+    if (e.key === 'Tab' && e.shiftKey) {
+      e.preventDefault();
+      var j = blanks.indexOf(el);
+      if (j > 0) blanks[j - 1].focus();
+    }
+  });
+  var clear = document.getElementById('clearall');
+  if (clear) clear.addEventListener('click', function(){
+    if (!confirm('Clear everything typed on this page?')) return;
+    blanks.forEach(function(el){ el.textContent = ''; });
+  });
+})();
+</script>
+"""
+
+
 def worksheet01_key():
     """Return the teacher's answer key: the worksheet with every slot filled."""
     KEY["on"] = True
@@ -287,6 +338,16 @@ def worksheet01():
         'the session 1 page</a>'
         + ("" if KEY["on"] else '<a class="btn" href="wed01_worksheet.pdf" download>Download this worksheet (PDF)</a>')
         + "</div>"
+    )
+    if not KEY["on"]:
+        b += (
+            '<div class="livebar"><p><b>On the projector:</b> click any blank cell or line '
+            "and type. Tab or Enter moves to the next blank. Nothing is saved when the page "
+            "closes.</p>"
+            '<button id="clearall" type="button">Clear everything</button></div>'
+        )
+    b += (
+        ""
     )
     b += '<h2><span class="num">1</span>Opener<span class="mins">10 minutes</span></h2>'
     b += (
@@ -410,6 +471,8 @@ def worksheet01():
         + "</div>"
     )
 
+    if not KEY["on"]:
+        b += LIVE_JS
     b += pager(
         ("wed01_cold_read.html", "Session 1: the page"),
         ("wed02_return_and_modules.html", "Session 2: functions that return a value"),
