@@ -19,8 +19,9 @@ def day01():
 
     b += (
         '<div class="toolbar"><a class="btn" href="wed01_worksheet.html">Open the '
-        'worksheet</a><a class="btn quiet" href="wed01_doors_trace.html">Watch the door '
-        "trace fill in</a></div>"
+        'worksheet</a><a class="btn quiet" href="wed01_worksheet.pdf" download>Download '
+        'the worksheet (PDF)</a><a class="btn quiet" href="wed01_doors_trace.html">Watch '
+        "the door trace fill in</a></div>"
     )
     b += '<h2><span class="num">1</span>Opener<span class="mins">10 minutes</span></h2>'
     b += (
@@ -253,7 +254,7 @@ print(f"q {q}")""",
         "reach that session's floor: they encode by hand and read the top letter off "
         "the output. From session 4 the pace returns to the pages as written.</p>",
         extras=(
-            "<h3>Files</h3><p><code>wed01_doors_trace.html</code>, an animated trace of <code>gate_log.py</code> for the projector: step or play, and the worksheet table fills in one gate at a time. <code>wed01_worksheet.html</code>, printed one per student, double-sided: a trace table for each loop, one row per pass, and the rename tables. Print it from the browser; the page is laid out for letter paper and the style pass starts on a fresh sheet. <code>sweep_report.py</code> and <code>gate_log.py</code>. Every output on this page "
+            "<h3>Files</h3><p><code>wed01_worksheet_key.html</code>, the worksheet with every slot filled in, for you. <code>wed01_doors_trace.html</code>, an animated trace of <code>gate_log.py</code> for the projector: step or play, and the worksheet table fills in one gate at a time. <code>wed01_worksheet.html</code>, printed one per student, double-sided: a trace table for each loop, one row per pass, and the rename tables. Print it from the browser; the page is laid out for letter paper and the style pass starts on a fresh sheet. <code>sweep_report.py</code> and <code>gate_log.py</code>. Every output on this page "
             "came from running that file on Python 3.12.3. Re-run it on the classroom "
             "machines before Wednesday.</p>"
             "<h3>Constraints</h3><p>This session uses only the prerequisite vocabulary "

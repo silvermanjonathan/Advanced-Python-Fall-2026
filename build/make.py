@@ -4,7 +4,7 @@ import os
 
 from build import OUT, page, validate
 from days12 import day01, day02
-from ws01 import WS_CSS, worksheet01
+from ws01 import WS_CSS, worksheet01, worksheet01_key
 from trace01 import TRACE_CSS, trace01
 from days38 import day03, day04, day05, day06, day07, day08
 from days913 import day09, day10, day11, day12, day13
@@ -16,6 +16,7 @@ PAGES = [
     ("advanced_python_hub.html", "Advanced Python, Fall 2026, Robofun", hub),
     ("wed01_cold_read.html", "Session 1: cold read, then a style pass", day01),
     ("wed01_worksheet.html", "Session 1 worksheet: trace it before you run it", worksheet01),
+    ("wed01_worksheet_key.html", "Session 1 worksheet: teacher's answer key", worksheet01_key),
     ("wed01_doors_trace.html", "Session 1: watch the door trace fill in", trace01),
     ("wed02_return_and_modules.html", "Session 2: functions that return a value", day02),
     ("wed03_counting.html", "Session 3: counting, and what counting buys you", day03),
@@ -33,7 +34,7 @@ PAGES = [
 
 written = []
 for filename, title, fn in PAGES:
-    extra = {"wed01_worksheet.html": WS_CSS, "wed01_doors_trace.html": TRACE_CSS}.get(filename, "")
+    extra = {"wed01_worksheet.html": WS_CSS, "wed01_worksheet_key.html": WS_CSS, "wed01_doors_trace.html": TRACE_CSS}.get(filename, "")
     written.append(page(filename, title, fn(), head_extra=extra))
     print(f"wrote {filename}")
 
