@@ -151,6 +151,35 @@ a.btn.quiet:hover{background:#EFE9DA}
 .ans{display:none; margin-top:16px; padding-top:16px; border-top:2px solid var(--rule)}
 .ans.show{display:block}
 .ans > :last-child{margin-bottom:0}
+.strip{border:2px solid var(--rule); border-radius:5px; background:var(--card); padding:14px 16px; margin:0 0 16px}
+.strip-controls{display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin:0 0 12px}
+.strip-controls button{font-family:'DM Sans',sans-serif; font-size:17px; font-weight:700; background:var(--teal);
+  color:#FFFDF7; border:0; border-radius:4px; padding:9px 16px; cursor:pointer; min-width:56px}
+.strip-controls button:hover{background:var(--teal-deep)}
+.strip-controls button.quiet{background:var(--card); color:var(--teal); border:2px solid var(--rule)}
+.strip-key{font-family:'JetBrains Mono',monospace; font-size:18px; padding:0 6px}
+.strip-key b{font-size:26px; color:var(--teal)}
+.strip-word{font-size:16px; color:var(--ink-soft); margin-left:auto}
+.strip-word input{font-family:'JetBrains Mono',monospace; font-size:17px; width:9em; margin-left:6px;
+  padding:6px 8px; border:2px solid var(--rule); border-radius:4px; background:#fff; color:var(--ink)}
+.strip-rows{overflow-x:auto; padding-bottom:4px}
+.strip-row{display:flex; gap:3px; margin:0 0 3px; min-width:max-content}
+.strip-label{font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--ink-soft); width:52px;
+  display:flex; align-items:center; text-transform:uppercase; letter-spacing:.08em}
+.strip-cell{font-family:'JetBrains Mono',monospace; font-size:20px; font-weight:700; width:30px; height:38px;
+  display:flex; align-items:center; justify-content:center; border:2px solid var(--rule); border-radius:3px;
+  background:#fff; font-variant-ligatures:none}
+.strip-row.top .strip-cell{cursor:pointer}
+.strip-row.bottom .strip-cell{background:var(--ochre-tint)}
+.strip-cell.on,.strip-row.bottom .strip-cell.on{background:var(--teal); color:#FFFDF7; border-color:var(--teal)}
+.strip-say{font-size:18px; margin:10px 0 0; min-height:1.6em}
+@media (max-width:760px){.strip-word{margin-left:0}}
+@media print{.strip-controls,.strip-say{display:none}}
+.hintset{border:2px solid var(--rule); border-radius:5px; padding:12px 16px; margin:0 0 12px;
+  background:var(--card)}
+.hintset > p:first-child{margin:0 0 8px}
+.hintset .ans{margin-top:10px; padding-top:10px}
+.hintset .ans pre{margin-bottom:10px}
 .bug{
   background:#F7E4E1; border:2px solid var(--clay); border-left:8px solid var(--clay);
   border-radius:5px; padding:14px 16px; margin:0 0 18px; color:#3A1512;
@@ -344,6 +373,30 @@ def sectionize(body):
         else:
             main += _wrap_h2s(part)
     return header, main, nav
+
+
+def laddered(question, hints, answer, slug):
+    """Return a predict box with hints that open one inside the other, then the answer.
+
+    Hint 2's button is inside hint 1, hint 3's inside hint 2, and the answer button is
+    inside the last hint, so a reader opens them in order.
+    """
+    aid = f"ladder-{slug}-answer"
+    inner = (
+        f'<button class="rev" data-target="{aid}" data-show="Show the answer" '
+        f'data-hide="Hide the answer" aria-expanded="false" aria-controls="{aid}">'
+        "Show the answer</button>\n"
+        f'<div class="ans" id="{aid}">{answer}</div>\n'
+    )
+    for n in range(len(hints), 0, -1):
+        hid = f"ladder-{slug}-{n}"
+        inner = (
+            f'<button class="rev" data-target="{hid}" data-show="Hint {n}" '
+            f'data-hide="Hide hint {n}" aria-expanded="false" aria-controls="{hid}">'
+            f"Hint {n}</button>\n"
+            f'<div class="ans" id="{hid}">{hints[n - 1]}{inner}</div>\n'
+        )
+    return f'<div class="predict"><b>Predict first.</b> {question}\n{inner}</div>\n'
 
 
 def page(filename, title, body, head_extra=""):

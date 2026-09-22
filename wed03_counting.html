@@ -132,6 +132,35 @@ a.btn.quiet:hover{background:#EFE9DA}
 .ans{display:none; margin-top:16px; padding-top:16px; border-top:2px solid var(--rule)}
 .ans.show{display:block}
 .ans > :last-child{margin-bottom:0}
+.strip{border:2px solid var(--rule); border-radius:5px; background:var(--card); padding:14px 16px; margin:0 0 16px}
+.strip-controls{display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin:0 0 12px}
+.strip-controls button{font-family:'DM Sans',sans-serif; font-size:17px; font-weight:700; background:var(--teal);
+  color:#FFFDF7; border:0; border-radius:4px; padding:9px 16px; cursor:pointer; min-width:56px}
+.strip-controls button:hover{background:var(--teal-deep)}
+.strip-controls button.quiet{background:var(--card); color:var(--teal); border:2px solid var(--rule)}
+.strip-key{font-family:'JetBrains Mono',monospace; font-size:18px; padding:0 6px}
+.strip-key b{font-size:26px; color:var(--teal)}
+.strip-word{font-size:16px; color:var(--ink-soft); margin-left:auto}
+.strip-word input{font-family:'JetBrains Mono',monospace; font-size:17px; width:9em; margin-left:6px;
+  padding:6px 8px; border:2px solid var(--rule); border-radius:4px; background:#fff; color:var(--ink)}
+.strip-rows{overflow-x:auto; padding-bottom:4px}
+.strip-row{display:flex; gap:3px; margin:0 0 3px; min-width:max-content}
+.strip-label{font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--ink-soft); width:52px;
+  display:flex; align-items:center; text-transform:uppercase; letter-spacing:.08em}
+.strip-cell{font-family:'JetBrains Mono',monospace; font-size:20px; font-weight:700; width:30px; height:38px;
+  display:flex; align-items:center; justify-content:center; border:2px solid var(--rule); border-radius:3px;
+  background:#fff; font-variant-ligatures:none}
+.strip-row.top .strip-cell{cursor:pointer}
+.strip-row.bottom .strip-cell{background:var(--ochre-tint)}
+.strip-cell.on,.strip-row.bottom .strip-cell.on{background:var(--teal); color:#FFFDF7; border-color:var(--teal)}
+.strip-say{font-size:18px; margin:10px 0 0; min-height:1.6em}
+@media (max-width:760px){.strip-word{margin-left:0}}
+@media print{.strip-controls,.strip-say{display:none}}
+.hintset{border:2px solid var(--rule); border-radius:5px; padding:12px 16px; margin:0 0 12px;
+  background:var(--card)}
+.hintset > p:first-child{margin:0 0 8px}
+.hintset .ans{margin-top:10px; padding-top:10px}
+.hintset .ans pre{margin-bottom:10px}
 .bug{
   background:#F7E4E1; border:2px solid var(--clay); border-left:8px solid var(--clay);
   border-radius:5px; padding:14px 16px; margin:0 0 18px; color:#3A1512;
@@ -228,12 +257,12 @@ footer p{margin:0}
 </style>
 </head>
 <body>
-<header class="top"><div class="wrap"><p class="eyebrow">Advanced Python &middot; Robofun &middot; Session 3 of 13</p><h1>Counting, and what counting lets you do</h1><p class="sub">A dictionary maps each letter straight to its count, which saves you keeping two lists in step by hand. Then you will build a Caesar cipher from nothing, and break one by counting letters instead of guessing keys.</p><div class="dates"><span class="pill"><b>When</b> Wednesday 30 September 2026</span><span class="pill"><b>Time</b> 4:00 to 5:30</span><span class="pill"><b>Length</b> 90 minutes</span></div></div></header>
+<header class="top"><div class="wrap"><p class="eyebrow">Advanced Python &middot; Robofun &middot; Session 3 of 13</p><h1>Counting, and what counting lets you do</h1><p class="sub">A dictionary keeps each letter together with its count, so you do not need two separate lists. Then you will learn what a Caesar cipher is, write one, and break one by counting letters instead of trying every key.</p><div class="dates"><span class="pill"><b>When</b> Wednesday 30 September 2026</span><span class="pill"><b>Time</b> 4:00 to 5:30</span><span class="pill"><b>Length</b> 90 minutes</span></div></div></header>
 <main><div class="wrap">
 
 <section class="opener"><p class="chunk-no">Section 1 &middot; 10 minutes</p><h2>Opener</h2><p>Last week you wrote a module of functions that return values. On paper: write a function <code>count_of(values, wanted)</code> that returns how many times <code>wanted</code> appears in <code>values</code>. Four lines plus the <code>def</code>.</p><div class="predict"><b>Predict first.</b> Write yours first.
-<button class="rev" data-target="a10" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a10">Show the answer</button>
-<div class="ans" id="a10"><pre><code>def count_of(values, wanted):
+<button class="rev" data-target="a11" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a11">Show the answer</button>
+<div class="ans" id="a11"><pre><code>def count_of(values, wanted):
     &quot;&quot;&quot;Return how many times wanted appears in values.&quot;&quot;&quot;
     hits = 0
     for v in values:
@@ -242,40 +271,279 @@ footer p{margin:0}
     return hits</code></pre>
 <p>Now imagine calling that 26 times, once per letter. It works, and it reads the whole text 26 times. Section 2 fixes that.</p></div></div>
 </section>
-<section class="chunk"><p class="chunk-no">Section 2 &middot; 15 minutes</p><h2>The parallel list problem</h2><p>Here is the version without a dictionary. Two lists, kept in step by hand.</p><pre><code>letters = [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;]
+<section class="chunk"><p class="chunk-no">Section 2 &middot; 15 minutes</p><h2>The parallel list problem</h2><p>Here is the version without a dictionary. One list holds the letters. A second list holds their counts, in the same order. <code>counts[0]</code> is the count for <code>a</code>, <code>counts[1]</code> is the count for <code>b</code>, and so on. The count for a letter is at the same index as the letter.</p><pre><code>letters = [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;]
 counts = [0, 0, 0]
 
-# to count a letter you first have to find where it lives
+# add 1 to the count for &quot;b&quot;:
+# find the index of &quot;b&quot; in letters, then add 1 at that index in counts
 for i in range(3):
     if letters[i] == &quot;b&quot;:
         counts[i] = counts[i] + 1</code></pre>
-<p>A dictionary removes the search. The letter is the key. The count is the value. No index, no second list, no keeping anything in step.</p><pre><code>counts = {}
+<p>The <code>counts</code> list has no letters in it, only numbers. To add 1 to the count for <code>b</code>, the program first has to find out which index <code>b</code> is at, so it loops through <code>letters</code> until it finds it. Here <code>b</code> is at index 1, so the 1 is added to <code>counts[1]</code>. With 26 letters, every single count starts with a search through up to 26 items.</p><p>A dictionary removes the search. The letter is the key. The count is the value. No index, no second list, no keeping anything in step.</p><pre><code>counts = {}
 counts[&quot;b&quot;] = 0
 counts[&quot;b&quot;] = counts[&quot;b&quot;] + 1
 print(counts)</code></pre>
 <div class="predict"><b>Predict first.</b> What prints? And what happens if you run <code>counts["z"] + 1</code> without setting <code>counts["z"]</code> first?
-<button class="rev" data-target="a11" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a11">Show the answer</button>
-<div class="ans" id="a11"><div class="out"><span class="tag">verified output</span><pre><code>{&#x27;b&#x27;: 1}</code></pre></div>
-<p>The second one raises <code>KeyError: 'z'</code>. A dictionary does not start a missing key at zero for you. <code>collections.Counter</code> does, which is why it exists.</p></div></div>
-</section>
-<section class="chunk"><p class="chunk-no">Section 3 &middot; 20 minutes</p><h2>What a Caesar cipher is</h2><p>A Caesar cipher is a way to scramble a message. Pick a number, move every letter forward in the alphabet by that number, and wrap around from z back to a.</p><p>Three words come with it and get used for the next four sessions. The number is the <b>key</b>. The readable message is the <b>plaintext</b>. The scrambled message is the <b>ciphertext</b>.</p><p>Do one by hand before any code. Key 3, plaintext <code>dawn</code>. Write the alphabet along the top of your page if it helps.</p><div class="predict"><b>Predict first.</b> Encode <code>dawn</code> with key 3. Then encode <code>zebra</code> with the same key. Watch what happens to the z.
 <button class="rev" data-target="a12" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a12">Show the answer</button>
-<div class="ans" id="a12"><p><code>dawn</code> becomes <code>gdzq</code>. d goes to g, a goes to d, w goes to z, n goes to q.</p><p><code>zebra</code> becomes <code>cheud</code>. Three past z runs off the end of the alphabet and comes back round to c. Without that wrap the cipher would break on a quarter of the alphabet.</p><p>To decode, move backwards by the same key. A Caesar cipher undoes itself with a negative key, which is why one function can do both jobs.</p></div></div>
+<div class="ans" id="a12"><div class="out"><span class="tag">verified output</span><pre><code>{&#x27;b&#x27;: 1}</code></pre></div>
+<p>The second one raises <code>KeyError: 'z'</code>. A dictionary does not start a missing key at zero for you. <code>collections.Counter</code> does, which is why it exists.</p></div></div>
+<h3>Counter</h3><p><code>collections</code> is a module that comes with Python, the same way <code>sweep_tools</code> was your own module in session 2. The line <code>from collections import Counter</code> takes one thing out of it, <code>Counter</code>, so you can write <code>Counter</code> instead of <code>collections.Counter</code>. That import line goes at the top of any file that uses a Counter.</p><p>A <b>Counter</b> is a dictionary made for counting. Give it a string and it counts every character. Here is what else it can do.</p><p class="fname">counter_tour.py</p>
+<pre><code>from collections import Counter
+
+counts = Counter(&quot;banana&quot;)
+print(counts)
+print(counts[&quot;a&quot;])
+print(counts[&quot;z&quot;])
+print(counts.most_common(2))
+print(counts.total())
+
+counts.update(&quot;bandana&quot;)
+print(counts)
+
+first = Counter(&quot;listen&quot;)
+second = Counter(&quot;silent&quot;)
+print(first == second)</code></pre>
+<div class="predict"><b>Predict first.</b> Two to predict before you run it. What does <code>counts["z"]</code> print, when there is no z in banana? And what does the last line print?
+<button class="rev" data-target="a13" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a13">Show the answer</button>
+<div class="ans" id="a13"><div class="out"><span class="tag">verified output</span><pre><code>Counter({&#x27;a&#x27;: 3, &#x27;n&#x27;: 2, &#x27;b&#x27;: 1})
+3
+0
+[(&#x27;a&#x27;, 3), (&#x27;n&#x27;, 2)]
+6
+Counter({&#x27;a&#x27;: 6, &#x27;n&#x27;: 4, &#x27;b&#x27;: 2, &#x27;d&#x27;: 1})
+True</code></pre></div>
+<p>One line at a time:</p><ul class="tight"><li><code>counts["a"]</code> reads one count, the same way as a dictionary: 3.</li><li><code>counts["z"]</code> is 0. A plain dictionary would stop with <code>KeyError</code>. A Counter gives 0 for anything it has not seen.</li><li><code>most_common(2)</code> returns the top two, biggest first, as pairs of letter and count. Section 4 uses this to find the top letter.</li><li><code>total()</code> adds up every count: banana has 6 letters.</li><li><code>update("bandana")</code> counts more letters into the same Counter, so a goes from 3 to 6.</li><li><code>first == second</code> is <code>True</code> when two Counters have the same counts. listen and silent use the same letters the same number of times, so they are anagrams: two words made from the same letters.</li></ul></div></div>
+</section>
+<section class="chunk"><p class="chunk-no">Section 3 &middot; 30 minutes</p><h2>What a Caesar cipher is</h2><p>A Caesar cipher is a way to scramble a message. Pick a number, move every letter forward in the alphabet by that number, and wrap around from z back to a.</p><p>Three words come with it and get used for the next four sessions. The number is the <b>key</b>. The readable message is the <b>plaintext</b>. The scrambled message is the <b>ciphertext</b>.</p><p>Do one by hand before any code. Key 3, plaintext <code>dawn</code>. Write the alphabet along the top of your page if it helps.</p><p>Here is the alphabet twice. The top row is the plaintext letter. The bottom row is the letter it becomes. Press <b>+1</b> to slide the bottom row one place to the left, which adds 1 to the key. Then click a letter in the top row to see what it becomes.</p><div class="strip" id="strip"><div class="strip-controls"><button type="button" id="strip-down" aria-label="Key down by 1">&minus;1</button><span class="strip-key">Key <b id="strip-keyval">0</b></span><button type="button" id="strip-up" aria-label="Key up by 1">+1</button><button type="button" id="strip-reset" class="quiet">Key 0</button><label class="strip-word">Try a word <input id="strip-input" type="text" maxlength="20" autocomplete="off" spellcheck="false"></label></div><div class="strip-rows" id="strip-rows"></div><p class="strip-say" id="strip-say" aria-live="polite">Click a letter in the top row.</p></div><script>
+(function(){
+  var A = 'abcdefghijklmnopqrstuvwxyz';
+  var key = 0, picked = [];
+  var rows = document.getElementById('strip-rows');
+  var say = document.getElementById('strip-say');
+  var keyval = document.getElementById('strip-keyval');
+  var input = document.getElementById('strip-input');
+  function cell(text, cls){ var d = document.createElement('span'); d.className = cls; d.textContent = text; return d; }
+  function draw(){
+    rows.textContent = '';
+    var top = document.createElement('div'); top.className = 'strip-row top';
+    var bot = document.createElement('div'); bot.className = 'strip-row bottom';
+    top.appendChild(cell('plain', 'strip-label'));
+    bot.appendChild(cell('cipher', 'strip-label'));
+    for (var i = 0; i < 26; i++) {
+      var on = picked.indexOf(i) >= 0 ? ' on' : '';
+      var t = cell(A[i], 'strip-cell' + on);
+      t.setAttribute('role', 'button'); t.setAttribute('tabindex', '0');
+      t.setAttribute('aria-label', A[i]);
+      (function(n){
+        t.addEventListener('click', function(){ pick([n]); input.value = ''; });
+        t.addEventListener('keydown', function(e){ if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); pick([n]); input.value = ''; } });
+      })(i);
+      top.appendChild(t);
+      bot.appendChild(cell(A[(i + key) % 26], 'strip-cell' + on));
+    }
+    rows.appendChild(top); rows.appendChild(bot);
+    keyval.textContent = key;
+  }
+  function pick(list){
+    picked = list; draw();
+    if (list.length === 0) { say.textContent = 'Click a letter in the top row.'; return; }
+    if (list.length === 1) {
+      var n = list[0], out = (n + key) % 26;
+      var wrap = n + key >= 26 ? ' It ran off the end at z and came back round to a.' : '';
+      say.textContent = A[n] + ' moves ' + key + ' places and becomes ' + A[out] + '.' + wrap;
+      return;
+    }
+    var word = '', enc = '';
+    list.forEach(function(n){ word += A[n]; enc += A[(n + key) % 26]; });
+    say.textContent = word + ' with key ' + key + ' becomes ' + enc + '.';
+  }
+  function setKey(k){
+    key = ((k % 26) + 26) % 26;
+    if (input.value) { fromInput(); } else { pick(picked.length === 1 ? picked : []); }
+  }
+  function fromInput(){
+    var list = [];
+    input.value.toLowerCase().split('').forEach(function(ch){ var n = A.indexOf(ch); if (n >= 0) list.push(n); });
+    pick(list);
+  }
+  document.getElementById('strip-up').addEventListener('click', function(){ setKey(key + 1); });
+  document.getElementById('strip-down').addEventListener('click', function(){ setKey(key - 1); });
+  document.getElementById('strip-reset').addEventListener('click', function(){ setKey(0); });
+  input.addEventListener('input', fromInput);
+  draw();
+})();
+</script>
+<div class="predict"><b>Predict first.</b> Encode <code>dawn</code> with key 3. Then encode <code>zebra</code> with the same key. Watch what happens to the z.
+<button class="rev" data-target="a14" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a14">Show the answer</button>
+<div class="ans" id="a14"><p><code>dawn</code> becomes <code>gdzq</code>. d goes to g, a goes to d, w goes to z, n goes to q.</p><p><code>zebra</code> becomes <code>cheud</code>. Three past z runs off the end of the alphabet and comes back round to c. Without that wrap, x, y, and z would have no letter to become.</p><p>To decode, move backwards by the same key. A Caesar cipher undoes itself with a negative key, which is why one function can do both jobs.</p></div></div>
 <h3>Letters into numbers</h3><p>Python will not add 3 to a letter. Two functions change a letter into a number and back. <code>ord</code> turns a character into the number the machine stores it as, and <code>chr</code> turns a number back into a character.</p><pre><code>print(ord(&quot;a&quot;))   # 97
 print(ord(&quot;d&quot;))   # 100
 print(ord(&quot;z&quot;))   # 122
 print(chr(103))   # g</code></pre>
 <p>The numbers themselves do not matter. What matters is that they run in order, so <code>ord(ch) - ord("a")</code> gives you a position from 0 to 25. Add the key to the position, wrap it with <code>% 26</code>, then add <code>ord("a")</code> back on to return to a letter.</p><div class="predict"><b>Predict first.</b> Walk <code>z</code> with key 3 through all four steps and write the number at each one.
-<button class="rev" data-target="a13" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a13">Show the answer</button>
-<div class="ans" id="a13"><pre><code>ord("z")            122
+<button class="rev" data-target="ladder-z-steps-1" data-show="Hint 1" data-hide="Hide hint 1" aria-expanded="false" aria-controls="ladder-z-steps-1">Hint 1</button>
+<div class="ans" id="ladder-z-steps-1"><p>Start with <code>ord("z")</code>. The code block above prints it. Then take away <code>ord("a")</code>, which is 97. That gives the position of z in the alphabet, counting a as 0.</p><button class="rev" data-target="ladder-z-steps-2" data-show="Hint 2" data-hide="Hide hint 2" aria-expanded="false" aria-controls="ladder-z-steps-2">Hint 2</button>
+<div class="ans" id="ladder-z-steps-2"><p>Add the key to the position. The alphabet has positions 0 to 25, so any answer bigger than 25 has run off the end. <code>% 26</code> keeps the remainder after dividing by 26, which brings it back to the start.</p><button class="rev" data-target="ladder-z-steps-3" data-show="Hint 3" data-hide="Hide hint 3" aria-expanded="false" aria-controls="ladder-z-steps-3">Hint 3</button>
+<div class="ans" id="ladder-z-steps-3"><p>The third step is <code>(25 + 3) % 26</code>. 28 divided by 26 is 1, with 2 left over. For the last step, add 97 back on and use <code>chr</code>: <code>chr(2 + 97)</code> is <code>chr(99)</code>. If a is 97, which letter is 99?</p><button class="rev" data-target="ladder-z-steps-answer" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="ladder-z-steps-answer">Show the answer</button>
+<div class="ans" id="ladder-z-steps-answer"><pre><code>ord("z")            122
 122 - ord("a")       25     the position of z
 (25 + 3) % 26         2     wraps past the end
-chr(2 + ord("a"))   'c'    back to a letter</code></pre><p>This is the <code>%</code> wrap from session 1. There it kept a number under 9. Here it keeps a letter inside the alphabet.</p></div></div>
+chr(2 + ord("a"))   'c'    back to a letter</code></pre><p>This is the <code>%</code> wrap from session 1. There it kept a number under 9. Here it keeps a letter inside the alphabet.</p></div>
+</div>
+</div>
+</div>
+</div>
+<h3>Write it as a function</h3><p>You just did four steps by hand for one letter. Now put them in a function called <code>shift_by(text, amount)</code> that does the four steps for every letter in <code>text</code> and returns the new message. Leave spaces as spaces. Then add these three lines under it and run the file.</p><p class="fname">caesar_encode.py, under your function</p>
+<pre><code>print(shift_by(&quot;dawn&quot;, 3))
+print(shift_by(&quot;zebra&quot;, 3))
+print(shift_by(&quot;gdzq&quot;, -3))</code></pre>
+<div class="predict"><b>Predict first.</b> Before you run it: what should each of the three lines print? You worked out the first two by hand at the start of this section.
+<button class="rev" data-target="ladder-shift-by-1" data-show="Hint 1" data-hide="Hide hint 1" aria-expanded="false" aria-controls="ladder-shift-by-1">Hint 1</button>
+<div class="ans" id="ladder-shift-by-1"><p>Start with an empty string, <code>out = ""</code>. Loop over every character in <code>text</code> with <code>for ch in text:</code>. After the loop, <code>return out</code>.</p><button class="rev" data-target="ladder-shift-by-2" data-show="Hint 2" data-hide="Hide hint 2" aria-expanded="false" aria-controls="ladder-shift-by-2">Hint 2</button>
+<div class="ans" id="ladder-shift-by-2"><p>Inside the loop, one gate. If <code>ch</code> is a space, add a space to <code>out</code>. Otherwise, do the four steps from the <code>z</code> walk-through with <code>ch</code> and <code>amount</code>, and add the new letter to <code>out</code>.</p><button class="rev" data-target="ladder-shift-by-3" data-show="Hint 3" data-hide="Hide hint 3" aria-expanded="false" aria-controls="ladder-shift-by-3">Hint 3</button>
+<div class="ans" id="ladder-shift-by-3"><pre><code>def shift_by(text, amount):
+    out = &quot;&quot;
+    for ch in text:
+        if ch == &quot; &quot;:
+            out = out + &quot; &quot;
+        else:
+            spot = ord(ch) - ord(&quot;a&quot;)
+            spot = (spot + amount) % 26
+            out = out + ____
+    return out</code></pre>
+<button class="rev" data-target="ladder-shift-by-answer" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="ladder-shift-by-answer">Show the answer</button>
+<div class="ans" id="ladder-shift-by-answer"><p class="fname">caesar_encode.py</p>
+<pre><code>def shift_by(text, amount):
+    &quot;&quot;&quot;Return text with every letter rotated forward by amount.&quot;&quot;&quot;
+    out = &quot;&quot;
+    for ch in text:
+        if ch == &quot; &quot;:
+            out = out + &quot; &quot;
+        else:
+            spot = ord(ch) - ord(&quot;a&quot;)
+            spot = (spot + amount) % 26
+            out = out + chr(spot + ord(&quot;a&quot;))
+    return out</code></pre>
+<div class="out"><span class="tag">verified output</span><pre><code>gdzq
+cheud
+dawn</code></pre></div>
+<p>The first two match the hand answers. The third decodes: a key of -3 moves every letter back by 3, so <code>g</code> goes back to <code>d</code> and <code>d</code> goes back to <code>a</code>. A letter near the start of the alphabet, like <code>b</code>, would go back past <code>a</code>, and <code>% 26</code> wraps it round to <code>y</code>. One function does both jobs.</p></div>
+</div>
+</div>
+</div>
+</div>
 </section>
-<section class="chunk"><p class="chunk-no">Section 4 &middot; 30 minutes</p><h2>Now break one</h2><p>Here is a message somebody encoded with a key you do not have. You could try all 26 keys, and for a Caesar cipher that is fast enough. There is a faster way: count the letters.</p><p>In ordinary English, <code>e</code> is the most common letter. If the most common letter in the ciphertext is <code>h</code>, then <code>e</code> was probably shifted to <code>h</code>, and the key is 3. One count, no guessing.</p><p class="fname">caesar_crack.py</p>
+<section class="chunk"><p class="chunk-no">Section 4 &middot; 25 minutes</p><h2>Now break one</h2><p>Here is a message somebody encoded with a key you do not have. You could try all 26 keys, and for a Caesar cipher that is fast enough. There is a faster way: count the letters.</p><p>In ordinary English, <code>e</code> is the most common letter. So the most common letter in the ciphertext is probably what <code>e</code> turned into. Breaking the cipher takes three steps: count the letters, turn the top letter into a key, and decode. Do them one at a time.</p><p class="fname">the message</p>
+<pre><code>ciphertext = &quot;uhdg wkh frgh dqg wudfh wkh frgh ehiruh brx hyhu uxq wkh frgh&quot;</code></pre>
+<h3>Step 1: count the letters</h3><p>This is the <code>Counter</code> from section 2, with the spaces taken out first. The file starts with <code>from collections import Counter</code>, the same import line as in section 2. <code>counts.most_common(5)</code> returns the five most common letters with how many times each appears, biggest first.</p><p class="fname">caesar_crack.py, step 1</p>
+<pre><code>from collections import Counter
+
+
+def letter_counts(text):
+    &quot;&quot;&quot;Return a Counter of the letters in text, ignoring spaces.&quot;&quot;&quot;
+    letters = &quot;&quot;
+    for ch in text:
+        if ch != &quot; &quot;:
+            letters = letters + ch
+    return Counter(letters)
+
+
+counts = letter_counts(ciphertext)
+print(&quot;five most common:&quot;, counts.most_common(5))</code></pre>
+<div class="predict"><b>Predict first.</b> Look at the message before you run anything. Which letter do you see most often?
+<button class="rev" data-target="a15" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a15">Show the answer</button>
+<div class="ans" id="a15"><div class="out"><span class="tag">verified output</span><pre><code>five most common: [(&#x27;h&#x27;, 12), (&#x27;u&#x27;, 5), (&#x27;g&#x27;, 5), (&#x27;r&#x27;, 5), (&#x27;w&#x27;, 4)]</code></pre></div>
+<p><code>h</code> appears 12 times. The next letters appear 5 times each. So <code>h</code> is the top letter, and it is probably what <code>e</code> turned into.</p></div></div>
+<h3>Step 2: turn the top letter into a key</h3><p>If <code>e</code> turned into <code>h</code>, the key is how many places <code>e</code> moved. Use the strip: click <code>e</code> in the top row, then press <b>+1</b> until the bottom row under <code>e</code> shows <code>h</code>.</p><div class="strip" id="strip2"><div class="strip-controls"><button type="button" id="strip2-down" aria-label="Key down by 1">&minus;1</button><span class="strip-key">Key <b id="strip2-keyval">0</b></span><button type="button" id="strip2-up" aria-label="Key up by 1">+1</button><button type="button" id="strip2-reset" class="quiet">Key 0</button><label class="strip-word">Try a word <input id="strip2-input" type="text" maxlength="20" autocomplete="off" spellcheck="false"></label></div><div class="strip-rows" id="strip2-rows"></div><p class="strip-say" id="strip2-say" aria-live="polite">Click a letter in the top row.</p></div><script>
+(function(){
+  var A = 'abcdefghijklmnopqrstuvwxyz';
+  var key = 0, picked = [];
+  var rows = document.getElementById('strip2-rows');
+  var say = document.getElementById('strip2-say');
+  var keyval = document.getElementById('strip2-keyval');
+  var input = document.getElementById('strip2-input');
+  function cell(text, cls){ var d = document.createElement('span'); d.className = cls; d.textContent = text; return d; }
+  function draw(){
+    rows.textContent = '';
+    var top = document.createElement('div'); top.className = 'strip-row top';
+    var bot = document.createElement('div'); bot.className = 'strip-row bottom';
+    top.appendChild(cell('plain', 'strip-label'));
+    bot.appendChild(cell('cipher', 'strip-label'));
+    for (var i = 0; i < 26; i++) {
+      var on = picked.indexOf(i) >= 0 ? ' on' : '';
+      var t = cell(A[i], 'strip-cell' + on);
+      t.setAttribute('role', 'button'); t.setAttribute('tabindex', '0');
+      t.setAttribute('aria-label', A[i]);
+      (function(n){
+        t.addEventListener('click', function(){ pick([n]); input.value = ''; });
+        t.addEventListener('keydown', function(e){ if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); pick([n]); input.value = ''; } });
+      })(i);
+      top.appendChild(t);
+      bot.appendChild(cell(A[(i + key) % 26], 'strip-cell' + on));
+    }
+    rows.appendChild(top); rows.appendChild(bot);
+    keyval.textContent = key;
+  }
+  function pick(list){
+    picked = list; draw();
+    if (list.length === 0) { say.textContent = 'Click a letter in the top row.'; return; }
+    if (list.length === 1) {
+      var n = list[0], out = (n + key) % 26;
+      var wrap = n + key >= 26 ? ' It ran off the end at z and came back round to a.' : '';
+      say.textContent = A[n] + ' moves ' + key + ' places and becomes ' + A[out] + '.' + wrap;
+      return;
+    }
+    var word = '', enc = '';
+    list.forEach(function(n){ word += A[n]; enc += A[(n + key) % 26]; });
+    say.textContent = word + ' with key ' + key + ' becomes ' + enc + '.';
+  }
+  function setKey(k){
+    key = ((k % 26) + 26) % 26;
+    if (input.value) { fromInput(); } else { pick(picked.length === 1 ? picked : []); }
+  }
+  function fromInput(){
+    var list = [];
+    input.value.toLowerCase().split('').forEach(function(ch){ var n = A.indexOf(ch); if (n >= 0) list.push(n); });
+    pick(list);
+  }
+  document.getElementById('strip2-up').addEventListener('click', function(){ setKey(key + 1); });
+  document.getElementById('strip2-down').addEventListener('click', function(){ setKey(key - 1); });
+  document.getElementById('strip2-reset').addEventListener('click', function(){ setKey(0); });
+  input.addEventListener('input', fromInput);
+  draw();
+})();
+</script>
+<div class="predict"><b>Predict first.</b> What is the key?
+<button class="rev" data-target="ladder-crack-key-1" data-show="Hint 1" data-hide="Hide hint 1" aria-expanded="false" aria-controls="ladder-crack-key-1">Hint 1</button>
+<div class="ans" id="ladder-crack-key-1"><p>Count along the alphabet from <code>e</code> to <code>h</code>.</p><button class="rev" data-target="ladder-crack-key-2" data-show="Hint 2" data-hide="Hide hint 2" aria-expanded="false" aria-controls="ladder-crack-key-2">Hint 2</button>
+<div class="ans" id="ladder-crack-key-2"><p><code>e</code>, <code>f</code>, <code>g</code>, <code>h</code>. How many moves is that?</p><button class="rev" data-target="ladder-crack-key-3" data-show="Hint 3" data-hide="Hide hint 3" aria-expanded="false" aria-controls="ladder-crack-key-3">Hint 3</button>
+<div class="ans" id="ladder-crack-key-3"><p>In code, it is the distance between the two letters' numbers: <code>ord("h") - ord("e")</code>, which is 104 minus 101.</p><button class="rev" data-target="ladder-crack-key-answer" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="ladder-crack-key-answer">Show the answer</button>
+<div class="ans" id="ladder-crack-key-answer"><p>The key is 3.</p><p class="fname">caesar_crack.py, step 2</p>
+<pre><code>def guess_shift(text):
+    &quot;&quot;&quot;Return the shift that maps the most common letter onto &#x27;e&#x27;.&quot;&quot;&quot;
+    counts = letter_counts(text)
+    top_letter = counts.most_common(1)[0][0]
+    return (ord(top_letter) - ord(&quot;e&quot;)) % 26</code></pre>
+<p><code>counts.most_common(1)[0][0]</code> is the top letter: the first pair in the list, and the letter in that pair. The <code>% 26</code> is for a top letter that comes before <code>e</code> in the alphabet. If the top letter were <code>b</code>, 98 minus 101 is -3, and <code>% 26</code> turns it into 23: <code>e</code> moved 23 places and wrapped round to <code>b</code>.</p></div>
+</div>
+</div>
+</div>
+</div>
+<h3>Step 3: decode</h3><p>You have the key, and you have <code>shift_by</code> from section 3. Moving every letter back by the key undoes the cipher, so decode with a negative key.</p><p class="fname">caesar_crack.py, step 3</p>
+<pre><code>k = guess_shift(ciphertext)
+print(f&quot;guessed shift {k}&quot;)
+print(&quot;plaintext:&quot;, shift_by(ciphertext, -k))</code></pre>
+<div class="predict"><b>Predict first.</b> The first word of the message is <code>uhdg</code>. Move each letter back 3 by hand. What is the first word of the plaintext?
+<button class="rev" data-target="a16" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a16">Show the answer</button>
+<div class="ans" id="a16"><div class="out"><span class="tag">verified output</span><pre><code>guessed shift 3
+plaintext: read the code and trace the code before you ever run the code</code></pre></div>
+<p><code>u</code> goes back to <code>r</code>, <code>h</code> to <code>e</code>, <code>d</code> to <code>a</code>, <code>g</code> to <code>d</code>: <code>read</code>. The program does the same for every letter.</p></div></div>
+<h3>The whole program</h3><p>Here are the three steps in one file, with <code>shift_by</code> at the top. It is the same function you wrote in section 3.</p><p class="fname">caesar_crack.py</p>
 <pre><code>&quot;&quot;&quot;Break a Caesar cipher by letter frequency instead of by guessing.&quot;&quot;&quot;
 
 from collections import Counter
+
+ENGLISH_ORDER = &quot;etaoinshrdlcumwfgypbvkjxqz&quot;
 
 ciphertext = &quot;uhdg wkh frgh dqg wudfh wkh frgh ehiruh brx hyhu uxq wkh frgh&quot;
 
@@ -316,19 +584,19 @@ print(&quot;distinct letters used:&quot;, len(set(ciphertext.replace(&quot; &quo
 k = guess_shift(ciphertext)
 print(f&quot;guessed shift {k}&quot;)
 print(&quot;plaintext:&quot;, shift_by(ciphertext, -k))</code></pre>
-<div class="predict"><b>Predict first.</b> Two predictions. What is the most common letter in that ciphertext, and what shift will the program guess?
-<button class="rev" data-target="a14" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a14">Show the answer</button>
-<div class="ans" id="a14"><div class="out"><span class="tag">verified output</span><pre><code>five most common: [(&#x27;h&#x27;, 12), (&#x27;u&#x27;, 5), (&#x27;g&#x27;, 5), (&#x27;r&#x27;, 5), (&#x27;w&#x27;, 4)]
+<div class="predict"><b>Predict first.</b> Run it. Do its lines match what you worked out in steps 1, 2, and 3?
+<button class="rev" data-target="a17" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a17">Show the answer</button>
+<div class="ans" id="a17"><div class="out"><span class="tag">verified output</span><pre><code>five most common: [(&#x27;h&#x27;, 12), (&#x27;u&#x27;, 5), (&#x27;g&#x27;, 5), (&#x27;r&#x27;, 5), (&#x27;w&#x27;, 4)]
 distinct letters used: 14
 guessed shift 3
 plaintext: read the code and trace the code before you ever run the code</code></pre></div>
-<p><code>h</code> appears 12 times, well clear of the 5 behind it. So the key is 3 and the message comes out on the first try, with no key and no guessing.</p><p>Two limits. The text has to be long enough for <code>e</code> to actually win, and the text has to be ordinary English. Try it on a short message and watch it fail.</p></div></div>
-<div class="predict"><b>Frequency counts are ratios.</b> 12 of 49 letters is about 0.24. In ordinary English <code>e</code> runs near 0.12. Your sample is small, so your share is off. Any small sample has this problem. Session 9 is about it.</div><h3>Sets, in one line</h3><p><code>set(text)</code> throws away duplicates and order, and keeps only which things appeared. That is what <code>distinct letters used: 14</code> came from. A set answers which, a Counter answers how many.</p></section>
+<p>They match. The one new line, <code>distinct letters used</code>, is explained under Sets, below.</p><p>Two limits. The text has to be long enough for <code>e</code> to actually win, and the text has to be ordinary English. Try it on a short message and watch it fail.</p></div></div>
+<div class="predict"><b>Frequency counts are ratios.</b> 12 of 49 letters is about 0.24. In ordinary English <code>e</code> runs near 0.12. Your sample is small, so your share is off. Any small sample has this problem. Session 9 is about it.</div><h3>Sets, in one line</h3><p><code>set(text)</code> throws away duplicates and order, and keeps only which things appeared. That is what <code>distinct letters used: 14</code> came from. A set answers which, a Counter answers how many.</p><p>That line also uses <code>.replace</code>. <code>ciphertext.replace(" ", "")</code> replaces every space with nothing, so the spaces are gone before the set is made. Without it, the space would be counted as one more character, and the line would say 15 instead of 14. <code>.replace</code> does not change <code>ciphertext</code> itself. It returns a new string, and the new string is what goes into <code>set</code>.</p></section>
 <section class="brief"><h2>Exits</h2><div class="exits"><div class="exit"><span class="lab">FLOOR</span><p>You encoded <code>dawn</code> and <code>zebra</code> by hand with key 3, you can say what plaintext, ciphertext, and key mean, and you ran <code>letter_counts</code> on the ciphertext and read the top letter off the output.</p></div><div class="exit"><span class="lab">MIDDLE</span><p>Floor, plus <code>shift_by</code> written and encoding correctly including the wrap past z, plus the full crack running.</p></div><div class="exit"><span class="lab">STRETCH</span><p>Middle, plus break it on purpose: find a message short enough that the most common letter is not <code>e</code>, then write a <code>guess_shift</code> that scores all 26 shifts against English letter frequencies and picks the best total instead of trusting one letter.</p></div></div></section>
 <section class="panel"><h2>Teacher panel</h2><h3>Concept this session re-touches</h3><p>The <code>%</code> wrap traced by hand in session 1, now on a 26 hour clock. Also the returning functions from session 2: <code>guess_shift</code> is only possible because <code>letter_counts</code> hands a Counter back.</p><h3>Standards</h3><p class="stdline"><span class="std">6.SP.B.5.a</span> Summarize numerical data sets in relation to their context, such as by reporting the number of observations.</p>
 <p class="stdline"><span class="std">6.RP.A.3</span> Use ratio and rate reasoning to solve real-world and mathematical problems, e.g., by reasoning about tables of equivalent ratios, tape diagrams, double number line diagrams, or equations.</p>
 <p class="stdline"><span class="std">MP7</span> Look for and make use of structure.</p>
-<p class="mapnote">Mapped to the Common Core State Standards for Mathematics (Multi-State). Each code and its wording was retrieved from the CASE Network through the Learning Commons Knowledge Graph on 12 September 2026. New York's own Computer Science and Digital Fluency framework and the CSTA standards are not carried in that graph, so no code from either appears anywhere on this site.</p><p class="mapnote">Two deliberate deviations from the retrieved text. The "for example…" illustrations attached to 7.SP.C.6 and 8.EE.A.1 are omitted, since they illustrate rather than state the standard. And where the source carries markup, italics or mathematical notation, it is rendered as plain text: 7.SP.C.5's fraction appears here as 1/2, and the italic stem of 6.SP.B.5.a and 6.SP.B.5.c is plain. Nothing else was shortened. Codes 6.SP.B.5.a and 6.SP.B.5.c are the lettered children of 6.SP.B.5, whose own statement is only a stem ending in a colon; the children carry that stem and are quoted in full.</p><h3>Timing</h3><p>10 opener, 15 parallel lists and Counter, 20 building the cipher, 30 the crack, 15 sets and exits. Assume no student has seen a cipher before. Do not cut section 3 to save the crack. Cracking a cipher the students did not build teaches nothing about the cipher. Cut the sets section if pressed.</p><h3>What to watch for</h3><p>The hand encode is the part to insist on. Students who go straight to <code>ord</code> without doing <code>dawn</code> on paper will not spot the wrap, and the wrap is the only hard part of the cipher.</p><p>Expect <code>ord</code> and <code>chr</code> to feel arbitrary. The fix is to say the actual numbers do not matter, only that they run in order. Nobody needs to memorise 97.</p><p><code>KeyError</code> is the new traceback this week and students read it as a crash rather than as information. Say the sentence out loud: a dictionary does not invent a zero for you.</p><p>Some students will want to brute force all 26 shifts because it is easier to write. Let them, then ask what they would do with a Vigenere key of length 7. Brute force stops being available and counting does not.</p><h3>Files</h3><p><code>caesar_crack.py</code>. Output verified on Python 3.12.3. The plaintext restates this course's own rule from session 1, which is deliberate.</p><h3>Lifted this week</h3><p>Dictionaries, sets, <code>collections.Counter</code>, <code>.replace()</code>, <code>ord</code> and <code>chr</code>.</p><h3>Assumed knowledge</h3><p>None beyond the hub prerequisites plus the <code>%</code> wrap from session 1. Cryptography is introduced from zero in section 3, including the words plaintext, ciphertext, and key.</p></section>
+<p class="mapnote">Mapped to the Common Core State Standards for Mathematics (Multi-State). Each code and its wording was retrieved from the CASE Network through the Learning Commons Knowledge Graph on 12 September 2026. New York's own Computer Science and Digital Fluency framework and the CSTA standards are not carried in that graph, so no code from either appears anywhere on this site.</p><p class="mapnote">Two deliberate deviations from the retrieved text. The "for example…" illustrations attached to 7.SP.C.6 and 8.EE.A.1 are omitted, since they illustrate rather than state the standard. And where the source carries markup, italics or mathematical notation, it is rendered as plain text: 7.SP.C.5's fraction appears here as 1/2, and the italic stem of 6.SP.B.5.a and 6.SP.B.5.c is plain. Nothing else was shortened. Codes 6.SP.B.5.a and 6.SP.B.5.c are the lettered children of 6.SP.B.5, whose own statement is only a stem ending in a colon; the children carry that stem and are quoted in full.</p><h3>Timing</h3><p>10 opener, 15 parallel lists and Counter, 30 the cipher by hand and <code>shift_by</code> written, 25 the crack in three steps, 10 sets and exits. Assume no student has seen a cipher before. Do not cut section 3 to save the crack. Cracking a cipher the students did not build teaches nothing about the cipher. Cut the sets subsection first if pressed.</p><h3>What to watch for</h3><p>The hand encode is the part to insist on. Students who go straight to <code>ord</code> without doing <code>dawn</code> on paper will not spot the wrap, and the wrap is the only hard part of the cipher.</p><p>Expect <code>ord</code> and <code>chr</code> to feel arbitrary. The fix is to say the actual numbers do not matter, only that they run in order. Nobody needs to memorise 97.</p><p><code>KeyError</code> is the new traceback this week and students read it as a crash rather than as information. Say the sentence out loud: a dictionary does not start a missing key at zero for you.</p><p>Some students will want to brute force all 26 shifts because it is easier to write. Let them, then ask what they would do with a Vigenere key of length 7. Brute force stops being available and counting does not.</p><h3>Files</h3><p><code>caesar_encode.py</code> for section 3, the answer to the <code>shift_by</code> step; the build checks that its <code>shift_by</code> is identical to the one in <code>caesar_crack.py</code>. <code>caesar_crack.py</code>. Output verified on Python 3.12.3. The plaintext restates this course's own rule from session 1, which is deliberate.</p><h3>Lifted this week</h3><p>Dictionaries, sets, <code>collections.Counter</code>, <code>.replace()</code>, <code>ord</code> and <code>chr</code>.</p><h3>Assumed knowledge</h3><p>None beyond the hub prerequisites plus the <code>%</code> wrap from session 1. Section 3 teaches what a cipher is, including the words plaintext, ciphertext, and key, and assumes students have never used one.</p></section>
 </div></main>
 <nav class="pager"><a href="wed02_return_and_modules.html">&larr; Session 2: functions that return a value</a><a href="advanced_python_hub.html">Course hub</a><a href="wed04_messy_files.html">Session 4: messy files &rarr;</a></nav>
 <footer><div class="wrap"><p>Advanced Python, Robofun Fall 2026. Second printing, 13 September 2026. Built by a generator; the page, not the file, is the source of truth for output, because every quoted line came from a run.</p></div></footer>

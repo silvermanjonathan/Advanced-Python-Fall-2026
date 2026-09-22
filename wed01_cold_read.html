@@ -132,6 +132,35 @@ a.btn.quiet:hover{background:#EFE9DA}
 .ans{display:none; margin-top:16px; padding-top:16px; border-top:2px solid var(--rule)}
 .ans.show{display:block}
 .ans > :last-child{margin-bottom:0}
+.strip{border:2px solid var(--rule); border-radius:5px; background:var(--card); padding:14px 16px; margin:0 0 16px}
+.strip-controls{display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin:0 0 12px}
+.strip-controls button{font-family:'DM Sans',sans-serif; font-size:17px; font-weight:700; background:var(--teal);
+  color:#FFFDF7; border:0; border-radius:4px; padding:9px 16px; cursor:pointer; min-width:56px}
+.strip-controls button:hover{background:var(--teal-deep)}
+.strip-controls button.quiet{background:var(--card); color:var(--teal); border:2px solid var(--rule)}
+.strip-key{font-family:'JetBrains Mono',monospace; font-size:18px; padding:0 6px}
+.strip-key b{font-size:26px; color:var(--teal)}
+.strip-word{font-size:16px; color:var(--ink-soft); margin-left:auto}
+.strip-word input{font-family:'JetBrains Mono',monospace; font-size:17px; width:9em; margin-left:6px;
+  padding:6px 8px; border:2px solid var(--rule); border-radius:4px; background:#fff; color:var(--ink)}
+.strip-rows{overflow-x:auto; padding-bottom:4px}
+.strip-row{display:flex; gap:3px; margin:0 0 3px; min-width:max-content}
+.strip-label{font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--ink-soft); width:52px;
+  display:flex; align-items:center; text-transform:uppercase; letter-spacing:.08em}
+.strip-cell{font-family:'JetBrains Mono',monospace; font-size:20px; font-weight:700; width:30px; height:38px;
+  display:flex; align-items:center; justify-content:center; border:2px solid var(--rule); border-radius:3px;
+  background:#fff; font-variant-ligatures:none}
+.strip-row.top .strip-cell{cursor:pointer}
+.strip-row.bottom .strip-cell{background:var(--ochre-tint)}
+.strip-cell.on,.strip-row.bottom .strip-cell.on{background:var(--teal); color:#FFFDF7; border-color:var(--teal)}
+.strip-say{font-size:18px; margin:10px 0 0; min-height:1.6em}
+@media (max-width:760px){.strip-word{margin-left:0}}
+@media print{.strip-controls,.strip-say{display:none}}
+.hintset{border:2px solid var(--rule); border-radius:5px; padding:12px 16px; margin:0 0 12px;
+  background:var(--card)}
+.hintset > p:first-child{margin:0 0 8px}
+.hintset .ans{margin-top:10px; padding-top:10px}
+.hintset .ans pre{margin-bottom:10px}
 .bug{
   background:#F7E4E1; border:2px solid var(--clay); border-left:8px solid var(--clay);
   border-radius:5px; padding:14px 16px; margin:0 0 18px; color:#3A1512;
@@ -286,7 +315,7 @@ i=9 reading=77 slot=8</code></pre></div>
 <p>41 wraps to 5 because 41 is 36 plus 5. Then 5 plus 58 is 63, and 63 is exactly seven nines, so slot lands on 0. Two different readings can land on the same slot, and two identical readings can land on different slots, because what wraps is the running total and not the reading. Look at i=1 and i=3: both readings are 58, and the slots are 0 and 1.</p></div></div>
 </section>
 <section class="chunk"><p class="chunk-no">Section 3 &middot; 10 minutes</p><h2>Run it</h2><p>Now type it, or open the copy on the machine, and run it. Compare the real output against your paper. Mark every line you got wrong. Do not erase the marks. For each wrong line, find the pass in your trace where the value went off.</p><div class="predict"><b>Read it, trace it, then run it.</b> Running shows you what the program printed. Tracing shows you why. That is the order for every program in this course.</div></section>
-<section class="chunk"><p class="chunk-no">Section 4 &middot; 30 minutes</p><h2>The style pass</h2><p>The program works and it is hard to read. <code>t</code>, <code>c</code>, <code>b</code>, and <code>bi</code> made the cold read slower: every time you met one, you had to scroll back up to find out what it was.</p><p>Rename every variable so the name says what the value is. Then add a docstring at the top of the file. A docstring is a new word today. It is one sentence, inside triple quotes, on line 1 of the file, saying what the program is for. Python ignores it. The next reader does not. Here is one for this program. Copy it onto line 1, or put your own sentence between the quotes.</p><p class="fname">line 1 of sweep_report.py</p>
+<section class="chunk"><p class="chunk-no">Section 4 &middot; 30 minutes</p><h2>The style pass</h2><p>The program works and it is hard to read. <code>t</code>, <code>c</code>, <code>b</code>, and <code>bi</code> made the cold read slower: every time you read one, you had to scroll back up to find out what it was.</p><p>Rename every variable so the name says what the value is. Then add a docstring at the top of the file. A docstring is a new word today. It is one sentence, inside triple quotes, on line 1 of the file, saying what the program is for. Python ignores it. The next reader does not. Here is one for this program. Copy it onto line 1, or put your own sentence between the quotes.</p><p class="fname">line 1 of sweep_report.py</p>
 <pre><code>&quot;&quot;&quot;Summarize a run of tower readings and report where the strongest one sat.&quot;&quot;&quot;</code></pre>
 <div class="predict"><b>Predict first.</b> Rename all seven short names on paper before you look. Yours does not have to match mine. It has to say what the value is.
 <button class="rev" data-target="a3" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a3">Show the answer</button>

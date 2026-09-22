@@ -1,6 +1,8 @@
 """Sessions 3 to 8."""
 
-from build import code, masthead, output, pager, reveal
+import os
+
+from build import laddered, code, masthead, output, pager, reveal
 from stds import panel
 
 
@@ -15,15 +17,124 @@ def exits(floor, middle, stretch):
     )
 
 
+_STRIP_TEMPLATE = (
+    '<div class="strip" id="strip">'
+    '<div class="strip-controls">'
+    '<button type="button" id="strip-down" aria-label="Key down by 1">&minus;1</button>'
+    '<span class="strip-key">Key <b id="strip-keyval">0</b></span>'
+    '<button type="button" id="strip-up" aria-label="Key up by 1">+1</button>'
+    '<button type="button" id="strip-reset" class="quiet">Key 0</button>'
+    '<label class="strip-word">Try a word <input id="strip-input" type="text" '
+    'maxlength="20" autocomplete="off" spellcheck="false"></label>'
+    "</div>"
+    '<div class="strip-rows" id="strip-rows"></div>'
+    '<p class="strip-say" id="strip-say" aria-live="polite">Click a letter in the top '
+    "row.</p>"
+    "</div>"
+    """<script>
+(function(){
+  var A = 'abcdefghijklmnopqrstuvwxyz';
+  var key = 0, picked = [];
+  var rows = document.getElementById('strip-rows');
+  var say = document.getElementById('strip-say');
+  var keyval = document.getElementById('strip-keyval');
+  var input = document.getElementById('strip-input');
+  function cell(text, cls){ var d = document.createElement('span'); d.className = cls; d.textContent = text; return d; }
+  function draw(){
+    rows.textContent = '';
+    var top = document.createElement('div'); top.className = 'strip-row top';
+    var bot = document.createElement('div'); bot.className = 'strip-row bottom';
+    top.appendChild(cell('plain', 'strip-label'));
+    bot.appendChild(cell('cipher', 'strip-label'));
+    for (var i = 0; i < 26; i++) {
+      var on = picked.indexOf(i) >= 0 ? ' on' : '';
+      var t = cell(A[i], 'strip-cell' + on);
+      t.setAttribute('role', 'button'); t.setAttribute('tabindex', '0');
+      t.setAttribute('aria-label', A[i]);
+      (function(n){
+        t.addEventListener('click', function(){ pick([n]); input.value = ''; });
+        t.addEventListener('keydown', function(e){ if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); pick([n]); input.value = ''; } });
+      })(i);
+      top.appendChild(t);
+      bot.appendChild(cell(A[(i + key) % 26], 'strip-cell' + on));
+    }
+    rows.appendChild(top); rows.appendChild(bot);
+    keyval.textContent = key;
+  }
+  function pick(list){
+    picked = list; draw();
+    if (list.length === 0) { say.textContent = 'Click a letter in the top row.'; return; }
+    if (list.length === 1) {
+      var n = list[0], out = (n + key) % 26;
+      var wrap = n + key >= 26 ? ' It ran off the end at z and came back round to a.' : '';
+      say.textContent = A[n] + ' moves ' + key + ' places and becomes ' + A[out] + '.' + wrap;
+      return;
+    }
+    var word = '', enc = '';
+    list.forEach(function(n){ word += A[n]; enc += A[(n + key) % 26]; });
+    say.textContent = word + ' with key ' + key + ' becomes ' + enc + '.';
+  }
+  function setKey(k){
+    key = ((k % 26) + 26) % 26;
+    if (input.value) { fromInput(); } else { pick(picked.length === 1 ? picked : []); }
+  }
+  function fromInput(){
+    var list = [];
+    input.value.toLowerCase().split('').forEach(function(ch){ var n = A.indexOf(ch); if (n >= 0) list.push(n); });
+    pick(list);
+  }
+  document.getElementById('strip-up').addEventListener('click', function(){ setKey(key + 1); });
+  document.getElementById('strip-down').addEventListener('click', function(){ setKey(key - 1); });
+  document.getElementById('strip-reset').addEventListener('click', function(){ setKey(0); });
+  input.addEventListener('input', fromInput);
+  draw();
+})();
+</script>
+"""
+)
+
+
+def cipher_strip(prefix):
+    """Return one copy of the alphabet strip, with its element ids prefixed."""
+    return (
+        _STRIP_TEMPLATE.replace('id="strip', f'id="{prefix}')
+        .replace("getElementById('strip", f"getElementById('{prefix}")
+    )
+
+
+CIPHER_STRIP = (
+    "<p>Here is the alphabet twice. The top row is the plaintext letter. The bottom "
+    "row is the letter it becomes. Press <b>+1</b> to slide the bottom row one place "
+    "to the left, which adds 1 to the key. Then click a letter in the top row to see "
+    "what it becomes.</p>"
+    + cipher_strip("strip")
+)
+
+
+def _shift_by_source():
+    """Return shift_by from caesar_encode.py, checked equal to caesar_crack.py's."""
+    root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+    def grab(name):
+        text = open(os.path.join(root, name)).read()
+        start = text.find("def shift_by")
+        end = text.find("\n\n\n", start)
+        return text[start:end].rstrip("\n")
+
+    mine = grab("caesar_encode.py")
+    assert mine == grab("caesar_crack.py"), "shift_by differs between the two files"
+    return mine
+
+
 def day03():
     """Session 3: dicts, sets, counting, and cracking a Caesar."""
     b = masthead(
         "03",
         "Counting, and what counting lets you do",
         "Wednesday 30 September 2026",
-        "A dictionary maps each letter straight to its count, which saves you keeping "
-        "two lists in step by hand. Then you will build a Caesar cipher from nothing, "
-        "and break one by counting letters instead of guessing keys.",
+        "A dictionary keeps each letter together with its count, so you do not need "
+        "two separate lists. Then you will learn what a Caesar cipher is, write one, and "
+        "break one by counting letters instead of trying every key.",
     )
     b += '<h2><span class="num">1</span>Opener<span class="mins">10 minutes</span></h2>'
     b += (
@@ -48,16 +159,29 @@ def day03():
 
     b += '<h2><span class="num">2</span>The parallel list problem<span class="mins">15 minutes</span></h2>'
     b += (
-        "<p>Here is the version without a dictionary. Two lists, kept in step by hand.</p>"
+        "<p>Here is the version without a dictionary. One list holds the letters. A "
+        "second list holds their counts, in the same order. <code>counts[0]</code> is "
+        "the count for <code>a</code>, <code>counts[1]</code> is the count for "
+        "<code>b</code>, and so on. The count for a letter is at the same index as "
+        "the letter.</p>"
     )
     b += code(
         """letters = ["a", "b", "c"]
 counts = [0, 0, 0]
 
-# to count a letter you first have to find where it lives
+# add 1 to the count for "b":
+# find the index of "b" in letters, then add 1 at that index in counts
 for i in range(3):
     if letters[i] == "b":
         counts[i] = counts[i] + 1"""
+    )
+    b += (
+        "<p>The <code>counts</code> list has no letters in it, only numbers. To add 1 "
+        "to the count for <code>b</code>, the program first has to find out which index "
+        "<code>b</code> is at, so it loops through <code>letters</code> until it finds "
+        "it. Here <code>b</code> is at index 1, so the 1 is added to "
+        "<code>counts[1]</code>. With 26 letters, every single count starts with a "
+        "search through up to 26 items.</p>"
     )
     b += (
         "<p>A dictionary removes the search. The letter is the key. The count is the "
@@ -76,9 +200,67 @@ print(counts)"""
         + "<p>The second one raises <code>KeyError: 'z'</code>. A dictionary does not start a missing key at zero for you. <code>collections.Counter</code> does, which is why it exists.</p>",
     )
 
+    b += "<h3>Counter</h3>"
+    b += (
+        "<p><code>collections</code> is a module that comes with Python, the same way "
+        "<code>sweep_tools</code> was your own module in session 2. The line "
+        "<code>from collections import Counter</code> takes one thing out of it, "
+        "<code>Counter</code>, so you can write <code>Counter</code> instead of "
+        "<code>collections.Counter</code>. That import line goes at the top of any file "
+        "that uses a Counter.</p>"
+        "<p>A <b>Counter</b> is a dictionary made for counting. Give it a string and it "
+        "counts every character. Here is what else it can do.</p>"
+    )
+    b += code(
+        """from collections import Counter
+
+counts = Counter("banana")
+print(counts)
+print(counts["a"])
+print(counts["z"])
+print(counts.most_common(2))
+print(counts.total())
+
+counts.update("bandana")
+print(counts)
+
+first = Counter("listen")
+second = Counter("silent")
+print(first == second)""",
+        "counter_tour.py",
+    )
+    b += reveal(
+        "Two to predict before you run it. What does <code>counts[\"z\"]</code> print, "
+        "when there is no z in banana? And what does the last line print?",
+        output(
+            """Counter({'a': 3, 'n': 2, 'b': 1})
+3
+0
+[('a', 3), ('n', 2)]
+6
+Counter({'a': 6, 'n': 4, 'b': 2, 'd': 1})
+True"""
+        )
+        + "<p>One line at a time:</p>"
+        '<ul class="tight">'
+        "<li><code>counts[\"a\"]</code> reads one count, the same way as a dictionary: "
+        "3.</li>"
+        "<li><code>counts[\"z\"]</code> is 0. A plain dictionary would stop with "
+        "<code>KeyError</code>. A Counter gives 0 for anything it has not seen.</li>"
+        "<li><code>most_common(2)</code> returns the top two, biggest first, as pairs "
+        "of letter and count. Section 4 uses this to find the top letter.</li>"
+        "<li><code>total()</code> adds up every count: banana has 6 letters.</li>"
+        "<li><code>update(\"bandana\")</code> counts more letters into the same "
+        "Counter, so a goes from 3 to 6.</li>"
+        "<li><code>first == second</code> is <code>True</code> when two Counters have "
+        "the same counts. listen and silent use the same letters the same number of "
+        "times, so they are anagrams: two words made from the same letters.</li>"
+        "</ul>",
+    )
+
     b += (
         '<h2><span class="num">3</span>What a Caesar cipher is'
-        '<span class="mins">20 minutes</span></h2>'
+        '<span class="mins">30 minutes</span></h2>'
     )
     b += (
         "<p>A Caesar cipher is a way to scramble a message. Pick a number, move every letter forward in the alphabet by that "
@@ -89,12 +271,13 @@ print(counts)"""
         "<p>Do one by hand before any code. Key 3, plaintext <code>dawn</code>. Write "
         "the alphabet along the top of your page if it helps.</p>"
     )
+    b += CIPHER_STRIP
     b += reveal(
         "Encode <code>dawn</code> with key 3. Then encode <code>zebra</code> with the same key. Watch what happens to the z.",
         "<p><code>dawn</code> becomes <code>gdzq</code>. d goes to g, a goes to d, w "
         "goes to z, n goes to q.</p>"
         "<p><code>zebra</code> becomes <code>cheud</code>. Three past z runs off the end of the alphabet and comes back round to c. "
-        "Without that wrap the cipher would break on a quarter of the alphabet.</p>"
+        "Without that wrap, x, y, and z would have no letter to become.</p>"
         "<p>To decode, move backwards by the same key. A Caesar cipher undoes itself "
         "with a negative key, which is why one function can do both jobs.</p>",
     )
@@ -116,31 +299,194 @@ print(chr(103))   # g"""
         "Add the key to the position, wrap it with <code>% 26</code>, then add "
         "<code>ord(\"a\")</code> back on to return to a letter.</p>"
     )
-    b += reveal(
+    b += laddered(
         "Walk <code>z</code> with key 3 through all four steps and write the number at "
         "each one.",
+        [
+            "<p>Start with <code>ord(\"z\")</code>. The code block above prints it. "
+            "Then take away <code>ord(\"a\")</code>, which is 97. That gives the "
+            "position of z in the alphabet, counting a as 0.</p>",
+            "<p>Add the key to the position. The alphabet has positions 0 to 25, so any "
+            "answer bigger than 25 has run off the end. <code>% 26</code> keeps the "
+            "remainder after dividing by 26, which brings it back to the start.</p>",
+            "<p>The third step is <code>(25 + 3) % 26</code>. 28 divided by 26 is 1, with "
+            "2 left over. For the last step, add 97 back on and use <code>chr</code>: "
+            "<code>chr(2 + 97)</code> is <code>chr(99)</code>. If a is 97, which letter "
+            "is 99?</p>",
+        ],
         "<pre><code>ord(\"z\")            122\n"
         "122 - ord(\"a\")       25     the position of z\n"
         "(25 + 3) % 26         2     wraps past the end\n"
         "chr(2 + ord(\"a\"))   'c'    back to a letter</code></pre>"
         "<p>This is the <code>%</code> wrap from session 1. There it kept a number under 9. Here it keeps a letter inside the alphabet.</p>",
+        "z-steps",
+    )
+    b += "<h3>Write it as a function</h3>"
+    b += (
+        "<p>You just did four steps by hand for one letter. Now put them in a function "
+        "called <code>shift_by(text, amount)</code> that does the four steps for every "
+        "letter in <code>text</code> and returns the new message. Leave spaces as "
+        "spaces. Then add these three lines under it and run the file.</p>"
+    )
+    b += code(
+        '''print(shift_by("dawn", 3))
+print(shift_by("zebra", 3))
+print(shift_by("gdzq", -3))''',
+        "caesar_encode.py, under your function",
+    )
+    b += laddered(
+        "Before you run it: what should each of the three lines print? You worked out "
+        "the first two by hand at the start of this section.",
+        [
+            "<p>Start with an empty string, <code>out = \"\"</code>. Loop over every "
+            "character in <code>text</code> with <code>for ch in text:</code>. After the "
+            "loop, <code>return out</code>.</p>",
+            "<p>Inside the loop, one gate. If <code>ch</code> is a space, add a space to "
+            "<code>out</code>. Otherwise, do the four steps from the <code>z</code> "
+            "walk-through with <code>ch</code> and <code>amount</code>, and add the new "
+            "letter to <code>out</code>.</p>",
+            code('''def shift_by(text, amount):
+    out = ""
+    for ch in text:
+        if ch == " ":
+            out = out + " "
+        else:
+            spot = ord(ch) - ord("a")
+            spot = (spot + amount) % 26
+            out = out + ____
+    return out'''),
+        ],
+        code(_shift_by_source(), "caesar_encode.py")
+        + output("gdzq\ncheud\ndawn")
+        + "<p>The first two match the hand answers. The third decodes: a key of -3 moves "
+        "every letter back by 3, so <code>g</code> goes back to <code>d</code> and "
+        "<code>d</code> goes back to <code>a</code>. A letter near the start of the "
+        "alphabet, like <code>b</code>, would go back past <code>a</code>, and "
+        "<code>% 26</code> wraps it round to <code>y</code>. One function does both "
+        "jobs.</p>",
+        "shift-by",
     )
 
     b += (
         '<h2><span class="num">4</span>Now break one'
-        '<span class="mins">30 minutes</span></h2>'
+        '<span class="mins">25 minutes</span></h2>'
     )
     b += (
-        "<p>Here is a message somebody encoded with a key you do not have. You could try all 26 keys, and for a Caesar cipher that is fast enough. There is a faster way: count the letters.</p>"
-        "<p>In ordinary English, <code>e</code> is the most common letter. If the most "
-        "common letter in the ciphertext is <code>h</code>, then <code>e</code> was "
-        "probably shifted to <code>h</code>, and the key is 3. One count, no "
-        "guessing.</p>"
+        "<p>Here is a message somebody encoded with a key you do not have. You could "
+        "try all 26 keys, and for a Caesar cipher that is fast enough. There is a "
+        "faster way: count the letters.</p>"
+        "<p>In ordinary English, <code>e</code> is the most common letter. So the most "
+        "common letter in the ciphertext is probably what <code>e</code> turned into. "
+        "Breaking the cipher takes three steps: count the letters, turn the top letter "
+        "into a key, and decode. Do them one at a time.</p>"
+    )
+    b += code(
+        '''ciphertext = "uhdg wkh frgh dqg wudfh wkh frgh ehiruh brx hyhu uxq wkh frgh"''',
+        "the message",
+    )
+
+    b += "<h3>Step 1: count the letters</h3>"
+    b += (
+        "<p>This is the <code>Counter</code> from section 2, with the spaces taken out "
+        "first. The file starts with <code>from collections import Counter</code>, the "
+        "same import line as in section 2. <code>counts.most_common(5)</code> returns "
+        "the five most common letters with how many times each appears, biggest "
+        "first.</p>"
+    )
+    b += code(
+        '''from collections import Counter
+
+
+def letter_counts(text):
+    """Return a Counter of the letters in text, ignoring spaces."""
+    letters = ""
+    for ch in text:
+        if ch != " ":
+            letters = letters + ch
+    return Counter(letters)
+
+
+counts = letter_counts(ciphertext)
+print("five most common:", counts.most_common(5))''',
+        "caesar_crack.py, step 1",
+    )
+    b += reveal(
+        "Look at the message before you run anything. Which letter do you see most "
+        "often?",
+        output("five most common: [('h', 12), ('u', 5), ('g', 5), ('r', 5), ('w', 4)]")
+        + "<p><code>h</code> appears 12 times. The next letters appear 5 times each. "
+        "So <code>h</code> is the top letter, and it is probably what <code>e</code> "
+        "turned into.</p>",
+    )
+
+    b += "<h3>Step 2: turn the top letter into a key</h3>"
+    b += (
+        "<p>If <code>e</code> turned into <code>h</code>, the key is how many places "
+        "<code>e</code> moved. Use the strip: click <code>e</code> in the top row, then "
+        "press <b>+1</b> until the bottom row under <code>e</code> shows "
+        "<code>h</code>.</p>"
+    )
+    b += cipher_strip("strip2")
+    b += laddered(
+        "What is the key?",
+        [
+            "<p>Count along the alphabet from <code>e</code> to <code>h</code>.</p>",
+            "<p><code>e</code>, <code>f</code>, <code>g</code>, <code>h</code>. How many "
+            "moves is that?</p>",
+            "<p>In code, it is the distance between the two letters' numbers: "
+            "<code>ord(\"h\") - ord(\"e\")</code>, which is 104 minus 101.</p>",
+        ],
+        "<p>The key is 3.</p>"
+        + code(
+            '''def guess_shift(text):
+    """Return the shift that maps the most common letter onto 'e'."""
+    counts = letter_counts(text)
+    top_letter = counts.most_common(1)[0][0]
+    return (ord(top_letter) - ord("e")) % 26''',
+            "caesar_crack.py, step 2",
+        )
+        + "<p><code>counts.most_common(1)[0][0]</code> is the top letter: the first "
+        "pair in the list, and the letter in that pair. The <code>% 26</code> is for "
+        "a top letter that comes before <code>e</code> in the alphabet. If the top "
+        "letter were <code>b</code>, 98 minus 101 is -3, and <code>% 26</code> turns "
+        "it into 23: <code>e</code> moved 23 places and wrapped round to "
+        "<code>b</code>.</p>",
+        "crack-key",
+    )
+
+    b += "<h3>Step 3: decode</h3>"
+    b += (
+        "<p>You have the key, and you have <code>shift_by</code> from section 3. "
+        "Moving every letter back by the key undoes the cipher, so decode with a "
+        "negative key.</p>"
+    )
+    b += code(
+        '''k = guess_shift(ciphertext)
+print(f"guessed shift {k}")
+print("plaintext:", shift_by(ciphertext, -k))''',
+        "caesar_crack.py, step 3",
+    )
+    b += reveal(
+        "The first word of the message is <code>uhdg</code>. Move each letter back 3 "
+        "by hand. What is the first word of the plaintext?",
+        output("guessed shift 3\nplaintext: read the code and trace the code before you ever run the code")
+        + "<p><code>u</code> goes back to <code>r</code>, <code>h</code> to "
+        "<code>e</code>, <code>d</code> to <code>a</code>, <code>g</code> to "
+        "<code>d</code>: <code>read</code>. The program does the same for every "
+        "letter.</p>",
+    )
+
+    b += "<h3>The whole program</h3>"
+    b += (
+        "<p>Here are the three steps in one file, with <code>shift_by</code> at the "
+        "top. It is the same function you wrote in section 3.</p>"
     )
     b += code(
         '''"""Break a Caesar cipher by letter frequency instead of by guessing."""
 
 from collections import Counter
+
+ENGLISH_ORDER = "etaoinshrdlcumwfgypbvkjxqz"
 
 ciphertext = "uhdg wkh frgh dqg wudfh wkh frgh ehiruh brx hyhu uxq wkh frgh"
 
@@ -184,20 +530,18 @@ print("plaintext:", shift_by(ciphertext, -k))''',
         "caesar_crack.py",
     )
     b += reveal(
-        "Two predictions. What is the most common letter in that ciphertext, and what "
-        "shift will the program guess?",
+        "Run it. Do its lines match what you worked out in steps 1, 2, and 3?",
         output(
             """five most common: [('h', 12), ('u', 5), ('g', 5), ('r', 5), ('w', 4)]
 distinct letters used: 14
 guessed shift 3
 plaintext: read the code and trace the code before you ever run the code"""
         )
-        + "<p><code>h</code> appears 12 times, well clear of the 5 behind it. So the key "
-        "is 3 and the message comes out on the first try, with no key and no "
-        "guessing.</p>"
-        "<p>Two limits. The text has to "
-        "be long enough for <code>e</code> to actually win, and the text has to be "
-        "ordinary English. Try it on a short message and watch it fail.</p>",
+        + "<p>They match. The one new line, <code>distinct letters used</code>, is "
+        "explained under Sets, below.</p>"
+        "<p>Two limits. The text has to be long enough for <code>e</code> to actually "
+        "win, and the text has to be ordinary English. Try it on a short message and "
+        "watch it fail.</p>",
     )
     b += (
         '<div class="predict"><b>Frequency counts are ratios.</b> 12 of 49 letters is '
@@ -209,6 +553,13 @@ plaintext: read the code and trace the code before you ever run the code"""
         "<p><code>set(text)</code> throws away duplicates and order, and keeps only "
         "which things appeared. That is what <code>distinct letters used: 14</code> came "
         "from. A set answers which, a Counter answers how many.</p>"
+        "<p>That line also uses <code>.replace</code>. "
+        "<code>ciphertext.replace(\" \", \"\")</code> replaces every space with "
+        "nothing, so the spaces are gone before the set is made. Without it, the space "
+        "would be counted as one more character, and the line would say 15 instead of "
+        "14. <code>.replace</code> does not change <code>ciphertext</code> itself. It "
+        "returns a new string, and the new string is what goes into "
+        "<code>set</code>.</p>"
     )
     b += exits(
         "You encoded <code>dawn</code> and <code>zebra</code> by hand with key 3, you "
@@ -224,8 +575,11 @@ plaintext: read the code and trace the code before you ever run the code"""
     )
     b += panel(
         ["6.SP.B.5.a", "6.RP.A.3", "MP7"],
-        "<p>10 opener, 15 parallel lists and Counter, 20 building the cipher, 30 the "
-        "crack, 15 sets and exits. Assume no student has seen a cipher before. Do not cut section 3 to save the crack. Cracking a cipher the students did not build teaches nothing about the cipher. Cut the sets section if pressed.</p>",
+        "<p>10 opener, 15 parallel lists and Counter, 30 the cipher by hand and "
+        "<code>shift_by</code> written, 25 the crack in three steps, 10 sets and exits. Assume no student "
+        "has seen a cipher before. Do not cut section 3 to save the crack. Cracking a "
+        "cipher the students did not build teaches nothing about the cipher. Cut the sets "
+        "subsection first if pressed.</p>",
         "<p>The hand encode is the part to insist on. Students who go straight to "
         "<code>ord</code> without doing <code>dawn</code> on paper will not spot the "
         "wrap, and the wrap is the only hard part of the cipher.</p>"
@@ -234,7 +588,7 @@ plaintext: read the code and trace the code before you ever run the code"""
         "needs to memorise 97.</p>"
         "<p><code>KeyError</code> is the new traceback this week and students read it as "
         "a crash rather than as information. Say the sentence out loud: a dictionary "
-        "does not invent a zero for you.</p>"
+        "does not start a missing key at zero for you.</p>"
         "<p>Some students will want to brute force all 26 shifts because it is easier "
         "to write. Let them, then ask what they would do with a Vigenere key of length "
         "7. Brute force stops being available and counting does not.</p>",
@@ -245,15 +599,16 @@ plaintext: read the code and trace the code before you ever run the code"""
             "hands a Counter back."
         ),
         extras=(
-            "<h3>Files</h3><p><code>caesar_crack.py</code>. Output verified on Python "
+            "<h3>Files</h3><p><code>caesar_encode.py</code> for section 3, the answer to the <code>shift_by</code> step; the build checks that its <code>shift_by</code> is identical to the one in <code>caesar_crack.py</code>. <code>caesar_crack.py</code>. Output verified on Python "
             "3.12.3. The plaintext restates this course's own rule from session 1, which "
             "is deliberate.</p>"
             "<h3>Lifted this week</h3><p>Dictionaries, sets, "
             "<code>collections.Counter</code>, <code>.replace()</code>, "
             "<code>ord</code> and <code>chr</code>.</p>"
             "<h3>Assumed knowledge</h3><p>None beyond the hub prerequisites plus the "
-            "<code>%</code> wrap from session 1. Cryptography is introduced from zero "
-            "in section 3, including the words plaintext, ciphertext, and key.</p>"
+            "<code>%</code> wrap from session 1. Section 3 teaches what a cipher is, "
+            "including the words plaintext, ciphertext, and key, and assumes students "
+            "have never used one.</p>"
         ),
     )
     b += pager(
@@ -644,7 +999,7 @@ def day06():
         "Wednesday 21 October 2026",
         "A seal is a short number computed from a message, so a reader can tell whether "
         "the message changed on the way. You will build one, break it in about five "
-        "minutes, and then meet the function that does not break.",
+        "minutes, and then use a function that does not break.",
     )
     b += '<h2><span class="num">1</span>Opener<span class="mins">10 minutes</span></h2>'
     b += (
@@ -943,9 +1298,9 @@ for n in range(1, 8):
         "<p><code>perf_counter</code> measurements bounce around on a shared machine. "
         "Run each row three times and take the middle. Say so, because otherwise a noisy row looks like a discovery.</p>",
         retouch=(
-            "Session 5's brute-force instinct, now priced. Students who wanted to try "
-            "all 26 Caesar shifts in session 3 meet the version of that idea that does "
-            "not fit in a lifetime."
+            "Trying every key, from session 3, now timed. Students who wanted to try all "
+            "26 Caesar shifts in session 3 see how long the same idea takes when there "
+            "are ten million codes."
         ),
         extras=(
             "<h3>Files</h3><p><code>what_it_costs.py</code>. Timings above measured on "

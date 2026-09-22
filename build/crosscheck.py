@@ -28,6 +28,7 @@ CHECKS = {
         "total 503", "average 50.3", "over 55: 6", "best 77 at index 5",
         "i=1 reading=58 slot=0", "i=9 reading=77 slot=8",
     ]),
+    "wed02_return_and_modules.html#print": ("python3 print_the_return.py", ["12"]),
     "wed02_return_and_modules.html#5": ("python3 sweep_report3.py", [
         "smallest 12", "largest 77", "spread 65", "under 55: 4",
         "between 30 and 60: 6", "total over 55: 388", "first over 55 at index 1",
@@ -35,6 +36,11 @@ CHECKS = {
     "wed02_return_and_modules.html": ("python3 sweep_report2.py", [
         "first best at 5", "last best at 9",
     ]),
+    "wed03_counting.html#counter": ("python3 counter_tour.py", [
+        "Counter({'a': 3, 'n': 2, 'b': 1})", "[('a', 3), ('n', 2)]",
+        "Counter({'a': 6, 'n': 4, 'b': 2, 'd': 1})", "True",
+    ]),
+    "wed03_counting.html#encode": ("python3 caesar_encode.py", ["gdzq", "cheud", "dawn"]),
     "wed03_counting.html": ("python3 caesar_crack.py", [
         "five most common: [('h', 12), ('u', 5), ('g', 5), ('r', 5), ('w', 4)]",
         "distinct letters used: 14", "guessed shift 3",

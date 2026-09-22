@@ -132,6 +132,35 @@ a.btn.quiet:hover{background:#EFE9DA}
 .ans{display:none; margin-top:16px; padding-top:16px; border-top:2px solid var(--rule)}
 .ans.show{display:block}
 .ans > :last-child{margin-bottom:0}
+.strip{border:2px solid var(--rule); border-radius:5px; background:var(--card); padding:14px 16px; margin:0 0 16px}
+.strip-controls{display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin:0 0 12px}
+.strip-controls button{font-family:'DM Sans',sans-serif; font-size:17px; font-weight:700; background:var(--teal);
+  color:#FFFDF7; border:0; border-radius:4px; padding:9px 16px; cursor:pointer; min-width:56px}
+.strip-controls button:hover{background:var(--teal-deep)}
+.strip-controls button.quiet{background:var(--card); color:var(--teal); border:2px solid var(--rule)}
+.strip-key{font-family:'JetBrains Mono',monospace; font-size:18px; padding:0 6px}
+.strip-key b{font-size:26px; color:var(--teal)}
+.strip-word{font-size:16px; color:var(--ink-soft); margin-left:auto}
+.strip-word input{font-family:'JetBrains Mono',monospace; font-size:17px; width:9em; margin-left:6px;
+  padding:6px 8px; border:2px solid var(--rule); border-radius:4px; background:#fff; color:var(--ink)}
+.strip-rows{overflow-x:auto; padding-bottom:4px}
+.strip-row{display:flex; gap:3px; margin:0 0 3px; min-width:max-content}
+.strip-label{font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--ink-soft); width:52px;
+  display:flex; align-items:center; text-transform:uppercase; letter-spacing:.08em}
+.strip-cell{font-family:'JetBrains Mono',monospace; font-size:20px; font-weight:700; width:30px; height:38px;
+  display:flex; align-items:center; justify-content:center; border:2px solid var(--rule); border-radius:3px;
+  background:#fff; font-variant-ligatures:none}
+.strip-row.top .strip-cell{cursor:pointer}
+.strip-row.bottom .strip-cell{background:var(--ochre-tint)}
+.strip-cell.on,.strip-row.bottom .strip-cell.on{background:var(--teal); color:#FFFDF7; border-color:var(--teal)}
+.strip-say{font-size:18px; margin:10px 0 0; min-height:1.6em}
+@media (max-width:760px){.strip-word{margin-left:0}}
+@media print{.strip-controls,.strip-say{display:none}}
+.hintset{border:2px solid var(--rule); border-radius:5px; padding:12px 16px; margin:0 0 12px;
+  background:var(--card)}
+.hintset > p:first-child{margin:0 0 8px}
+.hintset .ans{margin-top:10px; padding-top:10px}
+.hintset .ans pre{margin-bottom:10px}
 .bug{
   background:#F7E4E1; border:2px solid var(--clay); border-left:8px solid var(--clay);
   border-radius:5px; padding:14px 16px; margin:0 0 18px; color:#3A1512;
@@ -232,8 +261,8 @@ footer p{margin:0}
 <main><div class="wrap">
 
 <section class="opener"><p class="chunk-no">Section 1 &middot; 10 minutes</p><h2>Opener</h2><p>A sorted list holds the 1000 even numbers from 0 to 1998. You are looking for 1998. On paper: how many values does a start-to-finish scan look at? Then, if you are allowed to jump to the middle and throw half away each time, how many?</p><div class="predict"><b>Predict first.</b> Both numbers before you click.
-<button class="rev" data-target="a25" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a25">Show the answer</button>
-<div class="ans" id="a25"><div class="out"><span class="tag">verified output</span><pre><code>searching a sorted list of 1000 even numbers for 1998
+<button class="rev" data-target="a28" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a28">Show the answer</button>
+<div class="ans" id="a28"><div class="out"><span class="tag">verified output</span><pre><code>searching a sorted list of 1000 even numbers for 1998
   linear: found at 999 after 1000 looks
   binary: found at 999 after 10 looks
 
@@ -297,8 +326,8 @@ for n in range(1, 8):
     elapsed = perf_counter() - start
     print(f&quot;  {n}   {10 ** n:&lt;10} {tries:&lt;8} {elapsed:.4f}&quot;)</code></pre>
 <div class="predict"><b>Predict first.</b> Seven digits takes about 1.2 seconds on my machine. Before you look: how long for eight digits, and for ten?
-<button class="rev" data-target="a26" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a26">Show the answer</button>
-<div class="ans" id="a26"><div class="out"><span class="tag">verified output</span><pre><code>brute force, every code of n digits
+<button class="rev" data-target="a29" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a29">Show the answer</button>
+<div class="ans" id="a29"><div class="out"><span class="tag">verified output</span><pre><code>brute force, every code of n digits
   n   codes      tries    seconds
   1   10         10       0.0000
   2   100        100      0.0000
@@ -310,7 +339,7 @@ for n in range(1, 8):
 <p>Each row multiplies the one above it by ten. So eight digits is about 12 seconds, nine is about two minutes, ten is about twenty minutes, and twelve is about a day and a half. Nothing about the program changed. You added digits.</p><p>Ten to the seventh is ten million, and the seconds column follows it. Every extra digit multiplies the time by ten.</p></div></div>
 <div class="predict"><b>These timings are from one machine.</b> Yours will differ, maybe by a factor of three. What will not differ is the shape: every extra digit costs ten times the last one. Run it and write your own numbers in the table.</div><h3>Plot it</h3><p>Put digits on the horizontal axis and seconds on the vertical. Sketch it by hand. Then sketch a second graph with the same data and seconds on a scale where each step up is ten times the last. On the first graph the small rows are flat against the bottom and only the last one shows. On the second, every row is readable.</p></section>
 <section class="brief"><h2>Exits</h2><div class="exits"><div class="exit"><span class="lab">FLOOR</span><p>You ran both searches and can say why binary needs 10 looks where the scan needs 1000.</p></div><div class="exit"><span class="lab">MIDDLE</span><p>Floor, plus the runtime table built on your own machine out to six digits, plus a hand sketch of digits against seconds.</p></div><div class="exit"><span class="lab">STRETCH</span><p>Middle, plus extend to eight digits and check your prediction against the clock. Then work out how many digits you would need before the sweep takes longer than this class, and defend the arithmetic.</p></div></div></section>
-<section class="panel"><h2>Teacher panel</h2><h3>Concept this session re-touches</h3><p>Session 5's brute-force instinct, now priced. Students who wanted to try all 26 Caesar shifts in session 3 meet the version of that idea that does not fit in a lifetime.</p><h3>Standards</h3><p class="stdline"><span class="std">8.EE.A.1</span> Know and apply the properties of integer exponents to generate equivalent numerical expressions.</p>
+<section class="panel"><h2>Teacher panel</h2><h3>Concept this session re-touches</h3><p>Trying every key, from session 3, now timed. Students who wanted to try all 26 Caesar shifts in session 3 see how long the same idea takes when there are ten million codes.</p><h3>Standards</h3><p class="stdline"><span class="std">8.EE.A.1</span> Know and apply the properties of integer exponents to generate equivalent numerical expressions.</p>
 <p class="stdline"><span class="std">8.F.B.5</span> Describe qualitatively the functional relationship between two quantities by analyzing a graph (e.g., where the function is increasing or decreasing, linear or nonlinear). Sketch a graph that exhibits the qualitative features of a function that has been described verbally.</p>
 <p class="stdline"><span class="std">MP8</span> Look for and express regularity in repeated reasoning.</p>
 <p class="mapnote">Mapped to the Common Core State Standards for Mathematics (Multi-State). Each code and its wording was retrieved from the CASE Network through the Learning Commons Knowledge Graph on 12 September 2026. New York's own Computer Science and Digital Fluency framework and the CSTA standards are not carried in that graph, so no code from either appears anywhere on this site.</p><p class="mapnote">Two deliberate deviations from the retrieved text. The "for example…" illustrations attached to 7.SP.C.6 and 8.EE.A.1 are omitted, since they illustrate rather than state the standard. And where the source carries markup, italics or mathematical notation, it is rendered as plain text: 7.SP.C.5's fraction appears here as 1/2, and the italic stem of 6.SP.B.5.a and 6.SP.B.5.c is plain. Nothing else was shortened. Codes 6.SP.B.5.a and 6.SP.B.5.c are the lettered children of 6.SP.B.5, whose own statement is only a stem ending in a colon; the children carry that stem and are quoted in full.</p><h3>Timing</h3><p>10 opener, 35 the sweep and the table, 20 plotting, 25 exits and discussion. Warn them off nine digits on a classroom machine: that is roughly two minutes with nothing on screen, and someone will assume it has hung.</p><h3>What to watch for</h3><p>The prediction that matters is eight digits. Students who say 2 seconds have not understood the table; students who say 12 have. Make them commit out loud before running.</p><p><code>perf_counter</code> measurements bounce around on a shared machine. Run each row three times and take the middle. Say so, because otherwise a noisy row looks like a discovery.</p><h3>Files</h3><p><code>what_it_costs.py</code>. Timings above measured on Python 3.12.3 in this container and will not match the classroom machines.</p><h3>Lifted this week</h3><p><code>itertools.product</code>, <code>time.perf_counter</code>, <code>//</code>, <code>while</code> with a compound condition, returning two values.</p></section>

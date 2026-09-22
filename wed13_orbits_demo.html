@@ -132,6 +132,35 @@ a.btn.quiet:hover{background:#EFE9DA}
 .ans{display:none; margin-top:16px; padding-top:16px; border-top:2px solid var(--rule)}
 .ans.show{display:block}
 .ans > :last-child{margin-bottom:0}
+.strip{border:2px solid var(--rule); border-radius:5px; background:var(--card); padding:14px 16px; margin:0 0 16px}
+.strip-controls{display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin:0 0 12px}
+.strip-controls button{font-family:'DM Sans',sans-serif; font-size:17px; font-weight:700; background:var(--teal);
+  color:#FFFDF7; border:0; border-radius:4px; padding:9px 16px; cursor:pointer; min-width:56px}
+.strip-controls button:hover{background:var(--teal-deep)}
+.strip-controls button.quiet{background:var(--card); color:var(--teal); border:2px solid var(--rule)}
+.strip-key{font-family:'JetBrains Mono',monospace; font-size:18px; padding:0 6px}
+.strip-key b{font-size:26px; color:var(--teal)}
+.strip-word{font-size:16px; color:var(--ink-soft); margin-left:auto}
+.strip-word input{font-family:'JetBrains Mono',monospace; font-size:17px; width:9em; margin-left:6px;
+  padding:6px 8px; border:2px solid var(--rule); border-radius:4px; background:#fff; color:var(--ink)}
+.strip-rows{overflow-x:auto; padding-bottom:4px}
+.strip-row{display:flex; gap:3px; margin:0 0 3px; min-width:max-content}
+.strip-label{font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--ink-soft); width:52px;
+  display:flex; align-items:center; text-transform:uppercase; letter-spacing:.08em}
+.strip-cell{font-family:'JetBrains Mono',monospace; font-size:20px; font-weight:700; width:30px; height:38px;
+  display:flex; align-items:center; justify-content:center; border:2px solid var(--rule); border-radius:3px;
+  background:#fff; font-variant-ligatures:none}
+.strip-row.top .strip-cell{cursor:pointer}
+.strip-row.bottom .strip-cell{background:var(--ochre-tint)}
+.strip-cell.on,.strip-row.bottom .strip-cell.on{background:var(--teal); color:#FFFDF7; border-color:var(--teal)}
+.strip-say{font-size:18px; margin:10px 0 0; min-height:1.6em}
+@media (max-width:760px){.strip-word{margin-left:0}}
+@media print{.strip-controls,.strip-say{display:none}}
+.hintset{border:2px solid var(--rule); border-radius:5px; padding:12px 16px; margin:0 0 12px;
+  background:var(--card)}
+.hintset > p:first-child{margin:0 0 8px}
+.hintset .ans{margin-top:10px; padding-top:10px}
+.hintset .ans pre{margin-bottom:10px}
 .bug{
   background:#F7E4E1; border:2px solid var(--clay); border-left:8px solid var(--clay);
   border-radius:5px; padding:14px 16px; margin:0 0 18px; color:#3A1512;
@@ -232,8 +261,8 @@ footer p{margin:0}
 <main><div class="wrap">
 
 <section class="opener"><p class="chunk-no">Section 1 &middot; 10 minutes</p><h2>Opener</h2><p>Last week gravity was <code>self.dy = self.dy + GRAVITY</code>, always straight down. Today it points at a planet that can be anywhere. On paper: if the planet is at (400, 300) and the ship is at (400, 120), which way does gravity point, and how do you compute the distance?</p><div class="predict"><b>Predict first.</b> Both, before you click.
-<button class="rev" data-target="a43" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a43">Show the answer</button>
-<div class="ans" id="a43"><p>Straight down the screen, because the ship is directly above the planet, and the distance is 180.</p><p>The general rule, in case you have not met it: if two points are <code>a</code> apart across and <code>b</code> apart up, the straight-line distance between them is the square root of <code>a</code> squared plus <code>b</code> squared. That is the Pythagorean theorem, and it is the one piece of geometry this session needs. Here the across gap is 0, so the distance is just 300 minus 120.</p><p>With gaps of 100 across and 80 up you need the whole rule: the distance is the square root of 10000 plus 6400, which is about 128.</p><p>When the ship is off to one side, both differences matter and you need the full calculation.</p></div></div>
+<button class="rev" data-target="a46" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a46">Show the answer</button>
+<div class="ans" id="a46"><p>Straight down the screen, because the ship is directly above the planet, and the distance is 180.</p><p>The general rule, in case you have not met it: if two points are <code>a</code> apart across and <code>b</code> apart up, the straight-line distance between them is the square root of <code>a</code> squared plus <code>b</code> squared. That is the Pythagorean theorem, and it is the one piece of geometry this session needs. Here the across gap is 0, so the distance is just 300 minus 120.</p><p>With gaps of 100 across and 80 up you need the whole rule: the distance is the square root of 10000 plus 6400, which is about 128.</p><p>When the ship is off to one side, both differences matter and you need the full calculation.</p></div></div>
 </section>
 <section class="chunk"><p class="chunk-no">Section 2 &middot; 30 minutes</p><h2>Falling sideways</h2><p class="fname">orbit.py</p>
 <pre><code>    def distance(self):
@@ -257,8 +286,8 @@ footer p{margin:0}
 
         self.trail.append((self.x, self.y))</code></pre>
 <p>Three things are happening. <code>PULL / (r * r)</code> makes gravity weaker further out. <code>gap_x / r</code> and <code>gap_y / r</code> split that pull into its across and down parts, in proportion to how much of the gap lies along each axis. And <code>DT</code> is how big a slice of time each frame stands for.</p><div class="predict"><b>Predict first.</b> The ship starts at (400, 120) with <code>dx = 3.8</code> and <code>dy = 0</code>, so it is moving sideways at 180 pixels out. Does it fall into the planet, fly away, or go round?
-<button class="rev" data-target="a44" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a44">Show the answer</button>
-<div class="ans" id="a44"><div class="out"><span class="tag">verified from a headless run</span><pre><code>frames: 1201, trail points: 1202
+<button class="rev" data-target="a47" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a47">Show the answer</button>
+<div class="ans" id="a47"><div class="out"><span class="tag">verified from a headless run</span><pre><code>frames: 1201, trail points: 1202
 closest approach 60.1 px, farthest 180.0 px
 start distance 180.0 px, end distance 131.5 px
 final speed 5.94 px per step
@@ -272,8 +301,8 @@ distance at a few frames:
   frame 1200:  133.2 px</code></pre></div>
 <p>Round. The distance falls from 180 to about 60, climbs back to 178, and keeps cycling for all 1200 frames, which is twenty seconds at sixty frames a second. The planet's radius is 26, so a closest approach of 60 clears it.</p><p>The ship is falling the whole time. It never stops falling. It keeps missing, because it also has sideways speed, and the two together make a closed path.</p></div></div>
 <p>Change <code>dx</code> to 2.0 and the ship falls through the planet. Change it to 6.5 and it leaves the window. There is a band of starting speeds that stay on screen and clear the planet. Find both edges of the band by trying values, and write both numbers down before you look.</p><div class="predict"><b>Predict first.</b> Both edges, to one decimal place. Then a harder one: at what <code>dx</code> does the ship stop coming back at all?
-<button class="rev" data-target="a45" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a45">Show the answer</button>
-<div class="ans" id="a45"><div class="out"><span class="tag">verified from headless runs of orbit.py with those values</span><pre><code>1200 frames each. planet radius 26. window 800 by 600.
+<button class="rev" data-target="a48" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a48">Show the answer</button>
+<div class="ans" id="a48"><div class="out"><span class="tag">verified from headless runs of orbit.py with those values</span><pre><code>1200 frames each. planet radius 26. window 800 by 600.
   dx    DT    closest   farthest   frames off screen
   2.0   0.6        15        190       0
   2.8   0.6        29        180       0

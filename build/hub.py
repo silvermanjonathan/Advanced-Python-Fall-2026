@@ -144,8 +144,7 @@ def hub():
 
     b += "<h2>What this course assumes</h2>"
     b += (
-        "<p>This course starts from nothing but the list below and builds everything "
-        "else in front of you. It does not assume you took any particular class before "
+        "<p>This course assumes the list below and teaches everything else in class. It does not assume you took any particular class before "
         "this one. Where a session needs an idea from an earlier session, that session "
         "says which one and re-derives it.</p>"
         "<p>You should already be able to read and write these. You do not need to be "
@@ -164,10 +163,10 @@ def hub():
         "<code>return</code> values, dictionaries, files, and classes are all treated "
         "as new.</p>"
         "<p>No mathematics beyond grade 5 arithmetic is assumed either. Four things the "
-        "course needs are introduced where they are first used, from nothing, and none "
-        "of them is assumed on the way in:</p>"
+        "course needs are taught in the session that first uses them, and none of them "
+        "is assumed on the way in:</p>"
         "<table><tr><th>Introduced in</th><th>What, and how far it goes</th></tr>"
-        "<tr><td>Session 3</td><td>Cryptography from zero: what a Caesar cipher does, "
+        "<tr><td>Session 3</td><td>Ciphers, taught from the start: what a Caesar cipher does, "
         "and the words plaintext, ciphertext, and key. Students encode by hand before "
         "any code.</td></tr>"
         "<tr><td>Session 10</td><td>Logarithms, only as far as \"what power of ten "

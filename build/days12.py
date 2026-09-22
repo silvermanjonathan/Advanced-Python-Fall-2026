@@ -134,7 +134,7 @@ i=9 reading=77 slot=8"""
 
     b += '<h2><span class="num">4</span>The style pass<span class="mins">30 minutes</span></h2>'
     b += (
-        "<p>The program works and it is hard to read. <code>t</code>, <code>c</code>, <code>b</code>, and <code>bi</code> made the cold read slower: every time you met one, you had to scroll back up to find out what it was.</p>"
+        "<p>The program works and it is hard to read. <code>t</code>, <code>c</code>, <code>b</code>, and <code>bi</code> made the cold read slower: every time you read one, you had to scroll back up to find out what it was.</p>"
         "<p>Rename every variable so the name says what the value is. Then add a "
         "docstring at the top of the file. A docstring is a new word today. It is one sentence, inside triple quotes, on line 1 of the file, "
         "saying what the program is for. Python ignores it. The next reader does not. "
@@ -312,6 +312,127 @@ def day02_extras():
     ]
 
 
+def shipped_function(slug):
+    """Return one function, docstring and all, from the answer-key module."""
+    text = open(os.path.join(_ROOT, "sweep_tools_more.py")).read()
+    start = text.find(f"def {slug}(")
+    end = text.find("\n\n\ndef ", start)
+    return text[start:end if end > 0 else len(text)].rstrip("\n")
+
+
+def hint_ladder(name, steps):
+    """Return a function's hints, each opened from inside the one before it.
+
+    After the last hint comes a button that shows the whole function, read from
+    sweep_tools_more.py so it matches the answer key exactly.
+    """
+    slug = name.split("(")[0]
+    aid = f"hint-{slug}-answer"
+    inner = (
+        f'<button class="rev" data-target="{aid}" data-show="Show the answer" '
+        f'data-hide="Hide the answer" aria-expanded="false" aria-controls="{aid}">'
+        "Show the answer</button>\n"
+        f'<div class="ans" id="{aid}">'
+        + code(shipped_function(slug), "sweep_tools_more.py")
+        + "</div>\n"
+    )
+    for n in range(len(steps), 0, -1):
+        hid = f"hint-{slug}-{n}"
+        inner = (
+            f'<button class="rev" data-target="{hid}" data-show="Hint {n}" '
+            f'data-hide="Hide hint {n}" aria-expanded="false" aria-controls="{hid}">'
+            f"Hint {n}</button>\n"
+            f'<div class="ans" id="{hid}">{steps[n - 1]}{inner}</div>\n'
+        )
+    return f'<div class="hintset"><p><code>{name}</code></p>{inner}</div>\n'
+
+
+def day02_hints():
+    """Return the three-step hints for each section 5 function."""
+    return [
+        ("smallest_of(values)", [
+            "<p>You need one variable that holds the smallest value found so far. Start "
+            "it at the first reading, <code>values[0]</code>, not at 0.</p>",
+            "<p>Loop over every value. Inside the loop, one gate: is this value smaller "
+            "than the smallest so far? If yes, it becomes the new smallest. After the "
+            "loop, return the smallest.</p>",
+            code('''smallest = values[0]
+for v in values:
+    if v < smallest:
+        smallest = ____
+return smallest'''),
+        ]),
+        ("largest_of(values)", [
+            "<p>This is <code>smallest_of</code> with one comparison turned around.</p>",
+            "<p>Start at <code>values[0]</code> again. The gate asks: is this value "
+            "greater than the largest so far?</p>",
+            code('''largest = values[0]
+for v in values:
+    if v ____ largest:
+        largest = v
+return largest'''),
+        ]),
+        ("spread_of(values)", [
+            "<p>The spread is the largest reading minus the smallest reading. You have "
+            "already written a function for each of those.</p>",
+            "<p>No loop. Call <code>largest_of(values)</code> and "
+            "<code>smallest_of(values)</code> inside this function and subtract.</p>",
+            code('''def spread_of(values):
+    """Return the largest minus the smallest."""
+    return largest_of(values) - ____'''),
+        ]),
+        ("count_under(values, limit)", [
+            "<p>Open <code>count_over</code> in your module. This is the same function "
+            "with one character changed.</p>",
+            "<p>A counter starts at 0. Every value that passes the gate adds 1 to it. "
+            "The gate asks: is this value less than the limit?</p>",
+            code('''hits = 0
+for v in values:
+    if v ____ limit:
+        hits = hits + 1
+return hits'''),
+        ]),
+        ("count_between(values, low, high)", [
+            "<p>A reading counts when it passes two tests: it is at least "
+            "<code>low</code>, and it is at most <code>high</code>.</p>",
+            "<p>Use two gates, one inside the other. The first asks "
+            "<code>v &gt;= low</code>. Indented under it, the second asks "
+            "<code>v &lt;= high</code>. Add 1 only inside the second gate.</p>",
+            code('''hits = 0
+for v in values:
+    if v >= low:
+        if ____:
+            hits = hits + 1
+return hits'''),
+        ]),
+        ("total_over(values, limit)", [
+            "<p>This mixes two functions you already have: <code>total_of</code> adds "
+            "up, and <code>count_over</code> has the gate. Add up only the values over "
+            "the limit.</p>",
+            "<p>A running total starts at 0. Inside the gate <code>v &gt; limit</code>, "
+            "add <code>v</code> to the running total, not 1.</p>",
+            code('''running = 0
+for v in values:
+    if v > limit:
+        running = ____
+return running'''),
+        ]),
+        ("first_over_index(values, limit)", [
+            "<p>You need the index, not the value, so loop with "
+            "<code>for i in range(len(values)):</code> and look at "
+            "<code>values[i]</code>.</p>",
+            "<p>The first time a value is over the limit, <code>return i</code> right "
+            "there, inside the loop. The function stops at that line, so it never "
+            "reaches a later index. If no value is over the limit, the loop finishes; "
+            "return -1 after it.</p>",
+            code('''for i in range(len(values)):
+    if values[i] > limit:
+        return ____
+return -1'''),
+        ]),
+    ]
+
+
 def day02():
     """Session 2: return values and your own module."""
     b = masthead(
@@ -395,6 +516,26 @@ TypeError: unsupported operand type(s) for *: 'NoneType' and 'int'""",
         "A returning function gives the number back to the line that called it, so "
         "that line can store it in a variable, do arithmetic with it, or pass it to "
         "another function.</p>",
+    )
+    b += (
+        "<p>So how do you see the 12? Put the whole calculation inside <code>print</code>. "
+        "Python works from the inside out: first it calls <code>total_of([1, 2, 3])</code>, "
+        "which returns 6. Then it works out 6 times 2, which is 12. Then "
+        "<code>print</code> shows the 12.</p>"
+    )
+    b += code(
+        '''print(total_of([1, 2, 3]) * 2)''',
+        "print_the_return.py",
+    )
+    b += reveal(
+        "What appears on the screen? Then try the same line with <code>show_total</code> "
+        "in place of <code>total_of</code>. What happens?",
+        output("12")
+        + "<p>With <code>total_of</code>, the screen shows 12.</p>"
+        "<p>With <code>show_total</code>, the screen shows 6 and then the same "
+        "<code>TypeError</code> as before. <code>show_total</code> prints the 6 itself, "
+        "then returns <code>None</code>, and <code>None</code> times 2 is an error before "
+        "the outer <code>print</code> ever runs.</p>",
     )
     b += (
         '<div class="predict"><b>Same word as in math class.</b> In math, a function '
@@ -491,6 +632,15 @@ print(f"first best at {sweep_tools.best_index(readings)}")
 print(f"last best at {sweep_tools.last_best_index(readings)}")''',
         "sweep_report2.py",
     )
+    b += (
+        "<p>Look at how each function is called. Inside <code>sweep_tools.py</code> you "
+        "wrote <code>count_over(readings, limit)</code>. In this second file you write "
+        "<code>sweep_tools.count_over(readings, limit)</code>: the module name, a period, "
+        "then the function name. The period tells Python which file the function lives "
+        "in. Leave off <code>sweep_tools.</code> and Python stops with "
+        "<code>NameError: name 'count_over' is not defined</code>, because this file has "
+        "no function called <code>count_over</code> of its own.</p>"
+    )
     b += reveal(
         "Same readings as last week. Will the first three numbers match last week's "
         "output exactly?",
@@ -552,6 +702,15 @@ last best at 9"""
         "module name, a dot, the function name, and the readings list in the "
         "brackets.</p>",
     )
+    b += "<h3>Stuck on one?</h3>"
+    b += (
+        "<p>Each function has three hints. Open hint 1 and try again. If you still "
+        "cannot start, open hint 2, then hint 3. Hint 3 is the code with one blank, "
+        "written as <code>____</code>, for you to fill in. After hint 3 there is a "
+        "button that shows the whole function.</p>"
+    )
+    for name, steps in day02_hints():
+        b += hint_ladder(name, steps)
     b += reveal(
         "All seven, written out. Look only after yours run, or when you are stuck on "
         "one and have already tried it on paper.",

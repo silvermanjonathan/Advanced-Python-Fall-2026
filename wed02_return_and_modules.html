@@ -132,6 +132,35 @@ a.btn.quiet:hover{background:#EFE9DA}
 .ans{display:none; margin-top:16px; padding-top:16px; border-top:2px solid var(--rule)}
 .ans.show{display:block}
 .ans > :last-child{margin-bottom:0}
+.strip{border:2px solid var(--rule); border-radius:5px; background:var(--card); padding:14px 16px; margin:0 0 16px}
+.strip-controls{display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin:0 0 12px}
+.strip-controls button{font-family:'DM Sans',sans-serif; font-size:17px; font-weight:700; background:var(--teal);
+  color:#FFFDF7; border:0; border-radius:4px; padding:9px 16px; cursor:pointer; min-width:56px}
+.strip-controls button:hover{background:var(--teal-deep)}
+.strip-controls button.quiet{background:var(--card); color:var(--teal); border:2px solid var(--rule)}
+.strip-key{font-family:'JetBrains Mono',monospace; font-size:18px; padding:0 6px}
+.strip-key b{font-size:26px; color:var(--teal)}
+.strip-word{font-size:16px; color:var(--ink-soft); margin-left:auto}
+.strip-word input{font-family:'JetBrains Mono',monospace; font-size:17px; width:9em; margin-left:6px;
+  padding:6px 8px; border:2px solid var(--rule); border-radius:4px; background:#fff; color:var(--ink)}
+.strip-rows{overflow-x:auto; padding-bottom:4px}
+.strip-row{display:flex; gap:3px; margin:0 0 3px; min-width:max-content}
+.strip-label{font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--ink-soft); width:52px;
+  display:flex; align-items:center; text-transform:uppercase; letter-spacing:.08em}
+.strip-cell{font-family:'JetBrains Mono',monospace; font-size:20px; font-weight:700; width:30px; height:38px;
+  display:flex; align-items:center; justify-content:center; border:2px solid var(--rule); border-radius:3px;
+  background:#fff; font-variant-ligatures:none}
+.strip-row.top .strip-cell{cursor:pointer}
+.strip-row.bottom .strip-cell{background:var(--ochre-tint)}
+.strip-cell.on,.strip-row.bottom .strip-cell.on{background:var(--teal); color:#FFFDF7; border-color:var(--teal)}
+.strip-say{font-size:18px; margin:10px 0 0; min-height:1.6em}
+@media (max-width:760px){.strip-word{margin-left:0}}
+@media print{.strip-controls,.strip-say{display:none}}
+.hintset{border:2px solid var(--rule); border-radius:5px; padding:12px 16px; margin:0 0 12px;
+  background:var(--card)}
+.hintset > p:first-child{margin:0 0 8px}
+.hintset .ans{margin-top:10px; padding-top:10px}
+.hintset .ans pre{margin-bottom:10px}
 .bug{
   background:#F7E4E1; border:2px solid var(--clay); border-left:8px solid var(--clay);
   border-radius:5px; padding:14px 16px; margin:0 0 18px; color:#3A1512;
@@ -256,6 +285,12 @@ Traceback (most recent call last):
               ~~~~~~~~~~~~~~~~~~~~~~^~~
 TypeError: unsupported operand type(s) for *: &#x27;NoneType&#x27; and &#x27;int&#x27;</code></pre></div>
 <p>A function with no <code>return</code> returns <code>None</code>, and <code>None</code> times 2 is an error.</p><p><b>The second one</b>, with <code>total_of</code>, prints nothing. <code>total_of([1, 2, 3])</code> returns 6, 6 times 2 is 12, and 12 is stored in <code>doubled</code>. Nothing appears on the screen because nothing in that line prints.</p><p>A printing function shows you a number on the screen and then it is gone. A returning function gives the number back to the line that called it, so that line can store it in a variable, do arithmetic with it, or pass it to another function.</p></div></div>
+<p>So how do you see the 12? Put the whole calculation inside <code>print</code>. Python works from the inside out: first it calls <code>total_of([1, 2, 3])</code>, which returns 6. Then it works out 6 times 2, which is 12. Then <code>print</code> shows the 12.</p><p class="fname">print_the_return.py</p>
+<pre><code>print(total_of([1, 2, 3]) * 2)</code></pre>
+<div class="predict"><b>Predict first.</b> What appears on the screen? Then try the same line with <code>show_total</code> in place of <code>total_of</code>. What happens?
+<button class="rev" data-target="a7" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a7">Show the answer</button>
+<div class="ans" id="a7"><div class="out"><span class="tag">verified output</span><pre><code>12</code></pre></div>
+<p>With <code>total_of</code>, the screen shows 12.</p><p>With <code>show_total</code>, the screen shows 6 and then the same <code>TypeError</code> as before. <code>show_total</code> prints the 6 itself, then returns <code>None</code>, and <code>None</code> times 2 is an error before the outer <code>print</code> ever runs.</p></div></div>
 <div class="predict"><b>Same word as in math class.</b> In math, a function is a machine: you put a number in and exactly one number comes out. <code>total_of</code> works that way. Put a list in, one number comes out. <code>show_total</code> puts a number on the screen, but nothing comes out of it for the rest of the program to use. From now on, when this course says function, it means the kind something comes out of.</div></section>
 <section class="chunk"><p class="chunk-no">Section 3 &middot; 25 minutes</p><h2>Build the module</h2><p>Make a new file. It holds functions and nothing else. No printing, no readings list, no loop at the bottom. A file like that is a module.</p><p class="fname">sweep_tools.py</p>
 <pre><code>&quot;&quot;&quot;Helpers that summarize a list of tower readings.
@@ -320,9 +355,9 @@ print(f&quot;average {sweep_tools.average_of(readings)}&quot;)
 print(f&quot;over {limit}: {sweep_tools.count_over(readings, limit)}&quot;)
 print(f&quot;first best at {sweep_tools.best_index(readings)}&quot;)
 print(f&quot;last best at {sweep_tools.last_best_index(readings)}&quot;)</code></pre>
-<div class="predict"><b>Predict first.</b> Same readings as last week. Will the first three numbers match last week's output exactly?
-<button class="rev" data-target="a7" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a7">Show the answer</button>
-<div class="ans" id="a7"><div class="out"><span class="tag">verified output</span><pre><code>total 503
+<p>Look at how each function is called. Inside <code>sweep_tools.py</code> you wrote <code>count_over(readings, limit)</code>. In this second file you write <code>sweep_tools.count_over(readings, limit)</code>: the module name, a period, then the function name. The period tells Python which file the function lives in. Leave off <code>sweep_tools.</code> and Python stops with <code>NameError: name 'count_over' is not defined</code>, because this file has no function called <code>count_over</code> of its own.</p><div class="predict"><b>Predict first.</b> Same readings as last week. Will the first three numbers match last week's output exactly?
+<button class="rev" data-target="a8" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a8">Show the answer</button>
+<div class="ans" id="a8"><div class="out"><span class="tag">verified output</span><pre><code>total 503
 average 50.3
 over 55: 6
 first best at 5
@@ -330,8 +365,8 @@ last best at 9</code></pre></div>
 <p>Identical, because the arithmetic did not change. Only the shape of the program changed. And now both answers to the index question sit next to each other with names on them.</p></div></div>
 </section>
 <section class="chunk"><p class="chunk-no">Section 5 &middot; 20 minutes</p><h2>Add to the module</h2><p>Your module has five functions. Add more. Pick from the list below, or invent your own, and write each one in <code>sweep_tools.py</code>. Every one takes the readings list in and returns one value. None of them print.</p><p>Then open <code>sweep_report2.py</code> and add one <code>print</code> line for each new function, in the same style as the five already there. The answer column is what your print line should show for the readings list, so you can check your function without asking anyone.</p><table><tr><th>Function</th><th>What it returns</th><th>Answer on the readings</th></tr><tr><td><code>smallest_of(values)</code></td><td>The smallest reading.</td><td><code>12</code></td></tr><tr><td><code>largest_of(values)</code></td><td>The largest reading.</td><td><code>77</code></td></tr><tr><td><code>spread_of(values)</code></td><td>The largest minus the smallest. Write it by calling the two above.</td><td><code>65</code></td></tr><tr><td><code>count_under(values, limit)</code></td><td>How many readings are strictly less than the limit. Use 55.</td><td><code>4</code></td></tr><tr><td><code>count_between(values, low, high)</code></td><td>How many readings are from low to high, both ends included. Use 30 and 60.</td><td><code>6</code></td></tr><tr><td><code>total_over(values, limit)</code></td><td>The total of the readings that are strictly over the limit. Use 55.</td><td><code>388</code></td></tr><tr><td><code>first_over_index(values, limit)</code></td><td>The index of the first reading strictly over the limit. Use 55.</td><td><code>1</code></td></tr></table><p>Two rules from earlier today still apply. A function that prints instead of returning cannot be used in a print line, so it fails the moment you try. And if a new function can be written by calling ones you already have, call them: <code>spread_of</code> should not contain a loop.</p><div class="predict"><b>Predict first.</b> Write <code>smallest_of</code> and its print line on paper before you look. Where does the running value start, and why does 0 not work?
-<button class="rev" data-target="a8" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a8">Show the answer</button>
-<div class="ans" id="a8"><p class="fname">sweep_tools.py, added at the bottom</p>
+<button class="rev" data-target="a9" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a9">Show the answer</button>
+<div class="ans" id="a9"><p class="fname">sweep_tools.py, added at the bottom</p>
 <pre><code>def smallest_of(values):
     &quot;&quot;&quot;Return the smallest number in values.&quot;&quot;&quot;
     smallest = values[0]
@@ -342,9 +377,157 @@ last best at 9</code></pre></div>
 <p class="fname">sweep_report2.py, added at the bottom</p>
 <pre><code>print(f&quot;smallest {sweep_tools.smallest_of(readings)}&quot;)</code></pre>
 <p>The running value starts at the first reading, not at 0. Start it at 0 and nothing is ever smaller than 0, so the function returns 0 for every list that has no negatives in it. That is the same kind of mistake as the <code>&gt;</code> against <code>&gt;=</code> question from session 1: the starting value decides the answer.</p><p>The print line is the same shape as the five above it: a label, then the module name, a dot, the function name, and the readings list in the brackets.</p></div></div>
+<h3>Stuck on one?</h3><p>Each function has three hints. Open hint 1 and try again. If you still cannot start, open hint 2, then hint 3. Hint 3 is the code with one blank, written as <code>____</code>, for you to fill in. After hint 3 there is a button that shows the whole function.</p><div class="hintset"><p><code>smallest_of(values)</code></p><button class="rev" data-target="hint-smallest_of-1" data-show="Hint 1" data-hide="Hide hint 1" aria-expanded="false" aria-controls="hint-smallest_of-1">Hint 1</button>
+<div class="ans" id="hint-smallest_of-1"><p>You need one variable that holds the smallest value found so far. Start it at the first reading, <code>values[0]</code>, not at 0.</p><button class="rev" data-target="hint-smallest_of-2" data-show="Hint 2" data-hide="Hide hint 2" aria-expanded="false" aria-controls="hint-smallest_of-2">Hint 2</button>
+<div class="ans" id="hint-smallest_of-2"><p>Loop over every value. Inside the loop, one gate: is this value smaller than the smallest so far? If yes, it becomes the new smallest. After the loop, return the smallest.</p><button class="rev" data-target="hint-smallest_of-3" data-show="Hint 3" data-hide="Hide hint 3" aria-expanded="false" aria-controls="hint-smallest_of-3">Hint 3</button>
+<div class="ans" id="hint-smallest_of-3"><pre><code>smallest = values[0]
+for v in values:
+    if v &lt; smallest:
+        smallest = ____
+return smallest</code></pre>
+<button class="rev" data-target="hint-smallest_of-answer" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="hint-smallest_of-answer">Show the answer</button>
+<div class="ans" id="hint-smallest_of-answer"><p class="fname">sweep_tools_more.py</p>
+<pre><code>def smallest_of(values):
+    &quot;&quot;&quot;Return the smallest number in values.&quot;&quot;&quot;
+    smallest = values[0]
+    for v in values:
+        if v &lt; smallest:
+            smallest = v
+    return smallest</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="hintset"><p><code>largest_of(values)</code></p><button class="rev" data-target="hint-largest_of-1" data-show="Hint 1" data-hide="Hide hint 1" aria-expanded="false" aria-controls="hint-largest_of-1">Hint 1</button>
+<div class="ans" id="hint-largest_of-1"><p>This is <code>smallest_of</code> with one comparison turned around.</p><button class="rev" data-target="hint-largest_of-2" data-show="Hint 2" data-hide="Hide hint 2" aria-expanded="false" aria-controls="hint-largest_of-2">Hint 2</button>
+<div class="ans" id="hint-largest_of-2"><p>Start at <code>values[0]</code> again. The gate asks: is this value greater than the largest so far?</p><button class="rev" data-target="hint-largest_of-3" data-show="Hint 3" data-hide="Hide hint 3" aria-expanded="false" aria-controls="hint-largest_of-3">Hint 3</button>
+<div class="ans" id="hint-largest_of-3"><pre><code>largest = values[0]
+for v in values:
+    if v ____ largest:
+        largest = v
+return largest</code></pre>
+<button class="rev" data-target="hint-largest_of-answer" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="hint-largest_of-answer">Show the answer</button>
+<div class="ans" id="hint-largest_of-answer"><p class="fname">sweep_tools_more.py</p>
+<pre><code>def largest_of(values):
+    &quot;&quot;&quot;Return the largest number in values.&quot;&quot;&quot;
+    largest = values[0]
+    for v in values:
+        if v &gt; largest:
+            largest = v
+    return largest</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="hintset"><p><code>spread_of(values)</code></p><button class="rev" data-target="hint-spread_of-1" data-show="Hint 1" data-hide="Hide hint 1" aria-expanded="false" aria-controls="hint-spread_of-1">Hint 1</button>
+<div class="ans" id="hint-spread_of-1"><p>The spread is the largest reading minus the smallest reading. You have already written a function for each of those.</p><button class="rev" data-target="hint-spread_of-2" data-show="Hint 2" data-hide="Hide hint 2" aria-expanded="false" aria-controls="hint-spread_of-2">Hint 2</button>
+<div class="ans" id="hint-spread_of-2"><p>No loop. Call <code>largest_of(values)</code> and <code>smallest_of(values)</code> inside this function and subtract.</p><button class="rev" data-target="hint-spread_of-3" data-show="Hint 3" data-hide="Hide hint 3" aria-expanded="false" aria-controls="hint-spread_of-3">Hint 3</button>
+<div class="ans" id="hint-spread_of-3"><pre><code>def spread_of(values):
+    &quot;&quot;&quot;Return the largest minus the smallest.&quot;&quot;&quot;
+    return largest_of(values) - ____</code></pre>
+<button class="rev" data-target="hint-spread_of-answer" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="hint-spread_of-answer">Show the answer</button>
+<div class="ans" id="hint-spread_of-answer"><p class="fname">sweep_tools_more.py</p>
+<pre><code>def spread_of(values):
+    &quot;&quot;&quot;Return the largest minus the smallest, using the two functions above.&quot;&quot;&quot;
+    return largest_of(values) - smallest_of(values)</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="hintset"><p><code>count_under(values, limit)</code></p><button class="rev" data-target="hint-count_under-1" data-show="Hint 1" data-hide="Hide hint 1" aria-expanded="false" aria-controls="hint-count_under-1">Hint 1</button>
+<div class="ans" id="hint-count_under-1"><p>Open <code>count_over</code> in your module. This is the same function with one character changed.</p><button class="rev" data-target="hint-count_under-2" data-show="Hint 2" data-hide="Hide hint 2" aria-expanded="false" aria-controls="hint-count_under-2">Hint 2</button>
+<div class="ans" id="hint-count_under-2"><p>A counter starts at 0. Every value that passes the gate adds 1 to it. The gate asks: is this value less than the limit?</p><button class="rev" data-target="hint-count_under-3" data-show="Hint 3" data-hide="Hide hint 3" aria-expanded="false" aria-controls="hint-count_under-3">Hint 3</button>
+<div class="ans" id="hint-count_under-3"><pre><code>hits = 0
+for v in values:
+    if v ____ limit:
+        hits = hits + 1
+return hits</code></pre>
+<button class="rev" data-target="hint-count_under-answer" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="hint-count_under-answer">Show the answer</button>
+<div class="ans" id="hint-count_under-answer"><p class="fname">sweep_tools_more.py</p>
+<pre><code>def count_under(values, limit):
+    &quot;&quot;&quot;Return how many values are strictly less than limit.&quot;&quot;&quot;
+    hits = 0
+    for v in values:
+        if v &lt; limit:
+            hits = hits + 1
+    return hits</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="hintset"><p><code>count_between(values, low, high)</code></p><button class="rev" data-target="hint-count_between-1" data-show="Hint 1" data-hide="Hide hint 1" aria-expanded="false" aria-controls="hint-count_between-1">Hint 1</button>
+<div class="ans" id="hint-count_between-1"><p>A reading counts when it passes two tests: it is at least <code>low</code>, and it is at most <code>high</code>.</p><button class="rev" data-target="hint-count_between-2" data-show="Hint 2" data-hide="Hide hint 2" aria-expanded="false" aria-controls="hint-count_between-2">Hint 2</button>
+<div class="ans" id="hint-count_between-2"><p>Use two gates, one inside the other. The first asks <code>v &gt;= low</code>. Indented under it, the second asks <code>v &lt;= high</code>. Add 1 only inside the second gate.</p><button class="rev" data-target="hint-count_between-3" data-show="Hint 3" data-hide="Hide hint 3" aria-expanded="false" aria-controls="hint-count_between-3">Hint 3</button>
+<div class="ans" id="hint-count_between-3"><pre><code>hits = 0
+for v in values:
+    if v &gt;= low:
+        if ____:
+            hits = hits + 1
+return hits</code></pre>
+<button class="rev" data-target="hint-count_between-answer" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="hint-count_between-answer">Show the answer</button>
+<div class="ans" id="hint-count_between-answer"><p class="fname">sweep_tools_more.py</p>
+<pre><code>def count_between(values, low, high):
+    &quot;&quot;&quot;Return how many values are from low to high, both ends included.&quot;&quot;&quot;
+    hits = 0
+    for v in values:
+        if v &gt;= low:
+            if v &lt;= high:
+                hits = hits + 1
+    return hits</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="hintset"><p><code>total_over(values, limit)</code></p><button class="rev" data-target="hint-total_over-1" data-show="Hint 1" data-hide="Hide hint 1" aria-expanded="false" aria-controls="hint-total_over-1">Hint 1</button>
+<div class="ans" id="hint-total_over-1"><p>This mixes two functions you already have: <code>total_of</code> adds up, and <code>count_over</code> has the gate. Add up only the values over the limit.</p><button class="rev" data-target="hint-total_over-2" data-show="Hint 2" data-hide="Hide hint 2" aria-expanded="false" aria-controls="hint-total_over-2">Hint 2</button>
+<div class="ans" id="hint-total_over-2"><p>A running total starts at 0. Inside the gate <code>v &gt; limit</code>, add <code>v</code> to the running total, not 1.</p><button class="rev" data-target="hint-total_over-3" data-show="Hint 3" data-hide="Hide hint 3" aria-expanded="false" aria-controls="hint-total_over-3">Hint 3</button>
+<div class="ans" id="hint-total_over-3"><pre><code>running = 0
+for v in values:
+    if v &gt; limit:
+        running = ____
+return running</code></pre>
+<button class="rev" data-target="hint-total_over-answer" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="hint-total_over-answer">Show the answer</button>
+<div class="ans" id="hint-total_over-answer"><p class="fname">sweep_tools_more.py</p>
+<pre><code>def total_over(values, limit):
+    &quot;&quot;&quot;Return the total of the values that are strictly greater than limit.&quot;&quot;&quot;
+    running = 0
+    for v in values:
+        if v &gt; limit:
+            running = running + v
+    return running</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="hintset"><p><code>first_over_index(values, limit)</code></p><button class="rev" data-target="hint-first_over_index-1" data-show="Hint 1" data-hide="Hide hint 1" aria-expanded="false" aria-controls="hint-first_over_index-1">Hint 1</button>
+<div class="ans" id="hint-first_over_index-1"><p>You need the index, not the value, so loop with <code>for i in range(len(values)):</code> and look at <code>values[i]</code>.</p><button class="rev" data-target="hint-first_over_index-2" data-show="Hint 2" data-hide="Hide hint 2" aria-expanded="false" aria-controls="hint-first_over_index-2">Hint 2</button>
+<div class="ans" id="hint-first_over_index-2"><p>The first time a value is over the limit, <code>return i</code> right there, inside the loop. The function stops at that line, so it never reaches a later index. If no value is over the limit, the loop finishes; return -1 after it.</p><button class="rev" data-target="hint-first_over_index-3" data-show="Hint 3" data-hide="Hide hint 3" aria-expanded="false" aria-controls="hint-first_over_index-3">Hint 3</button>
+<div class="ans" id="hint-first_over_index-3"><pre><code>for i in range(len(values)):
+    if values[i] &gt; limit:
+        return ____
+return -1</code></pre>
+<button class="rev" data-target="hint-first_over_index-answer" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="hint-first_over_index-answer">Show the answer</button>
+<div class="ans" id="hint-first_over_index-answer"><p class="fname">sweep_tools_more.py</p>
+<pre><code>def first_over_index(values, limit):
+    &quot;&quot;&quot;Return the index of the first value strictly greater than limit, or -1.&quot;&quot;&quot;
+    for i in range(len(values)):
+        if values[i] &gt; limit:
+            return i
+    return -1</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
 <div class="predict"><b>Predict first.</b> All seven, written out. Look only after yours run, or when you are stuck on one and have already tried it on paper.
-<button class="rev" data-target="a9" data-show="Show all seven answers" data-hide="Hide the answers" aria-expanded="false" aria-controls="a9">Show all seven answers</button>
-<div class="ans" id="a9"><p class="fname">sweep_tools_more.py, the seven functions</p>
+<button class="rev" data-target="a10" data-show="Show all seven answers" data-hide="Hide the answers" aria-expanded="false" aria-controls="a10">Show all seven answers</button>
+<div class="ans" id="a10"><p class="fname">sweep_tools_more.py, the seven functions</p>
 <pre><code>def smallest_of(values):
     &quot;&quot;&quot;Return the smallest number in values.&quot;&quot;&quot;
     smallest = values[0]

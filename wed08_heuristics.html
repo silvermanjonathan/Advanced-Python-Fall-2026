@@ -132,6 +132,35 @@ a.btn.quiet:hover{background:#EFE9DA}
 .ans{display:none; margin-top:16px; padding-top:16px; border-top:2px solid var(--rule)}
 .ans.show{display:block}
 .ans > :last-child{margin-bottom:0}
+.strip{border:2px solid var(--rule); border-radius:5px; background:var(--card); padding:14px 16px; margin:0 0 16px}
+.strip-controls{display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin:0 0 12px}
+.strip-controls button{font-family:'DM Sans',sans-serif; font-size:17px; font-weight:700; background:var(--teal);
+  color:#FFFDF7; border:0; border-radius:4px; padding:9px 16px; cursor:pointer; min-width:56px}
+.strip-controls button:hover{background:var(--teal-deep)}
+.strip-controls button.quiet{background:var(--card); color:var(--teal); border:2px solid var(--rule)}
+.strip-key{font-family:'JetBrains Mono',monospace; font-size:18px; padding:0 6px}
+.strip-key b{font-size:26px; color:var(--teal)}
+.strip-word{font-size:16px; color:var(--ink-soft); margin-left:auto}
+.strip-word input{font-family:'JetBrains Mono',monospace; font-size:17px; width:9em; margin-left:6px;
+  padding:6px 8px; border:2px solid var(--rule); border-radius:4px; background:#fff; color:var(--ink)}
+.strip-rows{overflow-x:auto; padding-bottom:4px}
+.strip-row{display:flex; gap:3px; margin:0 0 3px; min-width:max-content}
+.strip-label{font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--ink-soft); width:52px;
+  display:flex; align-items:center; text-transform:uppercase; letter-spacing:.08em}
+.strip-cell{font-family:'JetBrains Mono',monospace; font-size:20px; font-weight:700; width:30px; height:38px;
+  display:flex; align-items:center; justify-content:center; border:2px solid var(--rule); border-radius:3px;
+  background:#fff; font-variant-ligatures:none}
+.strip-row.top .strip-cell{cursor:pointer}
+.strip-row.bottom .strip-cell{background:var(--ochre-tint)}
+.strip-cell.on,.strip-row.bottom .strip-cell.on{background:var(--teal); color:#FFFDF7; border-color:var(--teal)}
+.strip-say{font-size:18px; margin:10px 0 0; min-height:1.6em}
+@media (max-width:760px){.strip-word{margin-left:0}}
+@media print{.strip-controls,.strip-say{display:none}}
+.hintset{border:2px solid var(--rule); border-radius:5px; padding:12px 16px; margin:0 0 12px;
+  background:var(--card)}
+.hintset > p:first-child{margin:0 0 8px}
+.hintset .ans{margin-top:10px; padding-top:10px}
+.hintset .ans pre{margin-bottom:10px}
 .bug{
   background:#F7E4E1; border:2px solid var(--clay); border-left:8px solid var(--clay);
   border-radius:5px; padding:14px 16px; margin:0 0 18px; color:#3A1512;
@@ -232,8 +261,8 @@ footer p{margin:0}
 <main><div class="wrap">
 
 <section class="opener"><p class="chunk-no">Section 1 &middot; 10 minutes</p><h2>Opener</h2><p>From last week: every extra digit made the sweep ten times slower. Seven digits took about a second. About how long would ten digits take, and why?</p><div class="predict"><b>Predict first.</b> Both, on paper.
-<button class="rev" data-target="a27" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a27">Show the answer</button>
-<div class="ans" id="a27"><p>About twenty minutes, because three more digits is three more multiplications by ten: a second, ten seconds, a hundred seconds, a thousand seconds. Today's target is the same seven digit lock, <code>4703916</code>.</p></div></div>
+<button class="rev" data-target="a30" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a30">Show the answer</button>
+<div class="ans" id="a30"><p>About twenty minutes, because three more digits is three more multiplications by ten: a second, ten seconds, a hundred seconds, a thousand seconds. Today's target is the same seven digit lock, <code>4703916</code>.</p></div></div>
 </section>
 <section class="chunk"><p class="chunk-no">Section 2 &middot; 25 minutes</p><h2>A score changes everything</h2><p>Brute force learns one thing per guess: right or wrong. Suppose instead the lock tells you how many positions are correct. That one change makes the problem much easier.</p><p class="fname">smarter_than_brute.py</p>
 <pre><code>def score(guess):
@@ -264,8 +293,8 @@ def hill_climb():
             best = score(candidate)
     return tries</code></pre>
 <div class="predict"><b>Predict first.</b> Brute force needs about 4.7 million tries on this lock. Guess how many hill climbing needs. Write a number.
-<button class="rev" data-target="a28" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a28">Show the answer</button>
-<div class="ans" id="a28"><div class="out"><span class="tag">verified output</span><pre><code>secret is 7 digits, so there are 10000000 codes
+<button class="rev" data-target="a31" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a31">Show the answer</button>
+<div class="ans" id="a31"><div class="out"><span class="tag">verified output</span><pre><code>secret is 7 digits, so there are 10000000 codes
 
 brute force        4703917 tries
 random guessing    200000 tries (capped at 200000)
@@ -298,8 +327,8 @@ hill climbing, five runs:
 
             population.append(child)</code></pre>
 <div class="predict"><b>Predict first.</b> Population of 40, keeping the best 8. It finishes in about 17 generations. Is that better or worse than hill climbing's 170 tries? Careful.
-<button class="rev" data-target="a29" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a29">Show the answer</button>
-<div class="ans" id="a29"><div class="out"><span class="tag">verified output</span><pre><code>genetic algorithm, five runs:
+<button class="rev" data-target="a32" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a32">Show the answer</button>
+<div class="ans" id="a32"><div class="out"><span class="tag">verified output</span><pre><code>genetic algorithm, five runs:
   run 1: 24 generations, found 4703916
   run 2: 8 generations, found 4703916
   run 3: 4 generations, found 4703916

@@ -132,6 +132,35 @@ a.btn.quiet:hover{background:#EFE9DA}
 .ans{display:none; margin-top:16px; padding-top:16px; border-top:2px solid var(--rule)}
 .ans.show{display:block}
 .ans > :last-child{margin-bottom:0}
+.strip{border:2px solid var(--rule); border-radius:5px; background:var(--card); padding:14px 16px; margin:0 0 16px}
+.strip-controls{display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin:0 0 12px}
+.strip-controls button{font-family:'DM Sans',sans-serif; font-size:17px; font-weight:700; background:var(--teal);
+  color:#FFFDF7; border:0; border-radius:4px; padding:9px 16px; cursor:pointer; min-width:56px}
+.strip-controls button:hover{background:var(--teal-deep)}
+.strip-controls button.quiet{background:var(--card); color:var(--teal); border:2px solid var(--rule)}
+.strip-key{font-family:'JetBrains Mono',monospace; font-size:18px; padding:0 6px}
+.strip-key b{font-size:26px; color:var(--teal)}
+.strip-word{font-size:16px; color:var(--ink-soft); margin-left:auto}
+.strip-word input{font-family:'JetBrains Mono',monospace; font-size:17px; width:9em; margin-left:6px;
+  padding:6px 8px; border:2px solid var(--rule); border-radius:4px; background:#fff; color:var(--ink)}
+.strip-rows{overflow-x:auto; padding-bottom:4px}
+.strip-row{display:flex; gap:3px; margin:0 0 3px; min-width:max-content}
+.strip-label{font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--ink-soft); width:52px;
+  display:flex; align-items:center; text-transform:uppercase; letter-spacing:.08em}
+.strip-cell{font-family:'JetBrains Mono',monospace; font-size:20px; font-weight:700; width:30px; height:38px;
+  display:flex; align-items:center; justify-content:center; border:2px solid var(--rule); border-radius:3px;
+  background:#fff; font-variant-ligatures:none}
+.strip-row.top .strip-cell{cursor:pointer}
+.strip-row.bottom .strip-cell{background:var(--ochre-tint)}
+.strip-cell.on,.strip-row.bottom .strip-cell.on{background:var(--teal); color:#FFFDF7; border-color:var(--teal)}
+.strip-say{font-size:18px; margin:10px 0 0; min-height:1.6em}
+@media (max-width:760px){.strip-word{margin-left:0}}
+@media print{.strip-controls,.strip-say{display:none}}
+.hintset{border:2px solid var(--rule); border-radius:5px; padding:12px 16px; margin:0 0 12px;
+  background:var(--card)}
+.hintset > p:first-child{margin:0 0 8px}
+.hintset .ans{margin-top:10px; padding-top:10px}
+.hintset .ans pre{margin-bottom:10px}
 .bug{
   background:#F7E4E1; border:2px solid var(--clay); border-left:8px solid var(--clay);
   border-radius:5px; padding:14px 16px; margin:0 0 18px; color:#3A1512;
@@ -232,8 +261,8 @@ footer p{margin:0}
 <main><div class="wrap">
 
 <section class="opener"><p class="chunk-no">Section 1 &middot; 10 minutes</p><h2>Opener</h2><p>From memory, no looking: what does <code>Counter("banana")</code> return? Write it exactly, brackets and all.</p><div class="predict"><b>Predict first.</b> Write it first.
-<button class="rev" data-target="a15" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a15">Show the answer</button>
-<div class="ans" id="a15"><div class="out"><span class="tag">verified output</span><pre><code>Counter({&#x27;a&#x27;: 3, &#x27;n&#x27;: 2, &#x27;b&#x27;: 1})</code></pre></div>
+<button class="rev" data-target="a18" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a18">Show the answer</button>
+<div class="ans" id="a18"><div class="out"><span class="tag">verified output</span><pre><code>Counter({&#x27;a&#x27;: 3, &#x27;n&#x27;: 2, &#x27;b&#x27;: 1})</code></pre></div>
 <p>Ordered by count, highest first. That ordering is a Counter feature, not a dictionary feature.</p></div></div>
 </section>
 <section class="chunk"><p class="chunk-no">Section 2 &middot; 20 minutes</p><h2>The file, and the boundary</h2><p>A program that reads a file depends on something it did not make. Call that a <b>boundary</b>: the place where the program meets the outside. Boundaries are where programs break. Two things can go wrong before you even see a number: the file might not exist, and a line might not be a number.</p><p><code>try</code> and <code>except</code> let you say what to do instead of crashing.</p><pre><code>def read_lines(filename):
@@ -247,8 +276,8 @@ footer p{margin:0}
     handle.close()
     return lines</code></pre>
 <div class="predict"><b>Predict first.</b> Why is <code>handle.readlines()</code> outside the <code>try</code> block rather than inside it?
-<button class="rev" data-target="a16" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a16">Show the answer</button>
-<div class="ans" id="a16"><p>Because the only error being handled is the file not existing. Once <code>open</code> succeeds, a failure in <code>readlines</code> is a different problem and should not be hidden by an <code>except</code> written for a different error.</p><p>Catch one named thing. Never write a bare <code>except:</code>. It hides bugs you have not met yet.</p></div></div>
+<button class="rev" data-target="a19" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a19">Show the answer</button>
+<div class="ans" id="a19"><p>Because the only error being handled is the file not existing. Once <code>open</code> succeeds, a failure in <code>readlines</code> is a different problem and should not be hidden by an <code>except</code> written for a different error.</p><p>Catch one named thing. Never write a bare <code>except:</code>. It hides bugs you have not met yet.</p></div></div>
 </section>
 <section class="chunk"><p class="chunk-no">Section 3 &middot; 35 minutes</p><h2>Clean it</h2><p>The input file holds thirteen lines. Some have spaces around them, one has a comma stuck on, one is blank, one spells a number as a word, and one is negative. Here it is as it sits on disk.</p><p class="fname">readings_raw.txt</p>
 <pre><code>41
@@ -287,8 +316,8 @@ twelve
                     good.append(value)
     return good, rejected</code></pre>
 <div class="predict"><b>Predict first.</b> Thirteen lines go in. How many numbers come out, and what is their total? You have seen this total before.
-<button class="rev" data-target="a17" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a17">Show the answer</button>
-<div class="ans" id="a17"><div class="out"><span class="tag">verified output</span><pre><code>lines in the file: 13
+<button class="rev" data-target="a20" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a20">Show the answer</button>
+<div class="ans" id="a20"><div class="out"><span class="tag">verified output</span><pre><code>lines in the file: 13
 kept: [41, 58, 33, 58, 12, 77, 58, 60, 29, 77]
 kept 10, rejected 3
 rejected lines and why:
@@ -319,8 +348,8 @@ average 50.3</code></pre></div>
     handle.write(f&quot;average {total / len(good)}\n&quot;)
     handle.close()</code></pre>
 <div class="predict"><b>Predict first.</b> Suppose every line in the file was rubbish, so <code>good</code> is empty. Which line of <code>write_report</code> breaks, and what does Python say?
-<button class="rev" data-target="a18" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a18">Show the answer</button>
-<div class="ans" id="a18"><p>The average line. <code>total / len(good)</code> divides by zero and Python stops with <code>ZeroDivisionError: division by zero</code>, the same error <code>average_of([])</code> would give in your session 2 module. The report file is left half written, with the first three lines in it and no average.</p><p>That is a boundary too. A file with nothing usable in it is a real case, and a report that says <code>kept 0 readings</code> tells the reader more than a crash does. Guard the average with an <code>if</code> before you divide.</p></div></div>
+<button class="rev" data-target="a21" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a21">Show the answer</button>
+<div class="ans" id="a21"><p>The average line. <code>total / len(good)</code> divides by zero and Python stops with <code>ZeroDivisionError: division by zero</code>, the same error <code>average_of([])</code> would give in your session 2 module. The report file is left half written, with the first three lines in it and no average.</p><p>That is a boundary too. A file with nothing usable in it is a real case, and a report that says <code>kept 0 readings</code> tells the reader more than a crash does. Guard the average with an <code>if</code> before you divide.</p></div></div>
 </section>
 <section class="brief"><h2>Exits</h2><div class="exits"><div class="exit"><span class="lab">FLOOR</span><p>Your program opens the file, survives a missing file without crashing, and prints how many lines it read.</p></div><div class="exit"><span class="lab">MIDDLE</span><p>Floor, plus the full clean with a rejected list carrying reasons, plus a written report file, plus total 503 confirmed against session 1.</p></div><div class="exit"><span class="lab">STRETCH</span><p>Middle, plus decide and defend a fourth rejection rule of your own, such as a reading above 200. Then write the rejected lines to their own file so someone could fix them by hand and re-run.</p></div></div></section>
 <section class="panel"><h2>Teacher panel</h2><h3>Concept this session re-touches</h3><p>Session 1's reading list and its total of 503, arriving this time as a file that has to be cleaned before the arithmetic works. Session 2's functions return the results.</p><h3>Standards</h3><p class="stdline"><span class="std">6.SP.B.5.a</span> Summarize numerical data sets in relation to their context, such as by reporting the number of observations.</p>

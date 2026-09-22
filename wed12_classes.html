@@ -132,6 +132,35 @@ a.btn.quiet:hover{background:#EFE9DA}
 .ans{display:none; margin-top:16px; padding-top:16px; border-top:2px solid var(--rule)}
 .ans.show{display:block}
 .ans > :last-child{margin-bottom:0}
+.strip{border:2px solid var(--rule); border-radius:5px; background:var(--card); padding:14px 16px; margin:0 0 16px}
+.strip-controls{display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin:0 0 12px}
+.strip-controls button{font-family:'DM Sans',sans-serif; font-size:17px; font-weight:700; background:var(--teal);
+  color:#FFFDF7; border:0; border-radius:4px; padding:9px 16px; cursor:pointer; min-width:56px}
+.strip-controls button:hover{background:var(--teal-deep)}
+.strip-controls button.quiet{background:var(--card); color:var(--teal); border:2px solid var(--rule)}
+.strip-key{font-family:'JetBrains Mono',monospace; font-size:18px; padding:0 6px}
+.strip-key b{font-size:26px; color:var(--teal)}
+.strip-word{font-size:16px; color:var(--ink-soft); margin-left:auto}
+.strip-word input{font-family:'JetBrains Mono',monospace; font-size:17px; width:9em; margin-left:6px;
+  padding:6px 8px; border:2px solid var(--rule); border-radius:4px; background:#fff; color:var(--ink)}
+.strip-rows{overflow-x:auto; padding-bottom:4px}
+.strip-row{display:flex; gap:3px; margin:0 0 3px; min-width:max-content}
+.strip-label{font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--ink-soft); width:52px;
+  display:flex; align-items:center; text-transform:uppercase; letter-spacing:.08em}
+.strip-cell{font-family:'JetBrains Mono',monospace; font-size:20px; font-weight:700; width:30px; height:38px;
+  display:flex; align-items:center; justify-content:center; border:2px solid var(--rule); border-radius:3px;
+  background:#fff; font-variant-ligatures:none}
+.strip-row.top .strip-cell{cursor:pointer}
+.strip-row.bottom .strip-cell{background:var(--ochre-tint)}
+.strip-cell.on,.strip-row.bottom .strip-cell.on{background:var(--teal); color:#FFFDF7; border-color:var(--teal)}
+.strip-say{font-size:18px; margin:10px 0 0; min-height:1.6em}
+@media (max-width:760px){.strip-word{margin-left:0}}
+@media print{.strip-controls,.strip-say{display:none}}
+.hintset{border:2px solid var(--rule); border-radius:5px; padding:12px 16px; margin:0 0 12px;
+  background:var(--card)}
+.hintset > p:first-child{margin:0 0 8px}
+.hintset .ans{margin-top:10px; padding-top:10px}
+.hintset .ans pre{margin-bottom:10px}
 .bug{
   background:#F7E4E1; border:2px solid var(--clay); border-left:8px solid var(--clay);
   border-radius:5px; padding:14px 16px; margin:0 0 18px; color:#3A1512;
@@ -243,8 +272,8 @@ dxs.pop(1)
 dys.pop(1)
 # colors.pop(1) is missing on purpose</code></pre>
 <div class="predict"><b>Predict first.</b> Before the removal, spark 2 was red. What colour is it afterwards, and what else is now wrong?
-<button class="rev" data-target="a40" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a40">Show the answer</button>
-<div class="ans" id="a40"><div class="out"><span class="tag">verified output</span><pre><code>frame 2
+<button class="rev" data-target="a43" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a43">Show the answer</button>
+<div class="ans" id="a43"><div class="out"><span class="tag">verified output</span><pre><code>frame 2
   spark 0: x=106 y=488 dy=-3 gold
   spark 1: x=97 y=491 dy=-2 orange
   spark 2: x=109 y=485 dy=-4 red
@@ -280,8 +309,8 @@ after removing from four lists but forgetting the fifth:
         if self.y &gt; HEIGHT - 40:
             self.alive = 0</code></pre>
 <div class="predict"><b>Predict first.</b> Why is there a minus sign on <code>self.dy</code> in <code>__init__</code> but a plus on <code>GRAVITY</code> in <code>step</code>?
-<button class="rev" data-target="a41" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a41">Show the answer</button>
-<div class="ans" id="a41"><p>Because the screen's y axis points down. <code>dy</code> is how much <code>y</code> changes each frame, so a positive <code>dy</code> moves the particle down the screen and a negative <code>dy</code> moves it up. An angle of 90 degrees means straight up, which on screen means y decreasing, so the initial dy has to be negative. Gravity pulls down the screen, which is y increasing, so it adds.</p><p>This is the coordinate system from session 5's grid, with one axis flipped relative to the one you use in maths class. It causes bugs in every program that draws, so say it out loud each time it comes up.</p></div></div>
+<button class="rev" data-target="a44" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a44">Show the answer</button>
+<div class="ans" id="a44"><p>Because the screen's y axis points down. <code>dy</code> is how much <code>y</code> changes each frame, so a positive <code>dy</code> moves the particle down the screen and a negative <code>dy</code> moves it up. An angle of 90 degrees means straight up, which on screen means y decreasing, so the initial dy has to be negative. Gravity pulls down the screen, which is y increasing, so it adds.</p><p>This is the coordinate system from session 5's grid, with one axis flipped relative to the one you use in maths class. It causes bugs in every program that draws, so say it out loud each time it comes up.</p></div></div>
 <p><code>self</code> is the particular spark this call is about. <code>self.x</code> is that spark's own x, not shared with any other. That one idea replaces all five lists and the comment that was holding them together.</p></section>
 <section class="chunk"><p class="chunk-no">Section 3 &middot; 25 minutes</p><h2>A list of objects</h2><pre><code>running = 1
 while running:
@@ -299,8 +328,8 @@ while running:
     pygame.display.flip()
     clock.tick(60)</code></pre>
 <div class="predict"><b>Predict first.</b> 120 particles launched from the vent at speeds 6 to 11 and angles 60 to 120 degrees. After 240 frames, how many are still in the air, and how high did the highest one get?
-<button class="rev" data-target="a42" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a42">Show the answer</button>
-<div class="ans" id="a42"><div class="out"><span class="tag">verified from a headless run</span><pre><code>frames run: 241
+<button class="rev" data-target="a45" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a45">Show the answer</button>
+<div class="ans" id="a45"><div class="out"><span class="tag">verified from a headless run</span><pre><code>frames run: 241
 particles: 120, still airborne: 0, landed: 120
 highest point reached: y=64.2 (ground is y=560)
 trail lengths: shortest 92, longest 183</code></pre></div>

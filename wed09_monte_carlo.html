@@ -132,6 +132,35 @@ a.btn.quiet:hover{background:#EFE9DA}
 .ans{display:none; margin-top:16px; padding-top:16px; border-top:2px solid var(--rule)}
 .ans.show{display:block}
 .ans > :last-child{margin-bottom:0}
+.strip{border:2px solid var(--rule); border-radius:5px; background:var(--card); padding:14px 16px; margin:0 0 16px}
+.strip-controls{display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin:0 0 12px}
+.strip-controls button{font-family:'DM Sans',sans-serif; font-size:17px; font-weight:700; background:var(--teal);
+  color:#FFFDF7; border:0; border-radius:4px; padding:9px 16px; cursor:pointer; min-width:56px}
+.strip-controls button:hover{background:var(--teal-deep)}
+.strip-controls button.quiet{background:var(--card); color:var(--teal); border:2px solid var(--rule)}
+.strip-key{font-family:'JetBrains Mono',monospace; font-size:18px; padding:0 6px}
+.strip-key b{font-size:26px; color:var(--teal)}
+.strip-word{font-size:16px; color:var(--ink-soft); margin-left:auto}
+.strip-word input{font-family:'JetBrains Mono',monospace; font-size:17px; width:9em; margin-left:6px;
+  padding:6px 8px; border:2px solid var(--rule); border-radius:4px; background:#fff; color:var(--ink)}
+.strip-rows{overflow-x:auto; padding-bottom:4px}
+.strip-row{display:flex; gap:3px; margin:0 0 3px; min-width:max-content}
+.strip-label{font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--ink-soft); width:52px;
+  display:flex; align-items:center; text-transform:uppercase; letter-spacing:.08em}
+.strip-cell{font-family:'JetBrains Mono',monospace; font-size:20px; font-weight:700; width:30px; height:38px;
+  display:flex; align-items:center; justify-content:center; border:2px solid var(--rule); border-radius:3px;
+  background:#fff; font-variant-ligatures:none}
+.strip-row.top .strip-cell{cursor:pointer}
+.strip-row.bottom .strip-cell{background:var(--ochre-tint)}
+.strip-cell.on,.strip-row.bottom .strip-cell.on{background:var(--teal); color:#FFFDF7; border-color:var(--teal)}
+.strip-say{font-size:18px; margin:10px 0 0; min-height:1.6em}
+@media (max-width:760px){.strip-word{margin-left:0}}
+@media print{.strip-controls,.strip-say{display:none}}
+.hintset{border:2px solid var(--rule); border-radius:5px; padding:12px 16px; margin:0 0 12px;
+  background:var(--card)}
+.hintset > p:first-child{margin:0 0 8px}
+.hintset .ans{margin-top:10px; padding-top:10px}
+.hintset .ans pre{margin-bottom:10px}
 .bug{
   background:#F7E4E1; border:2px solid var(--clay); border-left:8px solid var(--clay);
   border-radius:5px; padding:14px 16px; margin:0 0 18px; color:#3A1512;
@@ -232,8 +261,8 @@ footer p{margin:0}
 <main><div class="wrap">
 
 <div class="flag"><b>No class on 11 November.</b> Veterans Day. Session 8 was two weeks ago. The opener goes back to it.</div><section class="opener"><p class="chunk-no">Section 1 &middot; 10 minutes</p><h2>Opener</h2><p>Two weeks back, hill climbing opened a seven digit lock in about 170 tries where brute force needed 4.7 million. On paper, two things: what information did <code>score</code> give the climber, and why did we insist on five runs rather than one?</p><div class="predict"><b>Predict first.</b> Both answers before you click.
-<button class="rev" data-target="a30" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a30">Show the answer</button>
-<div class="ans" id="a30"><p>The score said how many positions were right, so each guess told the climber seven things instead of one. And five runs because a method that starts from a random place has a spread, not a single running time. Ours ran from 50 to 238.</p><p>Keep the word spread. Today is about how a spread narrows as you run more trials.</p></div></div>
+<button class="rev" data-target="a33" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a33">Show the answer</button>
+<div class="ans" id="a33"><p>The score said how many positions were right, so each guess told the climber seven things instead of one. And five runs because a method that starts from a random place has a spread, not a single running time. Ours ran from 50 to 238.</p><p>Keep the word spread. Today is about how a spread narrows as you run more trials.</p></div></div>
 </section>
 <section class="chunk"><p class="chunk-no">Section 2 &middot; 15 minutes</p><h2>The problem</h2><p>Three doors. One prize. You pick a door. The host, who knows where the prize is, opens a different door that does not have the prize behind it. You may keep your door or switch to the remaining one.</p><p>Vote as a room, out loud, before any code. Write the vote count on the board. You will come back to it.</p><div class="predict"><b>State a model first.</b> Write down the probability you think staying wins, and the probability switching wins. Two numbers between 0 and 1. They should add to 1. Everyone commits in writing before the program runs.</div></section>
 <section class="chunk"><p class="chunk-no">Section 3 &middot; 20 minutes</p><h2>One game, in code</h2><p class="fname">monty_hall.py, first draft</p>
@@ -258,12 +287,12 @@ footer p{margin:0}
         return 1
     return 0</code></pre>
 <div class="predict"><b>Predict first.</b> Why does the host's loop need both gates, and what happens when your first pick is already the prize?
-<button class="rev" data-target="a31" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a31">Show the answer</button>
-<div class="ans" id="a31"><p>The host may not open the prize door and may not open your door, so both gates are needed. When your pick is the prize, two doors qualify and the loop keeps the later one. That is fine, because a real host could open either.</p><p>Read the switch block too. It looks reasonable. Section 5 comes back to it.</p></div></div>
+<button class="rev" data-target="a34" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a34">Show the answer</button>
+<div class="ans" id="a34"><p>The host may not open the prize door and may not open your door, so both gates are needed. When your pick is the prize, two doors qualify and the loop keeps the later one. That is fine, because a real host could open either.</p><p>Read the switch block too. It looks reasonable. Section 5 comes back to it.</p></div></div>
 </section>
 <section class="chunk"><p class="chunk-no">Section 4 &middot; 20 minutes</p><h2>Run it until it settles</h2><div class="predict"><b>Predict first.</b> A hundred games, switching. How many wins?
-<button class="rev" data-target="a32" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a32">Show the answer</button>
-<div class="ans" id="a32"><div class="out"><span class="tag">verified output</span><pre><code>one hundred games, switching:
+<button class="rev" data-target="a35" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a35">Show the answer</button>
+<div class="ans" id="a35"><div class="out"><span class="tag">verified output</span><pre><code>one hundred games, switching:
   55 wins out of 100</code></pre></div>
 <p>55 out of 100. If switching really wins two thirds of the time you would expect about 67, so either the model is wrong or a hundred games is too few. Run more. Same seed both ways, so both columns play identical games.</p><div class="out"><span class="tag">output from the broken version</span><pre><code>does it settle down?
   trials    stay wins    stay rate    switch wins    switch rate
@@ -280,8 +309,8 @@ footer p{margin:0}
                 if door != opened:
                     pick = door</code></pre>
 <div class="predict"><b>Predict first.</b> Trace it by hand with prize 0, pick 1, opened 2. Follow <code>pick</code> through all three passes of the loop.
-<button class="rev" data-target="a33" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a33">Show the answer</button>
-<div class="ans" id="a33"><p>Pass door=0: 0 is not 1 and 0 is not 2, so <code>pick</code> becomes 0. Correct so far. Pass door=1: the test is now <code>1 != pick</code>, and <code>pick</code> is 0, so it passes, and 1 is not 2, so <code>pick</code> becomes 1 again. Pass door=2: blocked by <code>opened</code>. Final <code>pick</code> is 1, the door you started on. It never switched.</p><p>The loop writes to the variable it is testing. Fix it by working out the target first and assigning once, after the loop.</p><pre><code>    if switch:
+<button class="rev" data-target="a36" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a36">Show the answer</button>
+<div class="ans" id="a36"><p>Pass door=0: 0 is not 1 and 0 is not 2, so <code>pick</code> becomes 0. Correct so far. Pass door=1: the test is now <code>1 != pick</code>, and <code>pick</code> is 0, so it passes, and 1 is not 2, so <code>pick</code> becomes 1 again. Pass door=2: blocked by <code>opened</code>. Final <code>pick</code> is 1, the door you started on. It never switched.</p><p>The loop writes to the variable it is testing. Fix it by working out the target first and assigning once, after the loop.</p><pre><code>    if switch:
         target = pick
         for door in range(3):
             if door != pick:
