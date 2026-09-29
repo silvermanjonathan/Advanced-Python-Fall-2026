@@ -9,7 +9,7 @@ SESSIONS = [
     ("02", "23 Sep", "wed02_return_and_modules.html", "Functions that return a value",
      "return, composition, and splitting a program into your own importable module."),
     ("03", "30 Sep", "wed03_counting.html", "Counting, and what counting lets you do",
-     "Dictionaries and sets, then collections.Counter, then break a Caesar cipher by "
+     "Accumulators and dictionaries, then collections.Counter, then break a Caesar cipher by "
      "frequency."),
     ("04", "7 Oct", "wed04_transposition.html", "Ciphers that move letters",
      "Rail fence, then a route cipher on a list-of-lists grid with a signed key."),
@@ -42,8 +42,8 @@ SESSIONS = [
 LIFTED = [
     ("Session 2", "<code>return</code> values, <code>len()</code>, <code>import</code> "
      "of your own module, <code>and</code> to join two comparisons"),
-    ("Session 3", "dictionaries, sets, <code>collections.Counter</code>, "
-     "<code>.replace()</code>, <code>ord</code> and <code>chr</code>"),
+    ("Session 3", "the word accumulator, the empty string, <code>+</code> to join strings, dictionaries, <code>collections.Counter</code>, "
+     "<code>ord</code> and <code>chr</code>"),
     ("Session 4", "list of lists as a grid, slicing, <code>range</code> with a negative "
      "step, <code>abs</code>, <code>.join()</code>"),
     ("Session 5", "<code>hashlib</code>, <code>.encode()</code>, "
@@ -74,7 +74,8 @@ HELD = [
     ("Bare <code>except:</code>", "Never. Catch one named error. A bare except hides "
      "bugs you have not met."),
     ("<code>pygame.font</code>", "Not used. Words go in the terminal, visuals go in the "
-     "window."),
+     "window. The session 3 cipher console draws its letters from squares, because "
+     "there the letters are the picture."),
     ("Self-closing windows", "A pygame window never closes itself. "
      "<code>while running:</code>, an <code>event.get()</code> loop, a QUIT listener, "
      "and <code>clock.tick(60)</code>. The same loop in every window."),
@@ -261,7 +262,8 @@ def hub():
         "the plume and the orbit both go. Those two sessions would need replacing.</td>"
         "</tr>"
         "<tr><td>Environment</td><td>VS Code throughout, pygame for all graphics</td>"
-        "<td>Sessions 9, 11, and 12 need pygame on the machines. Sessions 1 to 8 and 10 "
+        "<td>Sessions 9, 11, and 12 need pygame on the machines, and so does the cipher "
+        "console page after session 3. Sessions 1 to 8 and 10 "
         "are terminal only and run anywhere.</td></tr>"
         "<tr><td>Theme</td><td>None.</td>"
         "<td>Sessions 3, 4, and 5 are all about ciphers and could share one theme. Sessions 6 to 12 would not.</td></tr>"
@@ -289,8 +291,12 @@ def hub():
         "<code>print_the_return.py</code>, <code>sweep_tools_more.py</code>, "
         "<code>sweep_report3.py</code>, <code>first_over_enumerate.py</code></td>"
         "<td>2</td></tr>"
-        "<tr><td><code>counter_tour.py</code>, <code>caesar_encode.py</code>, "
+        "<tr><td><code>accumulators.py</code>, <code>counter_tour.py</code>, <code>caesar_encode.py</code>, "
         "<code>caesar_crack.py</code></td><td>3</td></tr>"
+        "<tr><td><code>letters.py</code>, <code>console_1_window.py</code>, "
+        "<code>console_2_tiles.py</code>, <code>console_3_board.py</code>, "
+        "<code>cipher_console.py</code>, <code>cipher_console_replay.py</code>, "
+        "<code>verify_console.py</code></td><td>3, the cipher console page</td></tr>"
         "<tr><td><code>transposition.py</code></td><td>4</td></tr>"
         "<tr><td><code>avalanche.py</code></td><td>5</td></tr>"
         "<tr><td><code>what_it_costs.py</code></td><td>6</td></tr>"

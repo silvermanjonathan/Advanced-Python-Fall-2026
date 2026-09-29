@@ -474,7 +474,7 @@ cooked_ledger.csv
         "the top of where each bar should reach.</p>"
     )
     b += (
-        "<p>This is the first window in the course, so the whole program is here, and "
+        "<p>This is the first window in a session, so the whole program is here, and "
         "the shape of its loop is the shape every window in this course will have. Read "
         "the loop before the drawing.</p>"
     )
@@ -646,8 +646,8 @@ what followed ('the', 'machine'):
   ['counts', 'does', 'is', 'knows', 'picks', 'reads', 'was']"""
         )
         + "<p>Seven different words, each one recorded because it actually followed "
-        "those two words somewhere in the text. The list on the page is the set, with "
-        "repeats removed. The table itself holds all eleven: <code>does</code>, "
+        "those two words somewhere in the text. The program prints each word once, "
+        "with the repeats removed. The table itself holds all eleven: <code>does</code>, "
         "<code>is</code>, <code>knows</code>, and <code>was</code> twice each, and "
         "the other three once. Nothing in that list is a guess. It is a record of what happened in the text.</p>"
         "<p>340 words produced 250 distinct pairs. Most pairs occur once, which is why "

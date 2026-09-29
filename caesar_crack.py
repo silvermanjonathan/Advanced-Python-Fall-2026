@@ -2,8 +2,6 @@
 
 from collections import Counter
 
-ENGLISH_ORDER = "etaoinshrdlcumwfgypbvkjxqz"
-
 ciphertext = "uhdg wkh frgh dqg wudfh wkh frgh ehiruh brx hyhu uxq wkh frgh"
 
 
@@ -38,7 +36,6 @@ def guess_shift(text):
 
 counts = letter_counts(ciphertext)
 print("five most common:", counts.most_common(5))
-print("distinct letters used:", len(set(ciphertext.replace(" ", ""))))
 
 k = guess_shift(ciphertext)
 print(f"guessed shift {k}")

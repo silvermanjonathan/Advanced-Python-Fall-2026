@@ -416,8 +416,11 @@ def page(filename, title, body, head_extra=""):
     return path
 
 
-def masthead(serial, title, when, lede):
-    """Return the page masthead: the teal band with the eyebrow, title, and pills."""
+def masthead(serial, title, when, lede, time="4:00 to 5:30", length="90 minutes"):
+    """Return the page masthead: the teal band with the eyebrow, title, and pills.
+
+    Pass time=None to leave out the Time pill, for a page used outside class.
+    """
     eyebrow = (
         f"Advanced Python &middot; Robofun &middot; Session {int(serial)} of 13"
         if serial
@@ -428,8 +431,8 @@ def masthead(serial, title, when, lede):
         f'<p class="eyebrow">{eyebrow}</p><h1>{esc(title)}</h1>'
         f'<p class="sub">{esc(lede)}</p>'
         f'<div class="dates"><span class="pill"><b>When</b> {esc(when)}</span>'
-        '<span class="pill"><b>Time</b> 4:00 to 5:30</span>'
-        '<span class="pill"><b>Length</b> 90 minutes</span></div>'
+        + (f'<span class="pill"><b>Time</b> {esc(time)}</span>' if time else "")
+        + f'<span class="pill"><b>Length</b> {esc(length)}</span></div>'
         "</div></header>\n"
     )
 
@@ -484,6 +487,11 @@ def validate(paths):
         for href in re.findall(r'href="([^"#h][^"]*)"', doc):
             if href.endswith(".html") and href not in names:
                 problems.append(f"{base}: link to missing page {href}")
+        for href in re.findall(r'href="([^"#:]+)"', doc):
+            if not href.endswith(".html") and not os.path.exists(
+                os.path.join(os.path.dirname(p), href)
+            ):
+                problems.append(f"{base}: link to missing file {href}")
 
         if "\u2014" in doc or "\u2013" in doc:
             problems.append(f"{base}: contains an em or en dash")

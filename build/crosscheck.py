@@ -39,6 +39,21 @@ CHECKS = {
     "wed02_return_and_modules.html": ("python3 sweep_report2.py", [
         "first best at 5", "last best at 9",
     ]),
+    "wed03_cipher_console.html": (
+        "SDL_VIDEODRIVER=dummy SDL_AUDIODRIVER=dummy python3 verify_console.py", [
+        "window open, close it to finish",
+        "first tile starts at x = 20", "last tile starts at x = 595",
+        "plain: attack at dawn", "coded: dwwdfn dw gdzq",
+        "coded row: defghijklmnopqrstuvwxyzabc",
+        "after 419 frames, shown is 13", "after 420 frames, shown is 14",
+        "R pressed on frame 600, shown is 3 after frame 700",
+        "AttributeError: 'pygame.event.Event' object has no attribute 'key'",
+        "IndexError: string index out of range",
+        "KeyError: 'A'",
+    ]),
+    "wed03_counting.html#acc": ("python3 accumulators.py", [
+        "total 13", "out ccaabb", "backwards bac",
+    ]),
     "wed03_counting.html#counter": ("python3 counter_tour.py", [
         "made with Counter: Counter({'a': 3, 'n': 2, 'b': 1})", "[('a', 3), ('n', 2)]",
         "made with Counter: Counter({'a': 6, 'n': 4, 'b': 2, 'd': 1})", "True",
@@ -46,7 +61,7 @@ CHECKS = {
     "wed03_counting.html#encode": ("python3 caesar_encode.py", ["gdzq", "cheud", "dawn"]),
     "wed03_counting.html": ("python3 caesar_crack.py", [
         "five most common: [('h', 12), ('u', 5), ('g', 5), ('r', 5), ('w', 4)]",
-        "distinct letters used: 14", "guessed shift 3",
+        "guessed shift 3",
         "plaintext: read the code and trace the code before you ever run the code",
     ]),
     "wed04_transposition.html": ("python3 transposition.py", [

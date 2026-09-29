@@ -411,3 +411,39 @@ Known corrections made before first printing:
     now label the prints that show a whole count, `made without Counter:` and
     `made with Counter:`, so students can tell which output came from which. The labels
     are f-strings, which session 2 already uses.
+29. `caesar_crack.py` had a leftover constant, `ENGLISH_ORDER = "etaoinshrdlcumwfgypbvkjxqz"`
+    (the alphabet sorted from most to least common letter in English). Nothing in the
+    program used it, so it was deleted from the file and from the page. Output unchanged.
+30. Session 3 opener is now "the accumulator pattern", 15 minutes: the word accumulator
+    and its three parts (start before the loop, update inside, use after), a running
+    total, a string accumulator with the empty string and `+`, and one that adds to the
+    front. Then the existing `count_of` task. New file `accumulators.py`; the page reads
+    its three loops from the file. Sets and exits went from 10 minutes to 5 to pay for it.
+31. Session 3: the two sentences after the frequency ratio note ("Any small sample has
+    this problem. Session 8 is about it.") were deleted.
+32. Session 3: removed `print("distinct letters used:", len(set(ciphertext.replace(" ", ""))))`
+    from `caesar_crack.py` and the page, and the "Sets, in one line" part that explained it.
+    Sets and `.replace()` are off the session 3 lists on the page and the hub. Exits are
+    back to 10 minutes. Session 10's "the list on the page is the set" now reads "the
+    program prints each word once, with the repeats removed."
+33. New page `wed03_cipher_console.html`, linked from the top of session 3 as "After the
+    session: the cipher console in pygame". About 45 minutes, take-home or early
+    finishers. Four programs that each add one thing (`console_1_window.py`,
+    `console_2_tiles.py`, `console_3_board.py`, `cipher_console.py`), the letter module
+    `letters.py`, and the stretch answer `cipher_console_replay.py`. `verify_console.py`
+    runs them all without a screen; its output is checked by crosscheck and its
+    screenshots (build/shots) are embedded in the page. The build checks that the
+    console's `shift_by` is identical to `caesar_encode.py`'s. The masthead helper now
+    takes `time=None` to drop the Time pill. The hub lists the new files, adds the page
+    to the pygame environment row, and notes that the console draws letters from squares.
+34. Review pass on the cipher console page. Fixes: the loop list no longer gives away the
+    close-button question, which is now a line-by-line trace; `running = 1` explained;
+    string indexing (`ALPHABET[i]`) taught where it is first used; the centring numbers
+    (`x + 7`, `138`) and the box numbers (`x - 3`, `127`, `26`, `32`) explained; step 3
+    gets a list of what it adds to step 2; section 5 now says it adds `GLOW` and
+    replaces the line that drew all of `coded`; KEY 10 names the row it produces
+    (computed from the real `shift_by`); "maths" and "full stop" changed to "math" and
+    "period". The IndexError claim for the box gate and a new AttributeError for the
+    stretch (the two sides of `and` swapped, then the mouse moves) are both shown from
+    real runs. `letters.py`: n, k and q redrawn so n is no longer a solid block. The
+    validator now also fails on a link to a missing non-HTML file, such as a download.

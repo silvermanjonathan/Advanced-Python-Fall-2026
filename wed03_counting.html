@@ -260,16 +260,45 @@ footer p{margin:0}
 <header class="top"><div class="wrap"><p class="eyebrow">Advanced Python &middot; Robofun &middot; Session 3 of 13</p><h1>Counting, and what counting lets you do</h1><p class="sub">A dictionary keeps each letter together with its count, so you do not need two separate lists. Then you will learn what a Caesar cipher is, write one, and break one by counting letters instead of trying every key.</p><div class="dates"><span class="pill"><b>When</b> Wednesday 30 September 2026</span><span class="pill"><b>Time</b> 4:00 to 5:30</span><span class="pill"><b>Length</b> 90 minutes</span></div></div></header>
 <main><div class="wrap">
 
-<section class="opener"><p class="chunk-no">Section 1 &middot; 10 minutes</p><h2>Opener</h2><p>Last week you wrote a module of functions that return values. On paper: write a function <code>count_of(values, wanted)</code> that returns how many times <code>wanted</code> appears in <code>values</code>. Four lines plus the <code>def</code>.</p><div class="predict"><b>Predict first.</b> Write yours first.
+<div class="toolbar"><a class="btn quiet" href="wed03_cipher_console.html">After the session: the cipher console in pygame</a></div><section class="opener"><p class="chunk-no">Section 1 &middot; 15 minutes</p><h2>Opener: the accumulator pattern</h2><p>In session 1, <code>t = t + r</code> in <code>sweep_report.py</code> added each reading to a running total. In session 2, <code>hits = hits + 1</code> in <code>count_over</code> added 1 each time the gate said yes. A variable that is updated like this on every pass of a loop is called an <b>accumulator</b>. Sections 3 and 4 today each have one, so here is the pattern again.</p><p>An accumulator has three parts:</p><ol class="tight"><li><b>Before the loop</b>, the variable gets its starting value.</li><li><b>Inside the loop</b>, the variable is updated. The new value is worked out from the old value: <code>total = total + s</code> reads <code>total</code>, adds <code>s</code>, and stores the result back in <code>total</code>.</li><li><b>After the loop</b>, the program uses the final value. It prints it or returns it.</li></ol><p class="fname">accumulators.py, part 1</p>
+<pre><code>scores = [4, 7, 2]
+total = 0
+for s in scores:
+    total = total + s
+print(f&quot;total {total}&quot;)</code></pre>
+<p><code>total = 0</code> is part 1. <code>total = total + s</code> is part 2. <code>print(f"total {total}")</code> is part 3.</p><div class="predict"><b>Predict first.</b> Trace it. What is <code>total</code> after the first pass, after the second pass, and after the third pass? What prints?
 <button class="rev" data-target="a11" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a11">Show the answer</button>
-<div class="ans" id="a11"><pre><code>def count_of(values, wanted):
+<div class="ans" id="a11"><p>After the first pass, <code>total</code> is 0 + 4 = 4. After the second pass, it is 4 + 7 = 11. After the third pass, it is 11 + 2 = 13.</p><div class="out"><span class="tag">verified output</span><pre><code>total 13</code></pre></div>
+</div></div>
+<h3>An accumulator can hold a string</h3><p><code>+</code> between two strings joins them into one string: <code>"ab" + "c"</code> is <code>"abc"</code>.</p><p><code>""</code> is the <b>empty string</b>, a string with no characters in it. It is the starting value for a string accumulator, the same way 0 is the starting value for a running total.</p><p class="fname">accumulators.py, part 2</p>
+<pre><code>word = &quot;cab&quot;
+out = &quot;&quot;
+for ch in word:
+    out = out + ch + ch
+print(f&quot;out {out}&quot;)</code></pre>
+<div class="predict"><b>Predict first.</b> What prints?
+<button class="rev" data-target="a12" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a12">Show the answer</button>
+<div class="ans" id="a12"><div class="out"><span class="tag">verified output</span><pre><code>out ccaabb</code></pre></div>
+<p>Each pass joins the letter on twice. After <code>c</code>, <code>out</code> is <code>cc</code>. After <code>a</code>, it is <code>ccaa</code>. After <code>b</code>, it is <code>ccaabb</code>.</p></div></div>
+<p class="fname">accumulators.py, part 3</p>
+<pre><code>backwards = &quot;&quot;
+for ch in word:
+    backwards = ch + backwards
+print(f&quot;backwards {backwards}&quot;)</code></pre>
+<div class="predict"><b>Predict first.</b> This loop has <code>ch + backwards</code> where part 2 had <code>out + ch</code>, so each new letter goes on the front. What prints?
+<button class="rev" data-target="a13" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a13">Show the answer</button>
+<div class="ans" id="a13"><div class="out"><span class="tag">verified output</span><pre><code>backwards bac</code></pre></div>
+<p>After <code>c</code>, <code>backwards</code> is <code>c</code>. After <code>a</code>, it is <code>ac</code>. After <code>b</code>, it is <code>bac</code>. With <code>+</code> on strings the order matters: the string on the left comes first.</p></div></div>
+<p>In section 3 you will build a coded message this way, one letter at a time, starting from <code>out = ""</code>.</p><h3>Now write one</h3><p>Last week you wrote a module of functions that return values. On paper: write a function <code>count_of(values, wanted)</code> that returns how many times <code>wanted</code> appears in <code>values</code>. It is an accumulator with a gate inside the loop. Four lines plus the <code>def</code>.</p><div class="predict"><b>Predict first.</b> Write yours first.
+<button class="rev" data-target="a14" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a14">Show the answer</button>
+<div class="ans" id="a14"><pre><code>def count_of(values, wanted):
     &quot;&quot;&quot;Return how many times wanted appears in values.&quot;&quot;&quot;
     hits = 0
     for v in values:
         if v == wanted:
             hits = hits + 1
     return hits</code></pre>
-<p>Now imagine calling that 26 times, once per letter. It works, and it reads the whole text 26 times. Section 2 fixes that.</p></div></div>
+<p><code>hits = 0</code> is part 1. <code>hits = hits + 1</code> is part 2, and it runs when the gate says yes. <code>return hits</code> is part 3.</p><p>Now imagine calling that 26 times, once per letter. It works, and it reads the whole text 26 times. Section 2 fixes that.</p></div></div>
 </section>
 <section class="chunk"><p class="chunk-no">Section 2 &middot; 15 minutes</p><h2>The parallel list problem</h2><p>Here is the version without a dictionary. One list holds the letters. A second list holds their counts, in the same order. <code>counts[0]</code> is the count for <code>a</code>, <code>counts[1]</code> is the count for <code>b</code>, and so on. The count for a letter is at the same index as the letter.</p><pre><code>letters = [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;]
 counts = [0, 0, 0]
@@ -284,8 +313,8 @@ counts[&quot;b&quot;] = 0
 counts[&quot;b&quot;] = counts[&quot;b&quot;] + 1
 print(f&quot;made without Counter: {counts}&quot;)</code></pre>
 <div class="predict"><b>Predict first.</b> What prints? And what happens if you run <code>counts["z"] + 1</code> without setting <code>counts["z"]</code> first?
-<button class="rev" data-target="a12" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a12">Show the answer</button>
-<div class="ans" id="a12"><div class="out"><span class="tag">verified output</span><pre><code>made without Counter: {&#x27;b&#x27;: 1}</code></pre></div>
+<button class="rev" data-target="a15" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a15">Show the answer</button>
+<div class="ans" id="a15"><div class="out"><span class="tag">verified output</span><pre><code>made without Counter: {&#x27;b&#x27;: 1}</code></pre></div>
 <p>The second one raises <code>KeyError: 'z'</code>. A dictionary does not start a missing key at zero for you. <code>collections.Counter</code> does, which is why it exists.</p></div></div>
 <h3>Counter</h3><p><code>collections</code> is a module that comes with Python, the same way <code>sweep_tools</code> was your own module in session 2. The line <code>from collections import Counter</code> takes one thing out of it, <code>Counter</code>, so you can write <code>Counter</code> instead of <code>collections.Counter</code>. That import line goes at the top of any file that uses a Counter.</p><p>A <b>Counter</b> is a dictionary made for counting. Give it a string and it counts every character. Here is what else it can do.</p><p class="fname">counter_tour.py</p>
 <pre><code>from collections import Counter
@@ -304,8 +333,8 @@ first = Counter(&quot;listen&quot;)
 second = Counter(&quot;silent&quot;)
 print(first == second)</code></pre>
 <div class="predict"><b>Predict first.</b> Two to predict before you run it. What does <code>counts["z"]</code> print, when there is no z in banana? And what does the last line print?
-<button class="rev" data-target="a13" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a13">Show the answer</button>
-<div class="ans" id="a13"><div class="out"><span class="tag">verified output</span><pre><code>made with Counter: Counter({&#x27;a&#x27;: 3, &#x27;n&#x27;: 2, &#x27;b&#x27;: 1})
+<button class="rev" data-target="a16" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a16">Show the answer</button>
+<div class="ans" id="a16"><div class="out"><span class="tag">verified output</span><pre><code>made with Counter: Counter({&#x27;a&#x27;: 3, &#x27;n&#x27;: 2, &#x27;b&#x27;: 1})
 3
 0
 [(&#x27;a&#x27;, 3), (&#x27;n&#x27;, 2)]
@@ -374,8 +403,8 @@ True</code></pre></div>
 })();
 </script>
 <div class="predict"><b>Predict first.</b> Encode <code>dawn</code> with key 3. Then encode <code>zebra</code> with the same key. Watch what happens to the z.
-<button class="rev" data-target="a14" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a14">Show the answer</button>
-<div class="ans" id="a14"><p><code>dawn</code> becomes <code>gdzq</code>. d goes to g, a goes to d, w goes to z, n goes to q.</p><p><code>zebra</code> becomes <code>cheud</code>. Three past z runs off the end of the alphabet and comes back round to c. Without that wrap, x, y, and z would have no letter to become.</p><p>To decode, move backwards by the same key. A Caesar cipher undoes itself with a negative key, which is why one function can do both jobs.</p></div></div>
+<button class="rev" data-target="a17" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a17">Show the answer</button>
+<div class="ans" id="a17"><p><code>dawn</code> becomes <code>gdzq</code>. d goes to g, a goes to d, w goes to z, n goes to q.</p><p><code>zebra</code> becomes <code>cheud</code>. Three past z runs off the end of the alphabet and comes back round to c. Without that wrap, x, y, and z would have no letter to become.</p><p>To decode, move backwards by the same key. A Caesar cipher undoes itself with a negative key, which is why one function can do both jobs.</p></div></div>
 <h3>Letters into numbers</h3><p>Python will not add 3 to a letter. Two functions change a letter into a number and back. <code>ord</code> turns a character into the number the machine stores it as, and <code>chr</code> turns a number back into a character.</p><pre><code>print(ord(&quot;a&quot;))   # 97
 print(ord(&quot;d&quot;))   # 100
 print(ord(&quot;z&quot;))   # 122
@@ -451,8 +480,8 @@ def letter_counts(text):
 counts = letter_counts(ciphertext)
 print(&quot;five most common:&quot;, counts.most_common(5))</code></pre>
 <div class="predict"><b>Predict first.</b> Look at the message before you run anything. Which letter do you see most often?
-<button class="rev" data-target="a15" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a15">Show the answer</button>
-<div class="ans" id="a15"><div class="out"><span class="tag">verified output</span><pre><code>five most common: [(&#x27;h&#x27;, 12), (&#x27;u&#x27;, 5), (&#x27;g&#x27;, 5), (&#x27;r&#x27;, 5), (&#x27;w&#x27;, 4)]</code></pre></div>
+<button class="rev" data-target="a18" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a18">Show the answer</button>
+<div class="ans" id="a18"><div class="out"><span class="tag">verified output</span><pre><code>five most common: [(&#x27;h&#x27;, 12), (&#x27;u&#x27;, 5), (&#x27;g&#x27;, 5), (&#x27;r&#x27;, 5), (&#x27;w&#x27;, 4)]</code></pre></div>
 <p><code>h</code> appears 12 times. The next letters appear 5 times each. So <code>h</code> is the top letter, and it is probably what <code>e</code> turned into.</p></div></div>
 <h3>Step 2: turn the top letter into a key</h3><p>If <code>e</code> turned into <code>h</code>, the key is how many places <code>e</code> moved. Use the strip: click <code>e</code> in the top row, then press <b>+1</b> until the bottom row under <code>e</code> shows <code>h</code>.</p><div class="strip" id="strip2"><div class="strip-controls"><button type="button" id="strip2-down" aria-label="Key down by 1">&minus;1</button><span class="strip-key">Key <b id="strip2-keyval">0</b></span><button type="button" id="strip2-up" aria-label="Key up by 1">+1</button><button type="button" id="strip2-reset" class="quiet">Key 0</button><label class="strip-word">Try a word <input id="strip2-input" type="text" maxlength="20" autocomplete="off" spellcheck="false"></label></div><div class="strip-rows" id="strip2-rows"></div><p class="strip-say" id="strip2-say" aria-live="polite">Click a letter in the top row.</p></div><script>
 (function(){
@@ -534,16 +563,14 @@ print(&quot;five most common:&quot;, counts.most_common(5))</code></pre>
 print(f&quot;guessed shift {k}&quot;)
 print(&quot;plaintext:&quot;, shift_by(ciphertext, -k))</code></pre>
 <div class="predict"><b>Predict first.</b> The first word of the message is <code>uhdg</code>. Move each letter back 3 by hand. What is the first word of the plaintext?
-<button class="rev" data-target="a16" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a16">Show the answer</button>
-<div class="ans" id="a16"><div class="out"><span class="tag">verified output</span><pre><code>guessed shift 3
+<button class="rev" data-target="a19" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a19">Show the answer</button>
+<div class="ans" id="a19"><div class="out"><span class="tag">verified output</span><pre><code>guessed shift 3
 plaintext: read the code and trace the code before you ever run the code</code></pre></div>
 <p><code>u</code> goes back to <code>r</code>, <code>h</code> to <code>e</code>, <code>d</code> to <code>a</code>, <code>g</code> to <code>d</code>: <code>read</code>. The program does the same for every letter.</p></div></div>
 <h3>The whole program</h3><p>Here are the three steps in one file, with <code>shift_by</code> at the top. It is the same function you wrote in section 3.</p><p class="fname">caesar_crack.py</p>
 <pre><code>&quot;&quot;&quot;Break a Caesar cipher by letter frequency instead of by guessing.&quot;&quot;&quot;
 
 from collections import Counter
-
-ENGLISH_ORDER = &quot;etaoinshrdlcumwfgypbvkjxqz&quot;
 
 ciphertext = &quot;uhdg wkh frgh dqg wudfh wkh frgh ehiruh brx hyhu uxq wkh frgh&quot;
 
@@ -579,24 +606,22 @@ def guess_shift(text):
 
 counts = letter_counts(ciphertext)
 print(&quot;five most common:&quot;, counts.most_common(5))
-print(&quot;distinct letters used:&quot;, len(set(ciphertext.replace(&quot; &quot;, &quot;&quot;))))
 
 k = guess_shift(ciphertext)
 print(f&quot;guessed shift {k}&quot;)
 print(&quot;plaintext:&quot;, shift_by(ciphertext, -k))</code></pre>
 <div class="predict"><b>Predict first.</b> Run it. Do its lines match what you worked out in steps 1, 2, and 3?
-<button class="rev" data-target="a17" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a17">Show the answer</button>
-<div class="ans" id="a17"><div class="out"><span class="tag">verified output</span><pre><code>five most common: [(&#x27;h&#x27;, 12), (&#x27;u&#x27;, 5), (&#x27;g&#x27;, 5), (&#x27;r&#x27;, 5), (&#x27;w&#x27;, 4)]
-distinct letters used: 14
+<button class="rev" data-target="a20" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a20">Show the answer</button>
+<div class="ans" id="a20"><div class="out"><span class="tag">verified output</span><pre><code>five most common: [(&#x27;h&#x27;, 12), (&#x27;u&#x27;, 5), (&#x27;g&#x27;, 5), (&#x27;r&#x27;, 5), (&#x27;w&#x27;, 4)]
 guessed shift 3
 plaintext: read the code and trace the code before you ever run the code</code></pre></div>
-<p>They match. The one new line, <code>distinct letters used</code>, is explained under Sets, below.</p><p>Two limits. The text has to be long enough for <code>e</code> to actually win, and the text has to be ordinary English. Try it on a short message and watch it fail.</p></div></div>
-<div class="predict"><b>Frequency counts are ratios.</b> 12 of 49 letters is about 0.24. In ordinary English <code>e</code> runs near 0.12. Your sample is small, so your share is off. Any small sample has this problem. Session 8 is about it.</div><h3>Sets, in one line</h3><p><code>set(text)</code> throws away duplicates and order, and keeps only which things appeared. That is what <code>distinct letters used: 14</code> came from. A set answers which, a Counter answers how many.</p><p>That line also uses <code>.replace</code>. <code>ciphertext.replace(" ", "")</code> replaces every space with nothing, so the spaces are gone before the set is made. Without it, the space would be counted as one more character, and the line would say 15 instead of 14. <code>.replace</code> does not change <code>ciphertext</code> itself. It returns a new string, and the new string is what goes into <code>set</code>.</p></section>
+<p>They match.</p><p>Two limits. The text has to be long enough for <code>e</code> to actually win, and the text has to be ordinary English. Try it on a short message and watch it fail.</p></div></div>
+<div class="predict"><b>Frequency counts are ratios.</b> 12 of 49 letters is about 0.24. In ordinary English <code>e</code> runs near 0.12. Your sample is small, so your share is off.</div></section>
 <section class="brief"><h2>Exits</h2><div class="exits"><div class="exit"><span class="lab">FLOOR</span><p>You encoded <code>dawn</code> and <code>zebra</code> by hand with key 3, you can say what plaintext, ciphertext, and key mean, and you ran <code>letter_counts</code> on the ciphertext and read the top letter off the output.</p></div><div class="exit"><span class="lab">MIDDLE</span><p>Floor, plus <code>shift_by</code> written and encoding correctly including the wrap past z, plus the full crack running.</p></div><div class="exit"><span class="lab">STRETCH</span><p>Middle, plus break it on purpose: find a message short enough that the most common letter is not <code>e</code>, then write a <code>guess_shift</code> that scores all 26 shifts against English letter frequencies and picks the best total instead of trusting one letter.</p></div></div></section>
-<section class="panel"><h2>Teacher panel</h2><h3>Concept this session re-touches</h3><p>The <code>%</code> wrap traced by hand in session 1, now on a 26 hour clock. Also the returning functions from session 2: <code>guess_shift</code> is only possible because <code>letter_counts</code> hands a Counter back.</p><h3>Standards</h3><p class="stdline"><span class="std">6.SP.B.5.a</span> Summarize numerical data sets in relation to their context, such as by reporting the number of observations.</p>
+<section class="panel"><h2>Teacher panel</h2><h3>Concept this session re-touches</h3><p>The <code>%</code> wrap traced by hand in session 1, now on a 26 hour clock. Also the returning functions from session 2: <code>guess_shift</code> is only possible because <code>letter_counts</code> returns a Counter. The accumulators from sessions 1 and 2, reviewed in the opener.</p><h3>Standards</h3><p class="stdline"><span class="std">6.SP.B.5.a</span> Summarize numerical data sets in relation to their context, such as by reporting the number of observations.</p>
 <p class="stdline"><span class="std">6.RP.A.3</span> Use ratio and rate reasoning to solve real-world and mathematical problems, e.g., by reasoning about tables of equivalent ratios, tape diagrams, double number line diagrams, or equations.</p>
 <p class="stdline"><span class="std">MP7</span> Look for and make use of structure.</p>
-<p class="mapnote">Mapped to the Common Core State Standards for Mathematics (Multi-State). Each code and its wording was retrieved from the CASE Network through the Learning Commons Knowledge Graph on 12 September 2026. New York's own Computer Science and Digital Fluency framework and the CSTA standards are not carried in that graph, so no code from either appears anywhere on this site.</p><p class="mapnote">Two deliberate deviations from the retrieved text. The "for example…" illustrations attached to 7.SP.C.6 and 8.EE.A.1 are omitted, since they illustrate rather than state the standard. And where the source carries markup, italics or mathematical notation, it is rendered as plain text: 7.SP.C.5's fraction appears here as 1/2, and the italic stem of 6.SP.B.5.a and 6.SP.B.5.c is plain. Nothing else was shortened. Codes 6.SP.B.5.a and 6.SP.B.5.c are the lettered children of 6.SP.B.5, whose own statement is only a stem ending in a colon; the children carry that stem and are quoted in full.</p><h3>Timing</h3><p>10 opener, 15 parallel lists and Counter, 30 the cipher by hand and <code>shift_by</code> written, 25 the crack in three steps, 10 sets and exits. Assume no student has seen a cipher before. Do not cut section 3 to save the crack. Cracking a cipher the students did not build teaches nothing about the cipher. Cut the sets subsection first if pressed.</p><h3>What to watch for</h3><p>The hand encode is the part to insist on. Students who go straight to <code>ord</code> without doing <code>dawn</code> on paper will not spot the wrap, and the wrap is the only hard part of the cipher.</p><p>Expect <code>ord</code> and <code>chr</code> to feel arbitrary. The fix is to say the actual numbers do not matter, only that they run in order. Nobody needs to memorise 97.</p><p><code>KeyError</code> is the new traceback this week and students read it as a crash rather than as information. Say the sentence out loud: a dictionary does not start a missing key at zero for you.</p><p>Some students will want to brute force all 26 shifts because it is easier to write. Let them, then ask what they would do with a Vigenere key of length 7. Brute force stops being available and counting does not.</p><h3>Files</h3><p><code>caesar_encode.py</code> for section 3, the answer to the <code>shift_by</code> step; the build checks that its <code>shift_by</code> is identical to the one in <code>caesar_crack.py</code>. <code>caesar_crack.py</code>. Output verified on Python 3.12.3. The plaintext restates this course's own rule from session 1, which is deliberate.</p><h3>Lifted this week</h3><p>Dictionaries, sets, <code>collections.Counter</code>, <code>.replace()</code>, <code>ord</code> and <code>chr</code>.</p><h3>Assumed knowledge</h3><p>None beyond the hub prerequisites plus the <code>%</code> wrap from session 1. Section 3 teaches what a cipher is, including the words plaintext, ciphertext, and key, and assumes students have never used one.</p></section>
+<p class="mapnote">Mapped to the Common Core State Standards for Mathematics (Multi-State). Each code and its wording was retrieved from the CASE Network through the Learning Commons Knowledge Graph on 12 September 2026. New York's own Computer Science and Digital Fluency framework and the CSTA standards are not carried in that graph, so no code from either appears anywhere on this site.</p><p class="mapnote">Two deliberate deviations from the retrieved text. The "for example…" illustrations attached to 7.SP.C.6 and 8.EE.A.1 are omitted, since they illustrate rather than state the standard. And where the source carries markup, italics or mathematical notation, it is rendered as plain text: 7.SP.C.5's fraction appears here as 1/2, and the italic stem of 6.SP.B.5.a and 6.SP.B.5.c is plain. Nothing else was shortened. Codes 6.SP.B.5.a and 6.SP.B.5.c are the lettered children of 6.SP.B.5, whose own statement is only a stem ending in a colon; the children carry that stem and are quoted in full.</p><h3>Timing</h3><p>15 opener with the accumulator review, 15 parallel lists and Counter, 30 the cipher by hand and <code>shift_by</code> written, 25 the crack in three steps, 10 exits. Assume no student has seen a cipher before. Do not cut section 3 to save the crack. Cracking a cipher the students did not build teaches nothing about the cipher.</p><h3>What to watch for</h3><p>The hand encode is the part to insist on. Students who go straight to <code>ord</code> without doing <code>dawn</code> on paper will not spot the wrap, and the wrap is the only hard part of the cipher.</p><p>Expect <code>ord</code> and <code>chr</code> to feel arbitrary. The fix is to say the actual numbers do not matter, only that they run in order. Nobody needs to memorise 97.</p><p><code>KeyError</code> is the new traceback this week and students read it as a crash rather than as information. Say the sentence out loud: a dictionary does not start a missing key at zero for you.</p><p>Some students will want to brute force all 26 shifts because it is easier to write. Let them, then ask what they would do with a Vigenere key of length 7. Brute force stops being available and counting does not.</p><h3>Files</h3><p><code>accumulators.py</code> for the opener, shown in three parts. <code>caesar_encode.py</code> for section 3, the answer to the <code>shift_by</code> step; the build checks that its <code>shift_by</code> is identical to the one in <code>caesar_crack.py</code>. <code>caesar_crack.py</code>. Output verified on Python 3.12.3. The plaintext restates this course's own rule from session 1, which is deliberate.</p><h3>Lifted this week</h3><p>The word accumulator, the empty string, <code>+</code> to join strings, dictionaries, <code>collections.Counter</code>, <code>ord</code> and <code>chr</code>.</p><h3>Assumed knowledge</h3><p>None beyond the hub prerequisites plus the <code>%</code> wrap from session 1. Section 3 teaches what a cipher is, including the words plaintext, ciphertext, and key, and assumes students have never used one.</p></section>
 </div></main>
 <nav class="pager"><a href="wed02_return_and_modules.html">&larr; Session 2: functions that return a value</a><a href="advanced_python_hub.html">Course hub</a><a href="wed04_transposition.html">Session 4: moving letters &rarr;</a></nav>
 <footer><div class="wrap"><p>Advanced Python, Robofun Fall 2026. Second printing, 13 September 2026. Built by a generator; the page, not the file, is the source of truth for output, because every quoted line came from a run.</p></div></footer>

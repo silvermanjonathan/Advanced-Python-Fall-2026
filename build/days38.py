@@ -126,8 +126,17 @@ def _shift_by_source():
     return mine
 
 
+def _accumulator_parts():
+    """Return the three loops from accumulators.py, split at the blank lines."""
+    root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    text = open(os.path.join(root, "accumulators.py")).read()
+    blocks = [blk.strip("\n") for blk in text.split("\n\n")]
+    assert len(blocks) == 4, "accumulators.py should be a docstring and three loops"
+    return blocks[1:]
+
+
 def day03():
-    """Session 3: dicts, sets, counting, and cracking a Caesar."""
+    """Session 3: accumulators, dicts, counting, and cracking a Caesar."""
     b = masthead(
         "03",
         "Counting, and what counting lets you do",
@@ -136,12 +145,82 @@ def day03():
         "two separate lists. Then you will learn what a Caesar cipher is, write one, and "
         "break one by counting letters instead of trying every key.",
     )
-    b += '<h2><span class="num">1</span>Opener<span class="mins">10 minutes</span></h2>'
+    parts = _accumulator_parts()
     b += (
-        "<p>Last week you wrote a module of functions that return values. On paper: write a function "
-        "<code>count_of(values, wanted)</code> that returns how many times "
-        "<code>wanted</code> appears in <code>values</code>. Four lines plus the "
-        "<code>def</code>.</p>"
+        '<div class="toolbar"><a class="btn quiet" href="wed03_cipher_console.html">'
+        "After the session: the cipher console in pygame</a></div>"
+    )
+    b += (
+        '<h2><span class="num">1</span>Opener: the accumulator pattern'
+        '<span class="mins">15 minutes</span></h2>'
+    )
+    b += (
+        "<p>In session 1, <code>t = t + r</code> in <code>sweep_report.py</code> added "
+        "each reading to a running total. In session 2, <code>hits = hits + 1</code> in "
+        "<code>count_over</code> added 1 each time the gate said yes. A variable that is "
+        "updated like this on every pass of a loop is called an <b>accumulator</b>. "
+        "Sections 3 and 4 today each have one, so here is the pattern again.</p>"
+        "<p>An accumulator has three parts:</p>"
+        '<ol class="tight">'
+        "<li><b>Before the loop</b>, the variable gets its starting value.</li>"
+        "<li><b>Inside the loop</b>, the variable is updated. The new value is worked "
+        "out from the old value: <code>total = total + s</code> reads "
+        "<code>total</code>, adds <code>s</code>, and stores the result back in "
+        "<code>total</code>.</li>"
+        "<li><b>After the loop</b>, the program uses the final value. It prints it or "
+        "returns it.</li>"
+        "</ol>"
+    )
+    b += code(parts[0], "accumulators.py, part 1")
+    b += (
+        "<p><code>total = 0</code> is part 1. <code>total = total + s</code> is part 2. "
+        "<code>print(f\"total {total}\")</code> is part 3.</p>"
+    )
+    b += reveal(
+        "Trace it. What is <code>total</code> after the first pass, after the second "
+        "pass, and after the third pass? What prints?",
+        "<p>After the first pass, <code>total</code> is 0 + 4 = 4. After the second "
+        "pass, it is 4 + 7 = 11. After the third pass, it is 11 + 2 = 13.</p>"
+        + output("total 13"),
+    )
+
+    b += "<h3>An accumulator can hold a string</h3>"
+    b += (
+        "<p><code>+</code> between two strings joins them into one string: "
+        "<code>\"ab\" + \"c\"</code> is <code>\"abc\"</code>.</p>"
+        "<p><code>\"\"</code> is the <b>empty string</b>, a string with no characters "
+        "in it. It is the starting value for a string accumulator, the same way 0 is "
+        "the starting value for a running total.</p>"
+    )
+    b += code(parts[1], "accumulators.py, part 2")
+    b += reveal(
+        "What prints?",
+        output("out ccaabb")
+        + "<p>Each pass joins the letter on twice. After <code>c</code>, "
+        "<code>out</code> is <code>cc</code>. After <code>a</code>, it is "
+        "<code>ccaa</code>. After <code>b</code>, it is <code>ccaabb</code>.</p>",
+    )
+    b += code(parts[2], "accumulators.py, part 3")
+    b += reveal(
+        "This loop has <code>ch + backwards</code> where part 2 had "
+        "<code>out + ch</code>, so each new letter goes on the front. What prints?",
+        output("backwards bac")
+        + "<p>After <code>c</code>, <code>backwards</code> is <code>c</code>. After "
+        "<code>a</code>, it is <code>ac</code>. After <code>b</code>, it is "
+        "<code>bac</code>. With <code>+</code> on strings the order matters: the "
+        "string on the left comes first.</p>",
+    )
+    b += (
+        "<p>In section 3 you will build a coded message this way, one letter at a "
+        "time, starting from <code>out = \"\"</code>.</p>"
+    )
+
+    b += "<h3>Now write one</h3>"
+    b += (
+        "<p>Last week you wrote a module of functions that return values. On paper: "
+        "write a function <code>count_of(values, wanted)</code> that returns how many "
+        "times <code>wanted</code> appears in <code>values</code>. It is an accumulator "
+        "with a gate inside the loop. Four lines plus the <code>def</code>.</p>"
     )
     b += reveal(
         "Write yours first.",
@@ -154,7 +233,10 @@ def day03():
             hits = hits + 1
     return hits"""
         )
-        + "<p>Now imagine calling that 26 times, once per letter. It works, and it reads the whole text 26 times. Section 2 fixes that.</p>",
+        + "<p><code>hits = 0</code> is part 1. <code>hits = hits + 1</code> is part 2, "
+        "and it runs when the gate says yes. <code>return hits</code> is part 3.</p>"
+        "<p>Now imagine calling that 26 times, once per letter. It works, and it reads "
+        "the whole text 26 times. Section 2 fixes that.</p>",
     )
 
     b += '<h2><span class="num">2</span>The parallel list problem<span class="mins">15 minutes</span></h2>'
@@ -486,8 +568,6 @@ print("plaintext:", shift_by(ciphertext, -k))''',
 
 from collections import Counter
 
-ENGLISH_ORDER = "etaoinshrdlcumwfgypbvkjxqz"
-
 ciphertext = "uhdg wkh frgh dqg wudfh wkh frgh ehiruh brx hyhu uxq wkh frgh"
 
 
@@ -522,7 +602,6 @@ def guess_shift(text):
 
 counts = letter_counts(ciphertext)
 print("five most common:", counts.most_common(5))
-print("distinct letters used:", len(set(ciphertext.replace(" ", ""))))
 
 k = guess_shift(ciphertext)
 print(f"guessed shift {k}")
@@ -533,12 +612,10 @@ print("plaintext:", shift_by(ciphertext, -k))''',
         "Run it. Do its lines match what you worked out in steps 1, 2, and 3?",
         output(
             """five most common: [('h', 12), ('u', 5), ('g', 5), ('r', 5), ('w', 4)]
-distinct letters used: 14
 guessed shift 3
 plaintext: read the code and trace the code before you ever run the code"""
         )
-        + "<p>They match. The one new line, <code>distinct letters used</code>, is "
-        "explained under Sets, below.</p>"
+        + "<p>They match.</p>"
         "<p>Two limits. The text has to be long enough for <code>e</code> to actually "
         "win, and the text has to be ordinary English. Try it on a short message and "
         "watch it fail.</p>",
@@ -546,20 +623,7 @@ plaintext: read the code and trace the code before you ever run the code"""
     b += (
         '<div class="predict"><b>Frequency counts are ratios.</b> 12 of 49 letters is '
         "about 0.24. In ordinary English <code>e</code> runs near 0.12. Your sample is "
-        "small, so your share is off. Any small sample has this problem. Session 8 is about it.</div>"
-    )
-    b += (
-        "<h3>Sets, in one line</h3>"
-        "<p><code>set(text)</code> throws away duplicates and order, and keeps only "
-        "which things appeared. That is what <code>distinct letters used: 14</code> came "
-        "from. A set answers which, a Counter answers how many.</p>"
-        "<p>That line also uses <code>.replace</code>. "
-        "<code>ciphertext.replace(\" \", \"\")</code> replaces every space with "
-        "nothing, so the spaces are gone before the set is made. Without it, the space "
-        "would be counted as one more character, and the line would say 15 instead of "
-        "14. <code>.replace</code> does not change <code>ciphertext</code> itself. It "
-        "returns a new string, and the new string is what goes into "
-        "<code>set</code>.</p>"
+        "small, so your share is off.</div>"
     )
     b += exits(
         "You encoded <code>dawn</code> and <code>zebra</code> by hand with key 3, you "
@@ -575,11 +639,10 @@ plaintext: read the code and trace the code before you ever run the code"""
     )
     b += panel(
         ["6.SP.B.5.a", "6.RP.A.3", "MP7"],
-        "<p>10 opener, 15 parallel lists and Counter, 30 the cipher by hand and "
-        "<code>shift_by</code> written, 25 the crack in three steps, 10 sets and exits. Assume no student "
+        "<p>15 opener with the accumulator review, 15 parallel lists and Counter, 30 the cipher by hand and "
+        "<code>shift_by</code> written, 25 the crack in three steps, 10 exits. Assume no student "
         "has seen a cipher before. Do not cut section 3 to save the crack. Cracking a "
-        "cipher the students did not build teaches nothing about the cipher. Cut the sets "
-        "subsection first if pressed.</p>",
+        "cipher the students did not build teaches nothing about the cipher.</p>",
         "<p>The hand encode is the part to insist on. Students who go straight to "
         "<code>ord</code> without doing <code>dawn</code> on paper will not spot the "
         "wrap, and the wrap is the only hard part of the cipher.</p>"
@@ -596,14 +659,14 @@ plaintext: read the code and trace the code before you ever run the code"""
             "The <code>%</code> wrap traced by hand in session 1, now on a 26 hour clock. "
             "Also the returning functions from session 2: "
             "<code>guess_shift</code> is only possible because <code>letter_counts</code> "
-            "hands a Counter back."
+            "returns a Counter. The accumulators from sessions 1 and 2, reviewed in the opener."
         ),
         extras=(
-            "<h3>Files</h3><p><code>caesar_encode.py</code> for section 3, the answer to the <code>shift_by</code> step; the build checks that its <code>shift_by</code> is identical to the one in <code>caesar_crack.py</code>. <code>caesar_crack.py</code>. Output verified on Python "
+            "<h3>Files</h3><p><code>accumulators.py</code> for the opener, shown in three parts. <code>caesar_encode.py</code> for section 3, the answer to the <code>shift_by</code> step; the build checks that its <code>shift_by</code> is identical to the one in <code>caesar_crack.py</code>. <code>caesar_crack.py</code>. Output verified on Python "
             "3.12.3. The plaintext restates this course's own rule from session 1, which "
             "is deliberate.</p>"
-            "<h3>Lifted this week</h3><p>Dictionaries, sets, "
-            "<code>collections.Counter</code>, <code>.replace()</code>, "
+            "<h3>Lifted this week</h3><p>The word accumulator, the empty string, <code>+</code> to join strings, dictionaries, "
+            "<code>collections.Counter</code>, "
             "<code>ord</code> and <code>chr</code>.</p>"
             "<h3>Assumed knowledge</h3><p>None beyond the hub prerequisites plus the "
             "<code>%</code> wrap from session 1. Section 3 teaches what a cipher is, "

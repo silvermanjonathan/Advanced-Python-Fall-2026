@@ -249,8 +249,8 @@ print(f"q {q}")""",
         "<code>total_of</code>, <code>count_over</code>, and <code>best_index</code>, "
         "and drop <code>average_of</code> and <code>last_best_index</code>.</p>"
         "<p>Session 3: keep the hand encode and the dictionary. Run the crack as a "
-        "projected trace you do together rather than a build, and cut the sets "
-        "section. Students who could not trace an accumulator in session 1 still "
+        "projected trace you do together rather than a build."
+        " Students who could not trace an accumulator in session 1 still "
         "reach that session's floor: they encode by hand and read the top letter off "
         "the output. From session 4 the pace returns to the pages as written.</p>",
         extras=(

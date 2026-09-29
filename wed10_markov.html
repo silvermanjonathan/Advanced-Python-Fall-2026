@@ -261,8 +261,8 @@ footer p{margin:0}
 <main><div class="wrap">
 
 <div class="flag"><b>Day before Thanksgiving.</b> Attendance is usually light. Nothing later in the term depends on this session, so anyone away can pick it up from this page alone. Capstone sketches are due next week, at the start of session 11, so nobody away today loses a deadline.</div><section class="opener"><p class="chunk-no">Section 1 &middot; 10 minutes</p><h2>Opener</h2><p>Last week the first digit told you which ledger was invented. On paper: what share of grown numbers start with 1, and why does a random pick between 100 and 9999 not match it?</p><div class="predict"><b>Predict first.</b> Both answers first.
-<button class="rev" data-target="a38" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a38">Show the answer</button>
-<div class="ans" id="a38"><p>About 0.301. And a uniform pick gives every leading digit roughly the same share, near 0.11, because nothing in the process favours small leading digits the way repeated multiplying does.</p></div></div>
+<button class="rev" data-target="a46" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a46">Show the answer</button>
+<div class="ans" id="a46"><p>About 0.301. And a uniform pick gives every leading digit roughly the same share, near 0.11, because nothing in the process favours small leading digits the way repeated multiplying does.</p></div></div>
 </section>
 <section class="chunk"><p class="chunk-no">Section 2 &middot; 30 minutes</p><h2>The table</h2><p>Read a text file. Walk through it a word at a time. For every pair of words that sit next to each other, record which word came next. That record is the model.</p><p class="fname">markov.py</p>
 <pre><code>def build_model(words):
@@ -273,13 +273,13 @@ footer p{margin:0}
         model[pair].append(words[i + 2])
     return model</code></pre>
 <div class="predict"><b>Predict first.</b> The corpus is a short passage about how these models work. In it, the pair <code>("the", "machine")</code> appears eleven times. What do you expect the table to hold for that key?
-<button class="rev" data-target="a39" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a39">Show the answer</button>
-<div class="ans" id="a39"><div class="out"><span class="tag">verified output</span><pre><code>corpus words: 340
+<button class="rev" data-target="a47" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a47">Show the answer</button>
+<div class="ans" id="a47"><div class="out"><span class="tag">verified output</span><pre><code>corpus words: 340
 distinct pairs: 250
 
 what followed (&#x27;the&#x27;, &#x27;machine&#x27;):
   [&#x27;counts&#x27;, &#x27;does&#x27;, &#x27;is&#x27;, &#x27;knows&#x27;, &#x27;picks&#x27;, &#x27;reads&#x27;, &#x27;was&#x27;]</code></pre></div>
-<p>Seven different words, each one recorded because it actually followed those two words somewhere in the text. The list on the page is the set, with repeats removed. The table itself holds all eleven: <code>does</code>, <code>is</code>, <code>knows</code>, and <code>was</code> twice each, and the other three once. Nothing in that list is a guess. It is a record of what happened in the text.</p><p>340 words produced 250 distinct pairs. Most pairs occur once, which is why a small corpus generates text that quotes itself in long stretches.</p></div></div>
+<p>Seven different words, each one recorded because it actually followed those two words somewhere in the text. The program prints each word once, with the repeats removed. The table itself holds all eleven: <code>does</code>, <code>is</code>, <code>knows</code>, and <code>was</code> twice each, and the other three once. Nothing in that list is a guess. It is a record of what happened in the text.</p><p>340 words produced 250 distinct pairs. Most pairs occur once, which is why a small corpus generates text that quotes itself in long stretches.</p></div></div>
 <p><code>defaultdict(list)</code> gives you an empty list for a key you have not seen, so <code>.append</code> works the first time. Compare that to session 3, where a plain dictionary raised <code>KeyError</code> and you had to check first.</p></section>
 <section class="chunk"><p class="chunk-no">Section 3 &middot; 25 minutes</p><h2>Let it write</h2><pre><code>def generate(model, seed_pair, length):
     &quot;&quot;&quot;Return a sentence of the given length, starting from seed_pair.&quot;&quot;&quot;
@@ -296,8 +296,8 @@ what followed (&#x27;the&#x27;, &#x27;machine&#x27;):
         first, second = second, nxt
     return &quot; &quot;.join(out)</code></pre>
 <div class="predict"><b>Predict first.</b> Starting from <code>("the", "machine")</code>, twenty two words. Will the output be grammatical? Will it make sense? Those are two separate questions.
-<button class="rev" data-target="a40" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a40">Show the answer</button>
-<div class="ans" id="a40"><div class="out"><span class="tag">verified output</span><pre><code>1. the machine reads a great deal of text. the machine is often followed by the word machine, and that the word not. you are
+<button class="rev" data-target="a48" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a48">Show the answer</button>
+<div class="ans" id="a48"><div class="out"><span class="tag">verified output</span><pre><code>1. the machine reads a great deal of text. the machine is often followed by the word machine, and that the word not. you are
 
 2. the machine knows which word followed which other word. then the machine reads a great deal of text. the machine does not know what
 
