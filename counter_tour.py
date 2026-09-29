@@ -3,14 +3,14 @@
 from collections import Counter
 
 counts = Counter("banana")
-print(counts)
+print(f"made with Counter: {counts}")
 print(counts["a"])
 print(counts["z"])
 print(counts.most_common(2))
 print(counts.total())
 
 counts.update("bandana")
-print(counts)
+print(f"made with Counter: {counts}")
 
 first = Counter("listen")
 second = Counter("silent")

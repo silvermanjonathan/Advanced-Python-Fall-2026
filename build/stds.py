@@ -134,10 +134,13 @@ def panel(codes, timing, watch, retouch=None, extras=""):
     for c in codes:
         rows += f'<p class="stdline"><span class="std">{esc(c)}</span> {esc(STD[c])}</p>\n'
     rt = f"<h3>Concept this session re-touches</h3><p>{retouch}</p>" if retouch else ""
+    if codes:
+        stds = f"<h3>Standards</h3>{rows}{MAPNOTE}"
+    else:
+        stds = ("<h3>Standards</h3><p>Not mapped yet. Map at most three when the "
+                "session is written.</p>")
     return (
         '<section class="panel"><h2>Teacher panel</h2>'
-        f"{rt}<h3>Standards</h3>"
-        f"{rows}"
-        f"{MAPNOTE}<h3>Timing</h3>{timing}"
+        f"{rt}{stds}<h3>Timing</h3>{timing}"
         f"<h3>What to watch for</h3>{watch}{extras}</section>\n"
     )

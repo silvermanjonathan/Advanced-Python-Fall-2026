@@ -1,4 +1,4 @@
-"""Sessions 3 to 8."""
+"""Sessions 3 to 7."""
 
 import os
 
@@ -191,12 +191,12 @@ for i in range(3):
         """counts = {}
 counts["b"] = 0
 counts["b"] = counts["b"] + 1
-print(counts)"""
+print(f"made without Counter: {counts}")"""
     )
     b += reveal(
         "What prints? And what happens if you run <code>counts[\"z\"] + 1</code> "
         "without setting <code>counts[\"z\"]</code> first?",
-        output("{'b': 1}")
+        output("made without Counter: {'b': 1}")
         + "<p>The second one raises <code>KeyError: 'z'</code>. A dictionary does not start a missing key at zero for you. <code>collections.Counter</code> does, which is why it exists.</p>",
     )
 
@@ -215,14 +215,14 @@ print(counts)"""
         """from collections import Counter
 
 counts = Counter("banana")
-print(counts)
+print(f"made with Counter: {counts}")
 print(counts["a"])
 print(counts["z"])
 print(counts.most_common(2))
 print(counts.total())
 
 counts.update("bandana")
-print(counts)
+print(f"made with Counter: {counts}")
 
 first = Counter("listen")
 second = Counter("silent")
@@ -233,12 +233,12 @@ print(first == second)""",
         "Two to predict before you run it. What does <code>counts[\"z\"]</code> print, "
         "when there is no z in banana? And what does the last line print?",
         output(
-            """Counter({'a': 3, 'n': 2, 'b': 1})
+            """made with Counter: Counter({'a': 3, 'n': 2, 'b': 1})
 3
 0
 [('a', 3), ('n', 2)]
 6
-Counter({'a': 6, 'n': 4, 'b': 2, 'd': 1})
+made with Counter: Counter({'a': 6, 'n': 4, 'b': 2, 'd': 1})
 True"""
         )
         + "<p>One line at a time:</p>"
@@ -546,7 +546,7 @@ plaintext: read the code and trace the code before you ever run the code"""
     b += (
         '<div class="predict"><b>Frequency counts are ratios.</b> 12 of 49 letters is '
         "about 0.24. In ordinary English <code>e</code> runs near 0.12. Your sample is "
-        "small, so your share is off. Any small sample has this problem. Session 9 is about it.</div>"
+        "small, so your share is off. Any small sample has this problem. Session 8 is about it.</div>"
     )
     b += (
         "<h3>Sets, in one line</h3>"
@@ -613,218 +613,17 @@ plaintext: read the code and trace the code before you ever run the code"""
     )
     b += pager(
         ("wed02_return_and_modules.html", "Session 2: functions that return a value"),
-        ("wed04_messy_files.html", "Session 4: messy files"),
+        ("wed04_transposition.html", "Session 4: moving letters"),
     )
     return b
 
 
 def day04():
-    """Session 4: files and messy text."""
+    """Session 4: transposition ciphers."""
     b = masthead(
         "04",
-        "Messy files, and saying what you threw away",
-        "Wednesday 7 October 2026",
-        "Real data arrives dirty. Today you read a file off the disk, decide line by "
-        "line what is usable, keep a record of what you rejected and why, and write "
-        "your results back out to a second file.",
-    )
-    b += '<h2><span class="num">1</span>Opener<span class="mins">10 minutes</span></h2>'
-    b += (
-        "<p>From memory, no looking: what does <code>Counter(\"banana\")</code> return? Write it exactly, brackets and all.</p>"
-    )
-    b += reveal(
-        "Write it first.",
-        output("Counter({'a': 3, 'n': 2, 'b': 1})")
-        + "<p>Ordered by count, highest first. That ordering is a Counter feature, not "
-        "a dictionary feature.</p>",
-    )
-
-    b += '<h2><span class="num">2</span>The file, and the boundary<span class="mins">20 minutes</span></h2>'
-    b += (
-        "<p>A program that reads a file depends on something it did not make. Call that a <b>boundary</b>: the place where the program meets the outside. Boundaries are where programs break. Two things can go wrong before you even see "
-        "a number: the file might not exist, and a line might not be a number.</p>"
-        "<p><code>try</code> and <code>except</code> let you say what to do instead of "
-        "crashing.</p>"
-    )
-    b += code(
-        """def read_lines(filename):
-    \"\"\"Return every line in the file, or an empty list if it is missing.\"\"\"
-    try:
-        handle = open(filename, "r")
-    except FileNotFoundError:
-        print(f"no file called {filename}, so there is nothing to read")
-        return []
-    lines = handle.readlines()
-    handle.close()
-    return lines"""
-    )
-    b += reveal(
-        "Why is <code>handle.readlines()</code> outside the <code>try</code> block "
-        "rather than inside it?",
-        "<p>Because the only error being handled is the file not existing. Once "
-        "<code>open</code> succeeds, a failure in <code>readlines</code> is a different problem and should not be hidden by an <code>except</code> written for a different error.</p>"
-        "<p>Catch one named thing. Never write a bare <code>except:</code>. It hides "
-        "bugs you have not met yet.</p>",
-    )
-
-    b += '<h2><span class="num">3</span>Clean it<span class="mins">35 minutes</span></h2>'
-    b += (
-        "<p>The input file holds thirteen lines. Some have spaces around them, one has "
-        "a comma stuck on, one is blank, one spells a number as a word, and one is "
-        "negative. Here it is as it sits on disk.</p>"
-    )
-    b += code(
-        """41
-58
-  33
-58
-twelve
-12
-
-77,
-58
--9
-60
-29
-77 ""","readings_raw.txt",
-    )
-    b += code(
-        '''def clean(lines):
-    """Return the numbers we could read, plus the lines we could not."""
-    good = []
-    rejected = []
-    for raw in lines:
-        text = raw.strip()
-        text = text.replace(",", "")
-
-        if text == "":
-            rejected.append((raw, "blank"))
-        else:
-            try:
-                value = int(text)
-            except ValueError:
-                rejected.append((raw, "not a number"))
-            else:
-                if value < 0:
-                    rejected.append((raw, "negative"))
-                else:
-                    good.append(value)
-    return good, rejected''',
-        "clean_readings.py, the important part",
-    )
-    b += reveal(
-        "Thirteen lines go in. How many numbers come out, and what is their total? You "
-        "have seen this total before.",
-        output(
-            """lines in the file: 13
-kept: [41, 58, 33, 58, 12, 77, 58, 60, 29, 77]
-kept 10, rejected 3
-rejected lines and why:
-  'twelve\\n' -> not a number
-  '\\n' -> blank
-  '-9\\n' -> negative
-
-readings_report.txt now says:
-kept 10 readings
-rejected 3 lines
-total 503
-average 50.3"""
-        )
-        + "<p>503 and 50.3. That is session 1's list, exactly. The dirty file held the "
-        "same ten readings you have been working with since the first day, buried in "
-        "three lines of rubbish.</p>"
-        "<p>Notice <code>else</code> attached to <code>try</code>. It runs only when no "
-        "exception happened, which keeps the negative check out of the block that is "
-        "watching for <code>ValueError</code>.</p>",
-    )
-    b += (
-        '<div class="predict"><b>The rejected list is the important part.</b> A program that '
-        "silently drops three lines and reports an average is worse than one that "
-        "crashes, because you will believe it. Say what you threw away and why, every "
-        "time.</div>"
-    )
-
-    b += '<h2><span class="num">4</span>Write it back out<span class="mins">15 minutes</span></h2>'
-    b += (
-        "<p>Reading was <code>open(filename, \"r\")</code>. Writing is the same call "
-        "with <code>\"w\"</code>, and then <code>handle.write</code> instead of "
-        "<code>handle.readlines</code>. One line at a time, and you put the "
-        "<code>\\n</code> on yourself.</p>"
-    )
-    b += code(
-        '''def write_report(filename, good, rejected):
-    """Write a short report next to the data."""
-    handle = open(filename, "w")
-
-    handle.write(f"kept {len(good)} readings\\n")
-    handle.write(f"rejected {len(rejected)} lines\\n")
-    total = 0
-
-    for v in good:
-        total = total + v
-
-    handle.write(f"total {total}\\n")
-    handle.write(f"average {total / len(good)}\\n")
-    handle.close()''',
-        "clean_readings.py, the report",
-    )
-    b += reveal(
-        "Suppose every line in the file was rubbish, so <code>good</code> is empty. "
-        "Which line of <code>write_report</code> breaks, and what does Python say?",
-        "<p>The average line. <code>total / len(good)</code> divides by zero and Python "
-        "stops with <code>ZeroDivisionError: division by zero</code>, the same error <code>average_of([])</code> would give in your session 2 module. The report file is left half "
-        "written, with the first three lines in it and no average.</p>"
-        "<p>That is a boundary too. A file with nothing usable in it is a real case, "
-        "and a report that says <code>kept 0 readings</code> tells the reader more than a crash does. Guard the average with an <code>if</code> before you divide.</p>",
-    )
-    b += exits(
-        "Your program opens the file, survives a missing file without crashing, and "
-        "prints how many lines it read.",
-        "Floor, plus the full clean with a rejected list carrying reasons, plus a "
-        "written report file, plus total 503 confirmed against session 1.",
-        "Middle, plus decide and defend a fourth rejection rule of your own, such as a "
-        "reading above 200. Then write the rejected lines to their own file so someone "
-        "could fix them by hand and re-run.",
-    )
-    b += panel(
-        ["6.SP.B.5.a", "6.SP.B.5.c", "MP6"],
-        "<p>10 opener, 20 the boundary, 35 cleaning, 15 report writing, 10 exits. "
-        "Typing the dirty file by hand wastes time, so put "
-        "<code>readings_raw.txt</code> on the machines beforehand.</p>",
-        "<p>Two failures to expect. First, <code>int(\"  33\")</code> actually works in "
-        "Python, so some students will conclude <code>.strip()</code> is pointless. It "
-        "is not: <code>int(\"77,\")</code> fails, which is why the comma is in the file. "
-        "Second, students will write a bare <code>except:</code> because it is shorter. "
-        "Do not allow it.</p>"
-        "<p>The reveal that this is session 1's data lands well if you do not "
-        "telegraph it. Let them compute 503 and notice.</p>",
-        retouch=(
-            "Session 1's reading list and its total of 503, arriving this time as a file "
-            "that has to be cleaned before the arithmetic works. Session 2's functions return the results."
-        ),
-        extras=(
-            "<h3>Files</h3><p><code>clean_readings.py</code> writes and then reads "
-            "<code>readings_raw.txt</code>, and writes "
-            "<code>readings_report.txt</code>. Verified on Python 3.12.3.</p>"
-            "<h3>Lifted this week</h3><p>File reading and writing, "
-            "<code>try</code> and <code>except</code> with a named error, "
-            "<code>try/else</code>, <code>.strip()</code>, <code>.append()</code>, "
-            "returning two values at once.</p>"
-        ),
-    )
-    b += pager(
-        ("wed03_counting.html", "Session 3: counting and cracking"),
-        ("wed05_transposition.html", "Session 5: moving letters"),
-    )
-    return b
-
-
-def day05():
-    """Session 5: transposition ciphers."""
-    b = masthead(
-        "05",
         "Ciphers that move letters instead of replacing them",
-        "Wednesday 14 October 2026",
+        "Wednesday 7 October 2026",
         "Session 3's Caesar cipher replaced each letter with a different one. These two "
         "keep every letter and change only where it sits, which means the letter counts "
         "stay identical and last session's frequency attack is useless against them.",
@@ -985,18 +784,18 @@ route    etnheantarhtmaettdetogaw"""
         ),
     )
     b += pager(
-        ("wed04_messy_files.html", "Session 4: messy files"),
-        ("wed06_hashing.html", "Session 6: seals and real hashes"),
+        ("wed03_counting.html", "Session 3: counting and cracking"),
+        ("wed05_hashing.html", "Session 5: seals and real hashes"),
     )
     return b
 
 
-def day06():
-    """Session 6: hashing and integrity."""
+def day05():
+    """Session 5: hashing and integrity."""
     b = masthead(
-        "06",
+        "05",
         "A homemade seal, and a real one",
-        "Wednesday 21 October 2026",
+        "Wednesday 14 October 2026",
         "A seal is a short number computed from a message, so a reader can tell whether "
         "the message changed on the way. You will build one, break it in about five "
         "minutes, and then use a function that does not break.",
@@ -1139,18 +938,18 @@ dawn vs dawn+period: 124 of 256 bits differ"""
         ),
     )
     b += pager(
-        ("wed05_transposition.html", "Session 5: moving letters"),
-        ("wed07_what_it_costs.html", "Session 7: what a program costs"),
+        ("wed04_transposition.html", "Session 4: moving letters"),
+        ("wed06_what_it_costs.html", "Session 6: what a program costs"),
     )
     return b
 
 
-def day07():
-    """Session 7: the cost of a program."""
+def day06():
+    """Session 6: the cost of a program."""
     b = masthead(
-        "07",
+        "06",
         "What a program costs",
-        "Wednesday 28 October 2026",
+        "Wednesday 21 October 2026",
         "Two programs can both be correct and one can be unusable. Today you measure "
         "the difference, first by counting the work and then by timing it, and you build "
         "a table that tells you when brute force stops being an option.",
@@ -1312,18 +1111,18 @@ for n in range(1, 8):
         ),
     )
     b += pager(
-        ("wed06_hashing.html", "Session 6: seals and real hashes"),
-        ("wed08_heuristics.html", "Session 8: smarter than brute force"),
+        ("wed05_hashing.html", "Session 5: seals and real hashes"),
+        ("wed07_heuristics.html", "Session 7: smarter than brute force"),
     )
     return b
 
 
-def day08():
-    """Session 8: hill climbing and a small genetic algorithm."""
+def day07():
+    """Session 7: hill climbing and a small genetic algorithm."""
     b = masthead(
-        "08",
+        "07",
         "Smarter than brute force",
-        "Wednesday 4 November 2026",
+        "Wednesday 28 October 2026",
         "Last week brute force ran out of road at ten digits. Today you open a seven "
         "digit lock in about 170 tries instead of ten million, using nothing but a "
         "score, a random change, and a rule about when to keep it.",
@@ -1463,11 +1262,11 @@ hill climbing, five runs:
         "five is how people fool themselves.</p>"
         "<p>The seed is fixed at 4703 in the file so your numbers match this page. Take "
         "the seed out once and let them see the numbers move, then put it back. That "
-        "sets up session 9 and session 10, where a fixed seed is what makes the run repeatable.</p>"
+        "sets up session 8 and session 9, where a fixed seed is what makes the run repeatable.</p>"
         "<p>Expect resistance to the conclusion that the genetic algorithm lost. Good. "
         "Make them do the multiplication on the board.</p>",
         retouch=(
-            "Session 7's runtime table, which priced brute force at ten million tries "
+            "Session 6's runtime table, which priced brute force at ten million tries "
             "for this exact lock. The opener re-derives that number before the "
             "alternative appears."
         ),
@@ -1481,7 +1280,7 @@ hill climbing, five runs:
         ),
     )
     b += pager(
-        ("wed07_what_it_costs.html", "Session 7: what a program costs"),
-        ("wed09_monte_carlo.html", "Session 9: settling it by simulation"),
+        ("wed06_what_it_costs.html", "Session 6: what a program costs"),
+        ("wed08_monte_carlo.html", "Session 8: settling it by simulation"),
     )
     return b

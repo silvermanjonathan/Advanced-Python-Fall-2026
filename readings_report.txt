@@ -1,0 +1,4 @@
+kept 10 readings
+rejected 3 lines
+total 503
+average 50.3

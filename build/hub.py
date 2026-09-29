@@ -11,66 +11,64 @@ SESSIONS = [
     ("03", "30 Sep", "wed03_counting.html", "Counting, and what counting lets you do",
      "Dictionaries and sets, then collections.Counter, then break a Caesar cipher by "
      "frequency."),
-    ("04", "7 Oct", "wed04_messy_files.html", "Messy files, and saying what you threw away",
-     "Read a dirty file, clean it, record the rejects, write a report. try and except at "
-     "the boundary."),
-    ("05", "14 Oct", "wed05_transposition.html", "Ciphers that move letters",
+    ("04", "7 Oct", "wed04_transposition.html", "Ciphers that move letters",
      "Rail fence, then a route cipher on a list-of-lists grid with a signed key."),
-    ("06", "21 Oct", "wed06_hashing.html", "Your seal, and a real one",
+    ("05", "14 Oct", "wed05_hashing.html", "Your seal, and a real one",
      "Build a letter-sum seal, find a collision in it, then hashlib.sha256 and the "
      "avalanche property, measured in bits."),
-    ("07", "28 Oct", "wed07_what_it_costs.html", "What a program costs",
+    ("06", "21 Oct", "wed06_what_it_costs.html", "What a program costs",
      "Linear against binary search, brute force with itertools.product, and a "
      "runtime-against-digits table you time yourself."),
-    ("08", "4 Nov", "wed08_heuristics.html", "Smarter than brute force",
+    ("07", "28 Oct", "wed07_heuristics.html", "Smarter than brute force",
      "Fitness, mutation, selection. Hill climbing, then a small genetic algorithm, then a fair comparison of the two."),
-    ("09", "18 Nov", "wed09_monte_carlo.html", "Settling an argument by simulation",
+    ("08", "4 Nov", "wed08_monte_carlo.html", "Settling an argument by simulation",
      "Monty Hall: trials, tally, convergence, and a silent bug that produces a stable "
      "wrong answer. Capstone brief issued."),
-    ("10", "25 Nov", "wed10_benford.html", "The first digit tells on you",
+    ("09", "18 Nov", "wed09_benford.html", "The first digit tells on you",
      "Benford's law on two CSV files, one grown and one invented, with a histogram drawn "
      "in pygame."),
-    ("11", "2 Dec", "wed11_markov.html", "Machines that write",
-     "A word-pair model trained on a text file, then what the big language models do differently, and what they do the same. Capstone sketches due."),
-    ("12", "9 Dec", "wed12_classes.html", "Objects that remember their own history",
+    ("10", "25 Nov", "wed10_markov.html", "Machines that write",
+     "A word-pair model trained on a text file, then what the big language models do differently, and what they do the same."),
+    ("11", "2 Dec", "wed11_classes.html", "Objects that remember their own history",
      "class, __init__, self, methods, and a list of objects stepped in one loop. A "
-     "particle plume with gravity and trails."),
-    ("13", "16 Dec", "wed13_orbits_demo.html", "Orbits, then the demo",
-     "Gravity as acceleration toward a body, time steps, and the sixty second parent "
+     "particle plume with gravity and trails. Capstone sketches due."),
+    ("12", "9 Dec", "wed12_orbits.html", "Orbits",
+     "Gravity as acceleration toward a body, and time steps."),
+    ("13", "16 Dec", "wed13_demo_day.html", "To be written, then the demo",
+     "The first half is not written yet. The second half is the sixty second parent "
      "demo."),
 ]
 
 LIFTED = [
     ("Session 2", "<code>return</code> values, <code>len()</code>, <code>import</code> "
-     "of your own module"),
+     "of your own module, <code>and</code> to join two comparisons"),
     ("Session 3", "dictionaries, sets, <code>collections.Counter</code>, "
      "<code>.replace()</code>, <code>ord</code> and <code>chr</code>"),
-    ("Session 4", "file reading and writing, <code>try</code> and <code>except</code> "
-     "with a named error, <code>try/else</code>, <code>.strip()</code>, "
-     "<code>.append()</code>, returning two values"),
-    ("Session 5", "list of lists as a grid, slicing, <code>range</code> with a negative "
+    ("Session 4", "list of lists as a grid, slicing, <code>range</code> with a negative "
      "step, <code>abs</code>, <code>.join()</code>"),
-    ("Session 6", "<code>hashlib</code>, <code>.encode()</code>, "
+    ("Session 5", "<code>hashlib</code>, <code>.encode()</code>, "
      "<code>int(text, 16)</code>, <code>format</code> with a bit spec"),
-    ("Session 7", "<code>itertools.product</code>, <code>time.perf_counter</code>, "
+    ("Session 6", "<code>itertools.product</code>, <code>time.perf_counter</code>, "
      "<code>//</code>, compound <code>while</code> conditions"),
-    ("Session 8", "<code>random.randrange</code>, <code>random.random</code>, "
+    ("Session 7", "<code>random.randrange</code>, <code>random.random</code>, "
      "<code>sort</code> with a <code>key</code>"),
-    ("Session 9", "<code>random.seed</code> for reproducibility"),
-    ("Session 10", "<code>csv.DictReader</code>, <code>math.log10</code>, "
+    ("Session 8", "<code>random.seed</code> for reproducibility"),
+    ("Session 9", "reading a file with <code>with open(...) as f:</code>, "
+     "<code>try</code> and <code>except</code> with a named error, "
+     "<code>csv.DictReader</code>, <code>math.log10</code>, "
      "<code>pygame.draw.rect</code> for a histogram"),
-    ("Session 11", "<code>collections.defaultdict</code>, tuples as dictionary keys, "
+    ("Session 10", "<code>collections.defaultdict</code>, tuples as dictionary keys, "
      "<code>.split()</code>, multiple assignment"),
-    ("Session 12", "<code>class</code>, <code>__init__</code>, <code>self</code>, "
+    ("Session 11", "<code>class</code>, <code>__init__</code>, <code>self</code>, "
      "methods, a list of objects, <code>pygame.draw.lines</code>"),
-    ("Session 13", "<code>math.sqrt</code> for distance, vector components, a time step"),
+    ("Session 12", "<code>math.sqrt</code> for distance, vector components, a time step"),
 ]
 
 HELD = [
     ("Nested gates", "Flat <code>if</code> / <code>elif</code> / <code>else</code> "
-     "only, all term. Two flat gates in a row beat one nested pair, and session 5's "
+     "only, all term. Two flat gates in a row beat one nested pair, and session 4's "
      "rail fence shows why."),
-    ("<code>break</code>", "Lifted, but only in session 7 and after, and only where the "
+    ("<code>break</code>", "Lifted, but only in session 6 and after, and only where the "
      "loop exit is itself the topic. Before that, every <code>while</code> names its "
      "exit condition."),
     ("Bare <code>except:</code>", "Never. Catch one named error. A bare except hides "
@@ -118,7 +116,7 @@ def hub():
                 '<span class="t">No class, Veterans Day'
                 '<span class="s">Fourteen Wednesdays fall in the term. This is the one '
                 "that comes out, which is what makes it a thirteen session course. "
-                "Session 9's opener is built to cover the two week gap.</span>"
+                "Session 9 comes straight after the two week gap.</span>"
                 "</span></div>"
             )
     b += "</div>"
@@ -126,9 +124,9 @@ def hub():
         '<div class="flag"><b>Two dates to confirm against Robofun\'s closure list '
         "before this syllabus goes to parents.</b> 30 September falls in the "
         "intermediate days of Sukkot, which some Upper West Side programs skip. "
-        "25 November is the day before Thanksgiving, and attendance is usually light. "
-        "Session 10 is built to be self-contained for that reason: nothing later in the "
-        "term depends on it.</div>"
+        "25 November, session 10, is the day before Thanksgiving, and attendance is "
+        "usually light. Nothing later in the term depends on session 10, so anyone away "
+        "can pick it up from its page.</div>"
     )
 
     b += "<h2>What this course is for</h2>"
@@ -139,7 +137,7 @@ def hub():
         "<p>So the order is always the same. Read it, trace it, then run it. Every page "
         "asks you to predict the output before you see it, because a prediction you got "
         "wrong teaches you something and a program you watched run does not.</p>"
-        "<p>Three sessions are built around a wrong answer. In session 8 the fancier method loses. In session 12 five lists fall out of step. In session 9 a program settles on 0.5540 when the true value is 0.6667, with no error message anywhere, and finding out why is the point of that session.</p>"
+        "<p>Three sessions are built around a wrong answer. In session 7 the fancier method loses. In session 11 five lists fall out of step. In session 8 a program settles on 0.5540 when the true value is 0.6667, with no error message anywhere, and finding out why is the point of that session.</p>"
     )
 
     b += "<h2>What this course assumes</h2>"
@@ -169,12 +167,12 @@ def hub():
         "<tr><td>Session 3</td><td>Ciphers, taught from the start: what a Caesar cipher does, "
         "and the words plaintext, ciphertext, and key. Students encode by hand before "
         "any code.</td></tr>"
-        "<tr><td>Session 10</td><td>Logarithms, only as far as \"what power of ten "
+        "<tr><td>Session 9</td><td>Logarithms, only as far as \"what power of ten "
         "gives this number\". The calculator does the arithmetic.</td></tr>"
-        "<tr><td>Session 12</td><td>Splitting a speed and an angle into an across "
+        "<tr><td>Session 11</td><td>Splitting a speed and an angle into an across "
         "amount and an up amount. Presented as a tool, with a squares check students "
         "can verify themselves.</td></tr>"
-        "<tr><td>Session 13</td><td>The Pythagorean theorem, stated plainly as the "
+        "<tr><td>Session 12</td><td>The Pythagorean theorem, stated plainly as the "
         "distance rule.</td></tr>"
         "</table>"
         '<div class="flag"><b>If session 1 goes badly for a third of the room, the '
@@ -219,16 +217,16 @@ def hub():
 
     b += "<h2>Capstone</h2>"
     b += (
-        "<p>The capstone runs from session 9 to the demo, not as a session of its own. "
-        "The brief goes out on 18 November and the sketch is due on 2 December. There "
+        "<p>The capstone runs from session 8 to the demo, not as a session of its own. "
+        "The brief goes out on 4 November and the sketch is due on 2 December. There "
         "is no separate build session: the capstone is an addition to one of the two "
-        "programs the course gives you in sessions 12 and 13, the particle plume or the "
+        "programs the course gives you in sessions 11 and 12, the particle plume or the "
         "orbit, and it is built inside those two sessions' stretch exits and shown at "
         "the demo on 16 December.</p>"
         "<p>Before any code: one page on paper with a hand drawn screen, every player "
         "action, everything on screen that is not the player, how score is kept, both "
         "ways the program can end, and then pseudocode in English. No sketch means no "
-        "build. Session 9's page carries the four yes-or-no checks it is judged by.</p>"
+        "build. Session 8's page carries the four yes-or-no checks it is judged by.</p>"
     )
 
     b += "<h2>Standards</h2>"
@@ -258,23 +256,23 @@ def hub():
         "<p>These are built one way and can be built the other. Each one is a real "
         "choice, not an oversight.</p>"
         "<table><tr><th>Decision</th><th>Built as</th><th>If you change it</th></tr>"
-        "<tr><td>Are classes lifted?</td><td>Yes, from session 12</td>"
-        "<td>Sessions 12 and 13 restructure around functions plus parallel lists, and "
+        "<tr><td>Are classes lifted?</td><td>Yes, from session 11</td>"
+        "<td>Sessions 11 and 12 restructure around functions plus parallel lists, and "
         "the plume and the orbit both go. Those two sessions would need replacing.</td>"
         "</tr>"
         "<tr><td>Environment</td><td>VS Code throughout, pygame for all graphics</td>"
-        "<td>Sessions 10, 12, and 13 need pygame on the machines. Sessions 1 to 9 and 11 "
+        "<td>Sessions 9, 11, and 12 need pygame on the machines. Sessions 1 to 8 and 10 "
         "are terminal only and run anywhere.</td></tr>"
         "<tr><td>Theme</td><td>None.</td>"
-        "<td>Sessions 3, 5, and 6 are all about ciphers and could share one theme. Sessions 7 to 13 would not.</td></tr>"
-        "<tr><td>Data files</td><td>Four needed on disk</td>"
-        "<td><code>readings_raw.txt</code>, <code>honest_ledger.csv</code>, "
-        "<code>cooked_ledger.csv</code>, <code>corpus.txt</code>. All four are generated "
+        "<td>Sessions 3, 4, and 5 are all about ciphers and could share one theme. Sessions 6 to 12 would not.</td></tr>"
+        "<tr><td>Data files</td><td>Three needed on disk</td>"
+        "<td><code>honest_ledger.csv</code>, "
+        "<code>cooked_ledger.csv</code>, <code>corpus.txt</code>. All three are generated "
         "by scripts in the repo, so nothing needs fetching over the network.</td></tr>"
         "<tr><td>Capstone sketch deadline</td><td>Session 11, 2 December</td>"
-        "<td>It was session 10, the light attendance day, and moved because the sketch "
-        "describes a window and session 10 is the first window students see. No build "
-        "time is lost, since the build lives in the session 12 and 13 stretch exits.</td></tr>"
+        "<td>It comes after session 9, the first window students see, because the sketch "
+        "describes a window, and after session 10, the light attendance day before "
+        "Thanksgiving. The build lives in the session 11 and 12 stretch exits.</td></tr>"
         "</table>"
     )
 
@@ -282,27 +280,29 @@ def hub():
     b += (
         "<p>Every output printed on these pages came from running these files on Python "
         "3.12.3, with pygame 2.6.1 for the two graphics sessions, verified headless. "
-        "Timings in session 7 are machine specific and will not match your classroom "
+        "Timings in session 6 are machine specific and will not match your classroom "
         "machines. Re-run before Wednesday.</p>"
         "<table><tr><th>File</th><th>Session</th></tr>"
         "<tr><td><code>sweep_report.py</code>, <code>gate_log.py</code></td>"
         "<td>1</td></tr>"
-        "<tr><td><code>sweep_tools.py</code>, <code>sweep_report2.py</code></td>"
+        "<tr><td><code>sweep_tools.py</code>, <code>sweep_report2.py</code>, "
+        "<code>print_the_return.py</code>, <code>sweep_tools_more.py</code>, "
+        "<code>sweep_report3.py</code>, <code>first_over_enumerate.py</code></td>"
         "<td>2</td></tr>"
-        "<tr><td><code>caesar_crack.py</code></td><td>3</td></tr>"
-        "<tr><td><code>clean_readings.py</code></td><td>4</td></tr>"
-        "<tr><td><code>transposition.py</code></td><td>5</td></tr>"
-        "<tr><td><code>avalanche.py</code></td><td>6</td></tr>"
-        "<tr><td><code>what_it_costs.py</code></td><td>7</td></tr>"
-        "<tr><td><code>smarter_than_brute.py</code></td><td>8</td></tr>"
-        "<tr><td><code>monty_hall.py</code></td><td>9</td></tr>"
-        "<tr><td><code>make_data.py</code>, <code>benford.py</code>, "
-        "<code>benford_histogram.py</code></td><td>10</td></tr>"
-        "<tr><td><code>markov.py</code>, <code>corpus.txt</code></td><td>11</td></tr>"
+        "<tr><td><code>counter_tour.py</code>, <code>caesar_encode.py</code>, "
+        "<code>caesar_crack.py</code></td><td>3</td></tr>"
+        "<tr><td><code>transposition.py</code></td><td>4</td></tr>"
+        "<tr><td><code>avalanche.py</code></td><td>5</td></tr>"
+        "<tr><td><code>what_it_costs.py</code></td><td>6</td></tr>"
+        "<tr><td><code>smarter_than_brute.py</code></td><td>7</td></tr>"
+        "<tr><td><code>monty_hall.py</code></td><td>8</td></tr>"
+        "<tr><td><code>make_data.py</code>, <code>read_ledger.py</code>, <code>safe_count.py</code>, "
+        "<code>benford.py</code>, <code>benford_histogram.py</code></td><td>9</td></tr>"
+        "<tr><td><code>markov.py</code>, <code>corpus.txt</code></td><td>10</td></tr>"
         "<tr><td><code>sparks_parallel.py</code>, <code>plume.py</code>, "
-        "<code>verify_plume.py</code></td><td>12</td></tr>"
+        "<code>verify_plume.py</code></td><td>11</td></tr>"
         "<tr><td><code>orbit.py</code>, <code>verify_orbit.py</code>, "
-        "<code>verify_orbit_band.py</code></td><td>13</td></tr>"
+        "<code>verify_orbit_band.py</code></td><td>12</td></tr>"
         "</table>"
     )
 

@@ -320,11 +320,12 @@ def shipped_function(slug):
     return text[start:end if end > 0 else len(text)].rstrip("\n")
 
 
-def hint_ladder(name, steps):
+def hint_ladder(name, steps, extra=""):
     """Return a function's hints, each opened from inside the one before it.
 
     After the last hint comes a button that shows the whole function, read from
-    sweep_tools_more.py so it matches the answer key exactly.
+    sweep_tools_more.py so it matches the answer key exactly. extra, if given, is
+    added to the answer box under the function.
     """
     slug = name.split("(")[0]
     aid = f"hint-{slug}-answer"
@@ -334,6 +335,7 @@ def hint_ladder(name, steps):
         "Show the answer</button>\n"
         f'<div class="ans" id="{aid}">'
         + code(shipped_function(slug), "sweep_tools_more.py")
+        + extra
         + "</div>\n"
     )
     for n in range(len(steps), 0, -1):
@@ -345,6 +347,36 @@ def hint_ladder(name, steps):
             f'<div class="ans" id="{hid}">{steps[n - 1]}{inner}</div>\n'
         )
     return f'<div class="hintset"><p><code>{name}</code></p>{inner}</div>\n'
+
+
+def _enumerate_parts():
+    """Return the enumerate version of first_over_index and its demo lines."""
+    text = open(os.path.join(_ROOT, "first_over_enumerate.py")).read()
+    start = text.find("def first_over_index")
+    fn = text[start:text.find("\n\n\n", start)].rstrip("\n")
+    demo = text[text.find('for i, v in enumerate(["a"'):].rstrip("\n")
+    return fn, demo
+
+
+_ENUM_FN, _ENUM_DEMO = _enumerate_parts()
+
+FIRST_OVER_ENUMERATE = (
+    "<h3>Another way: <code>enumerate</code></h3>"
+    "<p>The answer above loops over the indexes and reads each value with "
+    "<code>values[i]</code>. Python has a function, <code>enumerate</code>, that "
+    "gives you the index and the value together. The <code>for</code> line names "
+    "two variables, separated by a comma, and each pass fills both: <code>i</code> "
+    "gets the index and <code>v</code> gets the value at that index.</p>"
+    + code(_ENUM_DEMO, "first_over_enumerate.py")
+    + output("0 a\n1 b\n2 c")
+    + "<p>Here is <code>first_over_index</code> written that way. It does the same "
+    "job and returns the same answers. The only change is the <code>for</code> "
+    "line, and <code>v</code> in place of <code>values[i]</code>.</p>"
+    + code(_ENUM_FN, "first_over_enumerate.py")
+    + output("first over 55 at index 1\nfirst over 100 at index -1")
+    + "<p>No reading is over 100, so the loop finishes without returning and the "
+    "function returns -1. Either version is correct.</p>"
+)
 
 
 def day02_hints():
@@ -395,14 +427,14 @@ return hits'''),
         ("count_between(values, low, high)", [
             "<p>A reading counts when it passes two tests: it is at least "
             "<code>low</code>, and it is at most <code>high</code>.</p>",
-            "<p>Use two gates, one inside the other. The first asks "
-            "<code>v &gt;= low</code>. Indented under it, the second asks "
-            "<code>v &lt;= high</code>. Add 1 only inside the second gate.</p>",
+            "<p>One gate can ask both questions with the word <code>and</code>. "
+            "<code>v &gt;= low and v &lt;= high</code> is True only when both "
+            "comparisons are True. If either one is False, the whole condition is "
+            "False and the gate stays shut. Add 1 inside that gate.</p>",
             code('''hits = 0
 for v in values:
-    if v >= low:
-        if ____:
-            hits = hits + 1
+    if v >= low and ____:
+        hits = hits + 1
 return hits'''),
         ]),
         ("total_over(values, limit)", [
@@ -710,7 +742,8 @@ last best at 9"""
         "button that shows the whole function.</p>"
     )
     for name, steps in day02_hints():
-        b += hint_ladder(name, steps)
+        extra = FIRST_OVER_ENUMERATE if name.startswith("first_over_index") else ""
+        b += hint_ladder(name, steps, extra)
     b += reveal(
         "All seven, written out. Look only after yours run, or when you are stuck on "
         "one and have already tried it on paper.",
@@ -726,9 +759,9 @@ total over 55: 388
 first over 55 at index 1"""
         )
         + "<p>Two things to notice. <code>spread_of</code> is one line, because the "
-        "two functions it needs already exist. And <code>count_between</code> uses "
-        "one gate inside another: a reading has to pass <code>v &gt;= low</code> "
-        "before it is even asked about <code>v &lt;= high</code>.</p>",
+        "two functions it needs already exist. And <code>count_between</code> asks "
+        "two questions in one gate with <code>and</code>: a reading counts only when "
+        "<code>v &gt;= low</code> and <code>v &lt;= high</code> are both True.</p>",
         show="Show all seven answers",
         hide="Hide the answers",
     )
@@ -764,8 +797,11 @@ first over 55 at index 1"""
         extras=(
             "<h3>Files</h3><p><code>sweep_tools.py</code> and "
             "<code>sweep_report2.py</code>. All output verified on Python 3.12.3.</p>"
-            "<h3>Lifted this week</h3><p><code>return</code>, <code>len()</code>, and "
-            "<code>import</code> of your own module. Full list on the "
+            "<h3>Lifted this week</h3><p><code>return</code>, <code>len()</code>, "
+            "<code>import</code> of your own module, and <code>and</code> to join two "
+            "comparisons in one gate (section 5, <code>count_between</code>). "
+            "<code>enumerate</code> appears once, as a second way to write "
+            "<code>first_over_index</code>; nothing later depends on it. Full list on the "
             '<a href="advanced_python_hub.html">hub</a>.</p>'
         ),
     )

@@ -19,7 +19,7 @@ CHECKS = {
     "wed01_cold_read.html#2": ("python3 gate_log.py", [
         "x 7", "y 5", "z 0", "q 3",
     ]),
-    "wed12_classes.html#2": ("python3 sparks_parallel.py", [
+    "wed11_classes.html#2": ("python3 sparks_parallel.py", [
         "spark 1: x=109 y=485 orange",
         "spark 2: x=100 y=494 red",
         "after removing from four lists but forgetting the fifth:",
@@ -29,6 +29,9 @@ CHECKS = {
         "i=1 reading=58 slot=0", "i=9 reading=77 slot=8",
     ]),
     "wed02_return_and_modules.html#print": ("python3 print_the_return.py", ["12"]),
+    "wed02_return_and_modules.html#enumerate": ("python3 first_over_enumerate.py", [
+        "first over 55 at index 1", "first over 100 at index -1", "0 a", "2 c",
+    ]),
     "wed02_return_and_modules.html#5": ("python3 sweep_report3.py", [
         "smallest 12", "largest 77", "spread 65", "under 55: 4",
         "between 30 and 60: 6", "total over 55: 388", "first over 55 at index 1",
@@ -37,8 +40,8 @@ CHECKS = {
         "first best at 5", "last best at 9",
     ]),
     "wed03_counting.html#counter": ("python3 counter_tour.py", [
-        "Counter({'a': 3, 'n': 2, 'b': 1})", "[('a', 3), ('n', 2)]",
-        "Counter({'a': 6, 'n': 4, 'b': 2, 'd': 1})", "True",
+        "made with Counter: Counter({'a': 3, 'n': 2, 'b': 1})", "[('a', 3), ('n', 2)]",
+        "made with Counter: Counter({'a': 6, 'n': 4, 'b': 2, 'd': 1})", "True",
     ]),
     "wed03_counting.html#encode": ("python3 caesar_encode.py", ["gdzq", "cheud", "dawn"]),
     "wed03_counting.html": ("python3 caesar_crack.py", [
@@ -46,65 +49,67 @@ CHECKS = {
         "distinct letters used: 14", "guessed shift 3",
         "plaintext: read the code and trace the code before you ever run the code",
     ]),
-    "wed04_messy_files.html": ("python3 clean_readings.py", [
-        "lines in the file: 13",
-        "kept: [41, 58, 33, 58, 12, 77, 58, 60, 29, 77]",
-        "kept 10, rejected 3", "total 503", "average 50.3",
-    ]),
-    "wed05_transposition.html": ("python3 transposition.py", [
+    "wed04_transposition.html": ("python3 transposition.py", [
         "rails 3  maettdetthnrhaetanetogaw", "round trip ok: True",
         "route    etnheantarhtmaettdetogaw",
     ]),
-    "wed06_hashing.html": ("python3 avalanche.py", [
+    "wed05_hashing.html": ("python3 avalanche.py", [
         "seal of 'ab' = 1", "seal of 'ba' = 1",
         "d502810c71aeb17e5ea1cbf930b46b87bb645a75df45f500230d061992aeb90a",
         "9076bc233a9100d5c0885c6a5f055ca13d856d28ee9cf74941719bb292f88da7",
         "dawn vs dusk: 130 of 256 bits differ",
         "dawn vs dawn+period: 124 of 256 bits differ",
     ]),
-    "wed07_what_it_costs.html": ("python3 what_it_costs.py", [
+    "wed06_what_it_costs.html": ("python3 what_it_costs.py", [
         "linear: found at 999 after 1000 looks",
         "binary: found at 999 after 10 looks",
         "linear: returned -1 after 1000 looks",
         "binary: returned -1 after 10 looks",
     ]),
-    "wed08_heuristics.html": ("python3 smarter_than_brute.py", [
+    "wed07_heuristics.html": ("python3 smarter_than_brute.py", [
         "brute force        4703917 tries",
         "random guessing    200000 tries (capped at 200000)",
         "run 3: 50 tries", "average 165.8 tries",
         "average 17.0 generations of 40 codes each",
     ]),
-    "wed09_monte_carlo.html": ("python3 monty_hall.py", [
+    "wed08_monte_carlo.html": ("python3 monty_hall.py", [
         "one hundred games, switching:", "67 wins out of 100",
         "100000    33318        0.3332       66682          0.6668",
         "1/3 = 0.3333", "2/3 = 0.6667",
     ]),
-    "wed10_benford.html": ("python3 benford.py", [
+    "wed09_benford.html#read": ("python3 read_ledger.py", [
+        "{'source': 'fibonacci', 'amount': '1'}", "rows read: 600",
+    ]),
+    "wed09_benford.html#try": ("python3 safe_count.py", [
+        "no file called honest_ledger.cvs, so there is nothing to count",
+        "the program is still running",
+    ]),
+    "wed09_benford.html": ("python3 benford.py", [
         "largest gap from Benford: 0.004",
         "largest gap from Benford: 0.201",
         "1     182     0.303             0.301",
         "9      27     0.045             0.046",
         "1      60     0.100             0.301",
     ]),
-    "wed11_markov.html": ("python3 markov.py", [
+    "wed10_markov.html": ("python3 markov.py", [
         "corpus words: 340", "distinct pairs: 250",
         "['counts', 'does', 'is', 'knows', 'picks', 'reads', 'was']",
     ]),
-    "wed12_classes.html": (
+    "wed11_classes.html": (
         "SDL_VIDEODRIVER=dummy SDL_AUDIODRIVER=dummy python3 verify_plume.py", [
             "frames run: 241",
             "particles: 120, still airborne: 0, landed: 120",
             "highest point reached: y=64.2 (ground is y=560)",
             "trail lengths: shortest 92, longest 183",
         ]),
-    "wed13_orbits_demo.html": (
+    "wed12_orbits.html": (
         "SDL_VIDEODRIVER=dummy SDL_AUDIODRIVER=dummy python3 verify_orbit.py", [
             "frames: 1201, trail points: 1202",
             "closest approach 60.1 px, farthest 180.0 px",
             "final speed 5.94 px per step",
             "frame  100:   63.9 px",
         ]),
-    "wed13_orbits_demo.html#band": (
+    "wed12_orbits.html#band": (
         "SDL_VIDEODRIVER=dummy SDL_AUDIODRIVER=dummy python3 verify_orbit_band.py", [
             "2.0   0.6        15        190       0",
             "2.8   0.6        29        180       0",

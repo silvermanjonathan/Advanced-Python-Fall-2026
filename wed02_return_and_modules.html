@@ -461,12 +461,11 @@ return hits</code></pre>
 </div>
 <div class="hintset"><p><code>count_between(values, low, high)</code></p><button class="rev" data-target="hint-count_between-1" data-show="Hint 1" data-hide="Hide hint 1" aria-expanded="false" aria-controls="hint-count_between-1">Hint 1</button>
 <div class="ans" id="hint-count_between-1"><p>A reading counts when it passes two tests: it is at least <code>low</code>, and it is at most <code>high</code>.</p><button class="rev" data-target="hint-count_between-2" data-show="Hint 2" data-hide="Hide hint 2" aria-expanded="false" aria-controls="hint-count_between-2">Hint 2</button>
-<div class="ans" id="hint-count_between-2"><p>Use two gates, one inside the other. The first asks <code>v &gt;= low</code>. Indented under it, the second asks <code>v &lt;= high</code>. Add 1 only inside the second gate.</p><button class="rev" data-target="hint-count_between-3" data-show="Hint 3" data-hide="Hide hint 3" aria-expanded="false" aria-controls="hint-count_between-3">Hint 3</button>
+<div class="ans" id="hint-count_between-2"><p>One gate can ask both questions with the word <code>and</code>. <code>v &gt;= low and v &lt;= high</code> is True only when both comparisons are True. If either one is False, the whole condition is False and the gate stays shut. Add 1 inside that gate.</p><button class="rev" data-target="hint-count_between-3" data-show="Hint 3" data-hide="Hide hint 3" aria-expanded="false" aria-controls="hint-count_between-3">Hint 3</button>
 <div class="ans" id="hint-count_between-3"><pre><code>hits = 0
 for v in values:
-    if v &gt;= low:
-        if ____:
-            hits = hits + 1
+    if v &gt;= low and ____:
+        hits = hits + 1
 return hits</code></pre>
 <button class="rev" data-target="hint-count_between-answer" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="hint-count_between-answer">Show the answer</button>
 <div class="ans" id="hint-count_between-answer"><p class="fname">sweep_tools_more.py</p>
@@ -474,9 +473,8 @@ return hits</code></pre>
     &quot;&quot;&quot;Return how many values are from low to high, both ends included.&quot;&quot;&quot;
     hits = 0
     for v in values:
-        if v &gt;= low:
-            if v &lt;= high:
-                hits = hits + 1
+        if v &gt;= low and v &lt;= high:
+            hits = hits + 1
     return hits</code></pre>
 </div>
 </div>
@@ -520,7 +518,22 @@ return -1</code></pre>
         if values[i] &gt; limit:
             return i
     return -1</code></pre>
-</div>
+<h3>Another way: <code>enumerate</code></h3><p>The answer above loops over the indexes and reads each value with <code>values[i]</code>. Python has a function, <code>enumerate</code>, that gives you the index and the value together. The <code>for</code> line names two variables, separated by a comma, and each pass fills both: <code>i</code> gets the index and <code>v</code> gets the value at that index.</p><p class="fname">first_over_enumerate.py</p>
+<pre><code>for i, v in enumerate([&quot;a&quot;, &quot;b&quot;, &quot;c&quot;]):
+    print(i, v)</code></pre>
+<div class="out"><span class="tag">verified output</span><pre><code>0 a
+1 b
+2 c</code></pre></div>
+<p>Here is <code>first_over_index</code> written that way. It does the same job and returns the same answers. The only change is the <code>for</code> line, and <code>v</code> in place of <code>values[i]</code>.</p><p class="fname">first_over_enumerate.py</p>
+<pre><code>def first_over_index(values, limit):
+    &quot;&quot;&quot;Return the index of the first value strictly greater than limit, or -1.&quot;&quot;&quot;
+    for i, v in enumerate(values):
+        if v &gt; limit:
+            return i
+    return -1</code></pre>
+<div class="out"><span class="tag">verified output</span><pre><code>first over 55 at index 1
+first over 100 at index -1</code></pre></div>
+<p>No reading is over 100, so the loop finishes without returning and the function returns -1. Either version is correct.</p></div>
 </div>
 </div>
 </div>
@@ -564,9 +577,8 @@ def count_between(values, low, high):
     &quot;&quot;&quot;Return how many values are from low to high, both ends included.&quot;&quot;&quot;
     hits = 0
     for v in values:
-        if v &gt;= low:
-            if v &lt;= high:
-                hits = hits + 1
+        if v &gt;= low and v &lt;= high:
+            hits = hits + 1
     return hits
 
 
@@ -600,12 +612,12 @@ under 55: 4
 between 30 and 60: 6
 total over 55: 388
 first over 55 at index 1</code></pre></div>
-<p>Two things to notice. <code>spread_of</code> is one line, because the two functions it needs already exist. And <code>count_between</code> uses one gate inside another: a reading has to pass <code>v &gt;= low</code> before it is even asked about <code>v &lt;= high</code>.</p></div></div>
+<p>Two things to notice. <code>spread_of</code> is one line, because the two functions it needs already exist. And <code>count_between</code> asks two questions in one gate with <code>and</code>: a reading counts only when <code>v &gt;= low</code> and <code>v &lt;= high</code> are both True.</p></div></div>
 </section>
 <section class="panel"><h2>Teacher panel</h2><h3>Concept this session re-touches</h3><p>Session 1's three habits, asked for in the opener as ideas rather than numbers: trace before you run, name the value, and read every character. Then the strict <code>&gt;</code> gate from session 1, now given two names: <code>best_index</code> keeps <code>&gt;</code> and <code>last_best_index</code> uses <code>&gt;=</code>, so last week's argument becomes this week's pair of functions.</p><h3>Standards</h3><p class="stdline"><span class="std">8.F.A.1</span> Understand that a function is a rule that assigns to each input exactly one output. The graph of a function is the set of ordered pairs consisting of an input and the corresponding output.</p>
 <p class="stdline"><span class="std">MP7</span> Look for and make use of structure.</p>
 <p class="stdline"><span class="std">6.EE.B.6</span> Use variables to represent numbers and write expressions when solving a real-world or mathematical problem; understand that a variable can represent an unknown number, or, depending on the purpose at hand, any number in a specified set.</p>
-<p class="mapnote">Mapped to the Common Core State Standards for Mathematics (Multi-State). Each code and its wording was retrieved from the CASE Network through the Learning Commons Knowledge Graph on 12 September 2026. New York's own Computer Science and Digital Fluency framework and the CSTA standards are not carried in that graph, so no code from either appears anywhere on this site.</p><p class="mapnote">Two deliberate deviations from the retrieved text. The "for example…" illustrations attached to 7.SP.C.6 and 8.EE.A.1 are omitted, since they illustrate rather than state the standard. And where the source carries markup, italics or mathematical notation, it is rendered as plain text: 7.SP.C.5's fraction appears here as 1/2, and the italic stem of 6.SP.B.5.a and 6.SP.B.5.c is plain. Nothing else was shortened. Codes 6.SP.B.5.a and 6.SP.B.5.c are the lettered children of 6.SP.B.5, whose own statement is only a stem ending in a colon; the children carry that stem and are quoted in full.</p><h3>Timing</h3><p>10 opener, 20 print against return, 25 building the module, 15 the import, 20 adding to the module. No slack. The module build runs long. If you are short, ship three functions instead of five in section 3 and let section 5 make up the difference: a student who adds <code>smallest_of</code> and <code>largest_of</code> has written five functions either way. Section 5 is where the room spreads out: two new functions is the floor, <code>count_between</code> with two limits is the middle, and a function of their own invention with a print line to match is the stretch.</p><h3>What to watch for</h3><p>The common failure is a function with both a <code>print</code> and a <code>return</code> in it. It works, and it teaches nothing. Make them delete the print. Rule for the term: a module never prints.</p><p>Second common failure is running <code>sweep_tools.py</code> directly, seeing no output, and deciding it is broken. It is not broken. It has nothing to say. Name that moment out loud before it happens.</p><p>When <code>count_over</code> is written, ask the room what <code>count_over([5, 5, 5], 5)</code> returns. Anyone who says 3 has forgotten last week's strict <code>&gt;</code>, and that question is the retrieval this session is built to force.</p><h3>Files</h3><p><code>sweep_tools.py</code> and <code>sweep_report2.py</code>. All output verified on Python 3.12.3.</p><h3>Lifted this week</h3><p><code>return</code>, <code>len()</code>, and <code>import</code> of your own module. Full list on the <a href="advanced_python_hub.html">hub</a>.</p></section>
+<p class="mapnote">Mapped to the Common Core State Standards for Mathematics (Multi-State). Each code and its wording was retrieved from the CASE Network through the Learning Commons Knowledge Graph on 12 September 2026. New York's own Computer Science and Digital Fluency framework and the CSTA standards are not carried in that graph, so no code from either appears anywhere on this site.</p><p class="mapnote">Two deliberate deviations from the retrieved text. The "for example…" illustrations attached to 7.SP.C.6 and 8.EE.A.1 are omitted, since they illustrate rather than state the standard. And where the source carries markup, italics or mathematical notation, it is rendered as plain text: 7.SP.C.5's fraction appears here as 1/2, and the italic stem of 6.SP.B.5.a and 6.SP.B.5.c is plain. Nothing else was shortened. Codes 6.SP.B.5.a and 6.SP.B.5.c are the lettered children of 6.SP.B.5, whose own statement is only a stem ending in a colon; the children carry that stem and are quoted in full.</p><h3>Timing</h3><p>10 opener, 20 print against return, 25 building the module, 15 the import, 20 adding to the module. No slack. The module build runs long. If you are short, ship three functions instead of five in section 3 and let section 5 make up the difference: a student who adds <code>smallest_of</code> and <code>largest_of</code> has written five functions either way. Section 5 is where the room spreads out: two new functions is the floor, <code>count_between</code> with two limits is the middle, and a function of their own invention with a print line to match is the stretch.</p><h3>What to watch for</h3><p>The common failure is a function with both a <code>print</code> and a <code>return</code> in it. It works, and it teaches nothing. Make them delete the print. Rule for the term: a module never prints.</p><p>Second common failure is running <code>sweep_tools.py</code> directly, seeing no output, and deciding it is broken. It is not broken. It has nothing to say. Name that moment out loud before it happens.</p><p>When <code>count_over</code> is written, ask the room what <code>count_over([5, 5, 5], 5)</code> returns. Anyone who says 3 has forgotten last week's strict <code>&gt;</code>, and that question is the retrieval this session is built to force.</p><h3>Files</h3><p><code>sweep_tools.py</code> and <code>sweep_report2.py</code>. All output verified on Python 3.12.3.</p><h3>Lifted this week</h3><p><code>return</code>, <code>len()</code>, <code>import</code> of your own module, and <code>and</code> to join two comparisons in one gate (section 5, <code>count_between</code>). <code>enumerate</code> appears once, as a second way to write <code>first_over_index</code>; nothing later depends on it. Full list on the <a href="advanced_python_hub.html">hub</a>.</p></section>
 </div></main>
 <nav class="pager"><a href="wed01_cold_read.html">&larr; Session 1: cold read</a><a href="advanced_python_hub.html">Course hub</a><a href="wed03_counting.html">Session 3: counting and cracking &rarr;</a></nav>
 <footer><div class="wrap"><p>Advanced Python, Robofun Fall 2026. Second printing, 13 September 2026. Built by a generator; the page, not the file, is the source of truth for output, because every quoted line came from a run.</p></div></footer>

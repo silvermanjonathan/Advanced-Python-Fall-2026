@@ -40,9 +40,8 @@ def count_between(values, low, high):
     """Return how many values are from low to high, both ends included."""
     hits = 0
     for v in values:
-        if v >= low:
-            if v <= high:
-                hits = hits + 1
+        if v >= low and v <= high:
+            hits = hits + 1
     return hits
 
 

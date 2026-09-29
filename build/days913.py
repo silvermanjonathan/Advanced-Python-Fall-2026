@@ -1,4 +1,6 @@
-"""Sessions 9 to 13."""
+"""Sessions 8 to 13."""
+
+import os
 
 from build import code, masthead, output, pager, reveal
 from days38 import exits
@@ -18,9 +20,9 @@ CAPSTONE = (
     "<li>How it ends. Both ways: winning and losing.</li>"
     "<li>Then pseudocode, in English, before any Python.</li>"
     "</ul>"
-    "<p>Sketches are due at the start of session 11, two weeks from today. No sketch means no build.</p>"
+    "<p>Sketches are due at the start of session 11, on 2 December. No sketch means no build.</p>"
     "<p>What you build on is fixed, so the sketch describes something real. In sessions "
-    "12 and 13 you get two working programs with moving objects and gravity: a plume of "
+    "11 and 12 you get two working programs with moving objects and gravity: a plume of "
     "particles, and a ship going round a planet. Your capstone is what you add to one of "
     "them, and the sketch page describes that addition. A fuel budget and a target orbit. "
     "A second planet. A vent that fires when a key is pressed and scores every particle "
@@ -36,31 +38,31 @@ CAPSTONE = (
     "</ul>"
     "<p>Four items. Each is yes or no. Four yes is a finished capstone.</p>"
     "<h3>Where the time is</h3>"
-    "<p>Session 10: bring questions about the sketch, and see your first window. Session "
-    "11: sketch handed in at the start, and five minutes at the end where you say which "
-    "program you are extending and what the first addition is. Session 12: you get the plume, and the stretch exit is the first capstone addition. Session 13: you get the orbit, the stretch exit is a fuel budget and a target, and the last 45 "
-    "minutes are rehearsal and demo. There is no separate build session, so the "
-    "addition has to be small enough to finish inside two stretch exits.</p>"
+    "<p>Session 9: your first window, the Benford histogram. Your sketch describes a "
+    "window like it, so bring questions about the sketch. Session 11: sketch handed in "
+    "at the start. You get the plume, the stretch exit is the first capstone addition, "
+    "and in the last five minutes you say which program you are extending and what the "
+    "first addition is. Session 12: you get the orbit, and the stretch exit is a fuel "
+    "budget and a target. Session 13: the parent demo, in the last 45 minutes. There is "
+    "no separate build session, so the addition has to be small enough to finish inside "
+    "two stretch exits.</p>"
     "</section>\n"
 )
 
 
-def day09():
-    """Session 9: Monte Carlo and Monty Hall."""
+def day08():
+    """Session 8: Monte Carlo and Monty Hall."""
     b = masthead(
-        "09",
+        "08",
         "Settling an argument by simulation",
-        "Wednesday 18 November 2026",
+        "Wednesday 4 November 2026",
         "There is a probability question that fooled a great many mathematicians in "
         "1990. You are not going to argue about it. You are going to run it a hundred "
         "thousand times and read the answer off the screen.",
     )
-    b += (
-        '<div class="flag"><b>No class on 11 November.</b> Veterans Day. Session 8 was two weeks ago. The opener goes back to it.</div>'
-    )
     b += '<h2><span class="num">1</span>Opener<span class="mins">10 minutes</span></h2>'
     b += (
-        "<p>Two weeks back, hill climbing opened a seven digit lock in about 170 tries "
+        "<p>Last week, hill climbing opened a seven digit lock in about 170 tries "
         "where brute force needed 4.7 million. On paper, two things: what information "
         "did <code>score</code> give the climber, and why did we insist on five runs "
         "rather than one?</p>"
@@ -215,8 +217,8 @@ the model says stay 1/3 and switch 2/3:
         "the table, 15 the bug hunt, 10 capstone brief. That is 90 with no slack. If "
         "section 3 runs long, take the minutes from section 4 by running the table on "
         "the projector once rather than on every machine. The written model has to happen before any code runs, because the whole session compares the model against the run, and the capstone "
-        "brief has to be read aloud, because the sketch is due in two weeks and next week "
-        "is the light attendance day.</p>",
+        "brief has to be read aloud, because there is no class on 11 November and the "
+        "next session is two weeks away.</p>",
         "<p>Some of the room will refuse the two thirds answer even after the "
         "simulation. That is the correct historical reaction and you should say so. Do "
         "not argue them into it. Have them run 100000 trials themselves.</p>"
@@ -229,8 +231,8 @@ the model says stay 1/3 and switch 2/3:
         "This session is that standard almost word for word, with the discrepancy "
         "supplied by a real bug.</p>",
         retouch=(
-            "Session 8's five-runs-not-one discipline and the idea of a spread. Also "
-            "session 8's fixed seed, which becomes load-bearing here: the same seed is "
+            "Session 7's five-runs-not-one discipline and the idea of a spread. Also "
+            "session 7's fixed seed, which becomes load-bearing here: the same seed is "
             "what makes the stay and switch columns comparable."
         ),
         extras=(
@@ -242,29 +244,61 @@ the model says stay 1/3 and switch 2/3:
         ),
     )
     b += pager(
-        ("wed08_heuristics.html", "Session 8: smarter than brute force"),
-        ("wed10_benford.html", "Session 10: the first digit"),
+        ("wed07_heuristics.html", "Session 7: smarter than brute force"),
+        ("wed09_benford.html", "Session 9: the first digit"),
     )
     return b
 
 
-def day10():
-    """Session 10: Benford's law on real data."""
+def read_ledger_source():
+    """Return read_ledger.py without its docstring, as shown on the page."""
+    root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    text = open(os.path.join(root, "read_ledger.py")).read()
+    return text[text.find("import csv"):].rstrip("\n")
+
+
+def safe_count_source():
+    """Return safe_count.py without its docstring, as shown on the page."""
+    root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    text = open(os.path.join(root, "safe_count.py")).read()
+    return text[text.find("import csv"):].rstrip("\n")
+
+
+def safe_count_output():
+    """Return what safe_count.py prints, as quoted on the page."""
+    return (
+        "600\n"
+        "no file called honest_ledger.cvs, so there is nothing to count\n"
+        "0\n"
+        "the program is still running"
+    )
+
+
+def read_ledger_output():
+    """Return what read_ledger.py prints, as quoted on the page."""
+    return (
+        "{'source': 'fibonacci', 'amount': '1'}\n"
+        "{'source': 'fibonacci', 'amount': '1'}\n"
+        "{'source': 'fibonacci', 'amount': '2'}\n"
+        "rows read: 600"
+    )
+
+
+def day09():
+    """Session 9: Benford's law on real data."""
     b = masthead(
-        "10",
+        "09",
         "The first digit tells on you",
-        "Wednesday 25 November 2026",
+        "Wednesday 18 November 2026",
         "Numbers that grow on their own start with 1 about thirty percent of the time "
         "and with 9 about five percent. Numbers people invent do not. Today you read two "
         "files and work out which one was made up.",
     )
     b += (
-        '<div class="flag"><b>Day before Thanksgiving.</b> Attendance is usually light. '
-        "This session is self-contained on purpose: nothing later in the term depends on "
-        "it, so anyone away can pick it up from this page alone. Capstone sketches are "
-        "due next week, not today, so nobody away loses a deadline. If you are here and "
-        "have a question about the sketch, ask it after the histogram: this is the first "
-        "window you have seen, and the sketch describes a window.</div>"
+        '<div class="flag"><b>No class on 11 November.</b> Veterans Day, so session 8 '
+        "was two weeks ago. Capstone sketches are due at the start of session 11, on 2 "
+        "December. If you have a question about the sketch, ask it after the histogram: "
+        "this is the first window you have seen, and the sketch describes a window.</div>"
     )
     b += '<h2><span class="num">1</span>Opener<span class="mins">10 minutes</span></h2>'
     b += (
@@ -275,13 +309,80 @@ def day10():
         "many 2s, and so on up to 9. Put the tally on the board and leave it there.</p>"
     )
 
-    b += '<h2><span class="num">2</span>Two files<span class="mins">20 minutes</span></h2>'
+    b += '<h2><span class="num">2</span>Two files<span class="mins">30 minutes</span></h2>'
     b += (
         "<p>Both files hold 600 amounts in a column called <code>amount</code>. One was "
         "built from Fibonacci numbers and powers of two, which are quantities that grow "
         "by multiplying. The other is 600 numbers picked at random between 100 and 9999, "
         "which is what invented figures look like.</p>"
-        "<p>Read each file, pull the first digit off each amount, and tally.</p>"
+    )
+    b += "<h3>Reading a file</h3>"
+    b += (
+        "<p>This is the first program in the course that reads a file. The file has to "
+        "be in the same folder as your program. Here is the smallest program that opens "
+        "one and looks inside.</p>"
+    )
+    b += code(read_ledger_source(), "read_ledger.py")
+    b += (
+        "<p>Three new pieces:</p>"
+        '<ul class="tight">'
+        "<li><code>with open(\"honest_ledger.csv\", newline=\"\") as f:</code> opens "
+        "the file and names it <code>f</code>. When the indented lines under it are "
+        "finished, Python closes the file for you. <code>newline=\"\"</code> is what the "
+        "<code>csv</code> module asks for; leave it in.</li>"
+        "<li><code>csv.DictReader(f)</code> reads the file one row at a time. The first "
+        "line of the file, <code>source,amount</code>, gives the column names.</li>"
+        "<li>Each <code>row</code> is a dictionary, like the ones in session 3. The "
+        "column name is the key, so <code>row[\"amount\"]</code> is the amount on that "
+        "row.</li>"
+        "</ul>"
+    )
+    b += reveal(
+        "What does the first <code>print(row)</code> show? Look at the first two lines "
+        "of the file: <code>source,amount</code> and then <code>fibonacci,1</code>.",
+        output(read_ledger_output())
+        + "<p>Each row is a dictionary with two keys. Look at the quotes round the "
+        "<code>'1'</code>: every value comes out of the file as text, not as a number. "
+        "That is why <code>leading_digit</code> below takes text and looks at its "
+        "characters.</p>"
+        "<p>If Python stops with <code>FileNotFoundError: [Errno 2] No such file or "
+        "directory</code>, the CSV is not in the same folder as your program. Move it "
+        "there and run again.</p>",
+    )
+    b += "<h3>When the file is not there</h3>"
+    b += (
+        "<p>A missing file, or a misspelled name, stops the whole program with "
+        "<code>FileNotFoundError</code>. Python has a way to say what to do instead. "
+        "Put the lines that might fail under <code>try:</code>, and put what to do "
+        "instead under <code>except</code>, followed by the name of the error.</p>"
+    )
+    b += code(safe_count_source(), "safe_count.py")
+    b += (
+        "<p>Python runs the lines under <code>try:</code>. If one of them fails with "
+        "<code>FileNotFoundError</code>, Python stops running those lines and runs the "
+        "lines under <code>except FileNotFoundError:</code> instead, and the program "
+        "keeps going. If nothing fails, the <code>except</code> lines are skipped.</p>"
+        "<p>Always write the name of the error after <code>except</code>. A bare "
+        "<code>except:</code> with no name catches every error, including mistakes in "
+        "your own code, so a bug would be hidden instead of shown. Here, any error other "
+        "than <code>FileNotFoundError</code> still stops the program with its "
+        "traceback, which is what you want.</p>"
+    )
+    b += reveal(
+        "The second call has a typo: <code>.cvs</code> instead of <code>.csv</code>. "
+        "What do the four lines of output say? Would the last line print without the "
+        "<code>try</code>?",
+        output(safe_count_output())
+        + "<p>The first call counts all 600 rows. The second call cannot find the file, "
+        "so the <code>except</code> lines print the message and the function returns "
+        "0. The program is still running, so the last line prints.</p>"
+        "<p>Without the <code>try</code>, the second call stops the program with "
+        "<code>FileNotFoundError: [Errno 2] No such file or directory: "
+        "'honest_ledger.cvs'</code>, and the last line never prints.</p>",
+    )
+    b += (
+        "<p>Now the real program. It reads each file, pulls the first digit off each "
+        "amount, and tallies.</p>"
     )
     b += code(
         '''import csv
@@ -328,7 +429,7 @@ def benford_expected(digit):
         "<p>Check that the nine shares add to 1. They do, exactly. Each share is log of (d+1) minus log of d, so when you add all nine, every middle term cancels and what is left is log of 10 minus log of 1, which is 1.</p>",
     )
 
-    b += '<h2><span class="num">3</span>Which one was invented<span class="mins">30 minutes</span></h2>'
+    b += '<h2><span class="num">3</span>Which one was invented<span class="mins">20 minutes</span></h2>'
     b += reveal(
         "Predict the largest gap from Benford for each file. Two numbers.",
         output(
@@ -443,8 +544,10 @@ pygame.quit()''',
     )
     b += panel(
         ["6.SP.B.4", "7.SP.A.1", "MP4"],
-        "<p>10 opener, 20 the two files, 30 the comparison, 25 the histogram, 5 exits. "
-        "With light attendance, run the histogram as a whole-room build on the projector "
+        "<p>10 opener, 30 the two files (five on reading a file, five on "
+        "<code>try</code> and <code>except</code>), 20 the comparison, 25 the "
+        "histogram, 5 exits. "
+        "If the room is behind, run the histogram as a whole-room build on the projector "
         "rather than individually. Have <code>benford_histogram.py</code> on the "
         "machines: the point of the section is reading the loop, not typing it.</p>",
         "<p>Be careful with the fraud framing. Benford is a reason to look harder, not "
@@ -457,11 +560,12 @@ pygame.quit()''',
         "sample, and <span class=\"std\">7.SP.A.1</span> is exactly about that.</p>"
         "<p>Watch for students reading <code>counts[leading_digit(...)] += 1</code> and "
         "asking why it does not raise <code>KeyError</code> the way session 3's plain "
-        "dictionary did. Good question. A Counter supplies the zero.</p>",
+        "dictionary did. Good question. A Counter supplies the zero.</p>"
+        "<p>Students will write a bare <code>except:</code> because it is shorter. Do "
+        "not allow it. The hub's code rules say to catch one named error.</p>",
         retouch=(
-            "Session 3's Counter and the KeyError rule, and session 4's file reading "
-            "with a dirty column. Also session 9's habit of writing the model down "
-            "before measuring anything."
+            "Session 3's Counter and the KeyError rule. Also session 8's habit of "
+            "writing the model down before measuring anything."
         ),
         extras=(
             "<h3>Files</h3><p><code>make_data.py</code> builds "
@@ -471,6 +575,11 @@ pygame.quit()''',
             "<code>FILENAME</code> line at the top. Put all four on the machines "
             "beforehand. All figures verified on Python 3.12.3; the histogram was run "
             "headless on both CSVs with pygame 2.6.1.</p>"
+            "<h3>Lifted this week</h3><p>Reading a file with <code>with open(...) as "
+            "f:</code>, <code>try</code> and <code>except</code> with a named error, "
+            "<code>csv.DictReader</code>, <code>math.log10</code>, "
+            "<code>pygame.draw.rect</code>. <code>read_ledger.py</code> and "
+            "<code>safe_count.py</code> are the two short examples in section 2.</p>"
             "<h3>Honesty note for the room</h3><p>The cooked file was generated by "
             "<code>random.randint(100, 9999)</code>, not taken from a real fraud case. "
             "Say so. It stands in for invented figures, and the comparison is real even "
@@ -478,19 +587,25 @@ pygame.quit()''',
         ),
     )
     b += pager(
-        ("wed09_monte_carlo.html", "Session 9: settling it by simulation"),
-        ("wed11_markov.html", "Session 11: machines that write"),
+        ("wed08_monte_carlo.html", "Session 8: settling it by simulation"),
+        ("wed10_markov.html", "Session 10: machines that write"),
     )
     return b
 
 
-def day11():
-    """Session 11: Markov chains and the LLM conversation."""
+def day10():
+    """Session 10: Markov chains and the LLM conversation."""
     b = masthead(
-        "11",
+        "10",
         "Machines that write, and what they are actually doing",
-        "Wednesday 2 December 2026",
+        "Wednesday 25 November 2026",
         "You are going to build a small version of the program behind a chatbot, out of a list, a loop, and a dictionary. It takes about forty lines. Once you have built it, you will know what that program is doing.",
+    )
+    b += (
+        '<div class="flag"><b>Day before Thanksgiving.</b> Attendance is usually light. '
+        "Nothing later in the term depends on this session, so anyone away can pick it "
+        "up from this page alone. Capstone sketches are due next week, at the start of "
+        "session 11, so nobody away today loses a deadline.</div>"
     )
     b += '<h2><span class="num">1</span>Opener<span class="mins">10 minutes</span></h2>'
     b += (
@@ -596,7 +711,7 @@ what followed ('the', 'machine'):
         '<div class="predict"><b>Your model gives probabilities.</b> Seven options '
         "for <code>(\"the\", \"machine\")</code> does not mean one in seven each. The "
         "table holds eleven entries, so <code>does</code> gets two chances in eleven "
-        "and <code>reads</code> gets one. Session 9 had you write a model down and then "
+        "and <code>reads</code> gets one. Session 8 had you write a model down and then "
         "test it against what actually happened. Do the same here: pick a pair, predict "
         "the share for each option, generate 200 continuations, and count.</div>"
     )
@@ -612,15 +727,8 @@ what followed ('the', 'machine'):
     b += panel(
         ["7.SP.C.7", "7.SP.C.6", "MP4"],
         "<p>10 opener, 30 building the table, 25 generation, 20 the conversation, 5 "
-        "exits and the capstone checkpoint. The conversation in section 4 is the reason "
-        "this session is in the course. Protect the time for it.</p>"
-        "<h3>Capstone checkpoint</h3><p>Sketches are collected at the start of today, "
-        "not last week: the light attendance day and the first window both come before "
-        "the deadline on purpose. Read each one for the four checks before section 2. "
-        "In the last five minutes, each student says in one sentence which program they "
-        "are extending, the plume or the orbit, and what the first addition is. Write "
-        "the answers down. A student with no answer gets one assigned: a key that "
-        "fires the vent.</p>",
+        "exits. The conversation in section 4 is the reason this session is in the "
+        "course. Protect the time for it.</p>",
         "<p>Students will want a bigger corpus immediately, and they are right that it "
         "helps. Have a 2000 word text file ready. Write it yourself or use something "
         "clearly out of copyright, and do not let them paste in a book they do not have "
@@ -633,7 +741,7 @@ what followed ('the', 'machine'):
         "good stretch fix using <code>.get</code> instead.</p>",
         retouch=(
             "Session 3's dictionary and KeyError, now solved a second way with "
-            "<code>defaultdict</code>. Session 9's discipline of stating a probability "
+            "<code>defaultdict</code>. Session 8's discipline of stating a probability "
             "model and then measuring against it."
         ),
         extras=(
@@ -647,18 +755,18 @@ what followed ('the', 'machine'):
         ),
     )
     b += pager(
-        ("wed10_benford.html", "Session 10: the first digit"),
-        ("wed12_classes.html", "Session 12: objects that remember"),
+        ("wed09_benford.html", "Session 9: the first digit"),
+        ("wed11_classes.html", "Session 11: objects that remember"),
     )
     return b
 
 
-def day12():
-    """Session 12: classes and particles."""
+def day11():
+    """Session 11: classes and particles."""
     b = masthead(
-        "12",
+        "11",
         "Objects that remember their own history",
-        "Wednesday 9 December 2026",
+        "Wednesday 2 December 2026",
         "Tracking four moving sparks takes five lists kept in step by hand, and the "
         "lists are held together by nothing but your attention. Today each spark is one "
         "object that carries its own position, its own speed, and its own trail.",
@@ -757,7 +865,7 @@ after removing from four lists but forgetting the fifth:
         "of 90 degrees means straight up, which on screen means y decreasing, so the "
         "initial dy has to be negative. Gravity pulls down the screen, which is y "
         "increasing, so it adds.</p>"
-        "<p>This is the coordinate system from session 5's grid, with one axis flipped "
+        "<p>This is the coordinate system from session 4's grid, with one axis flipped "
         "relative to the one you use in maths class. It causes bugs in every program that draws, so say it out loud each time it comes up.</p>",
     )
     b += (
@@ -800,7 +908,7 @@ trail lengths: shortest 92, longest 183""",
         "and no list is keeping them in step.</p>",
     )
     b += (
-        "<p>The loop has the same shape as the histogram in session 10: "
+        "<p>The loop has the same shape as the histogram in session 9: "
         "<code>while running:</code>, the QUIT listener, <code>clock.tick(60)</code>, "
         "and a window that never closes itself. The objects changed what is inside the loop. The loop itself is the same.</p>"
     )
@@ -819,8 +927,14 @@ trail lengths: shortest 92, longest 183""",
         "<p>10 opener, 30 the class, 25 the list of objects, 20 colour and exits. "
         "Typing a class from scratch takes longer than you expect. Have the file on the "
         "machines and read it before extending it.</p>"
-        "<h3>Capstone checkpoint</h3><p>Students extending the plume start their "
-        "addition in the stretch exit today. Check each one against the first rubric "
+        "<h3>Capstone checkpoint</h3><p>Sketches are due at the start of today. The "
+        "first window (session 9) and the light attendance day (session 10) both come "
+        "before the deadline on purpose. Read each sketch for the four checks before "
+        "section 2. In the last five minutes, each student says in one sentence which "
+        "program they are extending, the plume or the orbit, and what the first "
+        "addition is. Write the answers down. A student with no answer gets one "
+        "assigned: a key that fires the vent.</p><p>Students extending the plume start "
+        "their addition in the stretch exit today. Check each one against the first rubric "
         "line before they leave: it runs, and the window closes only when they close "
         "it. Students extending the orbit do the stretch exit as written and start "
         "next week.</p>",
@@ -829,13 +943,13 @@ trail lengths: shortest 92, longest 183""",
         "Second is writing <code>def step(self)</code> and then calling "
         "<code>step(p)</code> instead of <code>p.step()</code>.</p>"
         "<p>Keep <code>pygame.font</code> out of it. Words in the terminal, visuals in "
-        "the window, the rule set in session 10. If they want a readout, print it.</p>"
+        "the window, the rule set in session 9. If they want a readout, print it.</p>"
         "<p>If the room needs a gentler first class, write a two-attribute one on the "
         "board first: a <code>Pet</code> with a name and a hunger level, one method "
         "that feeds it. Five minutes, then come back to the particle.</p>",
         retouch=(
             "The parallel list problem from session 3, now solved properly. Also "
-            "session 5's row and column coordinates, reappearing as screen coordinates "
+            "session 4's row and column coordinates, reappearing as screen coordinates "
             "with the y axis flipped."
         ),
         extras=(
@@ -850,21 +964,20 @@ trail lengths: shortest 92, longest 183""",
         ),
     )
     b += pager(
-        ("wed11_markov.html", "Session 11: machines that write"),
-        ("wed13_orbits_demo.html", "Session 13: orbits, then the demo"),
+        ("wed10_markov.html", "Session 10: machines that write"),
+        ("wed12_orbits.html", "Session 12: orbits"),
     )
     return b
 
 
-def day13():
-    """Session 13: orbits and the parent demo."""
+def day12():
+    """Session 12: orbits and the parent demo."""
     b = masthead(
-        "13",
-        "Orbits, then the demo",
-        "Wednesday 16 December 2026",
+        "12",
+        "Orbits",
+        "Wednesday 9 December 2026",
         "Gravity is one line of arithmetic applied over and over. A ship that only ever "
-        "falls toward a planet, and never stops falling, is in orbit. Then the room fills "
-        "with parents and you show them what you built.",
+        "falls toward a planet, and never stops falling, is in orbit.",
     )
     b += '<h2><span class="num">1</span>Opener<span class="mins">10 minutes</span></h2>'
     b += (
@@ -981,7 +1094,65 @@ distance at a few frames:
         "still holds between 62 and 180, and it takes a DT of about 8 before a single jump is big enough to send it off screen.</div>"
     )
 
-    b += '<h2><span class="num">3</span>The demo<span class="mins">45 minutes</span></h2>'
+    b += exits(
+        "Your orbit program runs and the ship goes round at least once without crashing "
+        "or escaping, and you can point at the line that makes gravity weaker further "
+        "out.",
+        "Floor, plus you found the band of starting speeds that produce an orbit and "
+        "recorded both edges.",
+        "Middle, plus add a fuel budget: each key press spends fuel and changes dx or dy, "
+        "and the readout prints to the terminal. Then set a target orbit and see whether "
+        "you can reach it before the fuel runs out.",
+    )
+    b += panel(
+        ["8.G.B.7", "7.RP.A.2", "8.F.B.4"],
+        "<p>10 opener, 30 the orbit, 5 close. The other 45 minutes are open: they held "
+        "the demo, which is now in session 13 on 16 December. Have the orbit file working "
+        "on the machines beforehand. If time is short, the band reveal is the first thing "
+        "to cut from section 2: the table is on the page for anyone who wants it.</p>",
+        "<p>A ship that spirals out or flies off is almost always a bug, not "
+        "<code>DT</code>. The step order in <code>step</code> updates speed first and "
+        "position second, and that order holds an orbit steady even at a DT of 6. Two "
+        "bugs produce the fly-off: moving the position lines above the speed lines, "
+        "and the double division by <code>r</code> below. Check those before anything "
+        "else.</p>"
+        "<p>Watch for students who normalise by dividing by <code>r</code> twice, or who "
+        "forget it entirely. Forgetting it gives a pull that grows with distance and a "
+        "ship that flies off immediately, which at least fails loudly.</p>",
+        retouch=(
+            "Session 11's class and its <code>step</code> method, with gravity changed "
+            "from a constant to something that depends on position. Also session 11's "
+            "flipped y axis, which still applies."
+        ),
+        extras=(
+            "<h3>Files</h3><p><code>orbit.py</code>. Verified headless over 1200 frames "
+            "on pygame 2.6.1. The orbit is stable for at least twenty seconds of "
+            "runtime. <code>verify_orbit_band.py</code> produced the table of other "
+            "starting speeds and time steps by running <code>orbit.py</code> with those "
+            "values, with the frame clock switched off.</p>"
+            "<h3>Lifted this week</h3><p><code>math.sqrt</code> for distance, vector "
+            "components by proportion, a time step.</p>"
+        ),
+    )
+    b += pager(
+        ("wed11_classes.html", "Session 11: objects that remember"),
+        ("wed13_demo_day.html", "Session 13: the demo"),
+    )
+    return b
+
+
+def day13():
+    """Session 13: not written yet, then the parent demo."""
+    b = masthead(
+        "13",
+        "To be written, then the demo",
+        "Wednesday 16 December 2026",
+        "The first half of this session is not written yet. The second half is the "
+        "parent demo.",
+    )
+    b += '<h2><span class="num">1</span>Not written yet<span class="mins">45 minutes</span></h2>'
+    b += "<p>This section is left blank for now.</p>"
+    b += '<h2><span class="num">2</span>The demo<span class="mins">45 minutes</span></h2>'
     b += (
         "<p>Parents arrive. Each student gets sixty seconds, and the shape is fixed:</p>"
         '<ul class="tight">'
@@ -994,57 +1165,23 @@ distance at a few frames:
         "<p>Rehearse the third part most. Anybody can run a program. Explaining how you found a bug shows that you wrote it.</p>"
         "<p>Rehearse in pairs first, twice through, with a timer. Sixty seconds goes quickly.</p>"
     )
-    b += exits(
-        "Your orbit program runs and the ship goes round at least once without crashing "
-        "or escaping, and you can point at the line that makes gravity weaker further "
-        "out.",
-        "Floor, plus you found the band of starting speeds that produce an orbit and "
-        "recorded both edges, plus a rehearsed sixty second demo.",
-        "Middle, plus add a fuel budget: each key press spends fuel and changes dx or dy, "
-        "and the readout prints to the terminal. Then set a target orbit and see whether "
-        "you can reach it before the fuel runs out.",
-    )
     b += panel(
-        ["8.G.B.7", "7.RP.A.2", "8.F.B.4"],
-        "<p>10 opener, 30 the orbit, 45 rehearsal and demo, 5 close. On demo day the "
-        "timings slip, so have the orbit file working on the machines beforehand and "
-        "treat section 2 as optional if parents arrive early. The band reveal is the "
-        "first thing to cut from section 2: the table is on the page for anyone who "
-        "wants it.</p>",
+        [],
+        "<p>45 open, 45 rehearsal and demo. On demo day the timings slip, so if parents "
+        "arrive early, start the demo early.</p>",
         "<p>Do not let the demo become a slideshow about what they meant to build. Run, "
-        "point, tell. Sixty seconds each. Hold the timer yourself.</p>"
-        "<p>A ship that spirals out or flies off is almost always a bug, not "
-        "<code>DT</code>. The step order in <code>step</code> updates speed first and "
-        "position second, and that order holds an orbit steady even at a DT of 6. Two "
-        "bugs produce the fly-off: moving the position lines above the speed lines, "
-        "and the double division by <code>r</code> below. Check those before anything "
-        "else.</p>"
-        "<p>Watch for students who normalise by dividing by <code>r</code> twice, or who "
-        "forget it entirely. Forgetting it gives a pull that grows with distance and a "
-        "ship that flies off immediately, which at least fails loudly.</p>",
-        retouch=(
-            "Session 12's class and its <code>step</code> method, with gravity changed "
-            "from a constant to something that depends on position. Also session 12's "
-            "flipped y axis, which still applies."
-        ),
+        "point, tell. Sixty seconds each. Hold the timer yourself.</p>",
         extras=(
-            "<h3>Files</h3><p><code>orbit.py</code>. Verified headless over 1200 frames "
-            "on pygame 2.6.1. The orbit is stable for at least twenty seconds of "
-            "runtime. <code>verify_orbit_band.py</code> produced the table of other "
-            "starting speeds and time steps by running <code>orbit.py</code> with those "
-            "values, with the frame clock switched off.</p>"
             "<h3>Capstone checkpoint</h3><p>Before parents arrive, walk the room with "
-            "the four rubric lines from session 9. Any student with two or fewer yes "
-            "answers demos the session 12 or 13 program as shipped and names the bug "
+            "the four yes-or-no checks from session 8. Any student with two or fewer yes "
+            "answers demos the session 11 or 12 program as shipped and names the bug "
             "they fixed in their own addition, however far it got. Nobody demos a "
             "sketch.</p>"
-            "<h3>Lifted this week</h3><p><code>math.sqrt</code> for distance, vector "
-            "components by proportion, a time step.</p>"
             "<h3>After the demo</h3><p>Collect the Cartridge Ledger cards. Thirteen "
             "stamps is a full card and worth something to a twelve year old. Ask each "
             "student which session they would keep if they could only keep one, and "
             "write the answers down: that is your best data for next term.</p>"
         ),
     )
-    b += pager(("wed12_classes.html", "Session 12: objects that remember"), None)
+    b += pager(("wed12_orbits.html", "Session 12: orbits"), None)
     return b
