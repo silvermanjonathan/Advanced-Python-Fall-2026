@@ -3,7 +3,7 @@
 import base64
 import os
 
-from build import code, laddered, masthead, output, pager, reveal
+from build import code, downloads, laddered, masthead, output, pager, reveal
 from days38 import exits
 from stds import panel
 
@@ -149,14 +149,14 @@ def console03():
         "<p>You will build the console in four programs. Each one adds one thing to the "
         "one before, so you can run it after every step and see what changed.</p>"
         '<ol class="tight">'
-        + "".join(
-            f'<li><a href="{name}" download><code>{name}</code></a>: {what}.</li>'
-            for name, what in STEPS
-        )
+        + "".join(f"<li><code>{name}</code>: {what}.</li>" for name, what in STEPS)
         + "</ol>"
-        '<p>Put all four in one folder together with <a href="letters.py" download>'
-        "<code>letters.py</code></a>. <code>letters.py</code> is a module that draws "
-        "letters. Steps 3 and 4 import it.</p>"
+        "<p>Download all four, and <code>letters.py</code> with them, into one folder. "
+        "<code>letters.py</code> is a module that draws letters. Steps 3 and 4 import "
+        "it.</p>"
+    )
+    b += downloads(*[name for name, _ in STEPS], "letters.py")
+    b += (
         "<p>The programs use pygame. If one stops with <code>ModuleNotFoundError: No "
         "module named 'pygame'</code>, type <code>pip install pygame</code> in the "
         "terminal and run it again.</p>"

@@ -264,7 +264,8 @@ footer p{margin:0}
 <button class="rev" data-target="a46" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a46">Show the answer</button>
 <div class="ans" id="a46"><p>About 0.301. And a uniform pick gives every leading digit roughly the same share, near 0.11, because nothing in the process favours small leading digits the way repeated multiplying does.</p></div></div>
 </section>
-<section class="chunk"><p class="chunk-no">Section 2 &middot; 30 minutes</p><h2>The table</h2><p>Read a text file. Walk through it a word at a time. For every pair of words that sit next to each other, record which word came next. That record is the model.</p><p class="fname">markov.py</p>
+<section class="chunk"><p class="chunk-no">Section 2 &middot; 30 minutes</p><h2>The table</h2><p>Read a text file. Walk through it a word at a time. For every pair of words that sit next to each other, record which word came next. That record is the model.</p><p>The text file is <code>corpus.txt</code>. Download it into the same folder as <code>markov.py</code>.</p><div class="toolbar"><a class="btn quiet" href="corpus.txt" download="corpus.txt">Download corpus.txt</a></div>
+<p class="fname">markov.py</p>
 <pre><code>def build_model(words):
     &quot;&quot;&quot;Return a table mapping each word pair to the words that followed it.&quot;&quot;&quot;
     model = defaultdict(list)

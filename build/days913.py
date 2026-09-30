@@ -2,7 +2,7 @@
 
 import os
 
-from build import code, masthead, output, pager, reveal
+from build import code, downloads, masthead, output, pager, reveal
 from days38 import exits
 from stds import panel
 
@@ -319,9 +319,11 @@ def day09():
     b += "<h3>Reading a file</h3>"
     b += (
         "<p>This is the first program in the course that reads a file. The file has to "
-        "be in the same folder as your program. Here is the smallest program that opens "
-        "one and looks inside.</p>"
+        "be in the same folder as your program. Download both files into the folder "
+        "where you save your programs.</p>"
     )
+    b += downloads("honest_ledger.csv", "cooked_ledger.csv")
+    b += "<p>Here is the smallest program that opens one and looks inside.</p>"
     b += code(read_ledger_source(), "read_ledger.py")
     b += (
         "<p>Three new pieces:</p>"
@@ -413,6 +415,7 @@ def benford_expected(digit):
     return math.log10(1 + 1 / digit)''',
         "benford.py",
     )
+    b += downloads("benford.py")
     b += (
         "<p>One function in there is probably new. <code>math.log10</code> asks: what power do I raise 10 to, to get this number? <code>log10(100)</code> is 2, because "
         "10 squared is 100. <code>log10(2)</code> is about 0.301, because 10 to the "
@@ -518,6 +521,7 @@ while running:
 pygame.quit()''',
         "benford_histogram.py, after the same three functions as benford.py",
     )
+    b += downloads("benford_histogram.py")
     b += reveal(
         "The loop runs sixty times a second and draws the same nine bars every time. "
         "What happens if you take the <code>for event</code> loop out?",
@@ -573,7 +577,9 @@ pygame.quit()''',
             "with 20261125. <code>benford.py</code> prints the tables and "
             "<code>benford_histogram.py</code> draws one file, chosen by the "
             "<code>FILENAME</code> line at the top. Put all four on the machines "
-            "beforehand. All figures verified on Python 3.12.3; the histogram was run "
+            "beforehand, or have students download them: the two CSVs and "
+            "<code>benford.py</code> in section 2, <code>benford_histogram.py</code> in "
+            "section 4. All figures verified on Python 3.12.3; the histogram was run "
             "headless on both CSVs with pygame 2.6.1.</p>"
             "<h3>Lifted this week</h3><p>Reading a file with <code>with open(...) as "
             "f:</code>, <code>try</code> and <code>except</code> with a named error, "
@@ -623,7 +629,10 @@ def day10():
     b += '<h2><span class="num">2</span>The table<span class="mins">30 minutes</span></h2>'
     b += (
         "<p>Read a text file. Walk through it a word at a time. For every pair of words that sit next to each other, record which word came next. That record is the model.</p>"
+        "<p>The text file is <code>corpus.txt</code>. Download it into the same folder "
+        "as <code>markov.py</code>.</p>"
     )
+    b += downloads("corpus.txt")
     b += code(
         '''def build_model(words):
     """Return a table mapping each word pair to the words that followed it."""
@@ -784,6 +793,7 @@ dys = [-6, -5, -7, -4]
 colors = ["gold", "orange", "red", "gold"]""",
         "sparks_parallel.py",
     )
+    b += downloads("sparks_parallel.py")
     b += (
         "<p>Spark 1 lands, so it has to come out of every list. Someone removes it from "
         "four of them and misses the fifth.</p>"
@@ -856,6 +866,7 @@ after removing from four lists but forgetting the fifth:
             self.alive = 0''',
         "plume.py",
     )
+    b += downloads("plume.py")
     b += reveal(
         "Why is there a minus sign on <code>self.dy</code> in <code>__init__</code> but "
         "a plus on <code>GRAVITY</code> in <code>step</code>?",
@@ -926,7 +937,8 @@ trail lengths: shortest 92, longest 183""",
         ["6.NS.C.8", "5.G.A.1", "6.EE.A.2"],
         "<p>10 opener, 30 the class, 25 the list of objects, 20 colour and exits. "
         "Typing a class from scratch takes longer than you expect. Have the file on the "
-        "machines and read it before extending it.</p>"
+        "machines, or have students download it from the button under the code in "
+        "section 2, and read it before extending it.</p>"
         "<h3>Capstone checkpoint</h3><p>Sketches are due at the start of today. The "
         "first window (session 9) and the light attendance day (session 10) both come "
         "before the deadline on purpose. Read each sketch for the four checks before "
@@ -1023,6 +1035,7 @@ def day12():
         self.trail.append((self.x, self.y))''',
         "orbit.py",
     )
+    b += downloads("orbit.py")
     b += (
         "<p>Three things are happening. <code>PULL / (r * r)</code> makes gravity weaker "
         "further out. <code>gap_x / r</code> and <code>gap_y / r</code> split that pull "
@@ -1108,7 +1121,8 @@ distance at a few frames:
         ["8.G.B.7", "7.RP.A.2", "8.F.B.4"],
         "<p>10 opener, 30 the orbit, 5 close. The other 45 minutes are open: they held "
         "the demo, which is now in session 13 on 16 December. Have the orbit file working "
-        "on the machines beforehand. If time is short, the band reveal is the first thing "
+        "on the machines beforehand, or have students download it from the button under "
+        "the code in section 2. If time is short, the band reveal is the first thing "
         "to cut from section 2: the table is on the page for anyone who wants it.</p>",
         "<p>A ship that spirals out or flies off is almost always a bug, not "
         "<code>DT</code>. The step order in <code>step</code> updates speed first and "

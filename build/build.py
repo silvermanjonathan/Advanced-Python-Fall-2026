@@ -399,6 +399,21 @@ def laddered(question, hints, answer, slug):
     return f'<div class="predict"><b>Predict first.</b> {question}\n{inner}</div>\n'
 
 
+def downloads(*files, extra=""):
+    """Return a row of download buttons, one per file, then any extra buttons.
+
+    Each file is a name, or a pair (file on the site, name it saves as).
+    """
+    out = '<div class="toolbar">'
+    for f in files:
+        href, save = (f, f) if isinstance(f, str) else f
+        out += (
+            f'<a class="btn quiet" href="{esc(href)}" download="{esc(save)}">'
+            f"Download {esc(save)}</a>"
+        )
+    return out + extra + "</div>\n"
+
+
 def page(filename, title, body, head_extra=""):
     """Write one self-contained page."""
     header, main, nav = sectionize(body)
@@ -492,6 +507,20 @@ def validate(paths):
                 os.path.join(os.path.dirname(p), href)
             ):
                 problems.append(f"{base}: link to missing file {href}")
+
+        saves = {}
+        for m in re.finditer(r'<a [^>]*href="([^"]+)"[^>]*\bdownload(?:="([^"]*)")?', doc):
+            saves[m.group(2) or os.path.basename(m.group(1))] = m.group(1)
+        shown = "\n".join(
+            html.unescape(blk) for blk in re.findall(r"<pre><code>(.*?)</code></pre>", doc, re.S)
+        )
+        here = os.path.dirname(p)
+        for mod in sorted(set(re.findall(r"^\s*(?:import|from)\s+(\w+)", shown, re.M))):
+            if os.path.exists(os.path.join(here, mod + ".py")) and mod + ".py" not in saves:
+                problems.append(f"{base}: code imports {mod} but nothing downloads {mod}.py")
+        for name in sorted(set(re.findall(r'"([\w-]+\.(?:csv|txt))"', shown))):
+            if os.path.exists(os.path.join(here, name)) and name not in saves:
+                problems.append(f"{base}: code reads {name} but nothing downloads it")
 
         if "\u2014" in doc or "\u2013" in doc:
             problems.append(f"{base}: contains an em or en dash")

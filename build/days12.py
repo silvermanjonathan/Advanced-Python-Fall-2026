@@ -2,7 +2,9 @@
 
 import os
 
-from build import code, masthead, output, pager, reveal
+import re
+
+from build import code, downloads, masthead, output, pager, reveal
 from stds import panel
 
 
@@ -127,10 +129,11 @@ i=9 reading=77 slot=8"""
 
     b += '<h2><span class="num">3</span>Run it<span class="mins">10 minutes</span></h2>'
     b += (
-        "<p>Now type it, or open the copy on the machine, and run it. Compare the real "
+        "<p>Now download it, or type it, and run it. Compare the real "
         "output against your paper. Mark every line you got wrong. Do not erase the marks. For each wrong line, find the pass in your trace where the value went off.</p>"
-        '<div class="predict"><b>Read it, trace it, then run it.</b> Running shows you what the program printed. Tracing shows you why. That is the order for every program in this course.</div>'
     )
+    b += downloads("sweep_report.py")
+    b += '<div class="predict"><b>Read it, trace it, then run it.</b> Running shows you what the program printed. Tracing shows you why. That is the order for every program in this course.</div>'
 
     b += '<h2><span class="num">4</span>The style pass<span class="mins">30 minutes</span></h2>'
     b += (
@@ -208,8 +211,11 @@ print(f"z {z}")
 print(f"q {q}")""",
             "gate_log.py",
         )
-        + '<div class="toolbar"><a class="btn quiet" href="wed01_doors_trace.html">Watch '
-        "this trace fill in, one gate at a time</a></div>"
+        + downloads(
+            "gate_log.py",
+            extra='<a class="btn quiet" href="wed01_doors_trace.html">Watch this trace '
+            "fill in, one gate at a time</a>",
+        )
         + reveal(
             "Trace all four variables, then give each one a clear name. All four count something about the doors. One of the four is much harder to name than the others.",
             output("x 7\ny 5\nz 0\nq 3")
@@ -254,7 +260,7 @@ print(f"q {q}")""",
         "reach that session's floor: they encode by hand and read the top letter off "
         "the output. From session 4 the pace returns to the pages as written.</p>",
         extras=(
-            "<h3>Files</h3><p><code>wed01_worksheet_key.html</code>, the worksheet with every slot filled in, for you. <code>wed01_doors_trace.html</code>, an animated trace of <code>gate_log.py</code> for the projector: step or play, and the worksheet table fills in one gate at a time. <code>wed01_worksheet.html</code>, printed one per student, double-sided: a trace table for each loop, one row per pass, and the rename tables. Print it from the browser; the page is laid out for letter paper and the style pass starts on a fresh sheet. <code>sweep_report.py</code> and <code>gate_log.py</code>. Every output on this page "
+            "<h3>Files</h3><p><code>wed01_worksheet_key.html</code>, the worksheet with every slot filled in, for you. <code>wed01_doors_trace.html</code>, an animated trace of <code>gate_log.py</code> for the projector: step or play, and the worksheet table fills in one gate at a time. <code>wed01_worksheet.html</code>, printed one per student, double-sided: a trace table for each loop, one row per pass, and the rename tables. Print it from the browser; the page is laid out for letter paper and the style pass starts on a fresh sheet. <code>sweep_report.py</code> and <code>gate_log.py</code>, which students can download from sections 3 and 4. Every output on this page "
             "came from running that file on Python 3.12.3. Re-run it on the classroom "
             "machines before Wednesday.</p>"
             "<h3>Constraints</h3><p>This session uses only the prerequisite vocabulary "
@@ -281,6 +287,17 @@ def _shipped(name, start):
     """Return the tail of a shipped program from the line that begins with start."""
     text = open(os.path.join(_ROOT, name)).read()
     return text[text.find(start):].rstrip("\n")
+
+
+def _check_sweep_starter():
+    """Check the starter has sweep_tools.py's docstring and one comment per function, in order."""
+    finished = open(os.path.join(_ROOT, "sweep_tools.py")).read()
+    starter = open(os.path.join(_ROOT, "sweep_tools_starter.py")).read()
+    defs = re.findall(r"^def (\w+\([^)]*\)):", finished, re.M)
+    slots = re.findall(r"^# (\w+\([^)]*\)) goes here$", starter, re.M)
+    assert defs == slots, f"starter comments {slots} do not match {defs}"
+    assert starter.split('"""')[1] == finished.split('"""')[1], "starter docstring differs"
+    assert "\ndef " not in starter, "the starter should hold no functions"
 
 
 funcs_text = _shipped("sweep_tools_more.py", "def smallest_of")
@@ -467,6 +484,7 @@ return -1'''),
 
 def day02():
     """Session 2: return values and your own module."""
+    _check_sweep_starter()
     b = masthead(
         "02",
         "Functions that return a value",
@@ -580,8 +598,20 @@ TypeError: unsupported operand type(s) for *: 'NoneType' and 'int'""",
 
     b += '<h2><span class="num">3</span>Build the module<span class="mins">25 minutes</span></h2>'
     b += (
-        "<p>Make a new file. It holds functions and nothing else. No printing, no "
-        "readings list, no loop at the bottom. A file like that is a module.</p>"
+        "<p>Today's new file is <code>sweep_tools.py</code>. It holds functions and "
+        "nothing else. No printing, no readings list, no loop at the bottom. A file "
+        "like that is a module.</p>"
+        "<p>Download the starter. It has the docstring at the top and one comment for "
+        "each function, in the order to write them, such as "
+        "<code># total_of(values) goes here</code>. Replace each comment with the "
+        "function it names.</p>"
+    )
+    b += downloads(("sweep_tools_starter.py", "sweep_tools.py"))
+    b += (
+        "<p>If your browser saves it as <code>sweep_tools_starter.py</code>, rename it "
+        "to <code>sweep_tools.py</code>. In section 4, <code>import sweep_tools</code> "
+        "looks for that exact name.</p>"
+        "<p>Here is the whole module with all five functions written in.</p>"
     )
     b += code(
         '''"""Helpers that summarize a list of tower readings.
@@ -691,7 +721,8 @@ last best at 9"""
     b += '<h2><span class="num">5</span>Add to the module<span class="mins">20 minutes</span></h2>'
     b += (
         "<p>Your module has five functions. Add more. Pick from the list below, or "
-        "invent your own, and write each one in <code>sweep_tools.py</code>. Every one "
+        "invent your own, and write each one in <code>sweep_tools.py</code>, where the "
+        "last comment in the starter says. Every one "
         "takes the readings list in and returns one value. None of them print.</p>"
         "<p>Then open <code>sweep_report2.py</code> and add one <code>print</code> line "
         "for each new function, in the same style as the five already there. The "
@@ -796,7 +827,12 @@ first over 55 at index 1"""
         ),
         extras=(
             "<h3>Files</h3><p><code>sweep_tools.py</code> and "
-            "<code>sweep_report2.py</code>. All output verified on Python 3.12.3.</p>"
+            "<code>sweep_report2.py</code>. All output verified on Python 3.12.3. "
+            "<code>sweep_tools_starter.py</code> is the download in section 3, and it "
+            "saves as <code>sweep_tools.py</code>: the docstring and one "
+            "<code># ... goes here</code> comment per function. The build checks that "
+            "the comments name the functions in <code>sweep_tools.py</code>, in "
+            "order.</p>"
             "<h3>Lifted this week</h3><p><code>return</code>, <code>len()</code>, "
             "<code>import</code> of your own module, and <code>and</code> to join two "
             "comparisons in one gate (section 5, <code>count_between</code>). "

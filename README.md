@@ -447,3 +447,17 @@ Known corrections made before first printing:
     stretch (the two sides of `and` swapped, then the mouse moves) are both shown from
     real runs. `letters.py`: n, k and q redrawn so n is no longer a solid block. The
     validator now also fails on a link to a missing non-HTML file, such as a download.
+35. Download buttons for every helper file. `build.downloads()` makes a row of buttons,
+    and the validator now fails any page whose code imports a module from the repo, or
+    reads a .csv or .txt from the repo, without a download for it. Buttons added:
+    session 1 `sweep_report.py` (section 3) and `gate_log.py` (section 4); session 2
+    the starter (below); the cipher console page's four programs and `letters.py`, now
+    buttons instead of inline links; session 9 `honest_ledger.csv`, `cooked_ledger.csv`,
+    `benford.py` (section 2) and `benford_histogram.py` (section 4); session 10
+    `corpus.txt`; session 11 `sparks_parallel.py` and `plume.py`; session 12 `orbit.py`.
+    Session 2's starter is `sweep_tools_starter.py`, which saves as `sweep_tools.py`:
+    the docstring, one `# name(parameters) goes here` comment per function, and one for
+    the section 5 additions. The build checks the comments name the functions in
+    `sweep_tools.py`, in order. Teacher notes and the hub mention the buttons. Every
+    button was clicked in Chromium over HTTP and saved the right file under the right
+    name.
