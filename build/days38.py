@@ -2,7 +2,7 @@
 
 import os
 
-from build import answer_key, laddered, code, masthead, output, pager, reveal
+from build import answer_key, labelled_code, laddered, code, masthead, output, pager, reveal
 from stds import panel
 from console03 import console_section
 
@@ -143,6 +143,39 @@ def _accumulator_parts():
     return blocks[1:]
 
 
+SHIFT_BY_PARTS = [
+    ("def shift_by", "The function. It is given the text and the key, here called "
+     "<code>amount</code>.", ""),
+    ('out = ""', "Part 1 of the accumulator: start with the empty string. This runs "
+     "once.", "once"),
+    ("for ch in text:", "The loop. <code>ch</code> is each character of "
+     "<code>text</code> in turn, spaces included.", "frame"),
+    ('if ch == " ":', "The gate. A space stays a space: add it to <code>out</code> "
+     "unchanged.", "frame"),
+    ("else:", "Any other character is a letter. These three lines are the four steps "
+     "from the <code>z</code> walk-through: find its position, add the key and wrap, "
+     "turn the position back into a letter, and add it to <code>out</code>.", "frame"),
+    ("return out", "Part 3: after the loop, return the finished text. This runs once.",
+     "after"),
+]
+
+
+def _trace_lines():
+    """Return trace_shift_by.py's output lines, run here so the page quotes a real run.
+
+    Also check that its shift_by is the one in caesar_encode.py.
+    """
+    import subprocess
+    root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    text = open(os.path.join(root, "trace_shift_by.py")).read()
+    start = text.index("def shift_by")
+    assert text[start:text.index("\n\n\n", start)] == _shift_by_source(), \
+        "shift_by in trace_shift_by.py differs from caesar_encode.py"
+    run = subprocess.run(["python3", "trace_shift_by.py"], cwd=root,
+                         capture_output=True, text=True, check=True)
+    return run.stdout.strip().split("\n")
+
+
 def day03():
     """Session 3: accumulators, a Caesar cipher, and the cipher console."""
     b = masthead(
@@ -245,7 +278,7 @@ def day03():
 
     b += (
         '<h2><span class="num">2</span>What a Caesar cipher is'
-        '<span class="mins">30 minutes</span></h2>'
+        '<span class="mins">40 minutes</span></h2>'
     )
     b += (
         "<p>A Caesar cipher is a way to scramble a message. Pick a number, move every letter forward in the alphabet by that "
@@ -352,6 +385,58 @@ print(shift_by("gdzq", -3))''',
         "shift-by",
     )
 
+    b += "<h3>Trace shift_by, one pass at a time</h3>"
+    b += (
+        "<p>Before you put <code>shift_by</code> in a window, follow one call through "
+        "it, line by line. Here it is with each part labelled.</p>"
+    )
+    b += labelled_code(_shift_by_source(), SHIFT_BY_PARTS, "caesar_encode.py")
+    trace = _trace_lines()
+    b += reveal(
+        "Call <code>shift_by(\"hi zoe\", 3)</code>. How many times does the loop run? "
+        "How many of those times does the gate say yes?",
+        "<p>The loop runs 6 times, once for each character of <code>\"hi zoe\"</code>. "
+        "The space counts as a character.</p>"
+        "<p>The gate says yes once, on pass 3, for the space. On the other 5 passes it "
+        "says no, and the three letter lines run.</p>",
+    )
+    b += reveal(
+        "Pass 1: <code>ch</code> is <code>\"h\"</code>. Work out <code>spot</code> after "
+        "each of the two <code>spot</code> lines, the letter that is added, and "
+        "<code>out</code> at the end of the pass.",
+        "<p><code>ord(\"h\")</code> is 104, and 104 - 97 = 7, so <code>spot</code> is 7: "
+        "h is at position 7, counting a as 0.</p>"
+        "<p><code>(7 + 3) % 26</code> is 10, so <code>spot</code> becomes 10.</p>"
+        "<p><code>chr(10 + 97)</code> is <code>chr(107)</code>, which is "
+        "<code>\"k\"</code>. <code>out</code> was <code>\"\"</code>, so now it is "
+        "<code>\"k\"</code>.</p>"
+        + output(trace[0], label="verified output, trace_shift_by.py"),
+    )
+    b += reveal(
+        "Pass 3: <code>ch</code> is a space. Which line runs, and what is "
+        "<code>out</code> at the end of the pass?",
+        "<p>The gate says yes, so <code>out = out + \" \"</code> runs and the three letter "
+        "lines are skipped. <code>out</code> was <code>\"kl\"</code> after passes 1 and 2, "
+        "so now it is <code>\"kl \"</code>, with a space on the end.</p>"
+        + output(trace[2], label="verified output, trace_shift_by.py"),
+    )
+    b += reveal(
+        "Pass 4: <code>ch</code> is <code>\"z\"</code>. Which letter is added?",
+        "<p>The same four steps as the <code>z</code> walk-through above: position 25, "
+        "then <code>(25 + 3) % 26</code> is 2, and position 2 is <code>\"c\"</code>. "
+        "<code>out</code> is now <code>\"kl c\"</code>.</p>"
+        + output(trace[3], label="verified output, trace_shift_by.py"),
+    )
+    b += reveal(
+        "Finish the last two passes. What does <code>shift_by(\"hi zoe\", 3)</code> "
+        "return?",
+        "<p>Pass 5 adds <code>r</code> for <code>o</code>, and pass 6 adds <code>h</code> "
+        "for <code>e</code>. After the loop, the function returns "
+        "<code>\"kl crh\"</code>.</p>"
+        "<p>Here is every pass, then what the real <code>shift_by</code> returns:</p>"
+        + output("\n".join(trace), label="verified output, trace_shift_by.py"),
+    )
+
     b += console
     b += exits(
         "You encoded <code>dawn</code> and <code>zebra</code> by hand with key 3, you "
@@ -383,8 +468,9 @@ print(shift_by("gdzq", -3))''',
     )
     b += panel(
         ["6.RP.A.3", "MP7"],
-        "<p>15 opener with the accumulator review, 30 the cipher by hand and "
-        "<code>shift_by</code> written, 40 the cipher console, 5 exits. Dictionaries and "
+        "<p>15 opener with the accumulator review, 40 the cipher by hand, "
+        "<code>shift_by</code> written, and the trace of one call, 30 the cipher "
+        "console, 5 exits. Dictionaries and "
         "<code>Counter</code> are on the Extras page, with breaking the cipher, because "
         "that is where they are used. Assume no student has seen a cipher or a pygame "
         "window before. Do not cut section 2 to make room for the console. A console for a cipher the "
@@ -425,7 +511,10 @@ print(shift_by("gdzq", -3))''',
         extras=(
             "<h3>Files</h3><p><code>accumulators.py</code> for the opener, shown in "
             "three parts, and <code>hide_letters.py</code>, the answer to its last task. <code>caesar_encode.py</code> for section 2, the answer to the "
-            "<code>shift_by</code> step. For section 3: <code>letters.py</code> (a "
+            "<code>shift_by</code> step, and <code>trace_shift_by.py</code>, which prints the "
+            "trace of <code>shift_by(\"hi zoe\", 3)</code> one pass at a time; the build "
+            "runs it and checks its <code>shift_by</code> is the same as the one in "
+            "<code>caesar_encode.py</code>. For section 3: <code>letters.py</code> (a "
             "module, never prints) and <code>cipher_console_starter.py</code>, which "
             "downloads as <code>cipher_console.py</code>; then the answer-key files "
             "<code>cipher_console_step1.py</code> to <code>cipher_console_step3.py</code> "

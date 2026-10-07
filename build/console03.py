@@ -251,7 +251,7 @@ def console_section():
 
     b = (
         '<h2><span class="num">3</span>The cipher console in pygame'
-        '<span class="mins">40 minutes</span></h2>'
+        '<span class="mins">30 minutes</span></h2>'
         "<p>Now put your cipher in a window. The alphabet sits on top, the coded "
         "alphabet sits under it, and the coded message appears one letter at a "
         "time.</p>"

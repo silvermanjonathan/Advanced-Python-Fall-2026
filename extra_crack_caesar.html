@@ -280,8 +280,8 @@ counts[&quot;b&quot;] = 0
 counts[&quot;b&quot;] = counts[&quot;b&quot;] + 1
 print(f&quot;made without Counter: {counts}&quot;)</code></pre>
 <div class="predict"><b>Predict first.</b> What prints? And what happens if you run <code>counts["z"] + 1</code> without setting <code>counts["z"]</code> first?
-<button class="rev" data-target="a50" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a50">Show the answer</button>
-<div class="ans" id="a50"><div class="out"><span class="tag">verified output</span><pre><code>made without Counter: {&#x27;b&#x27;: 1}</code></pre></div>
+<button class="rev" data-target="a55" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a55">Show the answer</button>
+<div class="ans" id="a55"><div class="out"><span class="tag">verified output</span><pre><code>made without Counter: {&#x27;b&#x27;: 1}</code></pre></div>
 <p>The first one prints the dictionary: the key <code>'b'</code> with the value 1.</p><p>The second one raises <code>KeyError: 'z'</code>. A dictionary does not start a missing key at zero for you. A Counter does, which is why it exists.</p></div></div>
 <p><code>collections</code> is a module that comes with Python, the same way <code>sweep_tools</code> was your own module in session 2. The line <code>from collections import Counter</code> takes one thing out of it, <code>Counter</code>, so you can write <code>Counter</code> instead of <code>collections.Counter</code>. That import line goes at the top of any file that uses a Counter.</p><p>A <b>Counter</b> is a dictionary made for counting. Give it a string and it counts every character. Here is what else it can do.</p><p class="fname">counter_tour.py</p>
 <pre><code>from collections import Counter
@@ -300,8 +300,8 @@ first = Counter(&quot;listen&quot;)
 second = Counter(&quot;silent&quot;)
 print(first == second)</code></pre>
 <div class="predict"><b>Predict first.</b> Two to predict before you run it. What does <code>counts["z"]</code> print, when there is no z in banana? And what does the last line print?
-<button class="rev" data-target="a51" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a51">Show the answer</button>
-<div class="ans" id="a51"><div class="out"><span class="tag">verified output</span><pre><code>made with Counter: Counter({&#x27;a&#x27;: 3, &#x27;n&#x27;: 2, &#x27;b&#x27;: 1})
+<button class="rev" data-target="a56" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a56">Show the answer</button>
+<div class="ans" id="a56"><div class="out"><span class="tag">verified output</span><pre><code>made with Counter: Counter({&#x27;a&#x27;: 3, &#x27;n&#x27;: 2, &#x27;b&#x27;: 1})
 3
 0
 [(&#x27;a&#x27;, 3), (&#x27;n&#x27;, 2)]
@@ -328,8 +328,8 @@ def letter_counts(text):
 counts = letter_counts(ciphertext)
 print(&quot;five most common:&quot;, counts.most_common(5))</code></pre>
 <div class="predict"><b>Predict first.</b> Look at the message before you run anything. Which letter do you see most often?
-<button class="rev" data-target="a52" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a52">Show the answer</button>
-<div class="ans" id="a52"><div class="out"><span class="tag">verified output</span><pre><code>five most common: [(&#x27;h&#x27;, 12), (&#x27;u&#x27;, 5), (&#x27;g&#x27;, 5), (&#x27;r&#x27;, 5), (&#x27;w&#x27;, 4)]</code></pre></div>
+<button class="rev" data-target="a57" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a57">Show the answer</button>
+<div class="ans" id="a57"><div class="out"><span class="tag">verified output</span><pre><code>five most common: [(&#x27;h&#x27;, 12), (&#x27;u&#x27;, 5), (&#x27;g&#x27;, 5), (&#x27;r&#x27;, 5), (&#x27;w&#x27;, 4)]</code></pre></div>
 <p><code>h</code> appears 12 times. The next letters appear 5 times each. So <code>h</code> is the top letter, and it is probably what <code>e</code> turned into.</p></div></div>
 <h3>Step 2: turn the top letter into a key</h3><p>If <code>e</code> turned into <code>h</code>, the key is how many places <code>e</code> moved. Use the strip: click <code>e</code> in the top row, then press <b>+1</b> until the bottom row under <code>e</code> shows <code>h</code>.</p><div class="strip" id="strip2"><div class="strip-controls"><button type="button" id="strip2-down" aria-label="Key down by 1">&minus;1</button><span class="strip-key">Key <b id="strip2-keyval">0</b></span><button type="button" id="strip2-up" aria-label="Key up by 1">+1</button><button type="button" id="strip2-reset" class="quiet">Key 0</button><label class="strip-word">Try a word <input id="strip2-input" type="text" maxlength="20" autocomplete="off" spellcheck="false"></label></div><div class="strip-rows" id="strip2-rows"></div><p class="strip-say" id="strip2-say" aria-live="polite">Click a letter in the top row.</p></div><script>
 (function(){
@@ -411,8 +411,8 @@ print(&quot;five most common:&quot;, counts.most_common(5))</code></pre>
 print(f&quot;guessed shift {k}&quot;)
 print(&quot;plaintext:&quot;, shift_by(ciphertext, -k))</code></pre>
 <div class="predict"><b>Predict first.</b> The first word of the message is <code>uhdg</code>. Move each letter back 3 by hand. What is the first word of the plaintext?
-<button class="rev" data-target="a53" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a53">Show the answer</button>
-<div class="ans" id="a53"><div class="out"><span class="tag">verified output</span><pre><code>guessed shift 3
+<button class="rev" data-target="a58" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a58">Show the answer</button>
+<div class="ans" id="a58"><div class="out"><span class="tag">verified output</span><pre><code>guessed shift 3
 plaintext: read the code and trace the code before you ever run the code</code></pre></div>
 <p><code>u</code> goes back to <code>r</code>, <code>h</code> to <code>e</code>, <code>d</code> to <code>a</code>, <code>g</code> to <code>d</code>: <code>read</code>. The program does the same for every letter.</p></div></div>
 <h3>The whole program</h3><p>Here are the three steps in one file, with <code>shift_by</code> at the top. It is the same function you wrote in session 3.</p><p class="fname">caesar_crack.py</p>
@@ -459,8 +459,8 @@ k = guess_shift(ciphertext)
 print(f&quot;guessed shift {k}&quot;)
 print(&quot;plaintext:&quot;, shift_by(ciphertext, -k))</code></pre>
 <div class="predict"><b>Predict first.</b> Run it. Do its lines match what you worked out in steps 1, 2, and 3?
-<button class="rev" data-target="a54" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a54">Show the answer</button>
-<div class="ans" id="a54"><div class="out"><span class="tag">verified output</span><pre><code>five most common: [(&#x27;h&#x27;, 12), (&#x27;u&#x27;, 5), (&#x27;g&#x27;, 5), (&#x27;r&#x27;, 5), (&#x27;w&#x27;, 4)]
+<button class="rev" data-target="a59" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a59">Show the answer</button>
+<div class="ans" id="a59"><div class="out"><span class="tag">verified output</span><pre><code>five most common: [(&#x27;h&#x27;, 12), (&#x27;u&#x27;, 5), (&#x27;g&#x27;, 5), (&#x27;r&#x27;, 5), (&#x27;w&#x27;, 4)]
 guessed shift 3
 plaintext: read the code and trace the code before you ever run the code</code></pre></div>
 <p>They match.</p><p>Two limits. The text has to be long enough for <code>e</code> to actually win, and the text has to be ordinary English. Try it on a short message and watch it fail.</p></div></div>

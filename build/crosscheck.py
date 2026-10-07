@@ -65,6 +65,13 @@ CHECKS = {
         "squares drawn: 10",
         "letter 0 starts at x = 40", "letter 1 starts at x = 56", "letter 2 starts at x = 72",
     ]),
+    "wed03_counting.html#trace": ("python3 trace_shift_by.py", [
+        "pass 1: ch is 'h', spot 7 then 10, adds 'k', out is 'k'",
+        "pass 3: ch is ' ', the gate says yes, out is 'kl '",
+        "pass 4: ch is 'z', spot 25 then 2, adds 'c', out is 'kl c'",
+        "pass 6: ch is 'e', spot 4 then 7, adds 'h', out is 'kl crh'",
+        "shift_by returns 'kl crh'",
+    ]),
     "wed03_counting.html#hide": ("python3 hide_letters.py", ["**** ** ****"]),
     "wed03_counting.html#acc": ("python3 accumulators.py", [
         "total 13", "out ccaabb", "backwards bac",

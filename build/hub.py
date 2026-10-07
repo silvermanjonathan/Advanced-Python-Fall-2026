@@ -315,7 +315,7 @@ def hub():
         "<code>sweep_report3.py</code>, <code>first_over_enumerate.py</code></td>"
         "<td>2</td></tr>"
         "<tr><td><code>accumulators.py</code>, "
-        "<code>hide_letters.py</code>, <code>caesar_encode.py</code>, <code>letters.py</code>, "
+        "<code>hide_letters.py</code>, <code>caesar_encode.py</code>, <code>trace_shift_by.py</code>, <code>letters.py</code>, "
         "<code>cipher_console_starter.py</code>, <code>cipher_console_step1.py</code>, "
         "<code>cipher_console_step2.py</code>, <code>cipher_console_step3.py</code>, "
         "<code>cipher_console.py</code>, "

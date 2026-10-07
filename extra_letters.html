@@ -286,8 +286,8 @@ print(shape)
 print(shape[2])
 print(shape[0][1])</code></pre>
 <div class="predict"><b>Predict first.</b> What do the three print lines show? For the last one, find row 0 on the grid first, then column 1.
-<button class="rev" data-target="a55" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a55">Show the answer</button>
-<div class="ans" id="a55"><div class="out"><span class="tag">verified output</span><pre><code>[&#x27;.#.&#x27;, &#x27;#.#&#x27;, &#x27;###&#x27;, &#x27;#.#&#x27;, &#x27;#.#&#x27;]
+<button class="rev" data-target="a60" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a60">Show the answer</button>
+<div class="ans" id="a60"><div class="out"><span class="tag">verified output</span><pre><code>[&#x27;.#.&#x27;, &#x27;#.#&#x27;, &#x27;###&#x27;, &#x27;#.#&#x27;, &#x27;#.#&#x27;]
 ###
 #</code></pre></div>
 <p>The first line is the whole list. The second is row 2, <code>###</code>. The third is row 0, column 1: the middle of <code>.#.</code>, which is <code>#</code>.</p></div></div>
@@ -296,8 +296,8 @@ print(shape[0][1])</code></pre>
 <div class="parts"><div class="part "><p class="plabel">The function and its docstring. It is given the window, the letter, where the letter's top left corner goes, how big each square is, and the color.</p><pre><code>def draw_letter(screen, letter, x, y, size, color):
     &quot;&quot;&quot;Draw one letter with its top left corner at (x, y), from squares size pixels wide.&quot;&quot;&quot;</code></pre></div><div class="part once"><p class="plabel">Look up the letter's five strings in the dictionary. This runs once each time the function is called.</p><pre><code>    shape = SHAPES[letter]</code></pre></div><div class="part frame"><p class="plabel">Outer loop: <code>row</code> is 0, 1, 2, 3, 4, top to bottom. It runs 5 times.</p><pre><code>    for row in range(5):</code></pre></div><div class="part frame"><p class="plabel">Inner loop: <code>col</code> is 0, 1, 2, left to right. It runs 3 times for every row, so 15 times in all.</p><pre><code>        for col in range(3):</code></pre></div><div class="part frame"><p class="plabel">The gate: draw only where the mark is <code>#</code>. It is checked 15 times.</p><pre><code>            if shape[row][col] == &quot;#&quot;:</code></pre></div><div class="part frame"><p class="plabel">One square, <code>size</code> pixels wide and tall, with its top left corner at <code>(x + col * size, y + row * size)</code>.</p><pre><code>                pygame.draw.rect(screen, color, (x + col * size, y + row * size, size, size))</code></pre></div></div>
 <p>One loop is inside the other. The inner loop runs all the way through for every pass of the outer loop, so the order is row 0, columns 0, 1, 2; then row 1, columns 0, 1, 2; and so on down to row 4. That is 5 × 3 = 15 checks, one for each square of the grid.</p><p>Each step right adds <code>size</code> to x. Each step down adds <code>size</code> to y, because in pygame y counts down from the top. So the square for row 2, column 1 starts 1 square right and 2 squares down from the letter's corner.</p><div class="predict"><b>Predict first.</b> Say <code>x</code> is 100, <code>y</code> is 50 and <code>size</code> is 10. Where is the top left corner of the square for row 2, column 1? And how many squares does <code>draw_letter</code> draw for <code>a</code>?
-<button class="rev" data-target="a56" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a56">Show the answer</button>
-<div class="ans" id="a56"><p>Row 2, column 1: x is 100 + 1 × 10 = 110, and y is 50 + 2 × 10 = 70. The corner is at (110, 70).</p><p>Count the <code>#</code> marks: 1 + 2 + 3 + 2 + 2 = 10. The gate lets one square through for each one.</p></div></div>
+<button class="rev" data-target="a61" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a61">Show the answer</button>
+<div class="ans" id="a61"><p>Row 2, column 1: x is 100 + 1 × 10 = 110, and y is 50 + 2 × 10 = 70. The corner is at (110, 70).</p><p>Count the <code>#</code> marks: 1 + 2 + 3 + 2 + 2 = 10. The gate lets one square through for each one.</p></div></div>
 <p>The rest of <code>letters_tour.py</code> runs the same two loops and the same gate as <code>draw_letter</code>, with the same numbers. Instead of drawing each square, it prints where the square goes.</p><p class="fname">letters_tour.py, second part</p>
 <pre><code>x = 100
 y = 50
@@ -330,8 +330,8 @@ squares drawn: 10</code></pre></div>
 <pre><code>for i in range(3):
     print(f&quot;letter {i} starts at x = {40 + i * 4 * 4}&quot;)</code></pre>
 <div class="predict"><b>Predict first.</b> The cipher console draws <code>MESSAGE</code> with <code>letters.draw_word(screen, MESSAGE, 40, 50, 4, PLAIN_INK)</code>. Where do the first three letters start?
-<button class="rev" data-target="a57" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a57">Show the answer</button>
-<div class="ans" id="a57"><div class="out"><span class="tag">verified output</span><pre><code>letter 0 starts at x = 40
+<button class="rev" data-target="a62" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a62">Show the answer</button>
+<div class="ans" id="a62"><div class="out"><span class="tag">verified output</span><pre><code>letter 0 starts at x = 40
 letter 1 starts at x = 56
 letter 2 starts at x = 72</code></pre></div>
 <p>With <code>size</code> 4, letters are 4 × 4 = 16 pixels apart: 40, 56, 72. That is why step 4 of the console draws the coded letters at <code>40 + i * 16</code>: the same spacing as <code>draw_word</code>.</p></div></div>

@@ -517,3 +517,9 @@ Known corrections made before first printing:
     pygame for, and crosscheck confirms both print the same lines. Linked from session
     3's console step 3 and listed on the hub under Extras. Session 3 step 1 now says
     pygame's own two start-up lines are left out of the page's outputs.
+43. Session 3, end of section 2: "Trace shift_by, one pass at a time". The function
+    with each part labelled, then five predict-and-reveal steps on
+    `shift_by("hi zoe", 3)`: how many passes and gate yeses, pass 1 worked line by
+    line, the space on pass 3, the wrap on pass 4, and the return value. Each reveal
+    quotes `trace_shift_by.py`, which the build runs and whose `shift_by` it checks
+    against `caesar_encode.py`. Section 2 is now 40 minutes and the console 30.

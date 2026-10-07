@@ -276,8 +276,8 @@ footer p{margin:0}
 <main><div class="wrap">
 
 <section class="opener"><p class="chunk-no">Section 1 &middot; 10 minutes</p><h2>Opener</h2><p>In session 3 you built a Caesar cipher, which replaces each letter with a different one. Question on paper: if I rearrange the letters of a message without replacing any of them, what happens to the letter counts, the number of times each letter appears?</p><div class="predict"><b>Predict first.</b> Answer before you click.
-<button class="rev" data-target="a21" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a21">Show the answer</button>
-<div class="ans" id="a21"><p>The counts do not change at all. Not one of them.</p><p>That matters for breaking ciphers. A Caesar cipher can be broken by counting its letters: <code>e</code> is the most common letter in English, so the most common letter in the ciphertext is probably what <code>e</code> turned into. The <a href="extra_crack_caesar.html">Extras page</a> shows how. Against a cipher that only moves letters, counting finds nothing, because it never looks at where the letters sit.</p><p>This is why real systems use both kinds. Substitution hides which letters. Transposition hides where they are.</p></div></div>
+<button class="rev" data-target="a26" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a26">Show the answer</button>
+<div class="ans" id="a26"><p>The counts do not change at all. Not one of them.</p><p>That matters for breaking ciphers. A Caesar cipher can be broken by counting its letters: <code>e</code> is the most common letter in English, so the most common letter in the ciphertext is probably what <code>e</code> turned into. The <a href="extra_crack_caesar.html">Extras page</a> shows how. Against a cipher that only moves letters, counting finds nothing, because it never looks at where the letters sit.</p><p>This is why real systems use both kinds. Substitution hides which letters. Transposition hides where they are.</p></div></div>
 </section>
 <section class="chunk"><p class="chunk-no">Section 2 &middot; 30 minutes</p><h2>Rail fence</h2><p>Write the message down a zig-zag across three rails, then read each rail straight across. The message is <code>meetatthenorthgateatdawn</code>.</p><p class="fname">transposition.py</p>
 <pre><code>def rail_encode(text, rails):
@@ -303,8 +303,8 @@ footer p{margin:0}
         joined = joined + row
     return joined</code></pre>
 <div class="predict"><b>Predict first.</b> The two gates set <code>step</code> before <code>r</code> changes. Trace the first seven letters and write down which rail each one lands on.
-<button class="rev" data-target="a22" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a22">Show the answer</button>
-<div class="ans" id="a22"><p>Rails go 0, 1, 2, 1, 0, 1, 2. The turn happens at the top rail and the bottom rail. The two gates are one after the other, not one inside the other, so both get checked every pass.</p><div class="out"><span class="tag">verified output</span><pre><code>message  meetatthenorthgateatdawn
+<button class="rev" data-target="a27" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a27">Show the answer</button>
+<div class="ans" id="a27"><p>Rails go 0, 1, 2, 1, 0, 1, 2. The turn happens at the top rail and the bottom rail. The two gates are one after the other, not one inside the other, so both get checked every pass.</p><div class="out"><span class="tag">verified output</span><pre><code>message  meetatthenorthgateatdawn
 rails 3  maettdetthnrhaetanetogaw
 back     meetatthenorthgateatdawn
 round trip ok: True</code></pre></div>
@@ -344,8 +344,8 @@ def route_encode(text, key):
             out = out + grid[r][col]
     return out</code></pre>
 <div class="predict"><b>Predict first.</b> The grid is four columns wide and the key is <code>[2, -4, 1, 3]</code>. Read the first column of output by hand off the grid below.
-<button class="rev" data-target="a23" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a23">Show the answer</button>
-<div class="ans" id="a23"><div class="out"><span class="tag">verified output</span><pre><code>  m e e t
+<button class="rev" data-target="a28" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a28">Show the answer</button>
+<div class="ans" id="a28"><div class="out"><span class="tag">verified output</span><pre><code>  m e e t
   a t t h
   e n o r
   t h g a
