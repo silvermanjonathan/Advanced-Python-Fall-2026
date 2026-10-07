@@ -250,7 +250,7 @@ def day03():
     b += (
         "<p>A Caesar cipher is a way to scramble a message. Pick a number, move every letter forward in the alphabet by that "
         "number, and wrap around from z back to a.</p>"
-        "<p>Three words come with it and get used for the next four sessions. The number "
+        "<p>Three words come with it, and session 4 uses them again. The number "
         "is the <b>key</b>. The readable message is the <b>plaintext</b>. The scrambled "
         "message is the <b>ciphertext</b>.</p>"
         "<p>Do one by hand before any code. Key 3, plaintext <code>dawn</code>. Write "
@@ -401,7 +401,7 @@ print(shift_by("gdzq", -3))''',
         "wrap, and the wrap is the only hard part of the cipher.</p>"
         "<p>Expect <code>ord</code> and <code>chr</code> to feel arbitrary. The fix is "
         "to say the actual numbers do not matter, only that they run in order. Nobody "
-        "needs to memorise 97.</p>"
+        "needs to memorize 97.</p>"
         "<p><code>KeyError</code> is new this week. It turns up in step 3 of the "
         "console, when a capital letter has no entry in <code>SHAPES</code>. Students "
         "read it as a crash rather than as information. Point at the last line: it names "

@@ -475,8 +475,8 @@ def console_section():
         "fewer, or the end runs off the right edge. Use lowercase letters and spaces "
         "only. <code>SHAPES</code> has no key for a capital letter or a period, and "
         "asking a dictionary for a key it does not have stops the program with "
-        "<code>KeyError</code>. So <code>MESSAGE = \"Attack at dawn\"</code> stops "
-        "like this, and the last line names the missing key:</p>"
+        "<code>KeyError</code>. So <code>MESSAGE = \"Attack at dawn\"</code> stops with "
+        "an error, and its last line names the missing key:</p>"
     )
     b += output("KeyError: 'A'")
 
