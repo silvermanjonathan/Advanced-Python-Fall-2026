@@ -285,8 +285,9 @@ def console_section():
     b += "<h3>Step 1: a window</h3>"
     b += (
         "<p>The last line of the starter is the comment <code>" + STEP1_MARK + "</code>. "
-        "Replace it with these lines. The label on each part says what the part does "
-        "and when it runs: once, or again on every frame.</p>"
+        "Replace it with these lines. They are split into parts, with a button under "
+        "each part. Before you press a button, say what you think that part does. The "
+        "answer also says when the part runs: once, or again on every frame.</p>"
     )
     b += labelled_code(WINDOW_TYPED, WINDOW_PARTS, "cipher_console.py, step 1")
     b += (
@@ -604,6 +605,6 @@ def console_section():
         "counting.</p>"
     )
     key += labelled_code(
-        _source(STEP_FILES[4]), CONSOLE_PARTS, "cipher_console.py after step 4"
+        _source(STEP_FILES[4]), CONSOLE_PARTS, "cipher_console.py after step 4", ask=False
     )
     return b, stretch, key

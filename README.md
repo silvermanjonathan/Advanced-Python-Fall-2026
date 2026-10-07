@@ -523,3 +523,9 @@ Known corrections made before first printing:
     line, the space on pass 3, the wrap on pass 4, and the return value. Each reveal
     quotes `trace_shift_by.py`, which the build runs and whose `shift_by` it checks
     against `caesar_encode.py`. Section 2 is now 40 minutes and the console 30.
+44. Labelled code asks first. In every block split into labelled parts (the
+    `shift_by` trace and the console's step 1 in session 3, `draw_letter` on the
+    letters Extras page), each label is hidden under a button that reads "What do
+    you think this line of code does?" (or "these lines ... do?" for a part with
+    more than one line). The finished program in session 3's answer key still shows
+    its labels, since the key is already behind a button.

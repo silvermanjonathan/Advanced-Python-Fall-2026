@@ -388,7 +388,8 @@ print(shift_by("gdzq", -3))''',
     b += "<h3>Trace shift_by, one pass at a time</h3>"
     b += (
         "<p>Before you put <code>shift_by</code> in a window, follow one call through "
-        "it, line by line. Here it is with each part labelled.</p>"
+        "it, line by line. Here it is split into parts, with a button under each part. "
+        "Before you press a button, say what you think that part does.</p>"
     )
     b += labelled_code(_shift_by_source(), SHIFT_BY_PARTS, "caesar_encode.py")
     trace = _trace_lines()

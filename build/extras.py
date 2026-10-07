@@ -485,7 +485,8 @@ def extra_letters():
     b += (
         '<h2><span class="num">2</span>draw_letter: two loops and a gate'
         '<span class="mins">15 minutes</span></h2>'
-        "<p>Here is <code>draw_letter</code>, with each part labelled.</p>"
+        "<p>Here is <code>draw_letter</code>, split into parts, with a button under "
+        "each part. Before you press a button, say what you think that part does.</p>"
     )
     b += labelled_code(_function("draw_letter", src), LETTER_PARTS, "letters.py")
     b += (

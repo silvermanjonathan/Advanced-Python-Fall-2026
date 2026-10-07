@@ -127,6 +127,11 @@ pre code{background:none; padding:0; font-size:inherit; font-weight:inherit; col
 .part.once{border-left-color:var(--teal)} .part.once .plabel{color:var(--teal-deep)}
 .part.frame{border-left-color:var(--ochre-line); background:#F6EEDB} .part.frame .plabel{color:var(--ochre)}
 .part.after{border-left-color:var(--clay)} .part.after .plabel{color:var(--clay)}
+/* a part that asks first: the code, then a button, then the label */
+.part.ask pre{padding-top:10px}
+.part.ask button.rev{font-size:15px; padding:6px 14px; margin:0 16px 10px}
+.part.ask .ans{margin:0 16px; padding:8px 0 10px}
+.part.ask .ans .plabel{padding:0}
 .fname{
   font-family:'JetBrains Mono',monospace; font-size:12.5px; letter-spacing:.1em;
   text-transform:uppercase; color:var(--ink-soft); margin:0 0 6px; font-weight:700;
@@ -418,12 +423,19 @@ def laddered(question, hints, answer, slug):
     return f'<div class="predict"><b>Predict first.</b> {question}\n{inner}</div>\n'
 
 
-def labelled_code(source, parts, fname=None):
+_part = [0]
+
+
+def labelled_code(source, parts, fname=None, ask=True):
     """Return source split into labelled parts.
 
     parts is a list of (first line, label, kind). Each part runs from the line that
     starts with its first line up to the next part. kind is "once", "frame", "after",
     or "" and sets the colour. Every non-blank line of source must land in a part.
+
+    With ask, each label is hidden under a button that asks what the code does, so a
+    reader says what they think before reading it. An answer key passes ask=False and
+    shows every label.
     """
     lines = source.rstrip("\n").split("\n")
     starts = []
@@ -439,9 +451,26 @@ def labelled_code(source, parts, fname=None):
     for k, (_first, label, kind) in enumerate(parts):
         end = starts[k + 1] if k + 1 < len(parts) else len(lines)
         chunk = "\n".join(lines[starts[k]:end]).strip("\n")
+        if not ask:
+            out += (
+                f'<div class="part {kind}"><p class="plabel">{label}</p>'
+                f"<pre><code>{html.escape(chunk)}</code></pre></div>"
+            )
+            continue
+        _part[0] += 1
+        pid = f"part-{_part[0]}"
+        many = sum(1 for ln in chunk.split("\n") if ln.strip()) > 1
+        q = (
+            "What do you think these lines of code do?"
+            if many
+            else "What do you think this line of code does?"
+        )
         out += (
-            f'<div class="part {kind}"><p class="plabel">{label}</p>'
-            f"<pre><code>{html.escape(chunk)}</code></pre></div>"
+            f'<div class="part ask {kind}"><pre><code>{html.escape(chunk)}</code></pre>'
+            f'<button class="rev" data-target="{pid}" data-show="{q}" '
+            f'data-hide="Hide the answer" aria-expanded="false" aria-controls="{pid}">'
+            f'{q}</button><div class="ans" id="{pid}"><p class="plabel">{label}</p>'
+            "</div></div>"
         )
     return out + "</div>\n"
 
