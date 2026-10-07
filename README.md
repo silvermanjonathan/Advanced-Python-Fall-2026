@@ -509,3 +509,11 @@ Known corrections made before first printing:
     `count_of`. Answer and output come from `hide_letters.py`, checked by crosscheck.
     Where a dictionary key is defined (console step 3, Extras section 1), the page now
     says it is a different key from the cipher's key.
+42. New Extras page, `extra_letters.html`, "How letters.py draws a letter" (about 30
+    minutes): `SHAPES` as a dictionary of five-string lists, the two indexes of
+    `shape[row][col]` on a numbered grid, `draw_letter`'s two loops and gate with each
+    part labelled, and `draw_word`'s spacing. `letters_tour.py` (download) prints each
+    step; `verify_letters.py` records what the real `draw_letter` and `draw_word` ask
+    pygame for, and crosscheck confirms both print the same lines. Linked from session
+    3's console step 3 and listed on the hub under Extras. Session 3 step 1 now says
+    pygame's own two start-up lines are left out of the page's outputs.

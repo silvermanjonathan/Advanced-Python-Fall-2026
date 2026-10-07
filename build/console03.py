@@ -291,7 +291,9 @@ def console_section():
     b += labelled_code(WINDOW_TYPED, WINDOW_PARTS, "cipher_console.py, step 1")
     b += (
         "<p>Run it. A dark window opens, and the terminal shows the three lines the "
-        "starter prints. The window stays open until you click its close button.</p>"
+        "starter prints. The window stays open until you click its close button. When "
+        "pygame loads, it also prints two lines of its own, starting with "
+        "<code>pygame 2</code>; they are left out of the outputs on this page.</p>"
     )
     b += output(starter_prints)
     b += "<h4>Before the loop</h4>"
@@ -416,7 +418,9 @@ def console_section():
     b += _letter_svg(a_rows)
     b += (
         "<p>You do not need to read the rest of <code>letters.py</code>. You need its "
-        "two functions. The starter already has <code>import letters</code>, which works "
+        "two functions. If you want to know how they work, the Extras page "
+        '<a href="extra_letters.html">How letters.py draws a letter</a> goes through '
+        "them line by line. The starter already has <code>import letters</code>, which works "
         "the same way <code>import sweep_tools</code> did in session 2.</p>"
         '<ul class="tight">'
         "<li><code>letters.draw_letter(screen, letter, x, y, size, color)</code> draws "

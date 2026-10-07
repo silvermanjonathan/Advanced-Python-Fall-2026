@@ -6,7 +6,7 @@ from build import OUT, page, validate
 from days12 import day01, day02
 from ws01 import WS_CSS, worksheet01, worksheet01_key
 from trace01 import TRACE_CSS, trace01
-from extras import extra_crack
+from extras import extra_crack, extra_letters
 from days38 import day03, day04, day05, day06, day07
 from days913 import day08, day09, day10, day11, day12, day13
 from hub import hub
@@ -32,6 +32,7 @@ PAGES = [
     ("wed12_orbits.html", "Session 12: orbits", day12),
     ("wed13_demo_day.html", "Session 13: to be written, then the demo", day13),
     ("extra_crack_caesar.html", "Extra: break a Caesar cipher by counting letters", extra_crack),
+    ("extra_letters.html", "Extra: how letters.py draws a letter", extra_letters),
 ]
 
 written = []

@@ -49,6 +49,22 @@ CHECKS = {
         "IndexError: string index out of range",
         "KeyError: 'A'",
     ]),
+    "extra_letters.html": ("python3 letters_tour.py", [
+        "['.#.', '#.#', '###', '#.#', '#.#']",
+        "row 0 col 1: square at (110, 50)", "row 2 col 1: square at (110, 70)",
+        "row 4 col 2: square at (120, 90)", "squares drawn: 10",
+        "letter 0 starts at x = 40", "letter 1 starts at x = 56", "letter 2 starts at x = 72",
+    ]),
+    "extra_letters.html#verify": (
+        "SDL_VIDEODRIVER=dummy SDL_AUDIODRIVER=dummy python3 verify_letters.py", [
+        "row 0 col 1: square at (110, 50)", "row 1 col 0: square at (100, 60)",
+        "row 1 col 2: square at (120, 60)", "row 2 col 0: square at (100, 70)",
+        "row 2 col 1: square at (110, 70)", "row 2 col 2: square at (120, 70)",
+        "row 3 col 0: square at (100, 80)", "row 3 col 2: square at (120, 80)",
+        "row 4 col 0: square at (100, 90)", "row 4 col 2: square at (120, 90)",
+        "squares drawn: 10",
+        "letter 0 starts at x = 40", "letter 1 starts at x = 56", "letter 2 starts at x = 72",
+    ]),
     "wed03_counting.html#hide": ("python3 hide_letters.py", ["**** ** ****"]),
     "wed03_counting.html#acc": ("python3 accumulators.py", [
         "total 13", "out ccaabb", "backwards bac",

@@ -144,6 +144,12 @@ def hub():
         "into a key, and decode it without trying every key. Teaches dictionaries and "
         "<code>collections.Counter</code> first, then uses them with "
         "<code>shift_by</code> from session 3. About 40 minutes.</span></span></div>"
+        '<div class="row extra"><span class="n">+</span>'
+        '<span class="d">after session 3</span>'
+        '<span class="t"><a href="extra_letters.html">How letters.py draws a letter</a>'
+        '<span class="s">The dictionary of letter pictures from the cipher console, '
+        "read line by line: two indexes, two loops one inside the other, and a gate. "
+        "About 30 minutes.</span></span></div>"
         "</div>"
     )
 
@@ -315,8 +321,9 @@ def hub():
         "<code>cipher_console.py</code>, "
         "<code>cipher_console_replay.py</code>, <code>verify_console.py</code></td>"
         "<td>3</td></tr>"
-        "<tr><td><code>counter_tour.py</code>, <code>caesar_crack.py</code></td>"
-        "<td>Extra, after 3</td></tr>"
+        "<tr><td><code>counter_tour.py</code>, <code>caesar_crack.py</code>, "
+        "<code>letters_tour.py</code>, <code>verify_letters.py</code></td>"
+        "<td>Extras, after 3</td></tr>"
         "<tr><td><code>transposition.py</code></td><td>4</td></tr>"
         "<tr><td><code>avalanche.py</code></td><td>5</td></tr>"
         "<tr><td><code>what_it_costs.py</code></td><td>6</td></tr>"

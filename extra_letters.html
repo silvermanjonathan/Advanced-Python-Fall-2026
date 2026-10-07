@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Extra: how letters.py draws a letter</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=DM+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F4F0E6; --card:#FFFDF7; --ink:#17181B; --ink-soft:#4A4D53; --rule:#D3CBB8;
+  --teal:#0E4D52; --teal-deep:#0A3A3E; --clay:#9C2B22;
+  --ochre:#8A5A00; --ochre-line:#D99B12; --ochre-tint:#FBF2DC;
+  --green:#1D5B39; --green-tint:#E8F1E9; --green-ink:#122B1C;
+  --code-bg:#EDE7D9;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:'DM Sans',system-ui,sans-serif; font-size:18px; font-weight:500;
+  line-height:1.65;
+}
+.wrap{max-width:900px; margin:0 auto}
+a{color:var(--teal)}
+a:focus-visible,button:focus-visible{outline:3px solid var(--ochre-line); outline-offset:3px}
+
+/* masthead */
+header.top{
+  background:var(--teal); color:#FFFDF7;
+  border-bottom:6px solid var(--ochre-line); padding:30px 22px 26px;
+}
+.eyebrow{
+  font-family:'JetBrains Mono',monospace; font-size:13px; letter-spacing:.14em;
+  text-transform:uppercase; color:#F2D89B; margin:0 0 10px; font-weight:700;
+}
+h1{
+  font-family:'Bricolage Grotesque','DM Sans',sans-serif; font-weight:800;
+  font-size:clamp(29px,4.8vw,44px); line-height:1.1; margin:0 0 10px;
+}
+h2{
+  font-family:'Bricolage Grotesque','DM Sans',sans-serif; font-weight:700;
+  font-size:25px; line-height:1.2; margin:0 0 12px; color:var(--teal-deep);
+}
+h3{
+  font-family:'Bricolage Grotesque','DM Sans',sans-serif; font-weight:700;
+  font-size:20px; margin:18px 0 8px; color:var(--teal-deep);
+}
+h4{
+  font-family:'Bricolage Grotesque','DM Sans',sans-serif; font-weight:700;
+  font-size:17px; margin:16px 0 6px; color:var(--ink);
+}
+header.top h1,header.top h2{color:#FFFDF7}
+.sub{color:#EAE3D2; margin:0 0 16px; font-size:19px; font-weight:400; max-width:70ch}
+.dates{
+  display:flex; flex-wrap:wrap; gap:10px; margin-top:16px;
+  font-family:'JetBrains Mono',monospace; font-size:13.5px;
+}
+.pill{
+  border:2px solid rgba(255,253,247,.4); border-radius:999px; padding:5px 13px;
+  background:rgba(255,253,247,.08);
+}
+.pill b{color:#F2D89B; font-weight:700}
+
+/* sections */
+main{padding:28px 22px 12px}
+section{
+  background:var(--card); border:2px solid var(--rule); border-radius:6px;
+  padding:22px 24px; margin:0 0 20px;
+}
+section.opener{border-left:8px solid var(--green)}
+section.chunk{border-left:8px solid var(--ochre-line)}
+section.brief{border-left:8px solid var(--teal)}
+.chunk-no{
+  font-family:'JetBrains Mono',monospace; font-size:13px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--ochre); margin:0 0 8px; font-weight:700;
+}
+p{margin:0 0 14px; max-width:72ch}
+ul,ol{margin:0 0 14px; padding-left:24px}
+li{margin:0 0 8px; max-width:70ch}
+ul.tight li{margin:0 0 5px}
+.two{display:grid; gap:0 30px; grid-template-columns:1fr}
+@media(min-width:760px){.two{grid-template-columns:1fr 1fr}}
+
+/* code and output */
+code,pre{
+  /* JetBrains Mono ligatures turn != into a slashed equals and <= into a single
+     glyph; students then type a character that does not exist. Keep every
+     operator as the keys that produce it. */
+  font-variant-ligatures:none; font-feature-settings:"liga" 0,"calt" 0,"dlig" 0;
+}
+code{
+  font-family:'JetBrains Mono',monospace; font-size:.9em; font-weight:700;
+  background:var(--code-bg); color:#1E2A2B; padding:2px 6px; border-radius:3px;
+}
+pre{
+  font-family:'JetBrains Mono',monospace; font-size:15.5px; line-height:1.6;
+  background:var(--code-bg); color:var(--ink); border:2px solid var(--rule);
+  border-left:6px solid #B9AF96; border-radius:4px;
+  padding:16px 18px; overflow-x:auto; margin:0 0 16px; font-weight:500;
+}
+pre code{background:none; padding:0; font-size:inherit; font-weight:inherit; color:inherit}
+/* code split into labelled parts: the label says what the part does and when it runs */
+.parts{margin:0 0 16px}
+.part{border:2px solid var(--rule); border-left:8px solid #B9AF96; border-radius:4px;
+  background:var(--code-bg); margin:0 0 6px}
+.part .plabel{margin:0; padding:8px 16px 0; font-size:15px; font-weight:700; color:var(--ink-soft)}
+.part pre{border:0; border-radius:0; margin:0; padding:4px 16px 10px; background:transparent}
+.part.once{border-left-color:var(--teal)} .part.once .plabel{color:var(--teal-deep)}
+.part.frame{border-left-color:var(--ochre-line); background:#F6EEDB} .part.frame .plabel{color:var(--ochre)}
+.part.after{border-left-color:var(--clay)} .part.after .plabel{color:var(--clay)}
+.fname{
+  font-family:'JetBrains Mono',monospace; font-size:12.5px; letter-spacing:.1em;
+  text-transform:uppercase; color:var(--ink-soft); margin:0 0 6px; font-weight:700;
+}
+.out{margin:0 0 16px}
+.out .tag{
+  font-family:'JetBrains Mono',monospace; font-size:12.5px; letter-spacing:.1em;
+  text-transform:uppercase; color:var(--green); margin:0 0 7px; font-weight:700;
+  display:block;
+}
+.out pre{background:var(--green-tint); border-color:#A9C6B2; border-left:6px solid var(--green); color:var(--green-ink)}
+
+/* predict and reveal */
+.predict{
+  border:2px dashed var(--ochre); border-radius:5px;
+  padding:16px 18px; margin:0 0 16px; background:var(--ochre-tint);
+}
+.predict b{color:var(--ochre)}
+.predict > pre{background:var(--card)}
+button.rev{
+  font-family:'DM Sans',sans-serif; font-size:16px; font-weight:700;
+  background:var(--teal); color:#FFFDF7; border:0; border-radius:4px;
+  padding:10px 18px; cursor:pointer; margin:4px 0 0;
+}
+button.rev:hover{background:var(--teal-deep)}
+.toolbar{display:flex; gap:12px; flex-wrap:wrap; margin:0 0 20px}
+a.btn{
+  display:inline-block; font-family:'DM Sans',sans-serif; font-size:17px; font-weight:700;
+  background:var(--teal); color:#FFFDF7; text-decoration:none; border-radius:4px;
+  padding:12px 20px; border:2px solid var(--teal);
+}
+a.btn:hover{background:var(--teal-deep)}
+a.btn.quiet{background:var(--card); color:var(--teal)}
+a.btn.quiet:hover{background:#EFE9DA}
+.ans{display:none; margin-top:16px; padding-top:16px; border-top:2px solid var(--rule)}
+.ans.show{display:block}
+.ans > :last-child{margin-bottom:0}
+.strip{border:2px solid var(--rule); border-radius:5px; background:var(--card); padding:14px 16px; margin:0 0 16px}
+.strip-controls{display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin:0 0 12px}
+.strip-controls button{font-family:'DM Sans',sans-serif; font-size:17px; font-weight:700; background:var(--teal);
+  color:#FFFDF7; border:0; border-radius:4px; padding:9px 16px; cursor:pointer; min-width:56px}
+.strip-controls button:hover{background:var(--teal-deep)}
+.strip-controls button.quiet{background:var(--card); color:var(--teal); border:2px solid var(--rule)}
+.strip-key{font-family:'JetBrains Mono',monospace; font-size:18px; padding:0 6px}
+.strip-key b{font-size:26px; color:var(--teal)}
+.strip-word{font-size:16px; color:var(--ink-soft); margin-left:auto}
+.strip-word input{font-family:'JetBrains Mono',monospace; font-size:17px; width:9em; margin-left:6px;
+  padding:6px 8px; border:2px solid var(--rule); border-radius:4px; background:#fff; color:var(--ink)}
+.strip-rows{overflow-x:auto; padding-bottom:4px}
+.strip-row{display:flex; gap:3px; margin:0 0 3px; min-width:max-content}
+.strip-label{font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--ink-soft); width:52px;
+  display:flex; align-items:center; text-transform:uppercase; letter-spacing:.08em}
+.strip-cell{font-family:'JetBrains Mono',monospace; font-size:20px; font-weight:700; width:30px; height:38px;
+  display:flex; align-items:center; justify-content:center; border:2px solid var(--rule); border-radius:3px;
+  background:#fff; font-variant-ligatures:none}
+.strip-row.top .strip-cell{cursor:pointer}
+.strip-row.bottom .strip-cell{background:var(--ochre-tint)}
+.strip-cell.on,.strip-row.bottom .strip-cell.on{background:var(--teal); color:#FFFDF7; border-color:var(--teal)}
+.strip-say{font-size:18px; margin:10px 0 0; min-height:1.6em}
+@media (max-width:760px){.strip-word{margin-left:0}}
+@media print{.strip-controls,.strip-say{display:none}}
+.hintset{border:2px solid var(--rule); border-radius:5px; padding:12px 16px; margin:0 0 12px;
+  background:var(--card)}
+.hintset > p:first-child{margin:0 0 8px}
+.hintset .ans{margin-top:10px; padding-top:10px}
+.hintset .ans pre{margin-bottom:10px}
+.bug{
+  background:#F7E4E1; border:2px solid var(--clay); border-left:8px solid var(--clay);
+  border-radius:5px; padding:14px 16px; margin:0 0 18px; color:#3A1512;
+}
+.bug b{color:var(--clay)}
+.flag{
+  background:#F7E4E1; border:2px solid var(--clay); border-left:8px solid var(--clay);
+  border-radius:5px; padding:14px 16px; margin:0 0 20px; font-size:16.5px; color:#3A1512;
+}
+.flag b{color:var(--clay)}
+
+/* tables */
+table{border-collapse:collapse; width:100%; margin:0 0 16px; font-size:16.5px}
+th,td{border:2px solid var(--rule); padding:9px 11px; text-align:left; vertical-align:top;
+  overflow-wrap:anywhere}
+th{background:#EFE9DA; font-weight:700; font-size:15px; color:var(--teal-deep)}
+td code{font-size:.86em}
+
+/* exits */
+.exits{display:grid; gap:14px; grid-template-columns:1fr}
+@media(min-width:760px){.exits{grid-template-columns:repeat(3,1fr)}}
+.exit{border:2px solid var(--rule); border-radius:5px; padding:16px; background:var(--card)}
+.exit p{margin:0; font-size:16.5px}
+.exit .lab{
+  font-family:'JetBrains Mono',monospace; font-size:12.5px; letter-spacing:.1em;
+  text-transform:uppercase; margin:0 0 8px; font-weight:700; display:block;
+}
+.exit:nth-child(1){border-top:6px solid var(--green)}
+.exit:nth-child(1) .lab{color:var(--green)}
+.exit:nth-child(2){border-top:6px solid var(--ochre-line)}
+.exit:nth-child(2) .lab{color:var(--ochre)}
+.exit:nth-child(3){border-top:6px solid var(--clay)}
+.exit:nth-child(3) .lab{color:var(--clay)}
+
+/* teacher panel and the capstone block */
+section.panel{border-left:8px solid var(--clay)}
+section.panel > h2{color:var(--clay)}
+.panel p,.panel li{font-size:16.5px}
+.std{font-family:'JetBrains Mono',monospace; font-weight:700; color:var(--teal); margin-right:6px}
+.stdline{max-width:80ch; margin:0 0 10px; padding-left:1.4em; text-indent:-1.4em}
+.mapnote{font-size:15px; color:var(--ink-soft); border-left:4px solid var(--rule); padding-left:14px}
+
+/* pager and footer */
+nav.pager{
+  max-width:900px; margin:0 auto; padding:8px 22px 34px;
+  display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap;
+  font-family:'JetBrains Mono',monospace; font-size:14px;
+}
+nav.pager a,nav.pager .none{
+  text-decoration:none; font-weight:700; border:2px solid var(--rule);
+  background:var(--card); border-radius:4px; padding:10px 14px;
+}
+nav.pager a{color:var(--teal)}
+nav.pager a:hover{background:#EFE9DA}
+nav.pager .none{color:var(--ink-soft); border-style:dashed}
+footer{
+  background:#EAE4D5; border-top:4px solid var(--teal); padding:22px 22px 36px;
+  font-size:15px; color:var(--ink-soft);
+}
+footer p{margin:0}
+
+/* hub */
+.grid{margin:0}
+.row{
+  border:2px solid var(--rule); border-left:8px solid var(--teal); border-radius:5px;
+  margin:0 0 12px; padding:14px 16px; background:var(--card);
+  display:grid; grid-template-columns:44px 84px 1fr; gap:6px 14px; align-items:baseline;
+}
+.row .n{font-family:'JetBrains Mono',monospace; font-size:24px; font-weight:700; color:var(--teal)}
+.row .d{font-family:'JetBrains Mono',monospace; font-size:13px; color:var(--ink-soft)}
+.row .t{font-weight:700; font-size:19px}
+.row .t a{text-decoration:none}
+.row .s{display:block; font-weight:400; font-size:16px; color:var(--ink-soft); max-width:62ch}
+.row.off{border-left-color:var(--clay); background:#FBF9F3}
+.row.extra{border-left-color:var(--ochre-line); background:var(--ochre-tint)}
+.row.extra .n{color:var(--ochre)}
+.row.off .n{color:var(--clay)}
+
+@media (max-width:760px){
+  body{font-size:17px} main{padding:22px 16px 8px} header.top{padding:24px 16px 20px}
+  section{padding:18px 16px} .row{grid-template-columns:38px 1fr}
+  .row .d{grid-column:2} .row .t{grid-column:2}
+  table{table-layout:fixed} th,td{padding:7px 8px}
+}
+@media print{
+  body{background:#fff; font-size:11pt}
+  header.top{background:#fff; color:#111; border-bottom:3px solid #111}
+  header.top h1,header.top .sub,header.top .eyebrow,.pill b{color:#111}
+  .pill{border-color:#666}
+  button.rev{display:none} .ans{display:block}
+  nav.pager,footer,.toolbar{display:none}
+  section,.exit{background:#fff; break-inside:avoid} pre{border:1px solid #999}
+  a{color:#111}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important; animation:none!important}}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap"><p class="eyebrow">Advanced Python &middot; Robofun &middot; Extra</p><h1>How letters.py draws a letter</h1><p class="sub">In session 3, letters.py drew every letter in the cipher console. Here is how it works, line by line: a dictionary of pictures, two loops, and one gate.</p><div class="dates"><span class="pill"><b>When</b> Any time after session 3</span><span class="pill"><b>Length</b> About 30 minutes</span></div></div></header>
+<main><div class="wrap">
+
+<p>Put these two files in one folder. <code>letters_tour.py</code> is a short program that prints what <code>letters.py</code> does, step by step.</p><div class="toolbar"><a class="btn quiet" href="letters.py" download="letters.py">Download letters.py</a><a class="btn quiet" href="letters_tour.py" download="letters_tour.py">Download letters_tour.py</a></div>
+<p>When pygame loads, it prints two lines of its own, starting with <code>pygame 2</code>. They are left out of the outputs on this page.</p><div class="toolbar"><a class="btn quiet" href="wed03_counting.html">Back to session 3</a></div><section class="opener"><p class="chunk-no">Section 1 &middot; 10 minutes</p><h2>A letter is five strings</h2><p><code>letters.py</code> starts with a dictionary called <code>SHAPES</code>. Here are its first two entries. After them come 25 more, one for each other letter and one for the space, then a closing <code>}</code>.</p><p class="fname">letters.py, the start of SHAPES</p>
+<pre><code>SHAPES = {
+    &quot;a&quot;: [&quot;.#.&quot;, &quot;#.#&quot;, &quot;###&quot;, &quot;#.#&quot;, &quot;#.#&quot;],
+    &quot;b&quot;: [&quot;##.&quot;, &quot;#.#&quot;, &quot;##.&quot;, &quot;#.#&quot;, &quot;##.&quot;],</code></pre>
+<p>Each key is a letter. Each value is a <b>list</b> of five strings, one string for each row of the picture, top to bottom. Each string has three characters, one for each column, left to right. <code>#</code> is a filled square and <code>.</code> is an empty one.</p><p>Rows and columns are numbered from 0, the same as list indexes. Here is <code>a</code> on its grid:</p><svg viewBox="0 0 420 254" width="420" style="max-width:100%; height:auto; display:block; margin:10px 0 16px" role="img" aria-label="The letter a on a grid of 5 rows and 3 columns, rows numbered 0 to 4 from the top, columns 0 to 2 from the left, with each row's string beside it."><text x="84.0" y="21" text-anchor="middle" font-size="14" fill="#4A4D53">col 0</text><text x="128.0" y="21" text-anchor="middle" font-size="14" fill="#4A4D53">col 1</text><text x="172.0" y="21" text-anchor="middle" font-size="14" fill="#4A4D53">col 2</text><text x="54" y="55" text-anchor="end" font-size="14" fill="#4A4D53">row 0</text><rect x="64" y="30" width="40" height="40" fill="#FFFDF7" stroke="#D3CBB8"/><rect x="108" y="30" width="40" height="40" fill="#0E4D52" stroke="#D3CBB8"/><rect x="152" y="30" width="40" height="40" fill="#FFFDF7" stroke="#D3CBB8"/><text x="214" y="55" font-size="15" font-family="monospace" fill="#17181B">shape[0] is ".#."</text><text x="54" y="99" text-anchor="end" font-size="14" fill="#4A4D53">row 1</text><rect x="64" y="74" width="40" height="40" fill="#0E4D52" stroke="#D3CBB8"/><rect x="108" y="74" width="40" height="40" fill="#FFFDF7" stroke="#D3CBB8"/><rect x="152" y="74" width="40" height="40" fill="#0E4D52" stroke="#D3CBB8"/><text x="214" y="99" font-size="15" font-family="monospace" fill="#17181B">shape[1] is "#.#"</text><text x="54" y="143" text-anchor="end" font-size="14" fill="#4A4D53">row 2</text><rect x="64" y="118" width="40" height="40" fill="#0E4D52" stroke="#D3CBB8"/><rect x="108" y="118" width="40" height="40" fill="#0E4D52" stroke="#D3CBB8"/><rect x="152" y="118" width="40" height="40" fill="#0E4D52" stroke="#D3CBB8"/><text x="214" y="143" font-size="15" font-family="monospace" fill="#17181B">shape[2] is "###"</text><text x="54" y="187" text-anchor="end" font-size="14" fill="#4A4D53">row 3</text><rect x="64" y="162" width="40" height="40" fill="#0E4D52" stroke="#D3CBB8"/><rect x="108" y="162" width="40" height="40" fill="#FFFDF7" stroke="#D3CBB8"/><rect x="152" y="162" width="40" height="40" fill="#0E4D52" stroke="#D3CBB8"/><text x="214" y="187" font-size="15" font-family="monospace" fill="#17181B">shape[3] is "#.#"</text><text x="54" y="231" text-anchor="end" font-size="14" fill="#4A4D53">row 4</text><rect x="64" y="206" width="40" height="40" fill="#0E4D52" stroke="#D3CBB8"/><rect x="108" y="206" width="40" height="40" fill="#FFFDF7" stroke="#D3CBB8"/><rect x="152" y="206" width="40" height="40" fill="#0E4D52" stroke="#D3CBB8"/><text x="214" y="231" font-size="15" font-family="monospace" fill="#17181B">shape[4] is "#.#"</text></svg><h3>Two indexes</h3><p><code>shape = letters.SHAPES["a"]</code> gives you the list of five strings. <code>shape[2]</code> picks one string from the list: row 2. A second index picks one character from that string, so <code>shape[2][1]</code> is row 2, column 1.</p><p>So <code>shape[row][col]</code> is the mark at that row and column. The first index is the row. The second is the column.</p><p class="fname">letters_tour.py, first part</p>
+<pre><code>shape = letters.SHAPES[&quot;a&quot;]
+print(shape)
+print(shape[2])
+print(shape[0][1])</code></pre>
+<div class="predict"><b>Predict first.</b> What do the three print lines show? For the last one, find row 0 on the grid first, then column 1.
+<button class="rev" data-target="a55" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a55">Show the answer</button>
+<div class="ans" id="a55"><div class="out"><span class="tag">verified output</span><pre><code>[&#x27;.#.&#x27;, &#x27;#.#&#x27;, &#x27;###&#x27;, &#x27;#.#&#x27;, &#x27;#.#&#x27;]
+###
+#</code></pre></div>
+<p>The first line is the whole list. The second is row 2, <code>###</code>. The third is row 0, column 1: the middle of <code>.#.</code>, which is <code>#</code>.</p></div></div>
+</section>
+<section class="chunk"><p class="chunk-no">Section 2 &middot; 15 minutes</p><h2>draw_letter: two loops and a gate</h2><p>Here is <code>draw_letter</code>, with each part labelled.</p><p class="fname">letters.py</p>
+<div class="parts"><div class="part "><p class="plabel">The function and its docstring. It is given the window, the letter, where the letter's top left corner goes, how big each square is, and the color.</p><pre><code>def draw_letter(screen, letter, x, y, size, color):
+    &quot;&quot;&quot;Draw one letter with its top left corner at (x, y), from squares size pixels wide.&quot;&quot;&quot;</code></pre></div><div class="part once"><p class="plabel">Look up the letter's five strings in the dictionary. This runs once each time the function is called.</p><pre><code>    shape = SHAPES[letter]</code></pre></div><div class="part frame"><p class="plabel">Outer loop: <code>row</code> is 0, 1, 2, 3, 4, top to bottom. It runs 5 times.</p><pre><code>    for row in range(5):</code></pre></div><div class="part frame"><p class="plabel">Inner loop: <code>col</code> is 0, 1, 2, left to right. It runs 3 times for every row, so 15 times in all.</p><pre><code>        for col in range(3):</code></pre></div><div class="part frame"><p class="plabel">The gate: draw only where the mark is <code>#</code>. It is checked 15 times.</p><pre><code>            if shape[row][col] == &quot;#&quot;:</code></pre></div><div class="part frame"><p class="plabel">One square, <code>size</code> pixels wide and tall, with its top left corner at <code>(x + col * size, y + row * size)</code>.</p><pre><code>                pygame.draw.rect(screen, color, (x + col * size, y + row * size, size, size))</code></pre></div></div>
+<p>One loop is inside the other. The inner loop runs all the way through for every pass of the outer loop, so the order is row 0, columns 0, 1, 2; then row 1, columns 0, 1, 2; and so on down to row 4. That is 5 × 3 = 15 checks, one for each square of the grid.</p><p>Each step right adds <code>size</code> to x. Each step down adds <code>size</code> to y, because in pygame y counts down from the top. So the square for row 2, column 1 starts 1 square right and 2 squares down from the letter's corner.</p><div class="predict"><b>Predict first.</b> Say <code>x</code> is 100, <code>y</code> is 50 and <code>size</code> is 10. Where is the top left corner of the square for row 2, column 1? And how many squares does <code>draw_letter</code> draw for <code>a</code>?
+<button class="rev" data-target="a56" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a56">Show the answer</button>
+<div class="ans" id="a56"><p>Row 2, column 1: x is 100 + 1 × 10 = 110, and y is 50 + 2 × 10 = 70. The corner is at (110, 70).</p><p>Count the <code>#</code> marks: 1 + 2 + 3 + 2 + 2 = 10. The gate lets one square through for each one.</p></div></div>
+<p>The rest of <code>letters_tour.py</code> runs the same two loops and the same gate as <code>draw_letter</code>, with the same numbers. Instead of drawing each square, it prints where the square goes.</p><p class="fname">letters_tour.py, second part</p>
+<pre><code>x = 100
+y = 50
+size = 10
+count = 0
+for row in range(5):
+    for col in range(3):
+        if shape[row][col] == &quot;#&quot;:
+            print(f&quot;row {row} col {col}: square at ({x + col * size}, {y + row * size})&quot;)
+            count = count + 1
+print(f&quot;squares drawn: {count}&quot;)</code></pre>
+<div class="out"><span class="tag">verified output</span><pre><code>row 0 col 1: square at (110, 50)
+row 1 col 0: square at (100, 60)
+row 1 col 2: square at (120, 60)
+row 2 col 0: square at (100, 70)
+row 2 col 1: square at (110, 70)
+row 2 col 2: square at (120, 70)
+row 3 col 0: square at (100, 80)
+row 3 col 2: square at (120, 80)
+row 4 col 0: square at (100, 90)
+row 4 col 2: square at (120, 90)
+squares drawn: 10</code></pre></div>
+<p>Ten squares, in order: row by row, and left to right in each row.</p></section>
+<section class="chunk"><p class="chunk-no">Section 3 &middot; 5 minutes</p><h2>draw_word: one letter after another</h2><p class="fname">letters.py</p>
+<pre><code>def draw_word(screen, word, x, y, size, color):
+    &quot;&quot;&quot;Draw a word one letter at a time, starting at (x, y).&quot;&quot;&quot;
+    for i in range(len(word)):
+        draw_letter(screen, word[i], x + i * 4 * size, y, size, color)</code></pre>
+<p><code>word[i]</code> is letter <code>i</code> of the word, and <code>draw_word</code> calls <code>draw_letter</code> once for each one. Every letter gets the same <code>y</code>. Only x changes.</p><p>A letter is 3 squares wide, and one empty square goes between letters, so each letter starts 4 squares to the right of the one before. That is <code>i * 4 * size</code> pixels from the first letter.</p><p class="fname">letters_tour.py, last part</p>
+<pre><code>for i in range(3):
+    print(f&quot;letter {i} starts at x = {40 + i * 4 * 4}&quot;)</code></pre>
+<div class="predict"><b>Predict first.</b> The cipher console draws <code>MESSAGE</code> with <code>letters.draw_word(screen, MESSAGE, 40, 50, 4, PLAIN_INK)</code>. Where do the first three letters start?
+<button class="rev" data-target="a57" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a57">Show the answer</button>
+<div class="ans" id="a57"><div class="out"><span class="tag">verified output</span><pre><code>letter 0 starts at x = 40
+letter 1 starts at x = 56
+letter 2 starts at x = 72</code></pre></div>
+<p>With <code>size</code> 4, letters are 4 × 4 = 16 pixels apart: 40, 56, 72. That is why step 4 of the console draws the coded letters at <code>40 + i * 16</code>: the same spacing as <code>draw_word</code>.</p></div></div>
+</section>
+<section class="brief"><h2>Exits</h2><div class="exits"><div class="exit"><span class="lab">FLOOR</span><p>You can say what <code>SHAPES["a"][2]</code> is and why, and which index of <code>shape[row][col]</code> picks the row.</p></div><div class="exit"><span class="lab">MIDDLE</span><p>Floor, plus on paper, trace <code>draw_letter</code> for <code>t</code> at <code>x</code> 0, <code>y</code> 0, <code>size</code> 10: list every square it draws, in order. Then change <code>"a"</code> to <code>"t"</code> in <code>letters_tour.py</code> and check your list.</p></div><div class="exit"><span class="lab">STRETCH</span><p>Middle, plus design a picture for <code>!</code>, add it to <code>SHAPES</code> in your copy of <code>letters.py</code>, and draw the word <code>hi!</code> in a window with <code>letters.draw_word</code>.</p></div></div></section>
+<section class="panel"><h2>Teacher panel</h2><h3>Concept this session re-touches</h3><p>Session 3's console: <code>letters.py</code>, <code>SHAPES</code>, and draw positions in pixels. The <code>count</code> in <code>letters_tour.py</code> is an accumulator from session 3's opener.</p><h3>Standards</h3><p class="stdline"><span class="std">5.G.A.1</span> Use a pair of perpendicular number lines, called axes, to define a coordinate system, with the intersection of the lines (the origin) arranged to coincide with the 0 on each line and a given point in the plane located by using an ordered pair of numbers, called its coordinates.</p>
+<p class="stdline"><span class="std">MP7</span> Look for and make use of structure.</p>
+<p class="mapnote">Mapped to the Common Core State Standards for Mathematics (Multi-State). Each code and its wording was retrieved from the CASE Network through the Learning Commons Knowledge Graph on 12 September 2026. New York's own Computer Science and Digital Fluency framework and the CSTA standards are not carried in that graph, so no code from either appears anywhere on this site.</p><p class="mapnote">Two deliberate deviations from the retrieved text. The "for example…" illustrations attached to 7.SP.C.6 and 8.EE.A.1 are omitted, since they illustrate rather than state the standard. And where the source carries markup, italics or mathematical notation, it is rendered as plain text: 7.SP.C.5's fraction appears here as 1/2, and the italic stem of 6.SP.B.5.a and 6.SP.B.5.c is plain. Nothing else was shortened. Codes 6.SP.B.5.a and 6.SP.B.5.c are the lettered children of 6.SP.B.5, whose own statement is only a stem ending in a colon; the children carry that stem and are quoted in full.</p><h3>Timing</h3><p>About 30 minutes, any time after session 3: 10 the dictionary and its two indexes, 15 <code>draw_letter</code>, 5 <code>draw_word</code>. It suits students who finished the console and asked how the letters work.</p><h3>What to watch for</h3><p>The double index is the hard part. Students read <code>shape[2][1]</code> as one number, or swap the row and the column. Have them point at the grid: the first index goes down to a row, the second goes across to a column.</p><p>Nested loops are new. The trace output is the answer to "in what order?": it lists the squares row by row. If a student expects column by column, ask which loop is on the outside.</p><p>y points down here too, so row 4 has the biggest y.</p><h3>Files</h3><p><code>letters.py</code> and <code>letters_tour.py</code>. <code>verify_letters.py</code> calls the real <code>draw_letter</code> and <code>draw_word</code> without a screen, records every square and letter position they ask pygame for, and prints them in the tour's words. The output check confirms both programs print the same lines, so the tour tells the truth about <code>letters.py</code>. Verified on Python 3.12.3 and pygame 2.6.1.</p><h3>Lifted on this page</h3><p>A list of strings as a grid, two indexes (<code>shape[row][col]</code>), and one loop inside another.</p></section>
+</div></main>
+<nav class="pager"><a href="extra_crack_caesar.html">&larr; Extra: break a Caesar cipher</a><a href="advanced_python_hub.html">Course hub</a><a href="wed04_transposition.html">Session 4: moving letters &rarr;</a></nav>
+<footer><div class="wrap"><p>Advanced Python, Robofun Fall 2026. Second printing, 13 September 2026. Built by a generator; the page, not the file, is the source of truth for output, because every quoted line came from a run.</p></div></footer>
+<script>
+document.addEventListener('click', function(e){
+  var b = e.target.closest('button.rev');
+  if(!b) return;
+  var box = document.getElementById(b.dataset.target);
+  if(!box) return;
+  var open = box.classList.toggle('show');
+  b.textContent = open ? (b.dataset.hide || 'Hide') : (b.dataset.show || 'Show');
+  b.setAttribute('aria-expanded', open ? 'true' : 'false');
+});
+</script>
+</body>
+</html>
