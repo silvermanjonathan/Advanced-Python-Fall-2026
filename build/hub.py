@@ -8,9 +8,9 @@ SESSIONS = [
      "Trace 60 lines of an unfamiliar working program, then rename everything in it. Session 1 also shows where the room is."),
     ("02", "23 Sep", "wed02_return_and_modules.html", "Functions that return a value",
      "return, composition, and splitting a program into your own importable module."),
-    ("03", "30 Sep", "wed03_counting.html", "Counting, and what counting lets you do",
-     "Accumulators and dictionaries, then collections.Counter, then break a Caesar cipher by "
-     "frequency."),
+    ("03", "30 Sep", "wed03_counting.html", "Counting, and a cipher in a window",
+     "Accumulators and dictionaries, then collections.Counter, then write a Caesar cipher "
+     "and put it in a pygame window."),
     ("04", "7 Oct", "wed04_transposition.html", "Ciphers that move letters",
      "Rail fence, then a route cipher on a list-of-lists grid with a signed key."),
     ("05", "14 Oct", "wed05_hashing.html", "Your seal, and a real one",
@@ -43,7 +43,8 @@ LIFTED = [
     ("Session 2", "<code>return</code> values, <code>len()</code>, <code>import</code> "
      "of your own module, <code>and</code> to join two comparisons"),
     ("Session 3", "the word accumulator, the empty string, <code>+</code> to join strings, dictionaries, <code>collections.Counter</code>, "
-     "<code>ord</code> and <code>chr</code>"),
+     "<code>ord</code> and <code>chr</code>, indexing a string, tuples, and a pygame "
+     "window: the event loop, frames, <code>pygame.draw.rect</code>"),
     ("Session 4", "list of lists as a grid, slicing, <code>range</code> with a negative "
      "step, <code>abs</code>, <code>.join()</code>"),
     ("Session 5", "<code>hashlib</code>, <code>.encode()</code>, "
@@ -56,7 +57,7 @@ LIFTED = [
     ("Session 9", "reading a file with <code>with open(...) as f:</code>, "
      "<code>try</code> and <code>except</code> with a named error, "
      "<code>csv.DictReader</code>, <code>math.log10</code>, "
-     "<code>pygame.draw.rect</code> for a histogram"),
+     "<code>pygame.draw.line</code>, and a histogram drawn from data"),
     ("Session 10", "<code>collections.defaultdict</code>, tuples as dictionary keys, "
      "<code>.split()</code>, multiple assignment"),
     ("Session 11", "<code>class</code>, <code>__init__</code>, <code>self</code>, "
@@ -93,7 +94,7 @@ def hub():
         '<p class="eyebrow">Robofun &middot; Fall 2026 &middot; 110 West End Avenue</p>'
         "<h1>Advanced Python</h1>"
         '<p class="sub">A course about the machine underneath. You will read code '
-        "before you run it, measure what a program costs instead of guessing, and build three things that look hard from the outside: a cipher that breaks itself, a simulation that settles an argument, a program that writes sentences.</p>"
+        "before you run it, measure what a program costs instead of guessing, and build three things that look hard from the outside: a cipher you can watch in a window, a simulation that settles an argument, a program that writes sentences.</p>"
         '<div class="dates"><span class="pill"><b>Wednesdays</b> 16 Sep to 16 Dec 2026, '
         '13 sessions</span><span class="pill"><b>Time</b> 4:00 to 5:30</span>'
         '<span class="pill"><b>Grades</b> 5 to 8</span>'
@@ -110,17 +111,6 @@ def hub():
             f'<span class="t"><a href="{href}">{esc(title)}</a>'
             f'<span class="s">{esc(sub)}</span></span></div>'
         )
-        if n == "03":
-            b += (
-                '<div class="row extra"><span class="n">+</span>'
-                '<span class="d">after 30 Sep</span>'
-                '<span class="t"><a href="wed03_cipher_console.html">The cipher console, '
-                "in pygame</a>"
-                '<span class="s">Optional, about 45 minutes, at home or for early '
-                "finishers. The session 3 Caesar cipher in a pygame window, built in four "
-                "small programs, with every pygame line in them explained.</span>"
-                "</span></div>"
-            )
         if n == "08":
             b += (
                 '<div class="row off"><span class="n">&middot;</span>'
@@ -139,6 +129,19 @@ def hub():
         "25 November, session 10, is the day before Thanksgiving, and attendance is "
         "usually light. Nothing later in the term depends on session 10, so anyone away "
         "can pick it up from its page.</div>"
+    )
+    b += (
+        "<h2>Extras</h2>"
+        "<p>Pages outside the thirteen sessions, for any time after the session they "
+        "build on.</p>"
+        '<div class="grid"><div class="row extra"><span class="n">+</span>'
+        '<span class="d">after session 3</span>'
+        '<span class="t"><a href="extra_crack_caesar.html">Break a Caesar cipher by '
+        "counting letters</a>"
+        '<span class="s">Count the letters of a coded message, turn the most common one '
+        "into a key, and decode it without trying every key. Uses "
+        "<code>shift_by</code> and <code>Counter</code> from session 3. About 25 "
+        "minutes.</span></span></div></div>"
     )
 
     b += "<h2>What this course is for</h2>"
@@ -273,9 +276,8 @@ def hub():
         "the plume and the orbit both go. Those two sessions would need replacing.</td>"
         "</tr>"
         "<tr><td>Environment</td><td>VS Code throughout, pygame for all graphics</td>"
-        "<td>Sessions 9, 11, and 12 need pygame on the machines, and so does the cipher "
-        "console page after session 3. Sessions 1 to 8 and 10 "
-        "are terminal only and run anywhere.</td></tr>"
+        "<td>Sessions 3, 9, 11, and 12 need pygame on the machines. Sessions 1, 2, 4 to "
+        "8, and 10 are terminal only and run anywhere.</td></tr>"
         "<tr><td>Theme</td><td>None.</td>"
         "<td>Sessions 3, 4, and 5 are all about ciphers and could share one theme. Sessions 6 to 12 would not.</td></tr>"
         "<tr><td>Data files</td><td>Three needed on disk</td>"
@@ -284,7 +286,7 @@ def hub():
         "by scripts in the repo, so nothing needs fetching over the network. Each has a "
         "download button on the page of the session that uses it.</td></tr>"
         "<tr><td>Capstone sketch deadline</td><td>Session 11, 2 December</td>"
-        "<td>It comes after session 9, the first window students see, because the sketch "
+        "<td>It comes after session 9, the histogram window, because the sketch "
         "describes a window, and after session 10, the light attendance day before "
         "Thanksgiving. The build lives in the session 11 and 12 stretch exits.</td></tr>"
         "</table>"
@@ -293,7 +295,7 @@ def hub():
     b += "<h2>Programs in this repo</h2>"
     b += (
         "<p>Every output printed on these pages came from running these files on Python "
-        "3.12.3, with pygame 2.6.1 for the two graphics sessions, verified headless. "
+        "3.12.3, with pygame 2.6.1 for the sessions that open a window, verified headless. "
         "Timings in session 6 are machine specific and will not match your classroom "
         "machines. Re-run before Wednesday.</p>"
         "<table><tr><th>File</th><th>Session</th></tr>"
@@ -303,12 +305,13 @@ def hub():
         "<code>print_the_return.py</code>, <code>sweep_tools_more.py</code>, "
         "<code>sweep_report3.py</code>, <code>first_over_enumerate.py</code></td>"
         "<td>2</td></tr>"
-        "<tr><td><code>accumulators.py</code>, <code>counter_tour.py</code>, <code>caesar_encode.py</code>, "
-        "<code>caesar_crack.py</code></td><td>3</td></tr>"
-        "<tr><td><code>letters.py</code>, <code>console_1_window.py</code>, "
-        "<code>console_2_tiles.py</code>, <code>console_3_board.py</code>, "
-        "<code>cipher_console.py</code>, <code>cipher_console_replay.py</code>, "
-        "<code>verify_console.py</code></td><td>3, the cipher console page</td></tr>"
+        "<tr><td><code>accumulators.py</code>, <code>counter_tour.py</code>, "
+        "<code>caesar_encode.py</code>, <code>letters.py</code>, "
+        "<code>console_1_window.py</code>, <code>console_2_tiles.py</code>, "
+        "<code>console_3_board.py</code>, <code>cipher_console.py</code>, "
+        "<code>cipher_console_replay.py</code>, <code>verify_console.py</code></td>"
+        "<td>3</td></tr>"
+        "<tr><td><code>caesar_crack.py</code></td><td>Extra, after 3</td></tr>"
         "<tr><td><code>transposition.py</code></td><td>4</td></tr>"
         "<tr><td><code>avalanche.py</code></td><td>5</td></tr>"
         "<tr><td><code>what_it_costs.py</code></td><td>6</td></tr>"

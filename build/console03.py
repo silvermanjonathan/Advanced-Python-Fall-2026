@@ -1,11 +1,9 @@
-"""Session 3 companion page: the Caesar cipher in a pygame window."""
+"""Session 3, section 4: the Caesar cipher in a pygame window."""
 
 import base64
 import os
 
-from build import code, downloads, labelled_code, laddered, masthead, output, pager, reveal
-from days38 import exits
-from stds import panel
+from build import code, downloads, labelled_code, laddered, output, reveal
 
 _ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 _SHOTS = os.path.join(os.path.dirname(os.path.abspath(__file__)), "shots")
@@ -139,7 +137,7 @@ CONSOLE_PARTS = [
     ("import pygame", "Bring in pygame and <code>letters.py</code>.", ""),
     ("MESSAGE =", "The two lines you change, and the alphabet.", ""),
     ("BOARD =", "Colors, each one (red, green, blue).", ""),
-    ("def shift_by", "<code>shift_by</code>, your function from session 3.", ""),
+    ("def shift_by", "<code>shift_by</code>, your function from section 3.", ""),
     ("coded = shift_by", "Code the message and the alphabet, and print them in the "
      "terminal. This runs once.", "once"),
     ("pygame.init()", "Set up the window, the clock, and the two accumulators. This "
@@ -158,8 +156,8 @@ CONSOLE_PARTS = [
 ]
 
 
-def console03():
-    """Return the cipher console page body."""
+def console_section():
+    """Return session 3's section 4, the cipher console, and its stretch exit."""
     _shift_by_matches()
     a_rows = [".#.", "#.#", "###", "#.#", "#.#"]
     assert f'"a": [{", ".join(chr(34) + r + chr(34) for r in a_rows)}],' in _source("letters.py")
@@ -169,22 +167,14 @@ def console03():
     fits = max(n for n in range(1, 60) if 40 + (n - 1) * 16 + 12 <= 640)
     key10 = _shift(ALPHABET, 10)
 
-    b = masthead(
-        "03",
-        "The cipher console",
-        "After session 3",
-        "Your Caesar cipher from session 3, in a pygame window. The alphabet sits on "
-        "top, the coded alphabet sits under it, and the coded message appears one letter "
-        "at a time.",
-        time=None,
-        length="About 45 minutes",
+    b = (
+        '<h2><span class="num">4</span>The cipher console in pygame'
+        '<span class="mins">25 minutes</span></h2>'
+        "<p>Now put your cipher in a window. The alphabet sits on top, the coded "
+        "alphabet sits under it, and the coded message appears one letter at a "
+        "time.</p>"
+        "<h3>Get the files</h3>"
     )
-    b += (
-        '<div class="toolbar"><a class="btn quiet" href="wed03_counting.html">Back to '
-        "the session 3 page</a></div>"
-    )
-
-    b += '<h2><span class="num">1</span>Before you start<span class="mins">5 minutes</span></h2>'
     b += (
         "<p>You will build the console in four programs. Each one adds one thing to the "
         "one before, so you can run it after every step and see what changed.</p>"
@@ -211,7 +201,7 @@ def console03():
         "at the bottom.",
     )
 
-    b += '<h2><span class="num">2</span>A window<span class="mins">10 minutes</span></h2>'
+    b += "<h3>Step 1: a window</h3>"
     b += (
         "<p>Here is the first program, split into its parts. The label on each part "
         "says what the part does and when it runs: once, or again on every frame.</p>"
@@ -222,7 +212,7 @@ def console03():
         "stays open until you click its close button.</p>"
     )
     b += output("window open, close it to finish")
-    b += "<h3>Before the loop</h3>"
+    b += "<h4>Before the loop</h4>"
     b += (
         '<ul class="tight">'
         "<li><code>pygame.init()</code> starts pygame. It comes before anything else "
@@ -247,7 +237,7 @@ def console03():
         "<code>(0, 0, 0)</code> is black and <code>(255, 255, 255)</code> is white. "
         "<code>(15, 19, 24)</code> has a little of each, so it is nearly black.</p>"
     )
-    b += "<h3>The loop</h3>"
+    b += "<h4>The loop</h4>"
     b += (
         "<p>Each pass through the <code>while</code> loop draws one picture. One picture "
         "is called a <b>frame</b>. Each pass does three things, in this order:</p>"
@@ -286,7 +276,7 @@ def console03():
         "<p>60 × 2 = 120 frames.</p>",
     )
 
-    b += '<h2><span class="num">3</span>Rectangles<span class="mins">10 minutes</span></h2>'
+    b += "<h3>Step 2: rectangles</h3>"
     b += (
         "<p>Every point in the window has two numbers, x and y. x counts pixels across "
         "from the left edge. y counts pixels down from the top edge. The top left corner "
@@ -319,7 +309,7 @@ def console03():
         + _shot("console_2_tiles_5.png", "A dark window with a row of 26 cream tiles."),
     )
 
-    b += '<h2><span class="num">4</span>Letters<span class="mins">10 minutes</span></h2>'
+    b += "<h3>Step 3: letters</h3>"
     b += (
         "<p>This course does not use pygame to write words, so each letter is drawn "
         "from small squares. <code>letters.py</code> holds a dictionary called "
@@ -359,7 +349,7 @@ def console03():
     )
     b += code(board, "console_3_board.py")
     b += (
-        "<p><code>shift_by</code> is the function you wrote in section 3 of session 3, "
+        "<p><code>shift_by</code> is the function you wrote in section 3, "
         "copied in unchanged.</p>"
         "<p><code>coded_row = shift_by(ALPHABET, KEY)</code> codes the whole alphabet in "
         "one call.</p>"
@@ -398,23 +388,23 @@ def console03():
         "fewer, or the end runs off the right edge. Use lowercase letters and spaces "
         "only. <code>SHAPES</code> has no entry for a capital letter or a period, so "
         "<code>MESSAGE = \"Attack at dawn\"</code> stops with the same error a plain "
-        "dictionary gave you in session 3 for a missing key:</p>"
+        "dictionary gave you in section 2 for a missing key:</p>"
     )
     b += output("KeyError: 'A'")
 
-    b += '<h2><span class="num">5</span>Make it move<span class="mins">10 minutes</span></h2>'
+    b += "<h3>Step 4: make it move</h3>"
     b += (
         "<p><code>cipher_console.py</code> starts from <code>console_3_board.py</code>. "
         "It adds one color, <code>GLOW</code>, for the boxes, and changes the program "
         "in three places. Here they are, one at a time.</p>"
-        "<h3>Two accumulators</h3>"
+        "<h4>Two accumulators</h4>"
         "<p>Before the loop:</p>"
     )
     b += code(_excerpt("cipher_console.py", "frame = 0", "shown = 0"), "cipher_console.py")
     b += (
         "<p><code>frame</code> counts the frames drawn so far. <code>shown</code> counts "
         "how many coded letters are showing. Both start at 0, like the accumulators in "
-        "the session 3 opener.</p>"
+        "the opener.</p>"
         "<p>At the end of the loop body, just before <code>flip</code>:</p>"
     )
     b += code(
@@ -427,7 +417,7 @@ def console03():
         "shows. At 60 frames a second, that is one letter every half second. "
         "<code>shown &lt; len(MESSAGE)</code> stops <code>shown</code> once every letter "
         "is showing.</p>"
-        "<h3>Draw the letters that are showing</h3>"
+        "<h4>Draw the letters that are showing</h4>"
     )
     b += code(
         _excerpt("cipher_console.py", "for i in range(shown):", "letters.draw_letter(screen, coded[i]"),
@@ -439,7 +429,7 @@ def console03():
         "of <code>coded</code>. A "
         "letter at size 4 is 12 pixels wide, and the letters are 16 pixels apart, so "
         "there are 4 pixels between them.</p>"
-        "<h3>Box the letter being coded</h3>"
+        "<h4>Box the letter being coded</h4>"
     )
     b += code(
         _excerpt("cipher_console.py", "if shown < len(MESSAGE) and MESSAGE", "(x - 3, 187"),
@@ -481,25 +471,16 @@ def console03():
         ),
     )
 
-    b += "<h3>The whole program</h3>"
+    b += "<h4>The whole program</h4>"
     b += (
         "<p>Here is <code>cipher_console.py</code> from top to bottom, with the same "
-        "kind of labels as section 2. Compare it with step 1: the loop still has the "
-        "same three jobs, read the events, draw, and show. Steps 2 to 5 are all "
-        "drawing and counting.</p>"
+        "kind of labels as step 1. Compare it with step 1: the loop still reads the "
+        "events first and shows the drawing last. Everything in between, the parts "
+        "labelled 2 to 5, is drawing and counting.</p>"
     )
     b += labelled_code(_source("cipher_console.py"), CONSOLE_PARTS, "cipher_console.py")
 
-    b += exits(
-        "You ran all four programs, and you can point to the line that keeps the window "
-        "open and the line that lets it close.",
-        "Floor, plus your own <code>MESSAGE</code> and <code>KEY</code> in "
-        "<code>cipher_console.py</code>, plus the coded letters appearing twice as fast. "
-        "Say which number you changed and why.",
-        "Middle, plus pressing R starts the coded message again from nothing. Work it "
-        "out below.",
-    )
-    b += laddered(
+    stretch = laddered(
         "Make the R key start the coded message again from nothing.",
         [
             "<p>A key press is an event, like the close button. It arrives in the same "
@@ -522,7 +503,7 @@ def console03():
             label="verified output, verify_console.py",
         )
         + "<p>The order of the two checks matters, for the same reason as the box gate "
-        "in section 5. Only a key event has <code>event.key</code>. Moving the mouse makes "
+        "in step 4. Only a key event has <code>event.key</code>. Moving the mouse makes "
         "an event too, and with the two sides swapped, the first mouse movement stops "
         "the program:</p>"
         + output(
@@ -533,43 +514,4 @@ def console03():
         "the left side False, and Python never reads <code>event.key</code>.</p>",
         "replay",
     )
-    b += panel(
-        ["6.RP.A.3", "MP7"],
-        "<p>About 45 minutes: 5 before you start, 10 the window, 10 rectangles, 10 "
-        "letters, 10 the animation. This page is not part of the 90 minute session. Use "
-        "it as a take-home, or for a student who finishes session 3 early.</p>",
-        "<p>y points down. Students who have graphed points in math will expect "
-        "<code>y = 130</code> near the bottom. Point at the diagram in section 3 before "
-        "they run step 2.</p>"
-        "<p>The new Python here, apart from pygame, is the tuple, indexing a string, "
-        "the outline width argument to <code>draw.rect</code>, and <code>and</code> "
-        "skipping its right side when the left side is False. The last one is needed "
-        "twice: in section 5, where <code>MESSAGE[shown]</code> would raise "
-        "<code>IndexError</code> without it, and in the stretch, where "
-        "<code>event.key</code> raises <code>AttributeError</code> on the first mouse "
-        "movement if it is checked first. Students who get the stretch working by "
-        "luck of ordering should be asked to swap the two sides and run it.</p>"
-        "<p>Session 9 still treats its histogram as the first window. A student who did "
-        "this page will know the loop already. A student who did not loses nothing.</p>",
-        retouch=(
-            "The accumulators from the session 3 opener (<code>frame</code> and "
-            "<code>shown</code>), <code>shift_by</code> from session 3's section 3, reused "
-            "whole, and <code>KeyError</code> from session 3's section 2."
-        ),
-        extras=(
-            "<h3>Files</h3><p><code>letters.py</code> (a module, never prints), "
-            "<code>console_1_window.py</code>, <code>console_2_tiles.py</code>, "
-            "<code>console_3_board.py</code>, <code>cipher_console.py</code>, and "
-            "<code>cipher_console_replay.py</code>, the stretch answer. "
-            "<code>verify_console.py</code> runs every one of them without a screen for a "
-            "fixed number of frames, then sends the close event. Every output on this page "
-            "and every screenshot came from that run on pygame 2.6.1. The build checks "
-            "that <code>shift_by</code> in the console files is identical to the one in "
-            "<code>caesar_encode.py</code>.</p>"
-        ),
-    )
-    b += pager(
-        ("wed03_counting.html", "Session 3: counting and cracking"),
-        ("wed04_transposition.html", "Session 4: moving letters"),
-    )
-    return b
+    return b, stretch

@@ -4,6 +4,7 @@ import os
 
 from build import laddered, code, masthead, output, pager, reveal
 from stds import panel
+from console03 import console_section
 
 
 def exits(floor, middle, stretch):
@@ -136,20 +137,17 @@ def _accumulator_parts():
 
 
 def day03():
-    """Session 3: accumulators, dicts, counting, and cracking a Caesar."""
+    """Session 3: accumulators, dicts, counting, a Caesar cipher, and the cipher console."""
     b = masthead(
         "03",
-        "Counting, and what counting lets you do",
+        "Counting, and a cipher in a window",
         "Wednesday 30 September 2026",
         "A dictionary keeps each letter together with its count, so you do not need "
         "two separate lists. Then you will learn what a Caesar cipher is, write one, and "
-        "break one by counting letters instead of trying every key.",
+        "put it in a pygame window.",
     )
     parts = _accumulator_parts()
-    b += (
-        '<div class="toolbar"><a class="btn quiet" href="wed03_cipher_console.html">'
-        "After the session: the cipher console in pygame</a></div>"
-    )
+    console, console_stretch = console_section()
     b += (
         '<h2><span class="num">1</span>Opener: the accumulator pattern'
         '<span class="mins">15 minutes</span></h2>'
@@ -330,7 +328,7 @@ True"""
         "<li><code>counts[\"z\"]</code> is 0. A plain dictionary would stop with "
         "<code>KeyError</code>. A Counter gives 0 for anything it has not seen.</li>"
         "<li><code>most_common(2)</code> returns the top two, biggest first, as pairs "
-        "of letter and count. Section 4 uses this to find the top letter.</li>"
+        "of letter and count.</li>"
         "<li><code>total()</code> adds up every count: banana has 6 letters.</li>"
         "<li><code>update(\"bandana\")</code> counts more letters into the same "
         "Counter, so a goes from 3 to 6.</li>"
@@ -449,207 +447,37 @@ print(shift_by("gdzq", -3))''',
         "shift-by",
     )
 
-    b += (
-        '<h2><span class="num">4</span>Now break one'
-        '<span class="mins">25 minutes</span></h2>'
-    )
-    b += (
-        "<p>Here is a message somebody encoded with a key you do not have. You could "
-        "try all 26 keys, and for a Caesar cipher that is fast enough. There is a "
-        "faster way: count the letters.</p>"
-        "<p>In ordinary English, <code>e</code> is the most common letter. So the most "
-        "common letter in the ciphertext is probably what <code>e</code> turned into. "
-        "Breaking the cipher takes three steps: count the letters, turn the top letter "
-        "into a key, and decode. Do them one at a time.</p>"
-    )
-    b += code(
-        '''ciphertext = "uhdg wkh frgh dqg wudfh wkh frgh ehiruh brx hyhu uxq wkh frgh"''',
-        "the message",
-    )
-
-    b += "<h3>Step 1: count the letters</h3>"
-    b += (
-        "<p>This is the <code>Counter</code> from section 2, with the spaces taken out "
-        "first. The file starts with <code>from collections import Counter</code>, the "
-        "same import line as in section 2. <code>counts.most_common(5)</code> returns "
-        "the five most common letters with how many times each appears, biggest "
-        "first.</p>"
-    )
-    b += code(
-        '''from collections import Counter
-
-
-def letter_counts(text):
-    """Return a Counter of the letters in text, ignoring spaces."""
-    letters = ""
-    for ch in text:
-        if ch != " ":
-            letters = letters + ch
-    return Counter(letters)
-
-
-counts = letter_counts(ciphertext)
-print("five most common:", counts.most_common(5))''',
-        "caesar_crack.py, step 1",
-    )
-    b += reveal(
-        "Look at the message before you run anything. Which letter do you see most "
-        "often?",
-        output("five most common: [('h', 12), ('u', 5), ('g', 5), ('r', 5), ('w', 4)]")
-        + "<p><code>h</code> appears 12 times. The next letters appear 5 times each. "
-        "So <code>h</code> is the top letter, and it is probably what <code>e</code> "
-        "turned into.</p>",
-    )
-
-    b += "<h3>Step 2: turn the top letter into a key</h3>"
-    b += (
-        "<p>If <code>e</code> turned into <code>h</code>, the key is how many places "
-        "<code>e</code> moved. Use the strip: click <code>e</code> in the top row, then "
-        "press <b>+1</b> until the bottom row under <code>e</code> shows "
-        "<code>h</code>.</p>"
-    )
-    b += cipher_strip("strip2")
-    b += laddered(
-        "What is the key?",
-        [
-            "<p>Count along the alphabet from <code>e</code> to <code>h</code>.</p>",
-            "<p><code>e</code>, <code>f</code>, <code>g</code>, <code>h</code>. How many "
-            "moves is that?</p>",
-            "<p>In code, it is the distance between the two letters' numbers: "
-            "<code>ord(\"h\") - ord(\"e\")</code>, which is 104 minus 101.</p>",
-        ],
-        "<p>The key is 3.</p>"
-        + code(
-            '''def guess_shift(text):
-    """Return the shift that maps the most common letter onto 'e'."""
-    counts = letter_counts(text)
-    top_letter = counts.most_common(1)[0][0]
-    return (ord(top_letter) - ord("e")) % 26''',
-            "caesar_crack.py, step 2",
-        )
-        + "<p><code>counts.most_common(1)[0][0]</code> is the top letter: the first "
-        "pair in the list, and the letter in that pair. The <code>% 26</code> is for "
-        "a top letter that comes before <code>e</code> in the alphabet. If the top "
-        "letter were <code>b</code>, 98 minus 101 is -3, and <code>% 26</code> turns "
-        "it into 23: <code>e</code> moved 23 places and wrapped round to "
-        "<code>b</code>.</p>",
-        "crack-key",
-    )
-
-    b += "<h3>Step 3: decode</h3>"
-    b += (
-        "<p>You have the key, and you have <code>shift_by</code> from section 3. "
-        "Moving every letter back by the key undoes the cipher, so decode with a "
-        "negative key.</p>"
-    )
-    b += code(
-        '''k = guess_shift(ciphertext)
-print(f"guessed shift {k}")
-print("plaintext:", shift_by(ciphertext, -k))''',
-        "caesar_crack.py, step 3",
-    )
-    b += reveal(
-        "The first word of the message is <code>uhdg</code>. Move each letter back 3 "
-        "by hand. What is the first word of the plaintext?",
-        output("guessed shift 3\nplaintext: read the code and trace the code before you ever run the code")
-        + "<p><code>u</code> goes back to <code>r</code>, <code>h</code> to "
-        "<code>e</code>, <code>d</code> to <code>a</code>, <code>g</code> to "
-        "<code>d</code>: <code>read</code>. The program does the same for every "
-        "letter.</p>",
-    )
-
-    b += "<h3>The whole program</h3>"
-    b += (
-        "<p>Here are the three steps in one file, with <code>shift_by</code> at the "
-        "top. It is the same function you wrote in section 3.</p>"
-    )
-    b += code(
-        '''"""Break a Caesar cipher by letter frequency instead of by guessing."""
-
-from collections import Counter
-
-ciphertext = "uhdg wkh frgh dqg wudfh wkh frgh ehiruh brx hyhu uxq wkh frgh"
-
-
-def shift_by(text, amount):
-    """Return text with every letter rotated forward by amount."""
-    out = ""
-    for ch in text:
-        if ch == " ":
-            out = out + " "
-        else:
-            spot = ord(ch) - ord("a")
-            spot = (spot + amount) % 26
-            out = out + chr(spot + ord("a"))
-    return out
-
-
-def letter_counts(text):
-    """Return a Counter of the letters in text, ignoring spaces."""
-    letters = ""
-    for ch in text:
-        if ch != " ":
-            letters = letters + ch
-    return Counter(letters)
-
-
-def guess_shift(text):
-    """Return the shift that maps the most common letter onto 'e'."""
-    counts = letter_counts(text)
-    top_letter = counts.most_common(1)[0][0]
-    return (ord(top_letter) - ord("e")) % 26
-
-
-counts = letter_counts(ciphertext)
-print("five most common:", counts.most_common(5))
-
-k = guess_shift(ciphertext)
-print(f"guessed shift {k}")
-print("plaintext:", shift_by(ciphertext, -k))''',
-        "caesar_crack.py",
-    )
-    b += reveal(
-        "Run it. Do its lines match what you worked out in steps 1, 2, and 3?",
-        output(
-            """five most common: [('h', 12), ('u', 5), ('g', 5), ('r', 5), ('w', 4)]
-guessed shift 3
-plaintext: read the code and trace the code before you ever run the code"""
-        )
-        + "<p>They match.</p>"
-        "<p>Two limits. The text has to be long enough for <code>e</code> to actually "
-        "win, and the text has to be ordinary English. Try it on a short message and "
-        "watch it fail.</p>",
-    )
-    b += (
-        '<div class="predict"><b>Frequency counts are ratios.</b> 12 of 49 letters is '
-        "about 0.24. In ordinary English <code>e</code> runs near 0.12. Your sample is "
-        "small, so your share is off.</div>"
-    )
+    b += console
     b += exits(
         "You encoded <code>dawn</code> and <code>zebra</code> by hand with key 3, you "
-        "can say what plaintext, ciphertext, and key mean, and you ran "
-        "<code>letter_counts</code> on the ciphertext and read the top letter off the "
-        "output.",
+        "can say what plaintext, ciphertext, and key mean, and you ran the four console "
+        "programs and can point to the line that keeps the window open and the line "
+        "that lets it close.",
         "Floor, plus <code>shift_by</code> written and encoding correctly including the "
-        "wrap past z, plus the full crack running.",
-        "Middle, plus break it on purpose: find a message short enough that the most "
-        "common letter is not <code>e</code>, then write a <code>guess_shift</code> "
-        "that scores all 26 shifts against English letter frequencies and picks the "
-        "best total instead of trusting one letter.",
+        "wrap past z, plus your own <code>MESSAGE</code> and <code>KEY</code> in "
+        "<code>cipher_console.py</code>, with the coded letters appearing twice as "
+        "fast. Say which number you changed and why.",
+        "Middle, plus pressing R starts the coded message again from nothing. Work it "
+        "out below.",
     )
+    b += console_stretch
     b += (
-        "<p><b>After the session.</b> Put this cipher in a pygame window. The cipher "
-        "console page builds it in four small programs and explains every pygame line "
-        "in them. It takes about 45 minutes, at home or if you finish early.</p>"
-        '<div class="toolbar"><a class="btn" href="wed03_cipher_console.html">Open the '
-        "cipher console page</a></div>"
+        "<p><b>Extra.</b> You can also break a Caesar cipher without the key, by "
+        "counting its letters with a <code>Counter</code>. That is on its own page, "
+        "for any time after today.</p>"
+        '<div class="toolbar"><a class="btn quiet" href="extra_crack_caesar.html">Break '
+        "a Caesar cipher by counting letters</a></div>"
     )
     b += panel(
         ["6.SP.B.5.a", "6.RP.A.3", "MP7"],
-        "<p>15 opener with the accumulator review, 15 parallel lists and Counter, 30 the cipher by hand and "
-        "<code>shift_by</code> written, 25 the crack in three steps, 10 exits. Assume no student "
-        "has seen a cipher before. Do not cut section 3 to save the crack. Cracking a "
-        "cipher the students did not build teaches nothing about the cipher.</p>",
+        "<p>15 opener with the accumulator review, 15 parallel lists and Counter, 30 the "
+        "cipher by hand and <code>shift_by</code> written, 25 the cipher console, 5 "
+        "exits. Assume no student has seen a cipher or a pygame window before. Do not "
+        "cut section 3 to make room for the console. A console for a cipher the "
+        "students did not build teaches nothing about the cipher.</p>"
+        "<p>Students download the five files at the start of section 4 and run each "
+        "step rather than type it. If the room is behind, run steps 1 and 2 together on "
+        "the projector and let students start on their own at step 3.</p>",
         "<p>The hand encode is the part to insist on. Students who go straight to "
         "<code>ord</code> without doing <code>dawn</code> on paper will not spot the "
         "wrap, and the wrap is the only hard part of the cipher.</p>"
@@ -658,32 +486,52 @@ plaintext: read the code and trace the code before you ever run the code"""
         "needs to memorise 97.</p>"
         "<p><code>KeyError</code> is the new traceback this week and students read it as "
         "a crash rather than as information. Say the sentence out loud: a dictionary "
-        "does not start a missing key at zero for you.</p>"
-        "<p>Some students will want to brute force all 26 shifts because it is easier "
-        "to write. Let them, then ask what they would do with a Vigenere key of length "
-        "7. Brute force stops being available and counting does not.</p>",
+        "does not start a missing key at zero for you. It comes back in step 3 of the "
+        "console, when a capital letter has no entry in <code>SHAPES</code>.</p>"
+        "<p>In the window, y points down. Students who have graphed points in math "
+        "will expect <code>y = 130</code> near the bottom. Point at the diagram in step "
+        "2 before they run it.</p>"
+        "<p><code>and</code> skips its right side when the left side is False, and the "
+        "console needs that twice: in step 4, where <code>MESSAGE[shown]</code> would "
+        "raise <code>IndexError</code> without it, and in the stretch, where "
+        "<code>event.key</code> raises <code>AttributeError</code> on the first mouse "
+        "movement if it is checked first. Students who get the stretch working by luck "
+        "of ordering should be asked to swap the two sides and run it.</p>",
         retouch=(
             "The <code>%</code> wrap traced by hand in session 1, now on a 26 hour clock. "
-            "Also the returning functions from session 2: "
-            "<code>guess_shift</code> is only possible because <code>letter_counts</code> "
-            "returns a Counter. The accumulators from sessions 1 and 2, reviewed in the opener."
+            "The returning functions from session 2: <code>shift_by</code> returns the "
+            "coded text, so the console calls it on the alphabet as well as on the "
+            "message. The accumulators from sessions 1 and 2, reviewed in the opener and "
+            "used again in the console as <code>frame</code> and <code>shown</code>."
         ),
         extras=(
-            "<h3>Files</h3><p><code>accumulators.py</code> for the opener, shown in three parts. <code>caesar_encode.py</code> for section 3, the answer to the <code>shift_by</code> step; the build checks that its <code>shift_by</code> is identical to the one in <code>caesar_crack.py</code>. <code>caesar_crack.py</code>. Output verified on Python "
-            "3.12.3. The plaintext restates this course's own rule from session 1, which "
-            "is deliberate.</p>"
-            "<h3>Lifted this week</h3><p>The word accumulator, the empty string, <code>+</code> to join strings, dictionaries, "
-            "<code>collections.Counter</code>, "
-            "<code>ord</code> and <code>chr</code>.</p>"
+            "<h3>Files</h3><p><code>accumulators.py</code> for the opener, shown in "
+            "three parts. <code>caesar_encode.py</code> for section 3, the answer to the "
+            "<code>shift_by</code> step. For section 4: <code>letters.py</code> (a "
+            "module, never prints), <code>console_1_window.py</code>, "
+            "<code>console_2_tiles.py</code>, <code>console_3_board.py</code>, "
+            "<code>cipher_console.py</code>, and <code>cipher_console_replay.py</code>, "
+            "the stretch answer. The build checks that <code>shift_by</code> in the "
+            "console files is identical to the one in <code>caesar_encode.py</code>. "
+            "<code>verify_console.py</code> runs every console program without a screen "
+            "for a fixed number of frames, then sends the close event. Every output on "
+            "this page and every screenshot came from a run, on Python 3.12.3 and pygame "
+            "2.6.1. Confirm pygame is installed on the classroom machines before this "
+            "session.</p>"
+            "<h3>Lifted this week</h3><p>The word accumulator, the empty string, "
+            "<code>+</code> to join strings, dictionaries, "
+            "<code>collections.Counter</code>, <code>ord</code> and <code>chr</code>, "
+            "indexing a string, tuples, and a pygame window: the event loop, frames, "
+            "<code>pygame.draw.rect</code>.</p>"
             "<h3>Assumed knowledge</h3><p>None beyond the hub prerequisites plus the "
             "<code>%</code> wrap from session 1. Section 3 teaches what a cipher is, "
             "including the words plaintext, ciphertext, and key, and assumes students "
-            "have never used one.</p>"
+            "have never used one. Section 4 assumes no pygame.</p>"
         ),
     )
     b += pager(
         ("wed02_return_and_modules.html", "Session 2: functions that return a value"),
-        ("wed03_cipher_console.html", "After session 3: the cipher console"),
+        ("wed04_transposition.html", "Session 4: moving letters"),
     )
     return b
 
@@ -695,19 +543,24 @@ def day04():
         "Ciphers that move letters instead of replacing them",
         "Wednesday 7 October 2026",
         "Session 3's Caesar cipher replaced each letter with a different one. These two "
-        "keep every letter and change only where it sits, which means the letter counts "
-        "stay identical and last session's frequency attack is useless against them.",
+        "keep every letter and change only where it sits, so the letter counts stay "
+        "exactly the same.",
     )
     b += '<h2><span class="num">1</span>Opener<span class="mins">10 minutes</span></h2>'
     b += (
-        "<p>In session 3 you built a Caesar cipher, then broke one by counting letters "
-        "and never trying a key. Question on paper: if I rearrange the letters of a "
-        "message without replacing any of them, what happens to the letter counts, and "
-        "what happens to that attack?</p>"
+        "<p>In session 3 you built a Caesar cipher and counted letters with a "
+        "<code>Counter</code>. Question on paper: if I rearrange the letters of a "
+        "message without replacing any of them, what happens to the letter counts?</p>"
     )
     b += reveal(
         "Answer before you click.",
-        "<p>The counts do not change at all. Not one of them. Your frequency attack finds nothing, because it never looked at where the letters sit.</p>"
+        "<p>The counts do not change at all. Not one of them.</p>"
+        "<p>That matters for breaking ciphers. A Caesar cipher can be broken by counting "
+        "its letters: <code>e</code> is the most common letter in English, so the most "
+        "common letter in the ciphertext is probably what <code>e</code> turned into. "
+        'The <a href="extra_crack_caesar.html">Extras page</a> shows how. Against a '
+        "cipher that only moves letters, counting finds nothing, because it never looks "
+        "at where the letters sit.</p>"
         "<p>This is why real systems use both kinds. Substitution hides which letters. "
         "Transposition hides where they are.</p>",
     )
@@ -841,9 +694,10 @@ route    etnheantarhtmaettdetogaw"""
         "<p><code>range(len(grid) - 1, -1, -1)</code> reads as gibberish at first. Walk "
         "it once out loud: start at the last row, stop before -1, step backwards.</p>",
         retouch=(
-            "Session 3's frequency attack, revisited to show what it cannot do. The "
-            "opener makes students state that letter counts survive transposition, "
-            "which is what this session is about."
+            "Session 3's <code>Counter</code>, and the frequency attack from the Extras "
+            "page, revisited to show what counting cannot do. The opener makes students "
+            "state that letter counts survive transposition, which is what this session "
+            "is about."
         ),
         extras=(
             "<h3>Files</h3><p><code>transposition.py</code>. Round trip verified true "
@@ -854,7 +708,7 @@ route    etnheantarhtmaettdetogaw"""
         ),
     )
     b += pager(
-        ("wed03_cipher_console.html", "After session 3: the cipher console"),
+        ("wed03_counting.html", "Session 3: counting and a cipher"),
         ("wed05_hashing.html", "Session 5: seals and real hashes"),
     )
     return b

@@ -38,8 +38,8 @@ CAPSTONE = (
     "</ul>"
     "<p>Four items. Each is yes or no. Four yes is a finished capstone.</p>"
     "<h3>Where the time is</h3>"
-    "<p>Session 9: your first window, the Benford histogram. Your sketch describes a "
-    "window like it, so bring questions about the sketch. Session 11: sketch handed in "
+    "<p>Session 9: the Benford histogram, a window that draws data. Your sketch "
+    "describes a window like it, so bring questions about the sketch. Session 11: sketch handed in "
     "at the start. You get the plume, the stretch exit is the first capstone addition, "
     "and in the last five minutes you say which program you are extending and what the "
     "first addition is. Session 12: you get the orbit, and the stretch exit is a fuel "
@@ -298,7 +298,7 @@ def day09():
         '<div class="flag"><b>No class on 11 November.</b> Veterans Day, so session 8 '
         "was two weeks ago. Capstone sketches are due at the start of session 11, on 2 "
         "December. If you have a question about the sketch, ask it after the histogram: "
-        "this is the first window you have seen, and the sketch describes a window.</div>"
+        "the histogram is a window, and the sketch describes a window.</div>"
     )
     b += '<h2><span class="num">1</span>Opener<span class="mins">10 minutes</span></h2>'
     b += (
@@ -477,9 +477,9 @@ cooked_ledger.csv
         "the top of where each bar should reach.</p>"
     )
     b += (
-        "<p>This is the first window in a session, so the whole program is here, and "
-        "the shape of its loop is the shape every window in this course will have. Read "
-        "the loop before the drawing.</p>"
+        "<p>Here is the whole program. Its loop has the same shape as the cipher "
+        "console's loop in session 3, and every window in this course has that shape: "
+        "read the events, draw, show. Read the loop before the drawing.</p>"
     )
     b += code(
         '''import pygame
@@ -533,8 +533,8 @@ pygame.quit()''',
         "never closes itself. You close it.</p>",
     )
     b += (
-        "<p>One more rule starts here and holds for the rest of the course: words go in "
-        "the terminal, visuals go in the window. Never draw text into the window. Change "
+        "<p>The rule from the cipher console holds for the rest of the course: words go "
+        "in the terminal, pictures go in the window. Change "
         "<code>FILENAME</code>, run again, and put the two windows side by side. The "
         "honest one has its bars touching the amber lines. The cooked one does not.</p>"
     )
@@ -940,7 +940,7 @@ trail lengths: shortest 92, longest 183""",
         "machines, or have students download it from the button under the code in "
         "section 2, and read it before extending it.</p>"
         "<h3>Capstone checkpoint</h3><p>Sketches are due at the start of today. The "
-        "first window (session 9) and the light attendance day (session 10) both come "
+        "histogram window (session 9) and the light attendance day (session 10) both come "
         "before the deadline on purpose. Read each sketch for the four checks before "
         "section 2. In the last five minutes, each student says in one sentence which "
         "program they are extending, the plume or the orbit, and what the first "

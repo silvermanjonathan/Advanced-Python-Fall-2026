@@ -466,3 +466,13 @@ Known corrections made before first printing:
     session 3, the cipher console, then session 4. The page itself shows its first
     program and its finished program split into labelled parts (`build.labelled_code`),
     each label saying what the part does and whether it runs once or on every frame.
+37. The cipher console moved into session 3 as section 4 (25 minutes), and its separate
+    page `wed03_cipher_console.html` is gone. Breaking a Caesar cipher by counting
+    letters (the old section 4) moved to a new Extras page, `extra_crack_caesar.html`,
+    listed under a new Extras heading on the hub. Session 3 is now 15 opener, 15
+    parallel lists and Counter, 30 the cipher and `shift_by`, 25 the console, 5 exits,
+    with new exits (the R replay is the stretch) and teacher notes. Ripple fixes:
+    session 3's title is "Counting, and a cipher in a window"; session 4's opener no
+    longer assumes students broke a cipher, and links the Extras page; session 9 no
+    longer calls its histogram the first window; the capstone notes, session 1's slower
+    plan, the hub environment, lifted-skills and programs rows all follow.

@@ -39,7 +39,7 @@ CHECKS = {
     "wed02_return_and_modules.html": ("python3 sweep_report2.py", [
         "first best at 5", "last best at 9",
     ]),
-    "wed03_cipher_console.html": (
+    "wed03_counting.html#console": (
         "SDL_VIDEODRIVER=dummy SDL_AUDIODRIVER=dummy python3 verify_console.py", [
         "window open, close it to finish",
         "first tile starts at x = 20", "last tile starts at x = 595",
@@ -59,7 +59,7 @@ CHECKS = {
         "made with Counter: Counter({'a': 6, 'n': 4, 'b': 2, 'd': 1})", "True",
     ]),
     "wed03_counting.html#encode": ("python3 caesar_encode.py", ["gdzq", "cheud", "dawn"]),
-    "wed03_counting.html": ("python3 caesar_crack.py", [
+    "extra_crack_caesar.html": ("python3 caesar_crack.py", [
         "five most common: [('h', 12), ('u', 5), ('g', 5), ('r', 5), ('w', 4)]",
         "guessed shift 3",
         "plaintext: read the code and trace the code before you ever run the code",

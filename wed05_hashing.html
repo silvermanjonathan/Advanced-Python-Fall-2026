@@ -45,6 +45,10 @@ h3{
   font-family:'Bricolage Grotesque','DM Sans',sans-serif; font-weight:700;
   font-size:20px; margin:18px 0 8px; color:var(--teal-deep);
 }
+h4{
+  font-family:'Bricolage Grotesque','DM Sans',sans-serif; font-weight:700;
+  font-size:17px; margin:16px 0 6px; color:var(--ink);
+}
 header.top h1,header.top h2{color:#FFFDF7}
 .sub{color:#EAE3D2; margin:0 0 16px; font-size:19px; font-weight:400; max-width:70ch}
 .dates{
@@ -279,8 +283,8 @@ footer p{margin:0}
         running = running + ord(ch)
     return running % 97</code></pre>
 <p>Send the message and the seal. The reader recomputes the seal and compares. If the two disagree, the message changed.</p><p>Now break it. On paper: what is the seal of <code>ab</code>, and what is the seal of <code>ba</code>?</p><div class="predict"><b>Predict first.</b> Both, before you click.
-<button class="rev" data-target="a29" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a29">Show the answer</button>
-<div class="ans" id="a29"><div class="out"><span class="tag">verified output</span><pre><code>seal of &#x27;ab&#x27; = 1
+<button class="rev" data-target="a26" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a26">Show the answer</button>
+<div class="ans" id="a26"><div class="out"><span class="tag">verified output</span><pre><code>seal of &#x27;ab&#x27; = 1
 seal of &#x27;ba&#x27; = 1
 same seal, different message: True</code></pre></div>
 <p>Identical. Addition does not care what order it gets its numbers in, so every rearrangement of a message carries the same seal. A seal that cannot tell <code>ab</code> from <code>ba</code> cannot tell <code>attack at dawn</code> from any anagram of it, so an attacker can shuffle your message and leave the seal untouched.</p><p>Two different messages with the same seal is called a collision. Real hash functions are built specifically to make collisions hard to find.</p></div></div>
@@ -293,8 +297,8 @@ def sha(text):
     &quot;&quot;&quot;Return the sha256 hex digest of text.&quot;&quot;&quot;
     return hashlib.sha256(text.encode()).hexdigest()</code></pre>
 <div class="predict"><b>Predict first.</b> <code>attack at dawn</code> and <code>attack at dusk</code> differ by two letters. How much of the output do you expect to change?
-<button class="rev" data-target="a30" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a30">Show the answer</button>
-<div class="ans" id="a30"><div class="out"><span class="tag">verified output</span><pre><code>sha256 &#x27;attack at dawn&#x27;
+<button class="rev" data-target="a27" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a27">Show the answer</button>
+<div class="ans" id="a27"><div class="out"><span class="tag">verified output</span><pre><code>sha256 &#x27;attack at dawn&#x27;
   d502810c71aeb17e5ea1cbf930b46b87bb645a75df45f500230d061992aeb90a
 sha256 &#x27;attack at dusk&#x27;
   9076bc233a9100d5c0885c6a5f055ca13d856d28ee9cf74941719bb292f88da7
@@ -319,8 +323,8 @@ def bits_differing(a, b):
             count = count + 1
     return count</code></pre>
 <div class="predict"><b>Predict first.</b> Out of 256 bits, how many do you predict differ? Write a number, not a word.
-<button class="rev" data-target="a31" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a31">Show the answer</button>
-<div class="ans" id="a31"><div class="out"><span class="tag">verified output</span><pre><code>dawn vs dusk: 130 of 256 bits differ
+<button class="rev" data-target="a28" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a28">Show the answer</button>
+<div class="ans" id="a28"><div class="out"><span class="tag">verified output</span><pre><code>dawn vs dusk: 130 of 256 bits differ
 dawn vs dawn+period: 124 of 256 bits differ</code></pre></div>
 <p>Around 128 both times, which is half. That is the design goal: each output bit should flip with probability about one half whenever the input changes at all, no matter how small the change. 130 and 124 are both close to 128. Two tries is a small sample, so neither lands on it exactly.</p><p>Two things follow. You cannot push the output in a chosen direction by making small changes to the input, because every small change changes about half the bits. And you cannot work backwards from a digest to the input, because nothing in the digest tells you which input produced it.</p></div></div>
 <div class="predict"><b>One limit.</b> A hash proves a file was not changed. It does not hide anything and it does not prove who sent it. If someone can replace both the file and its posted hash, you learn nothing.</div></section>

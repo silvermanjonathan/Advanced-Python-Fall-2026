@@ -254,11 +254,11 @@ print(f"q {q}")""",
         "again by hand with a new list of five readings. Build only "
         "<code>total_of</code>, <code>count_over</code>, and <code>best_index</code>, "
         "and drop <code>average_of</code> and <code>last_best_index</code>.</p>"
-        "<p>Session 3: keep the hand encode and the dictionary. Run the crack as a "
-        "projected trace you do together rather than a build."
-        " Students who could not trace an accumulator in session 1 still "
-        "reach that session's floor: they encode by hand and read the top letter off "
-        "the output. From session 4 the pace returns to the pages as written.</p>",
+        "<p>Session 3: keep the hand encode and the dictionary. Run the cipher console "
+        "as a projected demo you do together rather than a build. Students who could "
+        "not trace an accumulator in session 1 still reach that session's floor: they "
+        "encode by hand and run the four console programs. From session 4 the pace "
+        "returns to the pages as written.</p>",
         extras=(
             "<h3>Files</h3><p><code>wed01_worksheet_key.html</code>, the worksheet with every slot filled in, for you. <code>wed01_doors_trace.html</code>, an animated trace of <code>gate_log.py</code> for the projector: step or play, and the worksheet table fills in one gate at a time. <code>wed01_worksheet.html</code>, printed one per student, double-sided: a trace table for each loop, one row per pass, and the rename tables. Print it from the browser; the page is laid out for letter paper and the style pass starts on a fresh sheet. <code>sweep_report.py</code> and <code>gate_log.py</code>, which students can download from sections 3 and 4. Every output on this page "
             "came from running that file on Python 3.12.3. Re-run it on the classroom "
@@ -843,6 +843,6 @@ first over 55 at index 1"""
     )
     b += pager(
         ("wed01_cold_read.html", "Session 1: cold read"),
-        ("wed03_counting.html", "Session 3: counting and cracking"),
+        ("wed03_counting.html", "Session 3: counting and a cipher"),
     )
     return b

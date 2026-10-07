@@ -64,6 +64,10 @@ h3{
   font-family:'Bricolage Grotesque','DM Sans',sans-serif; font-weight:700;
   font-size:20px; margin:18px 0 8px; color:var(--teal-deep);
 }
+h4{
+  font-family:'Bricolage Grotesque','DM Sans',sans-serif; font-weight:700;
+  font-size:17px; margin:16px 0 6px; color:var(--ink);
+}
 header.top h1,header.top h2{color:#FFFDF7}
 .sub{color:#EAE3D2; margin:0 0 16px; font-size:19px; font-weight:400; max-width:70ch}
 .dates{
@@ -470,16 +474,19 @@ def page(filename, title, body, head_extra=""):
     return path
 
 
-def masthead(serial, title, when, lede, time="4:00 to 5:30", length="90 minutes"):
+def masthead(serial, title, when, lede, time="4:00 to 5:30", length="90 minutes",
+             eyebrow=None):
     """Return the page masthead: the teal band with the eyebrow, title, and pills.
 
-    Pass time=None to leave out the Time pill, for a page used outside class.
+    Pass time=None to leave out the Time pill, for a page used outside class, and
+    eyebrow to replace the line above the title.
     """
-    eyebrow = (
-        f"Advanced Python &middot; Robofun &middot; Session {int(serial)} of 13"
-        if serial
-        else "Robofun &middot; Fall 2026 &middot; 110 West End Avenue"
-    )
+    if eyebrow is None:
+        eyebrow = (
+            f"Advanced Python &middot; Robofun &middot; Session {int(serial)} of 13"
+            if serial
+            else "Robofun &middot; Fall 2026 &middot; 110 West End Avenue"
+        )
     return (
         '<header class="top"><div class="wrap">'
         f'<p class="eyebrow">{eyebrow}</p><h1>{esc(title)}</h1>'
