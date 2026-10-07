@@ -41,8 +41,6 @@ CHECKS = {
     ]),
     "wed03_counting.html#console": (
         "SDL_VIDEODRIVER=dummy SDL_AUDIODRIVER=dummy python3 verify_console.py", [
-        "window open, close it to finish",
-        "first tile starts at x = 20", "last tile starts at x = 595",
         "plain: attack at dawn", "coded: dwwdfn dw gdzq",
         "coded row: defghijklmnopqrstuvwxyzabc",
         "after 419 frames, shown is 13", "after 420 frames, shown is 14",

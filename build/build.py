@@ -374,14 +374,18 @@ def sectionize(body):
     header, rest = body.split("</header>", 1)
     header += "</header>"
     parts = re.split(
-        r'(?=<section class="panel"|<div class="exits">|<nav class="pager">)', rest
+        r'(?=<section class="panel"|<section class="chunk answers"|<div class="exits">|'
+        r'<nav class="pager">)',
+        rest,
     )
     main = ""
     nav = ""
     for part in parts:
         if part.startswith('<nav class="pager">'):
             nav = part
-        elif part.startswith('<section class="panel"'):
+        elif part.startswith('<section class="panel"') or part.startswith(
+            '<section class="chunk answers"'
+        ):
             main += part
         elif part.startswith('<div class="exits">'):
             main += '<section class="brief"><h2>Exits</h2>' + part + "</section>\n"
@@ -440,6 +444,18 @@ def labelled_code(source, parts, fname=None):
             f"<pre><code>{html.escape(chunk)}</code></pre></div>"
         )
     return out + "</div>\n"
+
+
+def answer_key(content, slug, intro):
+    """Return an answer-key card: one button that shows or hides everything in it."""
+    rid = f"key-{slug}"
+    return (
+        f'<section class="chunk answers"><h2>Answer key</h2><p>{intro}</p>'
+        f'<button class="rev" data-target="{rid}" data-show="Show the answer key" '
+        f'data-hide="Hide the answer key" aria-expanded="false" aria-controls="{rid}">'
+        f'Show the answer key</button>\n<div class="ans" id="{rid}">{content}</div>'
+        "</section>\n"
+    )
 
 
 def downloads(*files, extra=""):

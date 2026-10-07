@@ -1,4 +1,4 @@
-"""Cipher console, step 3: the alphabet, the coded alphabet, and the message."""
+"""Cipher console: the coded message builds up one letter every half second."""
 
 import pygame
 
@@ -14,6 +14,7 @@ TILE_INK = (27, 31, 38)
 CODED_TILE = (31, 46, 39)
 CODED_INK = (123, 228, 149)
 PLAIN_INK = (150, 143, 128)
+GLOW = (201, 139, 31)
 
 
 def shift_by(text, amount):
@@ -50,12 +51,6 @@ while running:
     for i in range(26):
         x = 20 + i * 23
         pygame.draw.rect(screen, TILE, (x, 130, 20, 26))
-        letters.draw_letter(screen, ALPHABET[i], x + 7, 138, 2, TILE_INK)
-        pygame.draw.rect(screen, CODED_TILE, (x, 190, 20, 26))
-        letters.draw_letter(screen, coded_row[i], x + 7, 198, 2, CODED_INK)
-
-    letters.draw_word(screen, MESSAGE, 40, 50, 4, PLAIN_INK)
-    letters.draw_word(screen, coded, 40, 280, 4, CODED_INK)
 
     pygame.display.flip()
     clock.tick(60)

@@ -2,7 +2,7 @@
 
 import os
 
-from build import laddered, code, masthead, output, pager, reveal
+from build import answer_key, laddered, code, masthead, output, pager, reveal
 from stds import panel
 from console03 import console_section
 
@@ -147,7 +147,7 @@ def day03():
         "put it in a pygame window.",
     )
     parts = _accumulator_parts()
-    console, console_stretch = console_section()
+    console, console_stretch, console_key = console_section()
     b += (
         '<h2><span class="num">1</span>Opener: the accumulator pattern'
         '<span class="mins">15 minutes</span></h2>'
@@ -450,13 +450,13 @@ print(shift_by("gdzq", -3))''',
     b += console
     b += exits(
         "You encoded <code>dawn</code> and <code>zebra</code> by hand with key 3, you "
-        "can say what plaintext, ciphertext, and key mean, and you ran the four console "
-        "programs and can point to the line that keeps the window open and the line "
-        "that lets it close.",
+        "can say what plaintext, ciphertext, and key mean, and your window from step 1 "
+        "of the console opens and closes. You can point to the line that keeps it open "
+        "and the line that lets it close.",
         "Floor, plus <code>shift_by</code> written and encoding correctly including the "
-        "wrap past z, plus your own <code>MESSAGE</code> and <code>KEY</code> in "
-        "<code>cipher_console.py</code>, with the coded letters appearing twice as "
-        "fast. Say which number you changed and why.",
+        "wrap past z, plus all four console steps typed and running, with your own "
+        "<code>MESSAGE</code> and <code>KEY</code> and the coded letters appearing twice "
+        "as fast. Say which number you changed and why.",
         "Middle, plus pressing R starts the coded message again from nothing. Work it "
         "out below.",
     )
@@ -468,16 +468,28 @@ print(shift_by("gdzq", -3))''',
         '<div class="toolbar"><a class="btn quiet" href="extra_crack_caesar.html">Break '
         "a Caesar cipher by counting letters</a></div>"
     )
+    b += answer_key(
+        console_key,
+        "console",
+        "For section 4: the whole of <code>cipher_console.py</code> after each step. "
+        "Open it to check a program that will not run, or one that does something "
+        "different.",
+    )
     b += panel(
         ["6.SP.B.5.a", "6.RP.A.3", "MP7"],
         "<p>15 opener with the accumulator review, 15 parallel lists and Counter, 30 the "
-        "cipher by hand and <code>shift_by</code> written, 25 the cipher console, 5 "
-        "exits. Assume no student has seen a cipher or a pygame window before. Do not "
+        "cipher by hand and <code>shift_by</code> written, 30 the cipher console. The "
+        "exits are checked in the last minutes of section 4, and the stretch can go "
+        "home. Assume no student has seen a cipher or a pygame window before. Do not "
         "cut section 3 to make room for the console. A console for a cipher the "
         "students did not build teaches nothing about the cipher.</p>"
-        "<p>Students download the five files at the start of section 4 and run each "
-        "step rather than type it. If the room is behind, run steps 1 and 2 together on "
-        "the projector and let students start on their own at step 3.</p>",
+        "<p>Students download two files, the starter and <code>letters.py</code>, and "
+        "type the pygame code into the starter one step at a time. The starter already "
+        "holds the lines that teach nothing new: the message, the colors, "
+        "<code>shift_by</code>, and the prints. If the room is behind, type step 1 "
+        "together on the projector, line by line, and let students do steps 2 to 4 on "
+        "their own. The answer key at the bottom of the page has the whole file after "
+        "each step, behind one button, for a student whose program will not run.</p>",
         "<p>The hand encode is the part to insist on. Students who go straight to "
         "<code>ord</code> without doing <code>dawn</code> on paper will not spot the "
         "wrap, and the wrap is the only hard part of the cipher.</p>"
@@ -508,11 +520,14 @@ print(shift_by("gdzq", -3))''',
             "<h3>Files</h3><p><code>accumulators.py</code> for the opener, shown in "
             "three parts. <code>caesar_encode.py</code> for section 3, the answer to the "
             "<code>shift_by</code> step. For section 4: <code>letters.py</code> (a "
-            "module, never prints), <code>console_1_window.py</code>, "
-            "<code>console_2_tiles.py</code>, <code>console_3_board.py</code>, "
-            "<code>cipher_console.py</code>, and <code>cipher_console_replay.py</code>, "
-            "the stretch answer. The build checks that <code>shift_by</code> in the "
-            "console files is identical to the one in <code>caesar_encode.py</code>. "
+            "module, never prints) and <code>cipher_console_starter.py</code>, which "
+            "downloads as <code>cipher_console.py</code>; then the answer-key files "
+            "<code>cipher_console_step1.py</code> to <code>cipher_console_step3.py</code> "
+            "and <code>cipher_console.py</code>, and <code>cipher_console_replay.py</code>, "
+            "the stretch answer. The build checks that the starter plus each step's typed "
+            "lines, as the page shows them, gives the next answer-key file exactly, and "
+            "that <code>shift_by</code> in the console files is identical to the one in "
+            "<code>caesar_encode.py</code>. "
             "<code>verify_console.py</code> runs every console program without a screen "
             "for a fixed number of frames, then sends the close event. Every output on "
             "this page and every screenshot came from a run, on Python 3.12.3 and pygame "

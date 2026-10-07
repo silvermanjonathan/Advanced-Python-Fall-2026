@@ -8,13 +8,6 @@ from build import code, downloads, labelled_code, laddered, output, reveal
 _ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 _SHOTS = os.path.join(os.path.dirname(os.path.abspath(__file__)), "shots")
 
-STEPS = [
-    ("console_1_window.py", "an empty window that stays open until you close it"),
-    ("console_2_tiles.py", "a row of 26 tiles, one for each letter"),
-    ("console_3_board.py", "the alphabet, the coded alphabet under it, and the message"),
-    ("cipher_console.py", "the coded message appears one letter at a time"),
-]
-
 
 def _source(name):
     """Return the text of a program in the repo root, without its last newline."""
@@ -36,7 +29,7 @@ def _shift_by_matches():
         start = text.find("def shift_by")
         return text[start:text.find("\n\n\n", start)]
 
-    for name in ("console_3_board.py", "cipher_console.py", "cipher_console_replay.py"):
+    for name in ("cipher_console_starter.py", "cipher_console.py", "cipher_console_replay.py"):
         assert grab(name) == grab("caesar_encode.py"), f"shift_by differs in {name}"
 
 
@@ -117,11 +110,6 @@ def _shift(text, amount):
 
 
 WINDOW_PARTS = [
-    ('"""Cipher console, step 1', "The docstring: one sentence saying what the "
-     "program is for.", ""),
-    ("import pygame", "Bring in pygame, the same way <code>import sweep_tools</code> "
-     "brought in your own module in session 2.", ""),
-    ("BOARD =", "A color for the background.", ""),
     ("pygame.init()", "Set up. This runs once.", "once"),
     ("while running:", "The loop. Every line indented under it runs again on every "
      "frame, up to 60 times a second.", "frame"),
@@ -156,40 +144,133 @@ CONSOLE_PARTS = [
 ]
 
 
+WINDOW_TYPED = """pygame.init()
+screen = pygame.display.set_mode((640, 400))
+clock = pygame.time.Clock()
+
+running = 1
+while running:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = 0
+
+    screen.fill(BOARD)
+
+    pygame.display.flip()
+    clock.tick(60)
+
+pygame.quit()"""
+
+STEP1_MARK = "# step 1: replace this comment with the window code"
+TILE_RECT = "        pygame.draw.rect(screen, TILE, (x, 130, 20, 26))"
+LAST_TILE_LINE = "        letters.draw_letter(screen, coded_row[i], x + 7, 198, 2, CODED_INK)"
+DRAW_CODED = "    letters.draw_word(screen, coded, 40, 280, 4, CODED_INK)"
+
+# Each step is a list of (kind, landmark line, new lines). kind is "after", "before",
+# or "replace". The page shows the new lines, and the build checks that applying the
+# steps in order to the starter gives each answer-key file, then cipher_console.py.
+STEP_EDITS = {
+    1: [("replace", STEP1_MARK, WINDOW_TYPED)],
+    2: [("after", "    screen.fill(BOARD)",
+         "\n    for i in range(26):\n        x = 20 + i * 23\n" + TILE_RECT)],
+    3: [("after", TILE_RECT,
+         "        letters.draw_letter(screen, ALPHABET[i], x + 7, 138, 2, TILE_INK)\n"
+         "        pygame.draw.rect(screen, CODED_TILE, (x, 190, 20, 26))\n"
+         + LAST_TILE_LINE),
+        ("after", LAST_TILE_LINE,
+         "\n    letters.draw_word(screen, MESSAGE, 40, 50, 4, PLAIN_INK)\n" + DRAW_CODED)],
+    4: [("before", "running = 1", "frame = 0\nshown = 0"),
+        ("before", "    pygame.display.flip()",
+         "    frame = frame + 1\n"
+         "    if frame % 30 == 0 and shown < len(MESSAGE):\n"
+         "        shown = shown + 1\n"),
+        ("after", LAST_TILE_LINE,
+         "\n    if shown < len(MESSAGE) and MESSAGE[shown] != \" \":\n"
+         "        spot = ord(MESSAGE[shown]) - ord(\"a\")\n"
+         "        x = 20 + spot * 23\n"
+         "        pygame.draw.rect(screen, GLOW, (x - 3, 127, 26, 32), 3)\n"
+         "        pygame.draw.rect(screen, GLOW, (x - 3, 187, 26, 32), 3)"),
+        ("replace", DRAW_CODED,
+         "    for i in range(shown):\n"
+         "        letters.draw_letter(screen, coded[i], 40 + i * 16, 280, 4, CODED_INK)")],
+}
+
+STEP_FILES = {
+    0: "cipher_console_starter.py",
+    1: "cipher_console_step1.py",
+    2: "cipher_console_step2.py",
+    3: "cipher_console_step3.py",
+    4: "cipher_console.py",
+}
+
+
+def apply_step(text, edits):
+    """Return text with one step's edits made, each at its landmark line."""
+    lines = text.split("\n")
+    for kind, landmark, new in edits:
+        where = [k for k, ln in enumerate(lines) if ln == landmark]
+        assert len(where) == 1, f"landmark found {len(where)} times: {landmark!r}"
+        k = where[0]
+        block = new.split("\n")
+        if kind == "after":
+            lines[k + 1:k + 1] = block
+        elif kind == "before":
+            lines[k:k] = block
+        else:
+            lines[k:k + 1] = block
+    return "\n".join(lines)
+
+
+def _check_steps():
+    """Check that the starter plus each step gives the next answer-key file."""
+    text = _source(STEP_FILES[0])
+    for n in (1, 2, 3, 4):
+        text = apply_step(text, STEP_EDITS[n])
+        assert text == _source(STEP_FILES[n]), f"step {n} does not give {STEP_FILES[n]}"
+
+
+def _new(n, k):
+    """Return the new lines of edit k in step n, without the blank lines around them."""
+    return STEP_EDITS[n][k][2].strip("\n")
+
+
 def console_section():
-    """Return session 3's section 4, the cipher console, and its stretch exit."""
+    """Return session 3's section 4, its stretch exit, and its answer key."""
     _shift_by_matches()
+    _check_steps()
     a_rows = [".#.", "#.#", "###", "#.#", "#.#"]
     assert f'"a": [{", ".join(chr(34) + r + chr(34) for r in a_rows)}],' in _source("letters.py")
-    board = _source("console_3_board.py")
-    assert 'MESSAGE = "attack at dawn"' in board and "KEY = 3" in board
+    starter = _source(STEP_FILES[0])
+    assert 'MESSAGE = "attack at dawn"' in starter and "KEY = 3" in starter
     message = "attack at dawn"
     fits = max(n for n in range(1, 60) if 40 + (n - 1) * 16 + 12 <= 640)
     key10 = _shift(ALPHABET, 10)
+    starter_prints = (
+        f"plain: {message}\ncoded: {_shift(message, 3)}\ncoded row: {_shift(ALPHABET, 3)}"
+    )
 
     b = (
         '<h2><span class="num">4</span>The cipher console in pygame'
-        '<span class="mins">25 minutes</span></h2>'
+        '<span class="mins">30 minutes</span></h2>'
         "<p>Now put your cipher in a window. The alphabet sits on top, the coded "
         "alphabet sits under it, and the coded message appears one letter at a "
         "time.</p>"
         "<h3>Get the files</h3>"
+        "<p>You need two files in the same folder: the starter, which saves as "
+        "<code>cipher_console.py</code>, and <code>letters.py</code>, a module that "
+        "draws letters. You will not need to read <code>letters.py</code>.</p>"
     )
+    b += downloads(("cipher_console_starter.py", "cipher_console.py"), "letters.py")
     b += (
-        "<p>You will build the console in four programs. Each one adds one thing to the "
-        "one before, so you can run it after every step and see what changed.</p>"
-        '<ol class="tight">'
-        + "".join(f"<li><code>{name}</code>: {what}.</li>" for name, what in STEPS)
-        + "</ol>"
-        "<p>Download all four, and <code>letters.py</code> with them, into one folder. "
-        "<code>letters.py</code> is a module that draws letters. Steps 3 and 4 import "
-        "it.</p>"
-    )
-    b += downloads(*[name for name, _ in STEPS], "letters.py")
-    b += (
-        "<p>The programs use pygame. If one stops with <code>ModuleNotFoundError: No "
-        "module named 'pygame'</code>, type <code>pip install pygame</code> in the "
-        "terminal and run it again.</p>"
+        "<p>If your browser saves the starter as <code>cipher_console_starter.py</code>, "
+        "rename it to <code>cipher_console.py</code>.</p>"
+        "<p>The starter already has the lines that do not use pygame: the message and "
+        "the key, the colors, your <code>shift_by</code> from section 3, and the lines "
+        "that code the message and print it. You type the pygame code yourself, in four "
+        "steps, into the same file, and run it after every step.</p>"
+        "<p>If the program stops with <code>ModuleNotFoundError: No module named "
+        "'pygame'</code>, type <code>pip install pygame</code> in the terminal and run "
+        "it again.</p>"
         "<p>Here is the finished console after 130 frames, a little over two seconds. "
         "The orange boxes are around the letter being coded now: <code>c</code> on the "
         "top row becomes <code>f</code> on the row under it.</p>"
@@ -203,18 +284,22 @@ def console_section():
 
     b += "<h3>Step 1: a window</h3>"
     b += (
-        "<p>Here is the first program, split into its parts. The label on each part "
-        "says what the part does and when it runs: once, or again on every frame.</p>"
+        "<p>The last line of the starter is the comment <code>" + STEP1_MARK + "</code>. "
+        "Replace it with these lines. The label on each part says what the part does "
+        "and when it runs: once, or again on every frame.</p>"
     )
-    b += labelled_code(_source("console_1_window.py"), WINDOW_PARTS, "console_1_window.py")
+    b += labelled_code(WINDOW_TYPED, WINDOW_PARTS, "cipher_console.py, step 1")
     b += (
-        "<p>Run it. A dark window opens and the terminal prints one line. The window "
-        "stays open until you click its close button.</p>"
+        "<p>Run it. A dark window opens, and the terminal shows the three lines the "
+        "starter prints. The window stays open until you click its close button.</p>"
     )
-    b += output("window open, close it to finish")
+    b += output(starter_prints)
     b += "<h4>Before the loop</h4>"
     b += (
         '<ul class="tight">'
+        "<li><code>import pygame</code>, near the top of the starter, brings in pygame, "
+        "the same way <code>import sweep_tools</code> brought in your own module in "
+        "session 2.</li>"
         "<li><code>pygame.init()</code> starts pygame. It comes before anything else "
         "from pygame.</li>"
         "<li><code>pygame.display.set_mode((640, 400))</code> opens a window 640 pixels "
@@ -232,10 +317,11 @@ def console_section():
         "pairs of brackets. The outer pair are the brackets of the call to "
         "<code>set_mode</code>, the same as in <code>print(...)</code>. The inner pair "
         "make the tuple. pygame uses tuples for sizes, colors, and rectangles.</p>"
-        "<p><code>BOARD = (15, 19, 24)</code> is a color. A color is a tuple of three "
-        "numbers: how much red, how much green, and how much blue, each from 0 to 255. "
-        "<code>(0, 0, 0)</code> is black and <code>(255, 255, 255)</code> is white. "
-        "<code>(15, 19, 24)</code> has a little of each, so it is nearly black.</p>"
+        "<p>The starter's <code>BOARD = (15, 19, 24)</code> is a color. A color is a "
+        "tuple of three numbers: how much red, how much green, and how much blue, each "
+        "from 0 to 255. <code>(0, 0, 0)</code> is black and <code>(255, 255, 255)</code> "
+        "is white. <code>(15, 19, 24)</code> has a little of each, so it is nearly "
+        "black.</p>"
     )
     b += "<h4>The loop</h4>"
     b += (
@@ -289,24 +375,27 @@ def console_section():
         "tuple is (x, y, width, height). The top left corner of the rectangle is at "
         "<code>(x, 130)</code>, and the rectangle is 20 pixels wide and 26 pixels "
         "tall.</p>"
+        "<p>Inside the loop, under <code>screen.fill(BOARD)</code>, add these three "
+        "lines. The <code>for</code> line starts four spaces in, the same as "
+        "<code>screen.fill(BOARD)</code>, so it is inside the <code>while</code> "
+        "loop.</p>"
     )
-    b += code(_source("console_2_tiles.py"), "console_2_tiles.py")
+    b += code(_new(2, 0), "cipher_console.py, step 2")
     b += (
-        "<p>Inside the <code>while</code> loop, the <code>for</code> loop draws 26 "
-        "tiles, one for each letter. Tile <code>i</code> starts at "
-        "<code>x = 20 + i * 23</code>: 20 pixels in from the left edge, then 23 more for "
-        "each tile before it. A tile is 20 pixels wide, so there is a gap of 3 pixels "
-        "between tiles.</p>"
+        "<p>The <code>for</code> loop draws 26 tiles, one for each letter. Tile "
+        "<code>i</code> starts at <code>x = 20 + i * 23</code>: 20 pixels in from the "
+        "left edge, then 23 more for each tile before it. A tile is 20 pixels wide, so "
+        "there is a gap of 3 pixels between tiles.</p>"
     )
+    first_x, last_x = 20 + 0 * 23, 20 + 25 * 23
     b += reveal(
         "Where does the first tile start? Where does the last tile start? Does the last "
         "tile fit inside the 640 pixel window?",
-        "<p>The first tile is <code>i = 0</code>: 20 + 0 × 23 = 20.</p>"
-        "<p>The last tile is <code>i = 25</code>: 20 + 25 × 23 = 595.</p>"
-        "<p>The last tile is 20 pixels wide, so its right edge is at 595 + 20 = 615. "
-        "That is inside 640, so it fits.</p>"
-        + output("first tile starts at x = 20\nlast tile starts at x = 595")
-        + _shot("console_2_tiles_5.png", "A dark window with a row of 26 cream tiles."),
+        f"<p>The first tile is <code>i = 0</code>: 20 + 0 × 23 = {first_x}.</p>"
+        f"<p>The last tile is <code>i = 25</code>: 20 + 25 × 23 = {last_x}.</p>"
+        f"<p>The last tile is 20 pixels wide, so its right edge is at {last_x} + 20 = "
+        f"{last_x + 20}. That is inside 640, so it fits.</p>"
+        + _shot("cipher_console_step2_5.png", "A dark window with a row of 26 cream tiles."),
     )
 
     b += "<h3>Step 3: letters</h3>"
@@ -324,8 +413,8 @@ def console_section():
     b += _letter_svg(a_rows)
     b += (
         "<p>You do not need to read the rest of <code>letters.py</code>. You need its "
-        "two functions. <code>import letters</code> works the same way "
-        "<code>import sweep_tools</code> did in session 2.</p>"
+        "two functions. The starter already has <code>import letters</code>, which works "
+        "the same way <code>import sweep_tools</code> did in session 2.</p>"
         '<ul class="tight">'
         "<li><code>letters.draw_letter(screen, letter, x, y, size, color)</code> draws "
         "one letter with its top left corner at <code>(x, y)</code>. "
@@ -334,30 +423,24 @@ def console_section():
         "<li><code>letters.draw_word(screen, word, x, y, size, color)</code> draws a "
         "whole word, with one square of space between letters.</li>"
         "</ul>"
+        "<p>In the tile loop, under the <code>pygame.draw.rect</code> line, add three "
+        "lines. They start eight spaces in, the same as the line above them, so they are "
+        "inside the <code>for</code> loop.</p>"
     )
+    b += code(_new(3, 0), "cipher_console.py, step 3, in the tile loop")
     b += (
-        "<p>Here is step 3. Compared with step 2, it adds:</p>"
-        '<ul class="tight">'
-        "<li><code>import letters</code>;</li>"
-        "<li><code>MESSAGE</code>, <code>KEY</code>, <code>ALPHABET</code>, and four "
-        "more colors;</li>"
-        "<li><code>shift_by</code>, and the five lines under it that code the message "
-        "and the alphabet and print them;</li>"
-        "<li>in the tile loop, a letter on each tile and a second row of tiles;</li>"
-        "<li>two lines that draw <code>MESSAGE</code> and <code>coded</code>.</li>"
-        "</ul>"
+        "<p>Then, after the tile loop, add two lines. They start four spaces in, the "
+        "same as <code>for i in range(26):</code>, so they are inside the "
+        "<code>while</code> loop but not inside the <code>for</code> loop.</p>"
     )
-    b += code(board, "console_3_board.py")
+    b += code(_new(3, 1), "cipher_console.py, step 3, after the tile loop")
     b += (
-        "<p><code>shift_by</code> is the function you wrote in section 3, "
-        "copied in unchanged.</p>"
-        "<p><code>coded_row = shift_by(ALPHABET, KEY)</code> codes the whole alphabet in "
-        "one call.</p>"
-        "<p>In the tile loop, <code>ALPHABET[i]</code> is the letter at index "
-        "<code>i</code> of the string <code>ALPHABET</code>. A string has indexes the "
-        "same way a list does, so <code>ALPHABET[0]</code> is <code>a</code>. "
-        "<code>coded_row[i]</code> is what that letter becomes, so the loop draws it on "
-        "the tile directly under it.</p>"
+        "<p><code>ALPHABET[i]</code> is the letter at index <code>i</code> of the string "
+        "<code>ALPHABET</code>. A string has indexes the same way a list does, so "
+        "<code>ALPHABET[0]</code> is <code>a</code>. The starter made "
+        "<code>coded_row</code> with <code>shift_by(ALPHABET, KEY)</code>, which codes "
+        "the whole alphabet in one call, so <code>coded_row[i]</code> is what letter "
+        "<code>i</code> becomes. The loop draws it on the tile directly under it.</p>"
         "<p><code>x + 7</code> and <code>138</code> put each letter in the middle of its "
         "tile. At size 2 a letter is 6 pixels wide and 10 tall. The tile is 20 wide, "
         "which leaves 7 pixels on each side, and 26 tall, which leaves 8 above and 8 "
@@ -367,16 +450,13 @@ def console_section():
         "With <code>KEY = 3</code>, which letter is on the tile under <code>x</code>? "
         "Which letter is on the tile under <code>z</code>?",
         "<p>Under <code>x</code>: x is at position 23, counting <code>a</code> as 0. "
-        "23 + 3 = 26, and 26 % 26 = 0, so "
-        "the letter is <code>a</code>.</p>"
+        "23 + 3 = 26, and 26 % 26 = 0, so the letter is <code>a</code>.</p>"
         "<p>Under <code>z</code>: z is at position 25. 25 + 3 = 28, and 28 % 26 = 2, so "
         "the letter is <code>c</code>.</p>"
-        + output(
-            f"plain: {message}\ncoded: dwwdfn dw gdzq\n"
-            "coded row: defghijklmnopqrstuvwxyzabc"
-        )
+        "<p>The terminal shows the whole coded row:</p>"
+        + output(starter_prints)
         + _shot(
-            "console_3_board_5.png",
+            "cipher_console_step3_5.png",
             "The board: attack at dawn at the top, the alphabet on cream tiles, the "
             "coded alphabet on green tiles, and dwwdfn dw gdzq at the bottom.",
         ),
@@ -394,47 +474,30 @@ def console_section():
 
     b += "<h3>Step 4: make it move</h3>"
     b += (
-        "<p><code>cipher_console.py</code> starts from <code>console_3_board.py</code>. "
-        "It adds one color, <code>GLOW</code>, for the boxes, and changes the program "
-        "in three places. Here they are, one at a time.</p>"
+        "<p>Step 4 changes the program in four places. Set <code>KEY</code> back to 3 "
+        "first.</p>"
         "<h4>Two accumulators</h4>"
-        "<p>Before the loop:</p>"
+        "<p>Just above <code>running = 1</code>, add:</p>"
     )
-    b += code(_excerpt("cipher_console.py", "frame = 0", "shown = 0"), "cipher_console.py")
+    b += code(_new(4, 0), "cipher_console.py, step 4, above running = 1")
     b += (
         "<p><code>frame</code> counts the frames drawn so far. <code>shown</code> counts "
         "how many coded letters are showing. Both start at 0, like the accumulators in "
         "the opener.</p>"
-        "<p>At the end of the loop body, just before <code>flip</code>:</p>"
+        "<p>Inside the loop, just above <code>pygame.display.flip()</code>, add:</p>"
     )
-    b += code(
-        _excerpt("cipher_console.py", "frame = frame + 1", "shown = shown + 1"),
-        "cipher_console.py",
-    )
+    b += code(_new(4, 1), "cipher_console.py, step 4, above pygame.display.flip()")
     b += (
         "<p>Every frame adds 1 to <code>frame</code>. <code>frame % 30</code> is 0 on "
         "frames 30, 60, 90, and so on, so on every 30th frame one more coded letter "
         "shows. At 60 frames a second, that is one letter every half second. "
         "<code>shown &lt; len(MESSAGE)</code> stops <code>shown</code> once every letter "
         "is showing.</p>"
-        "<h4>Draw the letters that are showing</h4>"
-    )
-    b += code(
-        _excerpt("cipher_console.py", "for i in range(shown):", "letters.draw_letter(screen, coded[i]"),
-        "cipher_console.py",
-    )
-    b += (
-        "<p>These two lines take the place of the line that drew all of "
-        "<code>coded</code> in step 3. They draw the first <code>shown</code> letters "
-        "of <code>coded</code>. A "
-        "letter at size 4 is 12 pixels wide, and the letters are 16 pixels apart, so "
-        "there are 4 pixels between them.</p>"
         "<h4>Box the letter being coded</h4>"
+        "<p>After the tile loop, just above "
+        "<code>letters.draw_word(screen, MESSAGE, 40, 50, 4, PLAIN_INK)</code>, add:</p>"
     )
-    b += code(
-        _excerpt("cipher_console.py", "if shown < len(MESSAGE) and MESSAGE", "(x - 3, 187"),
-        "cipher_console.py",
-    )
+    b += code(_new(4, 2), "cipher_console.py, step 4, after the tile loop")
     b += (
         "<p><code>MESSAGE[shown]</code> is the next letter to be coded. "
         "<code>spot</code> is its position in the alphabet, worked out the same way as in "
@@ -452,6 +515,17 @@ def console_section():
         "last coded letter shows:</p>"
     )
     b += output("IndexError: string index out of range", label="verified output, verify_console.py")
+    b += (
+        "<h4>Draw the letters that are showing</h4>"
+        "<p>Find the line <code>" + DRAW_CODED.strip() + "</code>. Delete it, and type "
+        "these two lines in its place:</p>"
+    )
+    b += code(_new(4, 3), "cipher_console.py, step 4, in place of that line")
+    b += (
+        "<p>They draw the first <code>shown</code> letters of <code>coded</code>, not all "
+        "of it. A letter at size 4 is 12 pixels wide, and the letters are 16 pixels "
+        "apart, so there are 4 pixels between them.</p>"
+    )
     b += reveal(
         f"<code>\"{message}\"</code> has {len(message)} characters, counting the two "
         "spaces. How many seconds until the whole coded message is showing?",
@@ -470,15 +544,11 @@ def console_section():
             "The finished console: dwwdfn dw gdzq complete at the bottom and no boxes.",
         ),
     )
-
-    b += "<h4>The whole program</h4>"
     b += (
-        "<p>Here is <code>cipher_console.py</code> from top to bottom, with the same "
-        "kind of labels as step 1. Compare it with step 1: the loop still reads the "
-        "events first and shows the drawing last. Everything in between, the parts "
-        "labelled 2 to 5, is drawing and counting.</p>"
+        "<p>If your program does not run, or does something different, check it "
+        "against the answer key at the bottom of this page when your teacher opens "
+        "it.</p>"
     )
-    b += labelled_code(_source("cipher_console.py"), CONSOLE_PARTS, "cipher_console.py")
 
     stretch = laddered(
         "Make the R key start the coded message again from nothing.",
@@ -514,4 +584,18 @@ def console_section():
         "the left side False, and Python never reads <code>event.key</code>.</p>",
         "replay",
     )
-    return b, stretch
+    key = (
+        "<p>Each file below runs as it is.</p>"
+    )
+    for n in (1, 2, 3):
+        key += code(_source(STEP_FILES[n]), f"cipher_console.py after step {n}")
+    key += (
+        "<p>After step 4, the finished program, with each part labelled. Compare it "
+        "with step 1: the loop still reads the events first and shows the drawing "
+        "last. Everything in between, the parts labelled 2 to 5, is drawing and "
+        "counting.</p>"
+    )
+    key += labelled_code(
+        _source(STEP_FILES[4]), CONSOLE_PARTS, "cipher_console.py after step 4"
+    )
+    return b, stretch, key

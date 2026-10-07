@@ -476,3 +476,13 @@ Known corrections made before first printing:
     longer assumes students broke a cipher, and links the Extras page; session 9 no
     longer calls its histogram the first window; the capstone notes, session 1's slower
     plan, the hub environment, lifted-skills and programs rows all follow.
+38. Session 3's console (section 4, now 30 minutes) is typed, not downloaded. Students
+    download two files: `letters.py` and `cipher_console_starter.py`, which saves as
+    `cipher_console.py` and already holds the message, key, colors, `shift_by` and the
+    prints. Each step shows only the lines to type and where they go. The whole file
+    after each step sits in an answer key at the bottom of the page, behind one button.
+    The answer-key files are `cipher_console_step1.py` to `cipher_console_step3.py`
+    and `cipher_console.py`; the build checks that the starter plus each step's lines,
+    exactly as the page shows them, gives the next file. `console_1_window.py`,
+    `console_2_tiles.py` and `console_3_board.py` are gone. Exits are checked in the
+    last minutes of section 4.

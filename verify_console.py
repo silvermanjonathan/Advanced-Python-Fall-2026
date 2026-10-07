@@ -48,15 +48,19 @@ def run(filename, frames, shot_at=(), events_at=None, source=None):
     return ns
 
 
-print("--- console_1_window.py ---")
-ns = run("console_1_window.py", 120, shot_at=(120,))
+print("--- cipher_console_starter.py, before step 1 ---")
+exec(compile(open("cipher_console_starter.py").read(), "cipher_console_starter.py", "exec"),
+     {"__name__": "__main__"})
+
+print("--- cipher_console_step1.py ---")
+ns = run("cipher_console_step1.py", 120, shot_at=(120,))
 print(f"passes through the while loop: {ns['frames run']}")
 
-print("--- console_2_tiles.py ---")
-run("console_2_tiles.py", 5, shot_at=(5,))
+print("--- cipher_console_step2.py ---")
+run("cipher_console_step2.py", 5, shot_at=(5,))
 
-print("--- console_3_board.py ---")
-run("console_3_board.py", 5, shot_at=(5,))
+print("--- cipher_console_step3.py ---")
+run("cipher_console_step3.py", 5, shot_at=(5,))
 
 print("--- cipher_console.py ---")
 ns = run("cipher_console.py", 700, shot_at=(130, 700))
