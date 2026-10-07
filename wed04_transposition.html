@@ -95,6 +95,15 @@ pre{
   padding:16px 18px; overflow-x:auto; margin:0 0 16px; font-weight:500;
 }
 pre code{background:none; padding:0; font-size:inherit; font-weight:inherit; color:inherit}
+/* code split into labelled parts: the label says what the part does and when it runs */
+.parts{margin:0 0 16px}
+.part{border:2px solid var(--rule); border-left:8px solid #B9AF96; border-radius:4px;
+  background:var(--code-bg); margin:0 0 6px}
+.part .plabel{margin:0; padding:8px 16px 0; font-size:15px; font-weight:700; color:var(--ink-soft)}
+.part pre{border:0; border-radius:0; margin:0; padding:4px 16px 10px; background:transparent}
+.part.once{border-left-color:var(--teal)} .part.once .plabel{color:var(--teal-deep)}
+.part.frame{border-left-color:var(--ochre-line); background:#F6EEDB} .part.frame .plabel{color:var(--ochre)}
+.part.after{border-left-color:var(--clay)} .part.after .plabel{color:var(--clay)}
 .fname{
   font-family:'JetBrains Mono',monospace; font-size:12.5px; letter-spacing:.1em;
   text-transform:uppercase; color:var(--ink-soft); margin:0 0 6px; font-weight:700;
@@ -235,6 +244,8 @@ footer p{margin:0}
 .row .t a{text-decoration:none}
 .row .s{display:block; font-weight:400; font-size:16px; color:var(--ink-soft); max-width:62ch}
 .row.off{border-left-color:var(--clay); background:#FBF9F3}
+.row.extra{border-left-color:var(--ochre-line); background:var(--ochre-tint)}
+.row.extra .n{color:var(--ochre)}
 .row.off .n{color:var(--clay)}
 
 @media (max-width:760px){
@@ -346,7 +357,7 @@ route    etnheantarhtmaettdetogaw</code></pre></div>
 <p class="stdline"><span class="std">MP7</span> Look for and make use of structure.</p>
 <p class="mapnote">Mapped to the Common Core State Standards for Mathematics (Multi-State). Each code and its wording was retrieved from the CASE Network through the Learning Commons Knowledge Graph on 12 September 2026. New York's own Computer Science and Digital Fluency framework and the CSTA standards are not carried in that graph, so no code from either appears anywhere on this site.</p><p class="mapnote">Two deliberate deviations from the retrieved text. The "for example…" illustrations attached to 7.SP.C.6 and 8.EE.A.1 are omitted, since they illustrate rather than state the standard. And where the source carries markup, italics or mathematical notation, it is rendered as plain text: 7.SP.C.5's fraction appears here as 1/2, and the italic stem of 6.SP.B.5.a and 6.SP.B.5.c is plain. Nothing else was shortened. Codes 6.SP.B.5.a and 6.SP.B.5.c are the lettered children of 6.SP.B.5, whose own statement is only a stem ending in a colon; the children carry that stem and are quoted in full.</p><h3>Timing</h3><p>10 opener, 30 rail fence, 30 route cipher, 20 exits. The decode functions are where time goes. If the room is struggling, ship encoding only and make decoding the take-home.</p><h3>What to watch for</h3><p>The padding question comes up and is worth stopping for. A twenty four letter message fills a four wide grid exactly. Ask what happens with twenty five letters, and let them find that you must pad and that the padding is then visible to anyone reading the ciphertext.</p><p><code>range(len(grid) - 1, -1, -1)</code> reads as gibberish at first. Walk it once out loud: start at the last row, stop before -1, step backwards.</p><h3>Files</h3><p><code>transposition.py</code>. Round trip verified true on Python 3.12.3.</p><h3>Lifted this week</h3><p>List of lists as a grid, <code>range</code> with a negative step, <code>abs</code>, <code>" ".join()</code>, slicing.</p></section>
 </div></main>
-<nav class="pager"><a href="wed03_counting.html">&larr; Session 3: counting and cracking</a><a href="advanced_python_hub.html">Course hub</a><a href="wed05_hashing.html">Session 5: seals and real hashes &rarr;</a></nav>
+<nav class="pager"><a href="wed03_cipher_console.html">&larr; After session 3: the cipher console</a><a href="advanced_python_hub.html">Course hub</a><a href="wed05_hashing.html">Session 5: seals and real hashes &rarr;</a></nav>
 <footer><div class="wrap"><p>Advanced Python, Robofun Fall 2026. Second printing, 13 September 2026. Built by a generator; the page, not the file, is the source of truth for output, because every quoted line came from a run.</p></div></footer>
 <script>
 document.addEventListener('click', function(e){

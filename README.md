@@ -461,3 +461,8 @@ Known corrections made before first printing:
     `sweep_tools.py`, in order. Teacher notes and the hub mention the buttons. Every
     button was clicked in Chromium over HTTP and saved the right file under the right
     name.
+36. The cipher console page is now easy to find: a row on the hub straight after
+    session 3, a button at the end of session 3, and the page-to-page links run
+    session 3, the cipher console, then session 4. The page itself shows its first
+    program and its finished program split into labelled parts (`build.labelled_code`),
+    each label saying what the part does and whether it runs once or on every frame.

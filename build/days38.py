@@ -637,6 +637,13 @@ plaintext: read the code and trace the code before you ever run the code"""
         "that scores all 26 shifts against English letter frequencies and picks the "
         "best total instead of trusting one letter.",
     )
+    b += (
+        "<p><b>After the session.</b> Put this cipher in a pygame window. The cipher "
+        "console page builds it in four small programs and explains every pygame line "
+        "in them. It takes about 45 minutes, at home or if you finish early.</p>"
+        '<div class="toolbar"><a class="btn" href="wed03_cipher_console.html">Open the '
+        "cipher console page</a></div>"
+    )
     b += panel(
         ["6.SP.B.5.a", "6.RP.A.3", "MP7"],
         "<p>15 opener with the accumulator review, 15 parallel lists and Counter, 30 the cipher by hand and "
@@ -676,7 +683,7 @@ plaintext: read the code and trace the code before you ever run the code"""
     )
     b += pager(
         ("wed02_return_and_modules.html", "Session 2: functions that return a value"),
-        ("wed04_transposition.html", "Session 4: moving letters"),
+        ("wed03_cipher_console.html", "After session 3: the cipher console"),
     )
     return b
 
@@ -847,7 +854,7 @@ route    etnheantarhtmaettdetogaw"""
         ),
     )
     b += pager(
-        ("wed03_counting.html", "Session 3: counting and cracking"),
+        ("wed03_cipher_console.html", "After session 3: the cipher console"),
         ("wed05_hashing.html", "Session 5: seals and real hashes"),
     )
     return b

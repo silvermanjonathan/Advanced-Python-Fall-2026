@@ -110,6 +110,17 @@ def hub():
             f'<span class="t"><a href="{href}">{esc(title)}</a>'
             f'<span class="s">{esc(sub)}</span></span></div>'
         )
+        if n == "03":
+            b += (
+                '<div class="row extra"><span class="n">+</span>'
+                '<span class="d">after 30 Sep</span>'
+                '<span class="t"><a href="wed03_cipher_console.html">The cipher console, '
+                "in pygame</a>"
+                '<span class="s">Optional, about 45 minutes, at home or for early '
+                "finishers. The session 3 Caesar cipher in a pygame window, built in four "
+                "small programs, with every pygame line in them explained.</span>"
+                "</span></div>"
+            )
         if n == "08":
             b += (
                 '<div class="row off"><span class="n">&middot;</span>'

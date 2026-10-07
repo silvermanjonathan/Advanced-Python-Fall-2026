@@ -95,6 +95,15 @@ pre{
   padding:16px 18px; overflow-x:auto; margin:0 0 16px; font-weight:500;
 }
 pre code{background:none; padding:0; font-size:inherit; font-weight:inherit; color:inherit}
+/* code split into labelled parts: the label says what the part does and when it runs */
+.parts{margin:0 0 16px}
+.part{border:2px solid var(--rule); border-left:8px solid #B9AF96; border-radius:4px;
+  background:var(--code-bg); margin:0 0 6px}
+.part .plabel{margin:0; padding:8px 16px 0; font-size:15px; font-weight:700; color:var(--ink-soft)}
+.part pre{border:0; border-radius:0; margin:0; padding:4px 16px 10px; background:transparent}
+.part.once{border-left-color:var(--teal)} .part.once .plabel{color:var(--teal-deep)}
+.part.frame{border-left-color:var(--ochre-line); background:#F6EEDB} .part.frame .plabel{color:var(--ochre)}
+.part.after{border-left-color:var(--clay)} .part.after .plabel{color:var(--clay)}
 .fname{
   font-family:'JetBrains Mono',monospace; font-size:12.5px; letter-spacing:.1em;
   text-transform:uppercase; color:var(--ink-soft); margin:0 0 6px; font-weight:700;
@@ -235,6 +244,8 @@ footer p{margin:0}
 .row .t a{text-decoration:none}
 .row .s{display:block; font-weight:400; font-size:16px; color:var(--ink-soft); max-width:62ch}
 .row.off{border-left-color:var(--clay); background:#FBF9F3}
+.row.extra{border-left-color:var(--ochre-line); background:var(--ochre-tint)}
+.row.extra .n{color:var(--ochre)}
 .row.off .n{color:var(--clay)}
 
 @media (max-width:760px){
@@ -262,30 +273,16 @@ footer p{margin:0}
 
 <div class="toolbar"><a class="btn quiet" href="wed03_counting.html">Back to the session 3 page</a></div><section class="opener"><p class="chunk-no">Section 1 &middot; 5 minutes</p><h2>Before you start</h2><p>You will build the console in four programs. Each one adds one thing to the one before, so you can run it after every step and see what changed.</p><ol class="tight"><li><code>console_1_window.py</code>: an empty window that stays open until you close it.</li><li><code>console_2_tiles.py</code>: a row of 26 tiles, one for each letter.</li><li><code>console_3_board.py</code>: the alphabet, the coded alphabet under it, and the message.</li><li><code>cipher_console.py</code>: the coded message appears one letter at a time.</li></ol><p>Download all four, and <code>letters.py</code> with them, into one folder. <code>letters.py</code> is a module that draws letters. Steps 3 and 4 import it.</p><div class="toolbar"><a class="btn quiet" href="console_1_window.py" download="console_1_window.py">Download console_1_window.py</a><a class="btn quiet" href="console_2_tiles.py" download="console_2_tiles.py">Download console_2_tiles.py</a><a class="btn quiet" href="console_3_board.py" download="console_3_board.py">Download console_3_board.py</a><a class="btn quiet" href="cipher_console.py" download="cipher_console.py">Download cipher_console.py</a><a class="btn quiet" href="letters.py" download="letters.py">Download letters.py</a></div>
 <p>The programs use pygame. If one stops with <code>ModuleNotFoundError: No module named 'pygame'</code>, type <code>pip install pygame</code> in the terminal and run it again.</p><p>Here is the finished console after 130 frames, a little over two seconds. The orange boxes are around the letter being coded now: <code>c</code> on the top row becomes <code>f</code> on the row under it.</p><img src="data:image/png;base64,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wAAQEGAACAgwAAQEGAACAgwAAQEGgMCm9wHnXj5/OnDasxevB04DgLewAwaAgAADQOC8X4IGgDNlBwwAAQEGgIAAA0BAgAEgIMAAEBBgAAgIMAAEBBgAAgIMAAEBBoCAAANAQIABICDAABAQYAAICDAABAQYAAICDAABAQaAgAADQECAASAgwAAQEGAACAgwAAQEGAACAgwAAQEGgIAAA0BAgAEgIMAAEBBgAAgIMAAEBBgAAgIMAAEBBoCAAANAQIABICDAABAQYAAICDAABAQYAAICDAABAQaAgAADQECAASAgwAAQEGAACAgwAAQEGAACAgwAAQEGgIAAA0BAgAEgIMAAEBBgAAgIMAAEBBgAAgIMAAEBBoCAAANAQIABIPCk+o9/958//ejn//bzP7/z9svb7PH5h6wHALawAwaAgAADQECAASCQXQNeesg12lOabT0AXB47YAAICDAABAQYAAJTXAM+1n3v2R11ewDYmx0wAAQEGAACAgwAAQEGgIAAA0BAgAEgIMAAEJjifcDH/r7lh/wd3y239/ufAdibHTAABAQYAAICDACBq+ub23oNAPDo2AEDQECAASAgwAAQEGAACAgwAAQEGAACAgwAAQEGgIAAA0BAgAEgIMAAEBBgAAgIMAAEBBgAAgIMAAEBBoCAAANAQIABICDAABAQYAAICDAABAQYAAICDAABAQaAgAADQECAASAgwAAQEGAACAgwAAQEGAACAgwAAQEGgIAAA0BAgAEgIMAAEBBgAAgIMAAEBBgAAgIMAAEBBoCAAANAQIABICDAABAQYAAICDAABAQYAAICDAABAQaAgAADQECAASAgwAAQEGAACAgwAAQEGAACAgwAAQEGgIAAA0BAgAEgIMAAEBBgAAgIMAAEBBgAAgIMAAEBBoCAAANAQIABICDAABAQYAAICDAABAQYAAICDAABAQaAgAADQECAASAgwAAQEGAACAgwAAQEGAACAgwAAQEGgIAAA0BAgAEgIMAAEBBgAAgIMAAEBBgAAgIMAAEBBoCAAANAQIABICDAABAQYAAICDAABAQYAAICDAABAQaAgAADQECAASAgwAAQ+D8FJn1X/ggPZgAAAABJRU5ErkJggg==" alt="The console: the message attack at dawn at the top, the alphabet on cream tiles, the coded alphabet on green tiles, c and f boxed in orange, and dwwd at the bottom." width="640" height="400" style="display:block; max-width:100%; height:auto; border:2px solid var(--rule); border-radius:6px; margin:10px 0 16px"></section>
-<section class="chunk"><p class="chunk-no">Section 2 &middot; 10 minutes</p><h2>A window</h2><p class="fname">console_1_window.py</p>
-<pre><code>&quot;&quot;&quot;Cipher console, step 1: a window that stays open until you close it.&quot;&quot;&quot;
-
-import pygame
-
-BOARD = (15, 19, 24)
-
-pygame.init()
+<section class="chunk"><p class="chunk-no">Section 2 &middot; 10 minutes</p><h2>A window</h2><p>Here is the first program, split into its parts. The label on each part says what the part does and when it runs: once, or again on every frame.</p><p class="fname">console_1_window.py</p>
+<div class="parts"><div class="part "><p class="plabel">The docstring: one sentence saying what the program is for.</p><pre><code>&quot;&quot;&quot;Cipher console, step 1: a window that stays open until you close it.&quot;&quot;&quot;</code></pre></div><div class="part "><p class="plabel">Bring in pygame, the same way <code>import sweep_tools</code> brought in your own module in session 2.</p><pre><code>import pygame</code></pre></div><div class="part "><p class="plabel">A color for the background.</p><pre><code>BOARD = (15, 19, 24)</code></pre></div><div class="part once"><p class="plabel">Set up. This runs once.</p><pre><code>pygame.init()
 screen = pygame.display.set_mode((640, 400))
 clock = pygame.time.Clock()
 print(&quot;window open, close it to finish&quot;)
 
-running = 1
-while running:
-    for event in pygame.event.get():
+running = 1</code></pre></div><div class="part frame"><p class="plabel">The loop. Every line indented under it runs again on every frame, up to 60 times a second.</p><pre><code>while running:</code></pre></div><div class="part frame"><p class="plabel">1. Read the events.</p><pre><code>    for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            running = 0
-
-    screen.fill(BOARD)
-
-    pygame.display.flip()
-    clock.tick(60)
-
-pygame.quit()</code></pre>
+            running = 0</code></pre></div><div class="part frame"><p class="plabel">2. Draw.</p><pre><code>    screen.fill(BOARD)</code></pre></div><div class="part frame"><p class="plabel">3. Show the drawing, then wait.</p><pre><code>    pygame.display.flip()
+    clock.tick(60)</code></pre></div><div class="part after"><p class="plabel">After the loop. This runs once, when the loop stops.</p><pre><code>pygame.quit()</code></pre></div></div>
 <p>Run it. A dark window opens and the terminal prints one line. The window stays open until you click its close button.</p><div class="out"><span class="tag">verified output</span><pre><code>window open, close it to finish</code></pre></div>
 <h3>Before the loop</h3><ul class="tight"><li><code>pygame.init()</code> starts pygame. It comes before anything else from pygame.</li><li><code>pygame.display.set_mode((640, 400))</code> opens a window 640 pixels wide and 400 pixels tall. A <b>pixel</b> is one dot of the screen. The window is stored in <code>screen</code>, and everything you draw goes onto <code>screen</code>.</li><li><code>clock = pygame.time.Clock()</code> makes a clock. The loop uses it to control its speed.</li><li><code>running</code> controls the loop. <code>while running:</code> keeps going while <code>running</code> is 1 and stops when it is 0. It starts at 1.</li></ul><p><code>(640, 400)</code> is a <b>tuple</b>: values in round brackets, separated by commas, kept together as one value. That is why the line has two pairs of brackets. The outer pair are the brackets of the call to <code>set_mode</code>, the same as in <code>print(...)</code>. The inner pair make the tuple. pygame uses tuples for sizes, colors, and rectangles.</p><p><code>BOARD = (15, 19, 24)</code> is a color. A color is a tuple of three numbers: how much red, how much green, and how much blue, each from 0 to 255. <code>(0, 0, 0)</code> is black and <code>(255, 255, 255)</code> is white. <code>(15, 19, 24)</code> has a little of each, so it is nearly black.</p><h3>The loop</h3><p>Each pass through the <code>while</code> loop draws one picture. One picture is called a <b>frame</b>. Each pass does three things, in this order:</p><ol class="tight"><li><b>Read the events.</b> An <b>event</b> is something that happened since the last frame, such as a key press or a click. <code>pygame.event.get()</code> gives a list of them, and the <code>for</code> loop looks at each one. <code>pygame.QUIT</code> is the event for the window's close button.</li><li><b>Draw.</b> <code>screen.fill(BOARD)</code> paints the whole window one color. Drawing happens out of sight.</li><li><b>Show.</b> <code>pygame.display.flip()</code> puts the finished drawing on the screen. <code>clock.tick(60)</code> waits long enough that the loop runs no more than 60 times a second.</li></ol><p>After the loop, <code>pygame.quit()</code> closes the window.</p><div class="predict"><b>Predict first.</b> You click the window's close button. Which lines run, in order, from that click until <code>pygame.quit()</code>?
 <button class="rev" data-target="a21" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a21">Show the answer</button>
@@ -426,6 +423,56 @@ shown = 0</code></pre>
 <div class="ans" id="a25"><p>One letter every 30 frames, so 14 × 30 = 420 frames. At 60 frames a second, 420 ÷ 60 = 7 seconds.</p><p>Running the program for exactly 419 frames, and then for exactly 420, shows <code>shown</code> reaching 14 on frame 420:</p><div class="out"><span class="tag">verified output, verify_console.py</span><pre><code>after 419 frames, shown is 13
 after 420 frames, shown is 14</code></pre></div>
 <img src="data:image/png;base64,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" alt="The finished console: dwwdfn dw gdzq complete at the bottom and no boxes." width="640" height="400" style="display:block; max-width:100%; height:auto; border:2px solid var(--rule); border-radius:6px; margin:10px 0 16px"></div></div>
+<h3>The whole program</h3><p>Here is <code>cipher_console.py</code> from top to bottom, with the same kind of labels as section 2. Compare it with step 1: the loop still has the same three jobs, read the events, draw, and show. Steps 2 to 5 are all drawing and counting.</p><p class="fname">cipher_console.py</p>
+<div class="parts"><div class="part "><p class="plabel">The docstring: one sentence saying what the program is for.</p><pre><code>&quot;&quot;&quot;Cipher console: the coded message builds up one letter every half second.&quot;&quot;&quot;</code></pre></div><div class="part "><p class="plabel">Bring in pygame and <code>letters.py</code>.</p><pre><code>import pygame
+
+import letters</code></pre></div><div class="part "><p class="plabel">The two lines you change, and the alphabet.</p><pre><code>MESSAGE = &quot;attack at dawn&quot;
+KEY = 3
+ALPHABET = &quot;abcdefghijklmnopqrstuvwxyz&quot;</code></pre></div><div class="part "><p class="plabel">Colors, each one (red, green, blue).</p><pre><code>BOARD = (15, 19, 24)
+TILE = (242, 233, 211)
+TILE_INK = (27, 31, 38)
+CODED_TILE = (31, 46, 39)
+CODED_INK = (123, 228, 149)
+PLAIN_INK = (150, 143, 128)
+GLOW = (201, 139, 31)</code></pre></div><div class="part "><p class="plabel"><code>shift_by</code>, your function from session 3.</p><pre><code>def shift_by(text, amount):
+    &quot;&quot;&quot;Return text with every letter rotated forward by amount.&quot;&quot;&quot;
+    out = &quot;&quot;
+    for ch in text:
+        if ch == &quot; &quot;:
+            out = out + &quot; &quot;
+        else:
+            spot = ord(ch) - ord(&quot;a&quot;)
+            spot = (spot + amount) % 26
+            out = out + chr(spot + ord(&quot;a&quot;))
+    return out</code></pre></div><div class="part once"><p class="plabel">Code the message and the alphabet, and print them in the terminal. This runs once.</p><pre><code>coded = shift_by(MESSAGE, KEY)
+coded_row = shift_by(ALPHABET, KEY)
+print(f&quot;plain: {MESSAGE}&quot;)
+print(f&quot;coded: {coded}&quot;)
+print(f&quot;coded row: {coded_row}&quot;)</code></pre></div><div class="part once"><p class="plabel">Set up the window, the clock, and the two accumulators. This runs once.</p><pre><code>pygame.init()
+screen = pygame.display.set_mode((640, 400))
+clock = pygame.time.Clock()
+
+frame = 0
+shown = 0
+running = 1</code></pre></div><div class="part frame"><p class="plabel">The loop. Every line indented under it runs again on every frame, up to 60 times a second.</p><pre><code>while running:</code></pre></div><div class="part frame"><p class="plabel">1. Read the events.</p><pre><code>    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = 0</code></pre></div><div class="part frame"><p class="plabel">2. Draw the background and the two rows of tiles.</p><pre><code>    screen.fill(BOARD)
+
+    for i in range(26):
+        x = 20 + i * 23
+        pygame.draw.rect(screen, TILE, (x, 130, 20, 26))
+        letters.draw_letter(screen, ALPHABET[i], x + 7, 138, 2, TILE_INK)
+        pygame.draw.rect(screen, CODED_TILE, (x, 190, 20, 26))
+        letters.draw_letter(screen, coded_row[i], x + 7, 198, 2, CODED_INK)</code></pre></div><div class="part frame"><p class="plabel">3. Box the letter being coded.</p><pre><code>    if shown &lt; len(MESSAGE) and MESSAGE[shown] != &quot; &quot;:
+        spot = ord(MESSAGE[shown]) - ord(&quot;a&quot;)
+        x = 20 + spot * 23
+        pygame.draw.rect(screen, GLOW, (x - 3, 127, 26, 32), 3)
+        pygame.draw.rect(screen, GLOW, (x - 3, 187, 26, 32), 3)</code></pre></div><div class="part frame"><p class="plabel">4. Draw the message, and the coded letters that are showing.</p><pre><code>    letters.draw_word(screen, MESSAGE, 40, 50, 4, PLAIN_INK)
+    for i in range(shown):
+        letters.draw_letter(screen, coded[i], 40 + i * 16, 280, 4, CODED_INK)</code></pre></div><div class="part frame"><p class="plabel">5. Count the frame. On every 30th frame, one more coded letter shows.</p><pre><code>    frame = frame + 1
+    if frame % 30 == 0 and shown &lt; len(MESSAGE):
+        shown = shown + 1</code></pre></div><div class="part frame"><p class="plabel">6. Show the drawing, then wait.</p><pre><code>    pygame.display.flip()
+    clock.tick(60)</code></pre></div><div class="part after"><p class="plabel">After the loop. This runs once, when the loop stops.</p><pre><code>pygame.quit()</code></pre></div></div>
 </section>
 <section class="brief"><h2>Exits</h2><div class="exits"><div class="exit"><span class="lab">FLOOR</span><p>You ran all four programs, and you can point to the line that keeps the window open and the line that lets it close.</p></div><div class="exit"><span class="lab">MIDDLE</span><p>Floor, plus your own <code>MESSAGE</code> and <code>KEY</code> in <code>cipher_console.py</code>, plus the coded letters appearing twice as fast. Say which number you changed and why.</p></div><div class="exit"><span class="lab">STRETCH</span><p>Middle, plus pressing R starts the coded message again from nothing. Work it out below.</p></div></div><div class="predict"><b>Predict first.</b> Make the R key start the coded message again from nothing.
 <button class="rev" data-target="ladder-replay-1" data-show="Hint 1" data-hide="Hide hint 1" aria-expanded="false" aria-controls="ladder-replay-1">Hint 1</button>

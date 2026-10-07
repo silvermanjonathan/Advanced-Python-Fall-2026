@@ -3,7 +3,7 @@
 import base64
 import os
 
-from build import code, downloads, laddered, masthead, output, pager, reveal
+from build import code, downloads, labelled_code, laddered, masthead, output, pager, reveal
 from days38 import exits
 from stds import panel
 
@@ -118,6 +118,46 @@ def _shift(text, amount):
     return ns["shift_by"](text, amount)
 
 
+WINDOW_PARTS = [
+    ('"""Cipher console, step 1', "The docstring: one sentence saying what the "
+     "program is for.", ""),
+    ("import pygame", "Bring in pygame, the same way <code>import sweep_tools</code> "
+     "brought in your own module in session 2.", ""),
+    ("BOARD =", "A color for the background.", ""),
+    ("pygame.init()", "Set up. This runs once.", "once"),
+    ("while running:", "The loop. Every line indented under it runs again on every "
+     "frame, up to 60 times a second.", "frame"),
+    ("for event in", "1. Read the events.", "frame"),
+    ("screen.fill", "2. Draw.", "frame"),
+    ("pygame.display.flip", "3. Show the drawing, then wait.", "frame"),
+    ("pygame.quit", "After the loop. This runs once, when the loop stops.", "after"),
+]
+
+CONSOLE_PARTS = [
+    ('"""Cipher console', "The docstring: one sentence saying what the program is "
+     "for.", ""),
+    ("import pygame", "Bring in pygame and <code>letters.py</code>.", ""),
+    ("MESSAGE =", "The two lines you change, and the alphabet.", ""),
+    ("BOARD =", "Colors, each one (red, green, blue).", ""),
+    ("def shift_by", "<code>shift_by</code>, your function from session 3.", ""),
+    ("coded = shift_by", "Code the message and the alphabet, and print them in the "
+     "terminal. This runs once.", "once"),
+    ("pygame.init()", "Set up the window, the clock, and the two accumulators. This "
+     "runs once.", "once"),
+    ("while running:", "The loop. Every line indented under it runs again on every "
+     "frame, up to 60 times a second.", "frame"),
+    ("for event in", "1. Read the events.", "frame"),
+    ("screen.fill", "2. Draw the background and the two rows of tiles.", "frame"),
+    ("if shown < len", "3. Box the letter being coded.", "frame"),
+    ("letters.draw_word", "4. Draw the message, and the coded letters that are "
+     "showing.", "frame"),
+    ("frame = frame + 1", "5. Count the frame. On every 30th frame, one more coded "
+     "letter shows.", "frame"),
+    ("pygame.display.flip", "6. Show the drawing, then wait.", "frame"),
+    ("pygame.quit", "After the loop. This runs once, when the loop stops.", "after"),
+]
+
+
 def console03():
     """Return the cipher console page body."""
     _shift_by_matches()
@@ -172,7 +212,11 @@ def console03():
     )
 
     b += '<h2><span class="num">2</span>A window<span class="mins">10 minutes</span></h2>'
-    b += code(_source("console_1_window.py"), "console_1_window.py")
+    b += (
+        "<p>Here is the first program, split into its parts. The label on each part "
+        "says what the part does and when it runs: once, or again on every frame.</p>"
+    )
+    b += labelled_code(_source("console_1_window.py"), WINDOW_PARTS, "console_1_window.py")
     b += (
         "<p>Run it. A dark window opens and the terminal prints one line. The window "
         "stays open until you click its close button.</p>"
@@ -436,6 +480,15 @@ def console03():
             "The finished console: dwwdfn dw gdzq complete at the bottom and no boxes.",
         ),
     )
+
+    b += "<h3>The whole program</h3>"
+    b += (
+        "<p>Here is <code>cipher_console.py</code> from top to bottom, with the same "
+        "kind of labels as section 2. Compare it with step 1: the loop still has the "
+        "same three jobs, read the events, draw, and show. Steps 2 to 5 are all "
+        "drawing and counting.</p>"
+    )
+    b += labelled_code(_source("cipher_console.py"), CONSOLE_PARTS, "cipher_console.py")
 
     b += exits(
         "You ran all four programs, and you can point to the line that keeps the window "

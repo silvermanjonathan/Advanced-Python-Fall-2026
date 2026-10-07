@@ -114,6 +114,15 @@ pre{
   padding:16px 18px; overflow-x:auto; margin:0 0 16px; font-weight:500;
 }
 pre code{background:none; padding:0; font-size:inherit; font-weight:inherit; color:inherit}
+/* code split into labelled parts: the label says what the part does and when it runs */
+.parts{margin:0 0 16px}
+.part{border:2px solid var(--rule); border-left:8px solid #B9AF96; border-radius:4px;
+  background:var(--code-bg); margin:0 0 6px}
+.part .plabel{margin:0; padding:8px 16px 0; font-size:15px; font-weight:700; color:var(--ink-soft)}
+.part pre{border:0; border-radius:0; margin:0; padding:4px 16px 10px; background:transparent}
+.part.once{border-left-color:var(--teal)} .part.once .plabel{color:var(--teal-deep)}
+.part.frame{border-left-color:var(--ochre-line); background:#F6EEDB} .part.frame .plabel{color:var(--ochre)}
+.part.after{border-left-color:var(--clay)} .part.after .plabel{color:var(--clay)}
 .fname{
   font-family:'JetBrains Mono',monospace; font-size:12.5px; letter-spacing:.1em;
   text-transform:uppercase; color:var(--ink-soft); margin:0 0 6px; font-weight:700;
@@ -254,6 +263,8 @@ footer p{margin:0}
 .row .t a{text-decoration:none}
 .row .s{display:block; font-weight:400; font-size:16px; color:var(--ink-soft); max-width:62ch}
 .row.off{border-left-color:var(--clay); background:#FBF9F3}
+.row.extra{border-left-color:var(--ochre-line); background:var(--ochre-tint)}
+.row.extra .n{color:var(--ochre)}
 .row.off .n{color:var(--clay)}
 
 @media (max-width:760px){
@@ -397,6 +408,34 @@ def laddered(question, hints, answer, slug):
             f'<div class="ans" id="{hid}">{hints[n - 1]}{inner}</div>\n'
         )
     return f'<div class="predict"><b>Predict first.</b> {question}\n{inner}</div>\n'
+
+
+def labelled_code(source, parts, fname=None):
+    """Return source split into labelled parts.
+
+    parts is a list of (first line, label, kind). Each part runs from the line that
+    starts with its first line up to the next part. kind is "once", "frame", "after",
+    or "" and sets the colour. Every non-blank line of source must land in a part.
+    """
+    lines = source.rstrip("\n").split("\n")
+    starts = []
+    at = 0
+    for first, _label, _kind in parts:
+        while not lines[at].strip().startswith(first):
+            at += 1
+        starts.append(at)
+        at += 1
+    assert all(not ln.strip() for ln in lines[: starts[0]]), "lines before the first part"
+    out = f'<p class="fname">{esc(fname)}</p>\n' if fname else ""
+    out += '<div class="parts">'
+    for k, (_first, label, kind) in enumerate(parts):
+        end = starts[k + 1] if k + 1 < len(parts) else len(lines)
+        chunk = "\n".join(lines[starts[k]:end]).strip("\n")
+        out += (
+            f'<div class="part {kind}"><p class="plabel">{label}</p>'
+            f"<pre><code>{html.escape(chunk)}</code></pre></div>"
+        )
+    return out + "</div>\n"
 
 
 def downloads(*files, extra=""):
