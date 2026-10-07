@@ -8,8 +8,8 @@ SESSIONS = [
      "Trace 60 lines of an unfamiliar working program, then rename everything in it. Session 1 also shows where the room is."),
     ("02", "23 Sep", "wed02_return_and_modules.html", "Functions that return a value",
      "return, composition, and splitting a program into your own importable module."),
-    ("03", "30 Sep", "wed03_counting.html", "Counting, and a cipher in a window",
-     "Accumulators and dictionaries, then write a Caesar cipher and put it in a pygame "
+    ("03", "30 Sep", "wed03_counting.html", "A cipher in a window",
+     "The accumulator pattern again, then write a Caesar cipher and put it in a pygame "
      "window."),
     ("04", "7 Oct", "wed04_transposition.html", "Ciphers that move letters",
      "Rail fence, then a route cipher on a list-of-lists grid with a signed key."),
@@ -42,8 +42,9 @@ SESSIONS = [
 LIFTED = [
     ("Session 2", "<code>return</code> values, <code>len()</code>, <code>import</code> "
      "of your own module, <code>and</code> to join two comparisons"),
-    ("Session 3", "the word accumulator, the empty string, <code>+</code> to join strings, dictionaries, "
-     "<code>ord</code> and <code>chr</code>, indexing a string, tuples, and a pygame "
+    ("Session 3", "the word accumulator, the empty string, <code>+</code> to join strings, "
+     "<code>ord</code> and <code>chr</code>, indexing a string, the words dictionary "
+     "and key, tuples, and a pygame "
      "window: the event loop, frames, <code>pygame.draw.rect</code>"),
     ("Session 4", "list of lists as a grid, slicing, <code>range</code> with a negative "
      "step, <code>abs</code>, <code>.join()</code>"),
@@ -140,9 +141,9 @@ def hub():
         '<span class="t"><a href="extra_crack_caesar.html">Break a Caesar cipher by '
         "counting letters</a>"
         '<span class="s">Count the letters of a coded message, turn the most common one '
-        "into a key, and decode it without trying every key. Teaches "
-        "<code>collections.Counter</code> first, then uses it with "
-        "<code>shift_by</code> from session 3. About 35 minutes.</span></span></div>"
+        "into a key, and decode it without trying every key. Teaches dictionaries and "
+        "<code>collections.Counter</code> first, then uses them with "
+        "<code>shift_by</code> from session 3. About 40 minutes.</span></span></div>"
         "</div>"
     )
 

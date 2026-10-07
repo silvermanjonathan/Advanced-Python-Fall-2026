@@ -20,7 +20,7 @@ PAGES = [
     ("wed01_worksheet_key.html", "Session 1 worksheet: teacher's answer key", worksheet01_key),
     ("wed01_doors_trace.html", "Session 1: watch the door trace fill in", trace01),
     ("wed02_return_and_modules.html", "Session 2: functions that return a value", day02),
-    ("wed03_counting.html", "Session 3: counting, and a cipher in a window", day03),
+    ("wed03_counting.html", "Session 3: a cipher in a window", day03),
     ("wed04_transposition.html", "Session 4: ciphers that move letters", day04),
     ("wed05_hashing.html", "Session 5: your seal, and a real one", day05),
     ("wed06_what_it_costs.html", "Session 6: what a program costs", day06),

@@ -1,4 +1,4 @@
-"""Session 3, section 4: the Caesar cipher in a pygame window."""
+"""Session 3, section 3: the Caesar cipher in a pygame window."""
 
 import base64
 import os
@@ -125,7 +125,7 @@ CONSOLE_PARTS = [
     ("import pygame", "Bring in pygame and <code>letters.py</code>.", ""),
     ("MESSAGE =", "The two lines you change, and the alphabet.", ""),
     ("BOARD =", "Colors, each one (red, green, blue).", ""),
-    ("def shift_by", "<code>shift_by</code>, your function from section 3.", ""),
+    ("def shift_by", "<code>shift_by</code>, your function from section 2.", ""),
     ("coded = shift_by", "Code the message and the alphabet, and print them in the "
      "terminal. This runs once.", "once"),
     ("pygame.init()", "Set up the window, the clock, and the two accumulators. This "
@@ -235,7 +235,7 @@ def _new(n, k):
 
 
 def console_section():
-    """Return session 3's section 4, its stretch exit, and its answer key."""
+    """Return session 3's section 3, its stretch exit, and its answer key."""
     _shift_by_matches()
     _check_steps()
     a_rows = [".#.", "#.#", "###", "#.#", "#.#"]
@@ -250,8 +250,8 @@ def console_section():
     )
 
     b = (
-        '<h2><span class="num">4</span>The cipher console in pygame'
-        '<span class="mins">30 minutes</span></h2>'
+        '<h2><span class="num">3</span>The cipher console in pygame'
+        '<span class="mins">40 minutes</span></h2>'
         "<p>Now put your cipher in a window. The alphabet sits on top, the coded "
         "alphabet sits under it, and the coded message appears one letter at a "
         "time.</p>"
@@ -265,7 +265,7 @@ def console_section():
         "<p>If your browser saves the starter as <code>cipher_console_starter.py</code>, "
         "rename it to <code>cipher_console.py</code>.</p>"
         "<p>The starter already has the lines that do not use pygame: the message and "
-        "the key, the colors, your <code>shift_by</code> from section 3, and the lines "
+        "the key, the colors, your <code>shift_by</code> from section 2, and the lines "
         "that code the message and print it. You type the pygame code yourself, in four "
         "steps, into the same file, and run it after every step.</p>"
         "<p>If the program stops with <code>ModuleNotFoundError: No module named "
@@ -401,9 +401,11 @@ def console_section():
     b += "<h3>Step 3: letters</h3>"
     b += (
         "<p>This course does not use pygame to write words, so each letter is drawn "
-        "from small squares. <code>letters.py</code> holds a dictionary called "
-        "<code>SHAPES</code> with one entry for each letter and one for the space. Here "
-        "is the entry for <code>a</code>:</p>"
+        "from small squares. <code>letters.py</code> holds a <b>dictionary</b> called "
+        "<code>SHAPES</code>. A dictionary stores each value under a name called a "
+        "<b>key</b>. In <code>SHAPES</code> each key is a letter, or the space, and its "
+        "value is that letter's picture. Here is the entry for <code>a</code>: the key "
+        "<code>\"a\"</code>, a colon, then the value.</p>"
     )
     b += code('"a": [".#.", "#.#", "###", "#.#", "#.#"],', "letters.py, one entry of SHAPES")
     b += (
@@ -466,9 +468,10 @@ def console_section():
         f"with <code>{key10[0]}</code> and ends with <code>{key10[-1]}</code>.</p>"
         f"<p><b>MESSAGE rules.</b> Keep <code>MESSAGE</code> to {fits} characters or "
         "fewer, or the end runs off the right edge. Use lowercase letters and spaces "
-        "only. <code>SHAPES</code> has no entry for a capital letter or a period, so "
-        "<code>MESSAGE = \"Attack at dawn\"</code> stops with the same error a plain "
-        "dictionary gave you in section 2 for a missing key:</p>"
+        "only. <code>SHAPES</code> has no key for a capital letter or a period, and "
+        "asking a dictionary for a key it does not have stops the program with "
+        "<code>KeyError</code>. So <code>MESSAGE = \"Attack at dawn\"</code> stops "
+        "like this, and the last line names the missing key:</p>"
     )
     b += output("KeyError: 'A'")
 

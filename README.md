@@ -493,3 +493,13 @@ Known corrections made before first printing:
     minutes and the exits are back to 5. Session 9 uses a Counter in `benford.py`, so
     it now says in one paragraph what a Counter is and what `+= 1` means, and lists
     both as new that week. Session 4's opener, the hub and the programs table follow.
+40. Session 3's parallel list section is gone. Session 3 is now 15 opener, 30 the
+    cipher and `shift_by`, 40 the console, 5 exits, titled "A cipher in a window".
+    The words dictionary and key are defined where the console first meets `SHAPES`,
+    with `KeyError` for a capital letter. The plain dictionary example and its
+    `KeyError` question moved to the Extras page, whose section 1 is now "Dictionaries
+    and Counter" (15 minutes, page about 40). Pages that pointed back to session 3's
+    lists or dictionaries now stand on their own: session 9 defines a row as a
+    dictionary like `SHAPES`, session 10 compares `defaultdict` with a plain dictionary
+    and session 9's Counter, session 11's opener explains lists kept in step itself,
+    and session 4's opener no longer mentions a dictionary.

@@ -254,7 +254,7 @@ print(f"q {q}")""",
         "again by hand with a new list of five readings. Build only "
         "<code>total_of</code>, <code>count_over</code>, and <code>best_index</code>, "
         "and drop <code>average_of</code> and <code>last_best_index</code>.</p>"
-        "<p>Session 3: keep the hand encode and the dictionary. Run the cipher console "
+        "<p>Session 3: keep the hand encode. Run the cipher console "
         "as a projected demo you do together rather than a build. Students who could "
         "not trace an accumulator in session 1 still reach that session's floor: they "
         "encode by hand and run the four console programs. From session 4 the pace "
@@ -843,6 +843,6 @@ first over 55 at index 1"""
     )
     b += pager(
         ("wed01_cold_read.html", "Session 1: cold read"),
-        ("wed03_counting.html", "Session 3: counting and a cipher"),
+        ("wed03_counting.html", "Session 3: a cipher in a window"),
     )
     return b

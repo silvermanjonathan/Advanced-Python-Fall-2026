@@ -276,8 +276,8 @@ footer p{margin:0}
 <main><div class="wrap">
 
 <section class="opener"><p class="chunk-no">Section 1 &middot; 10 minutes</p><h2>Opener</h2><p>Last week gravity was <code>self.dy = self.dy + GRAVITY</code>, always straight down. Today it points at a planet that can be anywhere. On paper: if the planet is at (400, 300) and the ship is at (400, 120), which way does gravity point, and how do you compute the distance?</p><div class="predict"><b>Predict first.</b> Both, before you click.
-<button class="rev" data-target="a48" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a48">Show the answer</button>
-<div class="ans" id="a48"><p>Straight down the screen, because the ship is directly above the planet, and the distance is 180.</p><p>The general rule, in case you have not met it: if two points are <code>a</code> apart across and <code>b</code> apart up, the straight-line distance between them is the square root of <code>a</code> squared plus <code>b</code> squared. That is the Pythagorean theorem, and it is the one piece of geometry this session needs. Here the across gap is 0, so the distance is just 300 minus 120.</p><p>With gaps of 100 across and 80 up you need the whole rule: the distance is the square root of 10000 plus 6400, which is about 128.</p><p>When the ship is off to one side, both differences matter and you need the full calculation.</p></div></div>
+<button class="rev" data-target="a47" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a47">Show the answer</button>
+<div class="ans" id="a47"><p>Straight down the screen, because the ship is directly above the planet, and the distance is 180.</p><p>The general rule, in case you have not met it: if two points are <code>a</code> apart across and <code>b</code> apart up, the straight-line distance between them is the square root of <code>a</code> squared plus <code>b</code> squared. That is the Pythagorean theorem, and it is the one piece of geometry this session needs. Here the across gap is 0, so the distance is just 300 minus 120.</p><p>With gaps of 100 across and 80 up you need the whole rule: the distance is the square root of 10000 plus 6400, which is about 128.</p><p>When the ship is off to one side, both differences matter and you need the full calculation.</p></div></div>
 </section>
 <section class="chunk"><p class="chunk-no">Section 2 &middot; 30 minutes</p><h2>Falling sideways</h2><p class="fname">orbit.py</p>
 <pre><code>    def distance(self):
@@ -302,8 +302,8 @@ footer p{margin:0}
         self.trail.append((self.x, self.y))</code></pre>
 <div class="toolbar"><a class="btn quiet" href="orbit.py" download="orbit.py">Download orbit.py</a></div>
 <p>Three things are happening. <code>PULL / (r * r)</code> makes gravity weaker further out. <code>gap_x / r</code> and <code>gap_y / r</code> split that pull into its across and down parts, in proportion to how much of the gap lies along each axis. And <code>DT</code> is how big a slice of time each frame stands for.</p><div class="predict"><b>Predict first.</b> The ship starts at (400, 120) with <code>dx = 3.8</code> and <code>dy = 0</code>, so it is moving sideways at 180 pixels out. Does it fall into the planet, fly away, or go round?
-<button class="rev" data-target="a49" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a49">Show the answer</button>
-<div class="ans" id="a49"><div class="out"><span class="tag">verified from a headless run</span><pre><code>frames: 1201, trail points: 1202
+<button class="rev" data-target="a48" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a48">Show the answer</button>
+<div class="ans" id="a48"><div class="out"><span class="tag">verified from a headless run</span><pre><code>frames: 1201, trail points: 1202
 closest approach 60.1 px, farthest 180.0 px
 start distance 180.0 px, end distance 131.5 px
 final speed 5.94 px per step
@@ -317,8 +317,8 @@ distance at a few frames:
   frame 1200:  133.2 px</code></pre></div>
 <p>Round. The distance falls from 180 to about 60, climbs back to 178, and keeps cycling for all 1200 frames, which is twenty seconds at sixty frames a second. The planet's radius is 26, so a closest approach of 60 clears it.</p><p>The ship is falling the whole time. It never stops falling. It keeps missing, because it also has sideways speed, and the two together make a closed path.</p></div></div>
 <p>Change <code>dx</code> to 2.0 and the ship falls through the planet. Change it to 6.5 and it leaves the window. There is a band of starting speeds that stay on screen and clear the planet. Find both edges of the band by trying values, and write both numbers down before you look.</p><div class="predict"><b>Predict first.</b> Both edges, to one decimal place. Then a harder one: at what <code>dx</code> does the ship stop coming back at all?
-<button class="rev" data-target="a50" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a50">Show the answer</button>
-<div class="ans" id="a50"><div class="out"><span class="tag">verified from headless runs of orbit.py with those values</span><pre><code>1200 frames each. planet radius 26. window 800 by 600.
+<button class="rev" data-target="a49" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a49">Show the answer</button>
+<div class="ans" id="a49"><div class="out"><span class="tag">verified from headless runs of orbit.py with those values</span><pre><code>1200 frames each. planet radius 26. window 800 by 600.
   dx    DT    closest   farthest   frames off screen
   2.0   0.6        15        190       0
   2.8   0.6        29        180       0

@@ -334,9 +334,10 @@ def day09():
         "<code>csv</code> module asks for; leave it in.</li>"
         "<li><code>csv.DictReader(f)</code> reads the file one row at a time. The first "
         "line of the file, <code>source,amount</code>, gives the column names.</li>"
-        "<li>Each <code>row</code> is a dictionary, like the ones in session 3. The "
-        "column name is the key, so <code>row[\"amount\"]</code> is the amount on that "
-        "row.</li>"
+        "<li>Each <code>row</code> is a dictionary, the same kind of thing as "
+        "<code>SHAPES</code> in session 3's <code>letters.py</code>: it stores each value "
+        "under a name called a key. The column name is the key, so "
+        "<code>row[\"amount\"]</code> is the amount on that row.</li>"
         "</ul>"
     )
     b += reveal(
@@ -571,12 +572,13 @@ pygame.quit()''',
         "lesson. Thirty invented numbers from ten students is a small and unrepresentative "
         "sample, and <span class=\"std\">7.SP.A.1</span> is exactly about that.</p>"
         "<p>Watch for students reading <code>counts[leading_digit(...)] += 1</code> and "
-        "asking why it does not raise <code>KeyError</code> the way session 3's plain "
-        "dictionary did. Good question. A Counter supplies the zero.</p>"
+        "asking why it does not raise <code>KeyError</code> the way a plain dictionary "
+        "would. Good question. A Counter supplies the zero.</p>"
         "<p>Students will write a bare <code>except:</code> because it is shorter. Do "
         "not allow it. The hub's code rules say to catch one named error.</p>",
         retouch=(
-            "Session 3's dictionaries and the KeyError rule. Also session 8's habit of "
+            "Session 3's dictionary, <code>SHAPES</code>, and its KeyError. Also session "
+            "8's habit of "
             "writing the model down before measuring anything."
         ),
         extras=(
@@ -673,9 +675,9 @@ what followed ('the', 'machine'):
     )
     b += (
         "<p><code>defaultdict(list)</code> gives you an empty list for a key you have "
-        "not seen, so <code>.append</code> works the first time. Compare that to session "
-        "3, where a plain dictionary raised <code>KeyError</code> and you had to check "
-        "first.</p>"
+        "not seen, so <code>.append</code> works the first time. Compare that to a plain "
+        "dictionary, which stops with <code>KeyError</code> for a key it has not seen, "
+        "and to session 9's Counter, which starts a new key at 0.</p>"
     )
 
     b += '<h2><span class="num">3</span>Let it write<span class="mins">25 minutes</span></h2>'
@@ -736,7 +738,7 @@ what followed ('the', 'machine'):
     b += exits(
         "The table builds and you can read off what followed a pair you choose.",
         "Floor, plus generation running on the supplied corpus, plus you can explain what "
-        "<code>defaultdict</code> saves you compared with session 3.",
+        "<code>defaultdict</code> saves you compared with a plain dictionary.",
         "Middle, plus swap in your own corpus, at least 2000 words, and compare the "
         "output quality. Then change the pair to a single word and to three words, and "
         "report what happens at each: one word wanders badly, three words quotes the "
@@ -758,7 +760,7 @@ what followed ('the', 'machine'):
         "<code>defaultdict</code> silently inserts an empty list for a missing key, so generating adds keys to the model without telling you. Harmless here, worth pointing at, and a "
         "good stretch fix using <code>.get</code> instead.</p>",
         retouch=(
-            "Session 3's dictionary and KeyError, now solved a second way with "
+            "Session 9's Counter and the KeyError it avoids, now solved a second way with "
             "<code>defaultdict</code>. Session 8's discipline of stating a probability "
             "model and then measuring against it."
         ),
@@ -791,8 +793,9 @@ def day11():
     )
     b += '<h2><span class="num">1</span>Opener<span class="mins">10 minutes</span></h2>'
     b += (
-        "<p>Session 3 showed two lists kept in step to count letters. Here are five, "
-        "tracking four sparks that are being pulled downward one frame at a time.</p>"
+        "<p>Here are five lists kept in step: item 0 of every list belongs to the first "
+        "spark, item 1 to the second, and so on. They track four sparks that are being "
+        "pulled downward one frame at a time.</p>"
     )
     b += code(
         """xs = [100, 100, 100, 100]
@@ -969,7 +972,7 @@ trail lengths: shortest 92, longest 183""",
         "board first: a <code>Pet</code> with a name and a hunger level, one method "
         "that feeds it. Five minutes, then come back to the particle.</p>",
         retouch=(
-            "The parallel list problem from session 3, now solved properly. Also "
+            "Parallel lists, shown going wrong in the opener, now solved properly. Also "
             "session 4's row and column coordinates, reappearing as screen coordinates "
             "with the y axis flipped."
         ),

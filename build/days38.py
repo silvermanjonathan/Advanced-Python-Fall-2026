@@ -137,14 +137,14 @@ def _accumulator_parts():
 
 
 def day03():
-    """Session 3: accumulators, dicts, counting, a Caesar cipher, and the cipher console."""
+    """Session 3: accumulators, a Caesar cipher, and the cipher console."""
     b = masthead(
         "03",
-        "Counting, and a cipher in a window",
+        "A cipher in a window",
         "Wednesday 30 September 2026",
-        "A dictionary keeps each letter together with its count, so you do not need "
-        "two separate lists. Then you will learn what a Caesar cipher is, write one, and "
-        "put it in a pygame window.",
+        "First the accumulator pattern again, because today's code is full of it. Then "
+        "you will learn what a Caesar cipher is, write one, and put it in a pygame "
+        "window.",
     )
     parts = _accumulator_parts()
     console, console_stretch, console_key = console_section()
@@ -157,7 +157,7 @@ def day03():
         "each reading to a running total. In session 2, <code>hits = hits + 1</code> in "
         "<code>count_over</code> added 1 each time the gate said yes. A variable that is "
         "updated like this on every pass of a loop is called an <b>accumulator</b>. "
-        "Sections 3 and 4 today each have one, so here is the pattern again.</p>"
+        "Sections 2 and 3 today each have one, so here is the pattern again.</p>"
         "<p>An accumulator has three parts:</p>"
         '<ol class="tight">'
         "<li><b>Before the loop</b>, the variable gets its starting value.</li>"
@@ -209,7 +209,7 @@ def day03():
         "string on the left comes first.</p>",
     )
     b += (
-        "<p>In section 3 you will build a coded message this way, one letter at a "
+        "<p>In section 2 you will build a coded message this way, one letter at a "
         "time, starting from <code>out = \"\"</code>.</p>"
     )
 
@@ -232,56 +232,11 @@ def day03():
     return hits"""
         )
         + "<p><code>hits = 0</code> is part 1. <code>hits = hits + 1</code> is part 2, "
-        "and it runs when the gate says yes. <code>return hits</code> is part 3.</p>"
-        "<p>Now imagine calling that 26 times, once per letter. It works, and it reads "
-        "the whole text 26 times. Section 2 fixes that.</p>",
-    )
-
-    b += '<h2><span class="num">2</span>The parallel list problem<span class="mins">10 minutes</span></h2>'
-    b += (
-        "<p>Here is the version without a dictionary. One list holds the letters. A "
-        "second list holds their counts, in the same order. <code>counts[0]</code> is "
-        "the count for <code>a</code>, <code>counts[1]</code> is the count for "
-        "<code>b</code>, and so on. The count for a letter is at the same index as "
-        "the letter.</p>"
-    )
-    b += code(
-        """letters = ["a", "b", "c"]
-counts = [0, 0, 0]
-
-# add 1 to the count for "b":
-# find the index of "b" in letters, then add 1 at that index in counts
-for i in range(3):
-    if letters[i] == "b":
-        counts[i] = counts[i] + 1"""
-    )
-    b += (
-        "<p>The <code>counts</code> list has no letters in it, only numbers. To add 1 "
-        "to the count for <code>b</code>, the program first has to find out which index "
-        "<code>b</code> is at, so it loops through <code>letters</code> until it finds "
-        "it. Here <code>b</code> is at index 1, so the 1 is added to "
-        "<code>counts[1]</code>. With 26 letters, every single count starts with a "
-        "search through up to 26 items.</p>"
-    )
-    b += (
-        "<p>A dictionary removes the search. The letter is the key. The count is the "
-        "value. No index, no second list, no keeping anything in step.</p>"
-    )
-    b += code(
-        """counts = {}
-counts["b"] = 0
-counts["b"] = counts["b"] + 1
-print(counts)"""
-    )
-    b += reveal(
-        "What prints? And what happens if you run <code>counts[\"z\"] + 1</code> "
-        "without setting <code>counts[\"z\"]</code> first?",
-        output("{'b': 1}")
-        + "<p>The second one raises <code>KeyError: 'z'</code>. A dictionary does not start a missing key at zero for you.</p>",
+        "and it runs when the gate says yes. <code>return hits</code> is part 3.</p>",
     )
 
     b += (
-        '<h2><span class="num">3</span>What a Caesar cipher is'
+        '<h2><span class="num">2</span>What a Caesar cipher is'
         '<span class="mins">30 minutes</span></h2>'
     )
     b += (
@@ -414,17 +369,17 @@ print(shift_by("gdzq", -3))''',
     b += answer_key(
         console_key,
         "console",
-        "For section 4: the whole of <code>cipher_console.py</code> after each step. "
+        "For section 3: the whole of <code>cipher_console.py</code> after each step. "
         "Open it to check a program that will not run, or one that does something "
         "different.",
     )
     b += panel(
-        ["6.SP.B.5.a", "6.RP.A.3", "MP7"],
-        "<p>15 opener with the accumulator review, 10 parallel lists and dictionaries, "
-        "30 the cipher by hand and <code>shift_by</code> written, 30 the cipher console, "
-        "5 exits. The stretch can go home. <code>Counter</code> is on the Extras page, "
-        "with breaking the cipher, because that is where it is used. Assume no student has seen a cipher or a pygame window before. Do not "
-        "cut section 3 to make room for the console. A console for a cipher the "
+        ["6.RP.A.3", "MP7"],
+        "<p>15 opener with the accumulator review, 30 the cipher by hand and "
+        "<code>shift_by</code> written, 40 the cipher console, 5 exits. Dictionaries and "
+        "<code>Counter</code> are on the Extras page, with breaking the cipher, because "
+        "that is where they are used. Assume no student has seen a cipher or a pygame "
+        "window before. Do not cut section 2 to make room for the console. A console for a cipher the "
         "students did not build teaches nothing about the cipher.</p>"
         "<p>Students download two files, the starter and <code>letters.py</code>, and "
         "type the pygame code into the starter one step at a time. The starter already "
@@ -439,10 +394,10 @@ print(shift_by("gdzq", -3))''',
         "<p>Expect <code>ord</code> and <code>chr</code> to feel arbitrary. The fix is "
         "to say the actual numbers do not matter, only that they run in order. Nobody "
         "needs to memorise 97.</p>"
-        "<p><code>KeyError</code> is the new traceback this week and students read it as "
-        "a crash rather than as information. Say the sentence out loud: a dictionary "
-        "does not start a missing key at zero for you. It comes back in step 3 of the "
-        "console, when a capital letter has no entry in <code>SHAPES</code>.</p>"
+        "<p><code>KeyError</code> is new this week. It turns up in step 3 of the "
+        "console, when a capital letter has no entry in <code>SHAPES</code>. Students "
+        "read it as a crash rather than as information. Point at the last line: it names "
+        "the key that was missing.</p>"
         "<p>In the window, y points down. Students who have graphed points in math "
         "will expect <code>y = 130</code> near the bottom. Point at the diagram in step "
         "2 before they run it.</p>"
@@ -461,8 +416,8 @@ print(shift_by("gdzq", -3))''',
         ),
         extras=(
             "<h3>Files</h3><p><code>accumulators.py</code> for the opener, shown in "
-            "three parts. <code>caesar_encode.py</code> for section 3, the answer to the "
-            "<code>shift_by</code> step. For section 4: <code>letters.py</code> (a "
+            "three parts. <code>caesar_encode.py</code> for section 2, the answer to the "
+            "<code>shift_by</code> step. For section 3: <code>letters.py</code> (a "
             "module, never prints) and <code>cipher_console_starter.py</code>, which "
             "downloads as <code>cipher_console.py</code>; then the answer-key files "
             "<code>cipher_console_step1.py</code> to <code>cipher_console_step3.py</code> "
@@ -477,14 +432,15 @@ print(shift_by("gdzq", -3))''',
             "2.6.1. Confirm pygame is installed on the classroom machines before this "
             "session.</p>"
             "<h3>Lifted this week</h3><p>The word accumulator, the empty string, "
-            "<code>+</code> to join strings, dictionaries, "
+            "<code>+</code> to join strings, "
             "<code>ord</code> and <code>chr</code>, "
-            "indexing a string, tuples, and a pygame window: the event loop, frames, "
+            "indexing a string, the words dictionary and key (for <code>SHAPES</code>), "
+            "<code>KeyError</code>, tuples, and a pygame window: the event loop, frames, "
             "<code>pygame.draw.rect</code>.</p>"
             "<h3>Assumed knowledge</h3><p>None beyond the hub prerequisites plus the "
-            "<code>%</code> wrap from session 1. Section 3 teaches what a cipher is, "
+            "<code>%</code> wrap from session 1. Section 2 teaches what a cipher is, "
             "including the words plaintext, ciphertext, and key, and assumes students "
-            "have never used one. Section 4 assumes no pygame.</p>"
+            "have never used one. Section 3 assumes no pygame.</p>"
         ),
     )
     b += pager(
@@ -506,9 +462,10 @@ def day04():
     )
     b += '<h2><span class="num">1</span>Opener<span class="mins">10 minutes</span></h2>'
     b += (
-        "<p>In session 3 you built a Caesar cipher and used a dictionary to keep a count "
-        "for each letter. Question on paper: if I rearrange the letters of a "
-        "message without replacing any of them, what happens to the letter counts?</p>"
+        "<p>In session 3 you built a Caesar cipher, which replaces each letter with a "
+        "different one. Question on paper: if I rearrange the letters of a message "
+        "without replacing any of them, what happens to the letter counts, the number "
+        "of times each letter appears?</p>"
     )
     b += reveal(
         "Answer before you click.",
@@ -652,7 +609,7 @@ route    etnheantarhtmaettdetogaw"""
         "<p><code>range(len(grid) - 1, -1, -1)</code> reads as gibberish at first. Walk "
         "it once out loud: start at the last row, stop before -1, step backwards.</p>",
         retouch=(
-            "Session 3's letter counts, and the frequency attack from the Extras "
+            "Session 3's Caesar cipher, and the frequency attack from the Extras "
             "page, revisited to show what counting cannot do. The opener makes students "
             "state that letter counts survive transposition, which is what this session "
             "is about."
@@ -666,7 +623,7 @@ route    etnheantarhtmaettdetogaw"""
         ),
     )
     b += pager(
-        ("wed03_counting.html", "Session 3: counting and a cipher"),
+        ("wed03_counting.html", "Session 3: a cipher in a window"),
         ("wed05_hashing.html", "Session 5: seals and real hashes"),
     )
     return b
