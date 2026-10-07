@@ -11,21 +11,92 @@ def extra_crack():
         None,
         "Break a Caesar cipher by counting letters",
         "Any time after session 3",
-        "Somebody encoded a message with a key you do not have. Count its letters, turn "
-        "the most common one into a key, and decode it, without trying every key.",
+        "Learn Counter, a dictionary made for counting. Then count the letters of a "
+        "message somebody encoded with a key you do not have, turn the most common one "
+        "into a key, and decode it, without trying every key.",
         time=None,
-        length="About 25 minutes",
+        length="About 35 minutes",
         eyebrow="Advanced Python &middot; Robofun &middot; Extra",
     )
     b += (
-        "<p>This page uses two things from session 3: <code>shift_by</code>, the "
-        "function you wrote in section 3, and <code>Counter</code>, from section 2.</p>"
+        "<p>This page uses two things from session 3: dictionaries, from section 2, "
+        "and <code>shift_by</code>, the function you wrote in section 3.</p>"
         '<div class="toolbar"><a class="btn quiet" href="wed03_counting.html">Back to '
         "session 3</a></div>"
     )
 
+    b += '<h2><span class="num">1</span>Counter<span class="mins">10 minutes</span></h2>'
     b += (
-        '<h2><span class="num">1</span>Break one'
+        "<p>In session 3 you counted with a plain dictionary. You had to set a key to 0 "
+        "before you could add 1 to it, or Python stopped with <code>KeyError</code>. "
+        "Here is that example again, with a label on its print line.</p>"
+    )
+    b += code(
+        """counts = {}
+counts["b"] = 0
+counts["b"] = counts["b"] + 1
+print(f"made without Counter: {counts}")"""
+    )
+    b += output("made without Counter: {'b': 1}")
+    b += (
+        "<p><code>collections</code> is a module that comes with Python, the same way "
+        "<code>sweep_tools</code> was your own module in session 2. The line "
+        "<code>from collections import Counter</code> takes one thing out of it, "
+        "<code>Counter</code>, so you can write <code>Counter</code> instead of "
+        "<code>collections.Counter</code>. That import line goes at the top of any file "
+        "that uses a Counter.</p>"
+        "<p>A <b>Counter</b> is a dictionary made for counting. Give it a string and it "
+        "counts every character. Here is what else it can do.</p>"
+    )
+    b += code(
+        """from collections import Counter
+
+counts = Counter("banana")
+print(f"made with Counter: {counts}")
+print(counts["a"])
+print(counts["z"])
+print(counts.most_common(2))
+print(counts.total())
+
+counts.update("bandana")
+print(f"made with Counter: {counts}")
+
+first = Counter("listen")
+second = Counter("silent")
+print(first == second)""",
+        "counter_tour.py",
+    )
+    b += reveal(
+        "Two to predict before you run it. What does <code>counts[\"z\"]</code> print, "
+        "when there is no z in banana? And what does the last line print?",
+        output(
+            """made with Counter: Counter({'a': 3, 'n': 2, 'b': 1})
+3
+0
+[('a', 3), ('n', 2)]
+6
+made with Counter: Counter({'a': 6, 'n': 4, 'b': 2, 'd': 1})
+True"""
+        )
+        + "<p>One line at a time:</p>"
+        '<ul class="tight">'
+        "<li><code>counts[\"a\"]</code> reads one count, the same way as a dictionary: "
+        "3.</li>"
+        "<li><code>counts[\"z\"]</code> is 0. A plain dictionary would stop with "
+        "<code>KeyError</code>. A Counter gives 0 for anything it has not seen.</li>"
+        "<li><code>most_common(2)</code> returns the top two, biggest first, as pairs "
+        "of letter and count. Section 2 uses this to find the top letter.</li>"
+        "<li><code>total()</code> adds up every count: banana has 6 letters.</li>"
+        "<li><code>update(\"bandana\")</code> counts more letters into the same "
+        "Counter, so a goes from 3 to 6.</li>"
+        "<li><code>first == second</code> is <code>True</code> when two Counters have "
+        "the same counts. listen and silent use the same letters the same number of "
+        "times, so they are anagrams: two words made from the same letters.</li>"
+        "</ul>",
+    )
+
+    b += (
+        '<h2><span class="num">2</span>Break one'
         '<span class="mins">25 minutes</span></h2>'
     )
     b += (
@@ -44,9 +115,9 @@ def extra_crack():
 
     b += "<h3>Step 1: count the letters</h3>"
     b += (
-        "<p>This is the <code>Counter</code> from section 2 of session 3, with the spaces taken out "
+        "<p>This is the <code>Counter</code> from section 1, with the spaces taken out "
         "first. The file starts with <code>from collections import Counter</code>, the "
-        "same import line as in session 3. <code>counts.most_common(5)</code> returns "
+        "same import line as in section 1. <code>counts.most_common(5)</code> returns "
         "the five most common letters with how many times each appears, biggest "
         "first.</p>"
     )
@@ -201,8 +272,9 @@ plaintext: read the code and trace the code before you ever run the code"""
         "small, so your share is off.</div>"
     )
     b += exits(
-        "You ran <code>letter_counts</code> on the ciphertext and read the top letter "
-        "off the output.",
+        "You ran <code>counter_tour.py</code> and can say what a Counter gives for a "
+        "letter it has not seen, and you ran <code>letter_counts</code> on the "
+        "ciphertext and read the top letter off the output.",
         "Floor, plus the full crack running and printing the plaintext.",
         "Middle, plus break it on purpose: find a message short enough that the most "
         "common letter is not <code>e</code>, then write a <code>guess_shift</code> "
@@ -211,10 +283,14 @@ plaintext: read the code and trace the code before you ever run the code"""
     )
     b += panel(
         ["6.SP.B.5.a", "6.RP.A.3", "MP7"],
-        "<p>About 25 minutes, any time after session 3. It needs <code>shift_by</code> "
-        "from session 3's section 3 and <code>Counter</code> from its section 2. Use it "
+        "<p>About 35 minutes, any time after session 3: 10 Counter, 25 breaking the "
+        "cipher. It needs dictionaries from session 3's section 2 and "
+        "<code>shift_by</code> from its section 3. Use it "
         "as a take-home, for a student who finishes early, or as a whole session if the "
         "room has time.</p>",
+        "<p>Students read <code>counts[\"z\"]</code> giving 0 as a bug. It is the point "
+        "of a Counter: a plain dictionary stops with <code>KeyError</code> for a key it "
+        "has not seen, and a Counter gives 0.</p>"
         "<p>Some students will want to brute force all 26 shifts because it is easier "
         "to write. Let them, then ask what they would do with a Vigenere key of length "
         "7. Brute force stops being available and counting does not.</p>"
@@ -226,10 +302,14 @@ plaintext: read the code and trace the code before you ever run the code"""
             "possible because <code>letter_counts</code> returns a Counter."
         ),
         extras=(
-            "<h3>Files</h3><p><code>caesar_crack.py</code>. Output verified on Python "
+            "<h3>Files</h3><p><code>counter_tour.py</code> for section 1 and "
+            "<code>caesar_crack.py</code> for section 2. Output verified on Python "
             "3.12.3. The build checks that its <code>shift_by</code> is identical to the "
             "one in <code>caesar_encode.py</code>. The plaintext restates this course's "
             "own rule from session 1, which is deliberate.</p>"
+            "<h3>Lifted on this page</h3><p><code>collections.Counter</code>: "
+            "<code>most_common</code>, <code>total</code>, <code>update</code>, and "
+            "comparing two Counters.</p>"
         ),
     )
     b += pager(

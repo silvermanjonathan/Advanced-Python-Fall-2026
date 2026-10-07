@@ -9,8 +9,8 @@ SESSIONS = [
     ("02", "23 Sep", "wed02_return_and_modules.html", "Functions that return a value",
      "return, composition, and splitting a program into your own importable module."),
     ("03", "30 Sep", "wed03_counting.html", "Counting, and a cipher in a window",
-     "Accumulators and dictionaries, then collections.Counter, then write a Caesar cipher "
-     "and put it in a pygame window."),
+     "Accumulators and dictionaries, then write a Caesar cipher and put it in a pygame "
+     "window."),
     ("04", "7 Oct", "wed04_transposition.html", "Ciphers that move letters",
      "Rail fence, then a route cipher on a list-of-lists grid with a signed key."),
     ("05", "14 Oct", "wed05_hashing.html", "Your seal, and a real one",
@@ -42,7 +42,7 @@ SESSIONS = [
 LIFTED = [
     ("Session 2", "<code>return</code> values, <code>len()</code>, <code>import</code> "
      "of your own module, <code>and</code> to join two comparisons"),
-    ("Session 3", "the word accumulator, the empty string, <code>+</code> to join strings, dictionaries, <code>collections.Counter</code>, "
+    ("Session 3", "the word accumulator, the empty string, <code>+</code> to join strings, dictionaries, "
      "<code>ord</code> and <code>chr</code>, indexing a string, tuples, and a pygame "
      "window: the event loop, frames, <code>pygame.draw.rect</code>"),
     ("Session 4", "list of lists as a grid, slicing, <code>range</code> with a negative "
@@ -54,7 +54,8 @@ LIFTED = [
     ("Session 7", "<code>random.randrange</code>, <code>random.random</code>, "
      "<code>sort</code> with a <code>key</code>"),
     ("Session 8", "<code>random.seed</code> for reproducibility"),
-    ("Session 9", "reading a file with <code>with open(...) as f:</code>, "
+    ("Session 9", "<code>collections.Counter</code>, <code>+=</code>, reading a file "
+     "with <code>with open(...) as f:</code>, "
      "<code>try</code> and <code>except</code> with a named error, "
      "<code>csv.DictReader</code>, <code>math.log10</code>, "
      "<code>pygame.draw.line</code>, and a histogram drawn from data"),
@@ -139,9 +140,10 @@ def hub():
         '<span class="t"><a href="extra_crack_caesar.html">Break a Caesar cipher by '
         "counting letters</a>"
         '<span class="s">Count the letters of a coded message, turn the most common one '
-        "into a key, and decode it without trying every key. Uses "
-        "<code>shift_by</code> and <code>Counter</code> from session 3. About 25 "
-        "minutes.</span></span></div></div>"
+        "into a key, and decode it without trying every key. Teaches "
+        "<code>collections.Counter</code> first, then uses it with "
+        "<code>shift_by</code> from session 3. About 35 minutes.</span></span></div>"
+        "</div>"
     )
 
     b += "<h2>What this course is for</h2>"
@@ -305,14 +307,15 @@ def hub():
         "<code>print_the_return.py</code>, <code>sweep_tools_more.py</code>, "
         "<code>sweep_report3.py</code>, <code>first_over_enumerate.py</code></td>"
         "<td>2</td></tr>"
-        "<tr><td><code>accumulators.py</code>, <code>counter_tour.py</code>, "
+        "<tr><td><code>accumulators.py</code>, "
         "<code>caesar_encode.py</code>, <code>letters.py</code>, "
         "<code>cipher_console_starter.py</code>, <code>cipher_console_step1.py</code>, "
         "<code>cipher_console_step2.py</code>, <code>cipher_console_step3.py</code>, "
         "<code>cipher_console.py</code>, "
         "<code>cipher_console_replay.py</code>, <code>verify_console.py</code></td>"
         "<td>3</td></tr>"
-        "<tr><td><code>caesar_crack.py</code></td><td>Extra, after 3</td></tr>"
+        "<tr><td><code>counter_tour.py</code>, <code>caesar_crack.py</code></td>"
+        "<td>Extra, after 3</td></tr>"
         "<tr><td><code>transposition.py</code></td><td>4</td></tr>"
         "<tr><td><code>avalanche.py</code></td><td>5</td></tr>"
         "<tr><td><code>what_it_costs.py</code></td><td>6</td></tr>"

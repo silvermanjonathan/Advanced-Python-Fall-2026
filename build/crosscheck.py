@@ -52,7 +52,7 @@ CHECKS = {
     "wed03_counting.html#acc": ("python3 accumulators.py", [
         "total 13", "out ccaabb", "backwards bac",
     ]),
-    "wed03_counting.html#counter": ("python3 counter_tour.py", [
+    "extra_crack_caesar.html#counter": ("python3 counter_tour.py", [
         "made with Counter: Counter({'a': 3, 'n': 2, 'b': 1})", "[('a', 3), ('n', 2)]",
         "made with Counter: Counter({'a': 6, 'n': 4, 'b': 2, 'd': 1})", "True",
     ]),

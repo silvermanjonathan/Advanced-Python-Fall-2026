@@ -486,3 +486,10 @@ Known corrections made before first printing:
     exactly as the page shows them, gives the next file. `console_1_window.py`,
     `console_2_tiles.py` and `console_3_board.py` are gone. Exits are checked in the
     last minutes of section 4.
+39. `Counter` moved from session 3 to the Extras page, as its section 1 (10 minutes),
+    before breaking the cipher (section 2, 25 minutes), which is where it is used. The
+    "made without Counter" and "made with Counter" print labels went with it; session
+    3's plain dictionary example prints `{'b': 1}` again. Session 3 section 2 is now 10
+    minutes and the exits are back to 5. Session 9 uses a Counter in `benford.py`, so
+    it now says in one paragraph what a Counter is and what `+= 1` means, and lists
+    both as new that week. Session 4's opener, the hub and the programs table follow.
