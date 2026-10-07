@@ -49,6 +49,7 @@ CHECKS = {
         "IndexError: string index out of range",
         "KeyError: 'A'",
     ]),
+    "wed03_counting.html#hide": ("python3 hide_letters.py", ["**** ** ****"]),
     "wed03_counting.html#acc": ("python3 accumulators.py", [
         "total 13", "out ccaabb", "backwards bac",
     ]),

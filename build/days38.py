@@ -127,6 +127,13 @@ def _shift_by_source():
     return mine
 
 
+def _hide_letters_source():
+    """Return hide_letters.py from its def to its print line."""
+    root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    text = open(os.path.join(root, "hide_letters.py")).read()
+    return text[text.index("def hide_letters"):].rstrip("\n")
+
+
 def _accumulator_parts():
     """Return the three loops from accumulators.py, split at the blank lines."""
     root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -216,23 +223,24 @@ def day03():
     b += "<h3>Now write one</h3>"
     b += (
         "<p>Last week you wrote a module of functions that return values. On paper: "
-        "write a function <code>count_of(values, wanted)</code> that returns how many "
-        "times <code>wanted</code> appears in <code>values</code>. It is an accumulator "
-        "with a gate inside the loop. Four lines plus the <code>def</code>.</p>"
+        "write a function <code>hide_letters(text)</code> that returns <code>text</code> "
+        "with every letter changed to <code>*</code> and every space kept. "
+        "<code>hide_letters(\"meet at dawn\")</code> should return "
+        "<code>\"**** ** ****\"</code>.</p>"
+        "<p>It is a string accumulator, like part 2 above, with a gate inside the loop: "
+        "if the character is a space, add a space; otherwise, add a star.</p>"
     )
     b += reveal(
         "Write yours first.",
-        code(
-            """def count_of(values, wanted):
-    \"\"\"Return how many times wanted appears in values.\"\"\"
-    hits = 0
-    for v in values:
-        if v == wanted:
-            hits = hits + 1
-    return hits"""
-        )
-        + "<p><code>hits = 0</code> is part 1. <code>hits = hits + 1</code> is part 2, "
-        "and it runs when the gate says yes. <code>return hits</code> is part 3.</p>",
+        code(_hide_letters_source(), "hide_letters.py")
+        + output("**** ** ****")
+        + "<p><code>out = \"\"</code> is part 1. The two <code>out = out + ...</code> "
+        "lines are part 2. On each pass exactly one of them runs, so one character is "
+        "added: a space if <code>ch</code> is a space, and a star if it is not. "
+        "<code>return out</code> is part 3.</p>"
+        "<p>Keep this shape in mind. In section 2 you will write <code>shift_by</code>, "
+        "and it has the same shape. The difference is what it adds in place of the star: "
+        "the coded letter.</p>",
     )
 
     b += (
@@ -416,7 +424,7 @@ print(shift_by("gdzq", -3))''',
         ),
         extras=(
             "<h3>Files</h3><p><code>accumulators.py</code> for the opener, shown in "
-            "three parts. <code>caesar_encode.py</code> for section 2, the answer to the "
+            "three parts, and <code>hide_letters.py</code>, the answer to its last task. <code>caesar_encode.py</code> for section 2, the answer to the "
             "<code>shift_by</code> step. For section 3: <code>letters.py</code> (a "
             "module, never prints) and <code>cipher_console_starter.py</code>, which "
             "downloads as <code>cipher_console.py</code>; then the answer-key files "

@@ -403,8 +403,9 @@ def console_section():
         "<p>This course does not use pygame to write words, so each letter is drawn "
         "from small squares. <code>letters.py</code> holds a <b>dictionary</b> called "
         "<code>SHAPES</code>. A dictionary stores each value under a name called a "
-        "<b>key</b>. In <code>SHAPES</code> each key is a letter, or the space, and its "
-        "value is that letter's picture. Here is the entry for <code>a</code>: the key "
+        "<b>key</b>. This is a different key from the cipher's key in section 2: in a "
+        "dictionary, the key is the name a value is stored under. In <code>SHAPES</code> "
+        "each key is a letter, or the space, and its value is that letter's picture. Here is the entry for <code>a</code>: the key "
         "<code>\"a\"</code>, a colon, then the value.</p>"
     )
     b += code('"a": [".#.", "#.#", "###", "#.#", "#.#"],', "letters.py, one entry of SHAPES")

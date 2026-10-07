@@ -32,7 +32,8 @@ def extra_crack():
     b += (
         "<p>To break a cipher by counting, you need a count for every letter. A "
         "<b>dictionary</b> keeps them. It stores each value under a name called a "
-        "<b>key</b>: here the letter is the key and its count is the value. You met one "
+        "<b>key</b>: here the letter is the key and its count is the value. That is a "
+        "different key from the cipher's key in section 2. You met a dictionary "
         "in session 3, <code>SHAPES</code> in <code>letters.py</code>, where each key "
         "was a letter and each value was its picture.</p>"
         "<p><code>{}</code> is an empty dictionary. <code>counts[\"b\"] = 0</code> "

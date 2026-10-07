@@ -503,3 +503,9 @@ Known corrections made before first printing:
     dictionary like `SHAPES`, session 10 compares `defaultdict` with a plain dictionary
     and session 9's Counter, session 11's opener explains lists kept in step itself,
     and session 4's opener no longer mentions a dictionary.
+41. Session 3's opener task is now `hide_letters(text)`: every letter becomes `*` and
+    every space is kept, so `"meet at dawn"` gives `"**** ** ****"`. It is a string
+    accumulator with a gate, the same shape as `shift_by` in section 2, and replaces
+    `count_of`. Answer and output come from `hide_letters.py`, checked by crosscheck.
+    Where a dictionary key is defined (console step 3, Extras section 1), the page now
+    says it is a different key from the cipher's key.
