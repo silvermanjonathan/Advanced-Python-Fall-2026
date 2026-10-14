@@ -113,6 +113,15 @@ pre code{background:none; padding:0; font-size:inherit; font-weight:inherit; col
 .part.ask button.rev{font-size:15px; padding:6px 14px; margin:0 16px 10px}
 .part.ask .ans{margin:0 16px; padding:8px 0 10px}
 .part.ask .ans .plabel{padding:0}
+/* Python code, colored as VS Code colors it: its dark theme on screen */
+pre.py{background:#1F1F1F; color:#D4D4D4; border:0; border-radius:6px; font-weight:400;
+  padding:18px 20px}
+.part pre.py{background:#1F1F1F; border-radius:0; padding:10px 16px}
+.predict > pre.py{background:#1F1F1F}
+pre.py .hk{color:#C586C0} pre.py .hs{color:#569CD6} pre.py .hf{color:#DCDCAA}
+pre.py .hc{color:#4EC9B0} pre.py .hv{color:#9CDCFE} pre.py .hn{color:#4FC1FF}
+pre.py .hq{color:#CE9178} pre.py .he{color:#D7BA7D} pre.py .hd{color:#B5CEA8}
+pre.py .hm{color:#6A9955}
 .fname{
   font-family:'JetBrains Mono',monospace; font-size:12.5px; letter-spacing:.1em;
   text-transform:uppercase; color:var(--ink-soft); margin:0 0 6px; font-weight:700;
@@ -269,6 +278,12 @@ footer p{margin:0}
   header.top h1,header.top .sub,header.top .eyebrow,.pill b{color:#111}
   .pill{border-color:#666}
   button.rev{display:none} .ans{display:block}
+  /* printers leave out dark backgrounds, so print uses VS Code's light theme */
+  pre.py,.part pre.py,.predict > pre.py{background:#fff; color:#000; border:1px solid #999}
+  pre.py .hk{color:#AF00DB} pre.py .hs{color:#0000FF} pre.py .hf{color:#795E26}
+  pre.py .hc{color:#267F99} pre.py .hv{color:#001080} pre.py .hn{color:#0070C1}
+  pre.py .hq{color:#A31515} pre.py .he{color:#EE0000} pre.py .hd{color:#098658}
+  pre.py .hm{color:#008000}
   nav.pager,footer,.toolbar{display:none}
   section,.exit{background:#fff; break-inside:avoid} pre{border:1px solid #999}
   a{color:#111}
@@ -290,61 +305,61 @@ searching for 1999, which is not there
   linear: returned -1 after 1000 looks
   binary: returned -1 after 10 looks</code></pre></div>
 <p>1000 against 10. Halving 1000 ten times gets you below 1. That is where the 10 comes from, and it is why doubling the list only adds one look.</p><p>Look at the missing-value case. Both searches do their worst work when the answer is not there, and the scan has no way to stop early.</p><p>Here are the two searches that produced those numbers. Both return two values: where the target was, and how many values they looked at.</p><p class="fname">what_it_costs.py, the two searches</p>
-<pre><code>def linear_find(values, target):
-    &quot;&quot;&quot;Return the index of target, and how many values we looked at.&quot;&quot;&quot;
-    looks = 0
-    for i in range(len(values)):
-        looks = looks + 1
-        if values[i] == target:
-            return i, looks
-    return -1, looks
+<pre class="py"><code><span class="hs">def</span> <span class="hf">linear_find</span>(<span class="hv">values</span>, <span class="hv">target</span>):
+    <span class="hq">"""Return the index of target, and how many values we looked at."""</span>
+    <span class="hv">looks</span> = <span class="hd">0</span>
+    <span class="hk">for</span> <span class="hv">i</span> <span class="hs">in</span> <span class="hc">range</span>(<span class="hf">len</span>(<span class="hv">values</span>)):
+        <span class="hv">looks</span> = <span class="hv">looks</span> + <span class="hd">1</span>
+        <span class="hk">if</span> <span class="hv">values</span>[<span class="hv">i</span>] == <span class="hv">target</span>:
+            <span class="hk">return</span> <span class="hv">i</span>, <span class="hv">looks</span>
+    <span class="hk">return</span> -<span class="hd">1</span>, <span class="hv">looks</span>
 
 
-def binary_find(values, target):
-    &quot;&quot;&quot;Return the index of target in a sorted list, and how many looks.&quot;&quot;&quot;
-    low = 0
-    high = len(values) - 1
-    looks = 0
-    while low &lt;= high:
-        mid = (low + high) // 2
-        looks = looks + 1
+<span class="hs">def</span> <span class="hf">binary_find</span>(<span class="hv">values</span>, <span class="hv">target</span>):
+    <span class="hq">"""Return the index of target in a sorted list, and how many looks."""</span>
+    <span class="hv">low</span> = <span class="hd">0</span>
+    <span class="hv">high</span> = <span class="hf">len</span>(<span class="hv">values</span>) - <span class="hd">1</span>
+    <span class="hv">looks</span> = <span class="hd">0</span>
+    <span class="hk">while</span> <span class="hv">low</span> &lt;= <span class="hv">high</span>:
+        <span class="hv">mid</span> = (<span class="hv">low</span> + <span class="hv">high</span>) // <span class="hd">2</span>
+        <span class="hv">looks</span> = <span class="hv">looks</span> + <span class="hd">1</span>
 
-        if values[mid] == target:
-            return mid, looks
+        <span class="hk">if</span> <span class="hv">values</span>[<span class="hv">mid</span>] == <span class="hv">target</span>:
+            <span class="hk">return</span> <span class="hv">mid</span>, <span class="hv">looks</span>
 
-        if values[mid] &lt; target:
-            low = mid + 1
-        else:
-            high = mid - 1
-    return -1, looks</code></pre>
+        <span class="hk">if</span> <span class="hv">values</span>[<span class="hv">mid</span>] &lt; <span class="hv">target</span>:
+            <span class="hv">low</span> = <span class="hv">mid</span> + <span class="hd">1</span>
+        <span class="hk">else</span>:
+            <span class="hv">high</span> = <span class="hv">mid</span> - <span class="hd">1</span>
+    <span class="hk">return</span> -<span class="hd">1</span>, <span class="hv">looks</span></code></pre>
 <p><code>//</code> divides and throws the remainder away, so <code>mid</code> is always a whole index. The <code>while</code> keeps going only while the two ends have not crossed, the first loop in this course whose stopping condition has two parts.</p></div></div>
 </section>
 <section class="chunk"><p class="chunk-no">Section 2 &middot; 35 minutes</p><h2>Every code, timed</h2><p><code>itertools.product</code> generates every combination for you. This sweeps every code of n digits and times it.</p><p class="fname">what_it_costs.py</p>
-<pre><code>from itertools import product
-from time import perf_counter
+<pre class="py"><code><span class="hk">from</span> <span class="hc">itertools</span> <span class="hk">import</span> <span class="hf">product</span>
+<span class="hk">from</span> <span class="hc">time</span> <span class="hk">import</span> <span class="hf">perf_counter</span>
 
-CODE = &quot;4703916&quot;
-
-
-def sweep(digits):
-    &quot;&quot;&quot;Try every code of the given length. Return the winner and the tries.&quot;&quot;&quot;
-    tries = 0
-    winner = &quot;&quot;
-    target = CODE[:digits]
-
-    for guess in product(&quot;0123456789&quot;, repeat=digits):
-        tries = tries + 1
-        attempt = &quot;&quot;.join(guess)
-        if attempt == target:
-            winner = attempt
-    return winner, tries
+<span class="hn">CODE</span> = <span class="hq">"4703916"</span>
 
 
-for n in range(1, 8):
-    start = perf_counter()
-    found, tries = sweep(n)
-    elapsed = perf_counter() - start
-    print(f&quot;  {n}   {10 ** n:&lt;10} {tries:&lt;8} {elapsed:.4f}&quot;)</code></pre>
+<span class="hs">def</span> <span class="hf">sweep</span>(<span class="hv">digits</span>):
+    <span class="hq">"""Try every code of the given length. Return the winner and the tries."""</span>
+    <span class="hv">tries</span> = <span class="hd">0</span>
+    <span class="hv">winner</span> = <span class="hq">""</span>
+    <span class="hv">target</span> = <span class="hn">CODE</span>[:<span class="hv">digits</span>]
+
+    <span class="hk">for</span> <span class="hv">guess</span> <span class="hs">in</span> <span class="hf">product</span>(<span class="hq">"0123456789"</span>, <span class="hv">repeat</span>=<span class="hv">digits</span>):
+        <span class="hv">tries</span> = <span class="hv">tries</span> + <span class="hd">1</span>
+        <span class="hv">attempt</span> = <span class="hq">""</span>.<span class="hf">join</span>(<span class="hv">guess</span>)
+        <span class="hk">if</span> <span class="hv">attempt</span> == <span class="hv">target</span>:
+            <span class="hv">winner</span> = <span class="hv">attempt</span>
+    <span class="hk">return</span> <span class="hv">winner</span>, <span class="hv">tries</span>
+
+
+<span class="hk">for</span> <span class="hv">n</span> <span class="hs">in</span> <span class="hc">range</span>(<span class="hd">1</span>, <span class="hd">8</span>):
+    <span class="hv">start</span> = <span class="hf">perf_counter</span>()
+    <span class="hv">found</span>, <span class="hv">tries</span> = <span class="hf">sweep</span>(<span class="hv">n</span>)
+    <span class="hv">elapsed</span> = <span class="hf">perf_counter</span>() - <span class="hv">start</span>
+    <span class="hf">print</span>(<span class="hs">f</span><span class="hq">"  </span><span class="hs">{</span><span class="hv">n</span><span class="hs">}</span><span class="hq">   </span><span class="hs">{</span><span class="hd">10</span> ** <span class="hv">n</span><span class="hs">:&lt;10</span><span class="hs">}</span><span class="hq"> </span><span class="hs">{</span><span class="hv">tries</span><span class="hs">:&lt;8</span><span class="hs">}</span><span class="hq"> </span><span class="hs">{</span><span class="hv">elapsed</span><span class="hs">:.4f</span><span class="hs">}</span><span class="hq">"</span>)</code></pre>
 <div class="predict"><b>Predict first.</b> Seven digits takes about 1.2 seconds on my machine. Before you look: how long for eight digits, and for ten?
 <button class="rev" data-target="a33" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a33">Show the answer</button>
 <div class="ans" id="a33"><div class="out"><span class="tag">verified output</span><pre><code>brute force, every code of n digits

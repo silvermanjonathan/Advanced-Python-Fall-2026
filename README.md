@@ -529,3 +529,17 @@ Known corrections made before first printing:
     you think this line of code does?" (or "these lines ... do?" for a part with
     more than one line). The finished program in session 3's answer key still shows
     its labels, since the key is already behind a button.
+45. Session 3, console step 1: the starter no longer has `import pygame` or
+    `BOARD`. It marks three places with comments that start with `# step 1:`, and
+    the page shows what to type at each one: `import pygame` near the top,
+    `BOARD = (15, 19, 24)` above `TILE`, and the window code at the bottom. Every
+    line the window needs is now on the page. The build still checks that the
+    starter plus each step gives the answer-key file.
+46. Python code is colored the way VS Code colors it. `build/hl.py` splits each
+    block into tokens when the pages are built and puts each token in a span:
+    keywords, functions, classes and modules, variables, constants, strings,
+    numbers, and comments each get VS Code's color. On screen the blocks use VS
+    Code's dark theme; in print they use its light theme, since printers leave out
+    dark backgrounds. The session 1 trace page and the worksheet are colored too,
+    and `wed01_worksheet.pdf` was rendered again. Outputs keep their green
+    terminal style, and code inside sentences keeps its plain style.

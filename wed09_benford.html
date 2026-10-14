@@ -113,6 +113,15 @@ pre code{background:none; padding:0; font-size:inherit; font-weight:inherit; col
 .part.ask button.rev{font-size:15px; padding:6px 14px; margin:0 16px 10px}
 .part.ask .ans{margin:0 16px; padding:8px 0 10px}
 .part.ask .ans .plabel{padding:0}
+/* Python code, colored as VS Code colors it: its dark theme on screen */
+pre.py{background:#1F1F1F; color:#D4D4D4; border:0; border-radius:6px; font-weight:400;
+  padding:18px 20px}
+.part pre.py{background:#1F1F1F; border-radius:0; padding:10px 16px}
+.predict > pre.py{background:#1F1F1F}
+pre.py .hk{color:#C586C0} pre.py .hs{color:#569CD6} pre.py .hf{color:#DCDCAA}
+pre.py .hc{color:#4EC9B0} pre.py .hv{color:#9CDCFE} pre.py .hn{color:#4FC1FF}
+pre.py .hq{color:#CE9178} pre.py .he{color:#D7BA7D} pre.py .hd{color:#B5CEA8}
+pre.py .hm{color:#6A9955}
 .fname{
   font-family:'JetBrains Mono',monospace; font-size:12.5px; letter-spacing:.1em;
   text-transform:uppercase; color:var(--ink-soft); margin:0 0 6px; font-weight:700;
@@ -269,6 +278,12 @@ footer p{margin:0}
   header.top h1,header.top .sub,header.top .eyebrow,.pill b{color:#111}
   .pill{border-color:#666}
   button.rev{display:none} .ans{display:block}
+  /* printers leave out dark backgrounds, so print uses VS Code's light theme */
+  pre.py,.part pre.py,.predict > pre.py{background:#fff; color:#000; border:1px solid #999}
+  pre.py .hk{color:#AF00DB} pre.py .hs{color:#0000FF} pre.py .hf{color:#795E26}
+  pre.py .hc{color:#267F99} pre.py .hv{color:#001080} pre.py .hn{color:#0070C1}
+  pre.py .hq{color:#A31515} pre.py .he{color:#EE0000} pre.py .hd{color:#098658}
+  pre.py .hm{color:#008000}
   nav.pager,footer,.toolbar{display:none}
   section,.exit{background:#fff; break-inside:avoid} pre{border:1px solid #999}
   a{color:#111}
@@ -283,17 +298,17 @@ footer p{margin:0}
 <div class="flag"><b>No class on 11 November.</b> Veterans Day, so session 8 was two weeks ago. Capstone sketches are due at the start of session 11, on 2 December. If you have a question about the sketch, ask it after the histogram: the histogram is a window, and the sketch describes a window.</div><section class="opener"><p class="chunk-no">Section 1 &middot; 10 minutes</p><h2>Opener</h2><p>Write down a list of ten amounts of money, as if you were filling in an expenses form and inventing the numbers. Anything from 100 to 9999. Do it quickly and do not think about it.</p><p>Now circle the first digit of each one. As a room, tally how many 1s, how many 2s, and so on up to 9. Put the tally on the board and leave it there.</p></section>
 <section class="chunk"><p class="chunk-no">Section 2 &middot; 30 minutes</p><h2>Two files</h2><p>Both files hold 600 amounts in a column called <code>amount</code>. One was built from Fibonacci numbers and powers of two, which are quantities that grow by multiplying. The other is 600 numbers picked at random between 100 and 9999, which is what invented figures look like.</p><h3>Reading a file</h3><p>This is the first program in the course that reads a file. The file has to be in the same folder as your program. Download both files into the folder where you save your programs.</p><div class="toolbar"><a class="btn quiet" href="honest_ledger.csv" download="honest_ledger.csv">Download honest_ledger.csv</a><a class="btn quiet" href="cooked_ledger.csv" download="cooked_ledger.csv">Download cooked_ledger.csv</a></div>
 <p>Here is the smallest program that opens one and looks inside.</p><p class="fname">read_ledger.py</p>
-<pre><code>import csv
+<pre class="py"><code><span class="hk">import</span> <span class="hc">csv</span>
 
-with open(&quot;honest_ledger.csv&quot;, newline=&quot;&quot;) as f:
-    reader = csv.DictReader(f)
-    count = 0
-    for row in reader:
-        if count &lt; 3:
-            print(row)
-        count = count + 1
+<span class="hk">with</span> <span class="hf">open</span>(<span class="hq">"honest_ledger.csv"</span>, <span class="hv">newline</span>=<span class="hq">""</span>) <span class="hk">as</span> <span class="hv">f</span>:
+    <span class="hv">reader</span> = <span class="hc">csv</span>.<span class="hc">DictReader</span>(<span class="hv">f</span>)
+    <span class="hv">count</span> = <span class="hd">0</span>
+    <span class="hk">for</span> <span class="hv">row</span> <span class="hs">in</span> <span class="hv">reader</span>:
+        <span class="hk">if</span> <span class="hv">count</span> &lt; <span class="hd">3</span>:
+            <span class="hf">print</span>(<span class="hv">row</span>)
+        <span class="hv">count</span> = <span class="hv">count</span> + <span class="hd">1</span>
 
-print(f&quot;rows read: {count}&quot;)</code></pre>
+<span class="hf">print</span>(<span class="hs">f</span><span class="hq">"rows read: </span><span class="hs">{</span><span class="hv">count</span><span class="hs">}</span><span class="hq">"</span>)</code></pre>
 <p>Three new pieces:</p><ul class="tight"><li><code>with open("honest_ledger.csv", newline="") as f:</code> opens the file and names it <code>f</code>. When the indented lines under it are finished, Python closes the file for you. <code>newline=""</code> is what the <code>csv</code> module asks for; leave it in.</li><li><code>csv.DictReader(f)</code> reads the file one row at a time. The first line of the file, <code>source,amount</code>, gives the column names.</li><li>Each <code>row</code> is a dictionary, the same kind of thing as <code>SHAPES</code> in session 3's <code>letters.py</code>: it stores each value under a name called a key. The column name is the key, so <code>row["amount"]</code> is the amount on that row.</li></ul><div class="predict"><b>Predict first.</b> What does the first <code>print(row)</code> show? Look at the first two lines of the file: <code>source,amount</code> and then <code>fibonacci,1</code>.
 <button class="rev" data-target="a41" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a41">Show the answer</button>
 <div class="ans" id="a41"><div class="out"><span class="tag">verified output</span><pre><code>{&#x27;source&#x27;: &#x27;fibonacci&#x27;, &#x27;amount&#x27;: &#x27;1&#x27;}
@@ -302,25 +317,25 @@ print(f&quot;rows read: {count}&quot;)</code></pre>
 rows read: 600</code></pre></div>
 <p>Each row is a dictionary with two keys. Look at the quotes round the <code>'1'</code>: every value comes out of the file as text, not as a number. That is why <code>leading_digit</code> below takes text and looks at its characters.</p><p>If Python stops with <code>FileNotFoundError: [Errno 2] No such file or directory</code>, the CSV is not in the same folder as your program. Move it there and run again.</p></div></div>
 <h3>When the file is not there</h3><p>A missing file, or a misspelled name, stops the whole program with <code>FileNotFoundError</code>. Python has a way to say what to do instead. Put the lines that might fail under <code>try:</code>, and put what to do instead under <code>except</code>, followed by the name of the error.</p><p class="fname">safe_count.py</p>
-<pre><code>import csv
+<pre class="py"><code><span class="hk">import</span> <span class="hc">csv</span>
 
 
-def count_rows(filename):
-    &quot;&quot;&quot;Return how many rows the CSV file has, or 0 if there is no such file.&quot;&quot;&quot;
-    try:
-        with open(filename, newline=&quot;&quot;) as f:
-            count = 0
-            for row in csv.DictReader(f):
-                count = count + 1
-    except FileNotFoundError:
-        print(f&quot;no file called {filename}, so there is nothing to count&quot;)
-        return 0
-    return count
+<span class="hs">def</span> <span class="hf">count_rows</span>(<span class="hv">filename</span>):
+    <span class="hq">"""Return how many rows the CSV file has, or 0 if there is no such file."""</span>
+    <span class="hk">try</span>:
+        <span class="hk">with</span> <span class="hf">open</span>(<span class="hv">filename</span>, <span class="hv">newline</span>=<span class="hq">""</span>) <span class="hk">as</span> <span class="hv">f</span>:
+            <span class="hv">count</span> = <span class="hd">0</span>
+            <span class="hk">for</span> <span class="hv">row</span> <span class="hs">in</span> <span class="hc">csv</span>.<span class="hc">DictReader</span>(<span class="hv">f</span>):
+                <span class="hv">count</span> = <span class="hv">count</span> + <span class="hd">1</span>
+    <span class="hk">except</span> <span class="hc">FileNotFoundError</span>:
+        <span class="hf">print</span>(<span class="hs">f</span><span class="hq">"no file called </span><span class="hs">{</span><span class="hv">filename</span><span class="hs">}</span><span class="hq">, so there is nothing to count"</span>)
+        <span class="hk">return</span> <span class="hd">0</span>
+    <span class="hk">return</span> <span class="hv">count</span>
 
 
-print(count_rows(&quot;honest_ledger.csv&quot;))
-print(count_rows(&quot;honest_ledger.cvs&quot;))
-print(&quot;the program is still running&quot;)</code></pre>
+<span class="hf">print</span>(<span class="hf">count_rows</span>(<span class="hq">"honest_ledger.csv"</span>))
+<span class="hf">print</span>(<span class="hf">count_rows</span>(<span class="hq">"honest_ledger.cvs"</span>))
+<span class="hf">print</span>(<span class="hq">"the program is still running"</span>)</code></pre>
 <p>Python runs the lines under <code>try:</code>. If one of them fails with <code>FileNotFoundError</code>, Python stops running those lines and runs the lines under <code>except FileNotFoundError:</code> instead, and the program keeps going. If nothing fails, the <code>except</code> lines are skipped.</p><p>Always write the name of the error after <code>except</code>. A bare <code>except:</code> with no name catches every error, including mistakes in your own code, so a bug would be hidden instead of shown. Here, any error other than <code>FileNotFoundError</code> still stops the program with its traceback, which is what you want.</p><div class="predict"><b>Predict first.</b> The second call has a typo: <code>.cvs</code> instead of <code>.csv</code>. What do the four lines of output say? Would the last line print without the <code>try</code>?
 <button class="rev" data-target="a42" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a42">Show the answer</button>
 <div class="ans" id="a42"><div class="out"><span class="tag">verified output</span><pre><code>600
@@ -329,32 +344,32 @@ no file called honest_ledger.cvs, so there is nothing to count
 the program is still running</code></pre></div>
 <p>The first call counts all 600 rows. The second call cannot find the file, so the <code>except</code> lines print the message and the function returns 0. The program is still running, so the last line prints.</p><p>Without the <code>try</code>, the second call stops the program with <code>FileNotFoundError: [Errno 2] No such file or directory: 'honest_ledger.cvs'</code>, and the last line never prints.</p></div></div>
 <p>Now the real program. It reads each file, pulls the first digit off each amount, and tallies.</p><p class="fname">benford.py</p>
-<pre><code>import csv
-import math
-from collections import Counter
+<pre class="py"><code><span class="hk">import</span> <span class="hc">csv</span>
+<span class="hk">import</span> <span class="hc">math</span>
+<span class="hk">from</span> <span class="hc">collections</span> <span class="hk">import</span> <span class="hc">Counter</span>
 
 
-def leading_digit(text):
-    &quot;&quot;&quot;Return the first digit character in text as an integer.&quot;&quot;&quot;
-    for ch in text:
-        if ch in &quot;123456789&quot;:
-            return int(ch)
-    return 0
+<span class="hs">def</span> <span class="hf">leading_digit</span>(<span class="hv">text</span>):
+    <span class="hq">"""Return the first digit character in text as an integer."""</span>
+    <span class="hk">for</span> <span class="hv">ch</span> <span class="hs">in</span> <span class="hv">text</span>:
+        <span class="hk">if</span> <span class="hv">ch</span> <span class="hs">in</span> <span class="hq">"123456789"</span>:
+            <span class="hk">return</span> <span class="hc">int</span>(<span class="hv">ch</span>)
+    <span class="hk">return</span> <span class="hd">0</span>
 
 
-def tally_file(filename):
-    &quot;&quot;&quot;Return a Counter of leading digits in the amount column.&quot;&quot;&quot;
-    counts = Counter()
-    with open(filename, newline=&quot;&quot;) as f:
-        reader = csv.DictReader(f)
-        for row in reader:
-            counts[leading_digit(row[&quot;amount&quot;])] += 1
-    return counts
+<span class="hs">def</span> <span class="hf">tally_file</span>(<span class="hv">filename</span>):
+    <span class="hq">"""Return a Counter of leading digits in the amount column."""</span>
+    <span class="hv">counts</span> = <span class="hc">Counter</span>()
+    <span class="hk">with</span> <span class="hf">open</span>(<span class="hv">filename</span>, <span class="hv">newline</span>=<span class="hq">""</span>) <span class="hk">as</span> <span class="hv">f</span>:
+        <span class="hv">reader</span> = <span class="hc">csv</span>.<span class="hc">DictReader</span>(<span class="hv">f</span>)
+        <span class="hk">for</span> <span class="hv">row</span> <span class="hs">in</span> <span class="hv">reader</span>:
+            <span class="hv">counts</span>[<span class="hf">leading_digit</span>(<span class="hv">row</span>[<span class="hq">"amount"</span>])] += <span class="hd">1</span>
+    <span class="hk">return</span> <span class="hv">counts</span>
 
 
-def benford_expected(digit):
-    &quot;&quot;&quot;Return the share of numbers Benford&#x27;s law predicts start with digit.&quot;&quot;&quot;
-    return math.log10(1 + 1 / digit)</code></pre>
+<span class="hs">def</span> <span class="hf">benford_expected</span>(<span class="hv">digit</span>):
+    <span class="hq">"""Return the share of numbers Benford's law predicts start with digit."""</span>
+    <span class="hk">return</span> <span class="hc">math</span>.<span class="hf">log10</span>(<span class="hd">1</span> + <span class="hd">1</span> / <span class="hv">digit</span>)</code></pre>
 <div class="toolbar"><a class="btn quiet" href="benford.py" download="benford.py">Download benford.py</a></div>
 <p><code>tally_file</code> uses a <b>Counter</b>, from <code>collections</code>, a module that comes with Python. A Counter is a dictionary made for counting. A key it has not seen counts as 0, so <code>counts[d] += 1</code> works the first time, where a plain dictionary would stop with <code>KeyError</code>. <code>+= 1</code> is short for <code>counts[d] = counts[d] + 1</code>. The Extras page after session 3 shows more of what a Counter can do.</p><p>One more function in there is probably new. <code>math.log10</code> asks: what power do I raise 10 to, to get this number? <code>log10(100)</code> is 2, because 10 squared is 100. <code>log10(2)</code> is about 0.301, because 10 to the 0.301 is 2. You do not need more than that today, and the calculator does the work.</p><p>Why does a logarithm turn up in a rule about first digits? A quantity that grows by multiplying takes as long to go from 1 to 10 as from 10 to 100. Inside each of those stretches, going from 1 to 2 is a doubling and takes a long time; going from 9 to 10 is a small step and takes a short time. So the quantity spends more of its time with a leading 1 than with a leading 9.</p><div class="predict"><b>Predict first.</b> <code>benford_expected(1)</code> and <code>benford_expected(9)</code>. Work both out on a calculator before you click.
 <button class="rev" data-target="a43" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a43">Show the answer</button>
@@ -390,43 +405,43 @@ cooked_ledger.csv
 <p>0.004 against 0.201. The grown numbers track Benford to within half a percentage point on every digit. The invented numbers sit near 0.11 everywhere, because a random pick between 100 and 9999 treats every leading digit alike.</p><p>Go back to the tally on the board from the opener. Compare it to the second table. It usually looks a lot like the cooked file. People invent numbers the same way the random generator does.</p></div></div>
 </section>
 <section class="chunk"><p class="chunk-no">Section 4 &middot; 25 minutes</p><h2>Draw it</h2><p>A table of nine numbers is hard to judge by eye. A histogram is not. Draw nine bars with <code>pygame.draw.rect</code>, one per digit, height proportional to the count, and draw the Benford expectation as a line across the top of where each bar should reach.</p><p>Here is the whole program. Its loop has the same shape as the cipher console's loop in session 3, and every window in this course has that shape: read the events, draw, show. Read the loop before the drawing.</p><p class="fname">benford_histogram.py, after the same three functions as benford.py</p>
-<pre><code>import pygame
+<pre class="py"><code><span class="hk">import</span> <span class="hc">pygame</span>
 
-FILENAME = &quot;honest_ledger.csv&quot;
+<span class="hn">FILENAME</span> = <span class="hq">"honest_ledger.csv"</span>
 
-WIDTH = 800
-HEIGHT = 600
-BLACK = (14, 36, 48)
-TEAL = (14, 107, 98)
-AMBER = (232, 150, 60)
+<span class="hn">WIDTH</span> = <span class="hd">800</span>
+<span class="hn">HEIGHT</span> = <span class="hd">600</span>
+<span class="hn">BLACK</span> = (<span class="hd">14</span>, <span class="hd">36</span>, <span class="hd">48</span>)
+<span class="hn">TEAL</span> = (<span class="hd">14</span>, <span class="hd">107</span>, <span class="hd">98</span>)
+<span class="hn">AMBER</span> = (<span class="hd">232</span>, <span class="hd">150</span>, <span class="hd">60</span>)
 
-counts = tally_file(FILENAME)
-total = sum(counts.values())
-print(f&quot;{FILENAME}: {total} amounts tallied, window open, close it to finish&quot;)
+<span class="hv">counts</span> = <span class="hf">tally_file</span>(<span class="hn">FILENAME</span>)
+<span class="hv">total</span> = <span class="hf">sum</span>(<span class="hv">counts</span>.<span class="hf">values</span>())
+<span class="hf">print</span>(<span class="hs">f</span><span class="hq">"</span><span class="hs">{</span><span class="hn">FILENAME</span><span class="hs">}</span><span class="hq">: </span><span class="hs">{</span><span class="hv">total</span><span class="hs">}</span><span class="hq"> amounts tallied, window open, close it to finish"</span>)
 
-pygame.init()
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
-clock = pygame.time.Clock()
+<span class="hc">pygame</span>.<span class="hf">init</span>()
+<span class="hv">screen</span> = <span class="hc">pygame</span>.<span class="hc">display</span>.<span class="hf">set_mode</span>((<span class="hn">WIDTH</span>, <span class="hn">HEIGHT</span>))
+<span class="hv">clock</span> = <span class="hc">pygame</span>.<span class="hc">time</span>.<span class="hc">Clock</span>()
 
-running = 1
-while running:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = 0
+<span class="hv">running</span> = <span class="hd">1</span>
+<span class="hk">while</span> <span class="hv">running</span>:
+    <span class="hk">for</span> <span class="hv">event</span> <span class="hs">in</span> <span class="hc">pygame</span>.<span class="hc">event</span>.<span class="hf">get</span>():
+        <span class="hk">if</span> <span class="hv">event</span>.<span class="hv">type</span> == <span class="hc">pygame</span>.<span class="hn">QUIT</span>:
+            <span class="hv">running</span> = <span class="hd">0</span>
 
-    screen.fill(BLACK)
-    for d in range(1, 10):
-        share = counts[d] / total
-        height = int(share * 900)
-        x = 60 + (d - 1) * 80
-        pygame.draw.rect(screen, TEAL, (x, 520 - height, 54, height))
-        expected = int(benford_expected(d) * 900)
-        pygame.draw.line(screen, AMBER, (x, 520 - expected), (x + 54, 520 - expected), 3)
+    <span class="hv">screen</span>.<span class="hf">fill</span>(<span class="hn">BLACK</span>)
+    <span class="hk">for</span> <span class="hv">d</span> <span class="hs">in</span> <span class="hc">range</span>(<span class="hd">1</span>, <span class="hd">10</span>):
+        <span class="hv">share</span> = <span class="hv">counts</span>[<span class="hv">d</span>] / <span class="hv">total</span>
+        <span class="hv">height</span> = <span class="hc">int</span>(<span class="hv">share</span> * <span class="hd">900</span>)
+        <span class="hv">x</span> = <span class="hd">60</span> + (<span class="hv">d</span> - <span class="hd">1</span>) * <span class="hd">80</span>
+        <span class="hc">pygame</span>.<span class="hc">draw</span>.<span class="hf">rect</span>(<span class="hv">screen</span>, <span class="hn">TEAL</span>, (<span class="hv">x</span>, <span class="hd">520</span> - <span class="hv">height</span>, <span class="hd">54</span>, <span class="hv">height</span>))
+        <span class="hv">expected</span> = <span class="hc">int</span>(<span class="hf">benford_expected</span>(<span class="hv">d</span>) * <span class="hd">900</span>)
+        <span class="hc">pygame</span>.<span class="hc">draw</span>.<span class="hf">line</span>(<span class="hv">screen</span>, <span class="hn">AMBER</span>, (<span class="hv">x</span>, <span class="hd">520</span> - <span class="hv">expected</span>), (<span class="hv">x</span> + <span class="hd">54</span>, <span class="hd">520</span> - <span class="hv">expected</span>), <span class="hd">3</span>)
 
-    pygame.display.flip()
-    clock.tick(60)
+    <span class="hc">pygame</span>.<span class="hc">display</span>.<span class="hf">flip</span>()
+    <span class="hv">clock</span>.<span class="hf">tick</span>(<span class="hd">60</span>)
 
-pygame.quit()</code></pre>
+<span class="hc">pygame</span>.<span class="hf">quit</span>()</code></pre>
 <div class="toolbar"><a class="btn quiet" href="benford_histogram.py" download="benford_histogram.py">Download benford_histogram.py</a></div>
 <div class="predict"><b>Predict first.</b> The loop runs sixty times a second and draws the same nine bars every time. What happens if you take the <code>for event</code> loop out?
 <button class="rev" data-target="a45" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a45">Show the answer</button>

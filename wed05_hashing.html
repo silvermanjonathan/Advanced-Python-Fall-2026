@@ -113,6 +113,15 @@ pre code{background:none; padding:0; font-size:inherit; font-weight:inherit; col
 .part.ask button.rev{font-size:15px; padding:6px 14px; margin:0 16px 10px}
 .part.ask .ans{margin:0 16px; padding:8px 0 10px}
 .part.ask .ans .plabel{padding:0}
+/* Python code, colored as VS Code colors it: its dark theme on screen */
+pre.py{background:#1F1F1F; color:#D4D4D4; border:0; border-radius:6px; font-weight:400;
+  padding:18px 20px}
+.part pre.py{background:#1F1F1F; border-radius:0; padding:10px 16px}
+.predict > pre.py{background:#1F1F1F}
+pre.py .hk{color:#C586C0} pre.py .hs{color:#569CD6} pre.py .hf{color:#DCDCAA}
+pre.py .hc{color:#4EC9B0} pre.py .hv{color:#9CDCFE} pre.py .hn{color:#4FC1FF}
+pre.py .hq{color:#CE9178} pre.py .he{color:#D7BA7D} pre.py .hd{color:#B5CEA8}
+pre.py .hm{color:#6A9955}
 .fname{
   font-family:'JetBrains Mono',monospace; font-size:12.5px; letter-spacing:.1em;
   text-transform:uppercase; color:var(--ink-soft); margin:0 0 6px; font-weight:700;
@@ -269,6 +278,12 @@ footer p{margin:0}
   header.top h1,header.top .sub,header.top .eyebrow,.pill b{color:#111}
   .pill{border-color:#666}
   button.rev{display:none} .ans{display:block}
+  /* printers leave out dark backgrounds, so print uses VS Code's light theme */
+  pre.py,.part pre.py,.predict > pre.py{background:#fff; color:#000; border:1px solid #999}
+  pre.py .hk{color:#AF00DB} pre.py .hs{color:#0000FF} pre.py .hf{color:#795E26}
+  pre.py .hc{color:#267F99} pre.py .hv{color:#001080} pre.py .hn{color:#0070C1}
+  pre.py .hq{color:#A31515} pre.py .he{color:#EE0000} pre.py .hd{color:#098658}
+  pre.py .hm{color:#008000}
   nav.pager,footer,.toolbar{display:none}
   section,.exit{background:#fff; break-inside:avoid} pre{border:1px solid #999}
   a{color:#111}
@@ -281,12 +296,12 @@ footer p{margin:0}
 <main><div class="wrap">
 
 <section class="opener"><p class="chunk-no">Section 1 &middot; 10 minutes</p><h2>Opener</h2><p>In session 3 you turned letters into numbers with <code>ord</code>. Here is the simplest seal you can build out of that: add up the letter positions and wrap the total at 97.</p><p class="fname">avalanche.py</p>
-<pre><code>def letter_sum_seal(text):
-    &quot;&quot;&quot;Return a seal: add up the letter positions, wrap at 97.&quot;&quot;&quot;
-    running = 0
-    for ch in text:
-        running = running + ord(ch)
-    return running % 97</code></pre>
+<pre class="py"><code><span class="hs">def</span> <span class="hf">letter_sum_seal</span>(<span class="hv">text</span>):
+    <span class="hq">"""Return a seal: add up the letter positions, wrap at 97."""</span>
+    <span class="hv">running</span> = <span class="hd">0</span>
+    <span class="hk">for</span> <span class="hv">ch</span> <span class="hs">in</span> <span class="hv">text</span>:
+        <span class="hv">running</span> = <span class="hv">running</span> + <span class="hf">ord</span>(<span class="hv">ch</span>)
+    <span class="hk">return</span> <span class="hv">running</span> % <span class="hd">97</span></code></pre>
 <p>Send the message and the seal. The reader recomputes the seal and compares. If the two disagree, the message changed.</p><p>Now break it. On paper: what is the seal of <code>ab</code>, and what is the seal of <code>ba</code>?</p><div class="predict"><b>Predict first.</b> Both, before you click.
 <button class="rev" data-target="a29" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a29">Show the answer</button>
 <div class="ans" id="a29"><div class="out"><span class="tag">verified output</span><pre><code>seal of &#x27;ab&#x27; = 1
@@ -295,12 +310,12 @@ same seal, different message: True</code></pre></div>
 <p>Identical. Addition does not care what order it gets its numbers in, so every rearrangement of a message carries the same seal. A seal that cannot tell <code>ab</code> from <code>ba</code> cannot tell <code>attack at dawn</code> from any anagram of it, so an attacker can shuffle your message and leave the seal untouched.</p><p>Two different messages with the same seal is called a collision. Real hash functions are built specifically to make collisions hard to find.</p></div></div>
 </section>
 <section class="chunk"><p class="chunk-no">Section 2 &middot; 25 minutes</p><h2>sha256</h2><p class="fname">avalanche.py</p>
-<pre><code>import hashlib
+<pre class="py"><code><span class="hk">import</span> <span class="hc">hashlib</span>
 
 
-def sha(text):
-    &quot;&quot;&quot;Return the sha256 hex digest of text.&quot;&quot;&quot;
-    return hashlib.sha256(text.encode()).hexdigest()</code></pre>
+<span class="hs">def</span> <span class="hf">sha</span>(<span class="hv">text</span>):
+    <span class="hq">"""Return the sha256 hex digest of text."""</span>
+    <span class="hk">return</span> <span class="hc">hashlib</span>.<span class="hf">sha256</span>(<span class="hv">text</span>.<span class="hf">encode</span>()).<span class="hf">hexdigest</span>()</code></pre>
 <div class="predict"><b>Predict first.</b> <code>attack at dawn</code> and <code>attack at dusk</code> differ by two letters. How much of the output do you expect to change?
 <button class="rev" data-target="a30" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a30">Show the answer</button>
 <div class="ans" id="a30"><div class="out"><span class="tag">verified output</span><pre><code>sha256 &#x27;attack at dawn&#x27;
@@ -311,22 +326,22 @@ sha256 &#x27;attack at dawn.&#x27;
   9156781e12f9522c7e8c5aef869a43a495be33b3f42c8c8fe9206dd7e2458b39</code></pre></div>
 <p>All of it. Adding a single full stop to the end of <code>dawn</code> also changes everything.</p></div></div>
 </section>
-<section class="chunk"><p class="chunk-no">Section 3 &middot; 30 minutes</p><h2>Measure the avalanche</h2><p>Do not take my word for it. Count. A sha256 digest is 256 bits, so convert both digests to bits and count how many positions differ.</p><pre><code>def bits_of(hexdigest):
-    &quot;&quot;&quot;Return hexdigest as a string of 0s and 1s.&quot;&quot;&quot;
-    number = int(hexdigest, 16)
-    return format(number, &quot;0256b&quot;)
+<section class="chunk"><p class="chunk-no">Section 3 &middot; 30 minutes</p><h2>Measure the avalanche</h2><p>Do not take my word for it. Count. A sha256 digest is 256 bits, so convert both digests to bits and count how many positions differ.</p><pre class="py"><code><span class="hs">def</span> <span class="hf">bits_of</span>(<span class="hv">hexdigest</span>):
+    <span class="hq">"""Return hexdigest as a string of 0s and 1s."""</span>
+    <span class="hv">number</span> = <span class="hc">int</span>(<span class="hv">hexdigest</span>, <span class="hd">16</span>)
+    <span class="hk">return</span> <span class="hf">format</span>(<span class="hv">number</span>, <span class="hq">"0256b"</span>)
 
 
-def bits_differing(a, b):
-    &quot;&quot;&quot;Return how many bit positions differ between two hex digests.&quot;&quot;&quot;
-    left = bits_of(a)
-    right = bits_of(b)
+<span class="hs">def</span> <span class="hf">bits_differing</span>(<span class="hv">a</span>, <span class="hv">b</span>):
+    <span class="hq">"""Return how many bit positions differ between two hex digests."""</span>
+    <span class="hv">left</span> = <span class="hf">bits_of</span>(<span class="hv">a</span>)
+    <span class="hv">right</span> = <span class="hf">bits_of</span>(<span class="hv">b</span>)
 
-    count = 0
-    for i in range(256):
-        if left[i] != right[i]:
-            count = count + 1
-    return count</code></pre>
+    <span class="hv">count</span> = <span class="hd">0</span>
+    <span class="hk">for</span> <span class="hv">i</span> <span class="hs">in</span> <span class="hc">range</span>(<span class="hd">256</span>):
+        <span class="hk">if</span> <span class="hv">left</span>[<span class="hv">i</span>] != <span class="hv">right</span>[<span class="hv">i</span>]:
+            <span class="hv">count</span> = <span class="hv">count</span> + <span class="hd">1</span>
+    <span class="hk">return</span> <span class="hv">count</span></code></pre>
 <div class="predict"><b>Predict first.</b> Out of 256 bits, how many do you predict differ? Write a number, not a word.
 <button class="rev" data-target="a31" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a31">Show the answer</button>
 <div class="ans" id="a31"><div class="out"><span class="tag">verified output</span><pre><code>dawn vs dusk: 130 of 256 bits differ

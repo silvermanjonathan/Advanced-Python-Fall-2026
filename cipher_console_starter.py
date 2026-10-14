@@ -1,6 +1,6 @@
 """Cipher console: the coded message builds up one letter every half second."""
 
-import pygame
+# step 1: replace this comment with import pygame
 
 import letters
 
@@ -8,7 +8,7 @@ MESSAGE = "attack at dawn"
 KEY = 3
 ALPHABET = "abcdefghijklmnopqrstuvwxyz"
 
-BOARD = (15, 19, 24)
+# step 1: replace this comment with the BOARD color
 TILE = (242, 233, 211)
 TILE_INK = (27, 31, 38)
 CODED_TILE = (31, 46, 39)

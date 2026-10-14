@@ -113,6 +113,15 @@ pre code{background:none; padding:0; font-size:inherit; font-weight:inherit; col
 .part.ask button.rev{font-size:15px; padding:6px 14px; margin:0 16px 10px}
 .part.ask .ans{margin:0 16px; padding:8px 0 10px}
 .part.ask .ans .plabel{padding:0}
+/* Python code, colored as VS Code colors it: its dark theme on screen */
+pre.py{background:#1F1F1F; color:#D4D4D4; border:0; border-radius:6px; font-weight:400;
+  padding:18px 20px}
+.part pre.py{background:#1F1F1F; border-radius:0; padding:10px 16px}
+.predict > pre.py{background:#1F1F1F}
+pre.py .hk{color:#C586C0} pre.py .hs{color:#569CD6} pre.py .hf{color:#DCDCAA}
+pre.py .hc{color:#4EC9B0} pre.py .hv{color:#9CDCFE} pre.py .hn{color:#4FC1FF}
+pre.py .hq{color:#CE9178} pre.py .he{color:#D7BA7D} pre.py .hd{color:#B5CEA8}
+pre.py .hm{color:#6A9955}
 .fname{
   font-family:'JetBrains Mono',monospace; font-size:12.5px; letter-spacing:.1em;
   text-transform:uppercase; color:var(--ink-soft); margin:0 0 6px; font-weight:700;
@@ -269,6 +278,12 @@ footer p{margin:0}
   header.top h1,header.top .sub,header.top .eyebrow,.pill b{color:#111}
   .pill{border-color:#666}
   button.rev{display:none} .ans{display:block}
+  /* printers leave out dark backgrounds, so print uses VS Code's light theme */
+  pre.py,.part pre.py,.predict > pre.py{background:#fff; color:#000; border:1px solid #999}
+  pre.py .hk{color:#AF00DB} pre.py .hs{color:#0000FF} pre.py .hf{color:#795E26}
+  pre.py .hc{color:#267F99} pre.py .hv{color:#001080} pre.py .hn{color:#0070C1}
+  pre.py .hq{color:#A31515} pre.py .he{color:#EE0000} pre.py .hd{color:#098658}
+  pre.py .hm{color:#008000}
   nav.pager,footer,.toolbar{display:none}
   section,.exit{background:#fff; break-inside:avoid} pre{border:1px solid #999}
   a{color:#111}
@@ -281,17 +296,17 @@ footer p{margin:0}
 <main><div class="wrap">
 
 <section class="opener"><p class="chunk-no">Section 1 &middot; 10 minutes</p><h2>Opener</h2><p>Here are five lists kept in step: item 0 of every list belongs to the first spark, item 1 to the second, and so on. They track four sparks that are being pulled downward one frame at a time.</p><p class="fname">sparks_parallel.py</p>
-<pre><code>xs = [100, 100, 100, 100]
-ys = [500, 500, 500, 500]
-dxs = [2, -1, 3, 0]
-dys = [-6, -5, -7, -4]
-colors = [&quot;gold&quot;, &quot;orange&quot;, &quot;red&quot;, &quot;gold&quot;]</code></pre>
+<pre class="py"><code><span class="hv">xs</span> = [<span class="hd">100</span>, <span class="hd">100</span>, <span class="hd">100</span>, <span class="hd">100</span>]
+<span class="hv">ys</span> = [<span class="hd">500</span>, <span class="hd">500</span>, <span class="hd">500</span>, <span class="hd">500</span>]
+<span class="hv">dxs</span> = [<span class="hd">2</span>, -<span class="hd">1</span>, <span class="hd">3</span>, <span class="hd">0</span>]
+<span class="hv">dys</span> = [-<span class="hd">6</span>, -<span class="hd">5</span>, -<span class="hd">7</span>, -<span class="hd">4</span>]
+<span class="hv">colors</span> = [<span class="hq">"gold"</span>, <span class="hq">"orange"</span>, <span class="hq">"red"</span>, <span class="hq">"gold"</span>]</code></pre>
 <div class="toolbar"><a class="btn quiet" href="sparks_parallel.py" download="sparks_parallel.py">Download sparks_parallel.py</a></div>
-<p>Spark 1 lands, so it has to come out of every list. Someone removes it from four of them and misses the fifth.</p><pre><code>xs.pop(1)
-ys.pop(1)
-dxs.pop(1)
-dys.pop(1)
-# colors.pop(1) is missing on purpose</code></pre>
+<p>Spark 1 lands, so it has to come out of every list. Someone removes it from four of them and misses the fifth.</p><pre class="py"><code><span class="hv">xs</span>.<span class="hf">pop</span>(<span class="hd">1</span>)
+<span class="hv">ys</span>.<span class="hf">pop</span>(<span class="hd">1</span>)
+<span class="hv">dxs</span>.<span class="hf">pop</span>(<span class="hd">1</span>)
+<span class="hv">dys</span>.<span class="hf">pop</span>(<span class="hd">1</span>)
+<span class="hm"># colors.pop(1) is missing on purpose</span></code></pre>
 <div class="predict"><b>Predict first.</b> Before the removal, spark 2 was red. What colour is it afterwards, and what else is now wrong?
 <button class="rev" data-target="a49" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a49">Show the answer</button>
 <div class="ans" id="a49"><div class="out"><span class="tag">verified output</span><pre><code>frame 2
@@ -308,47 +323,47 @@ after removing from four lists but forgetting the fifth:
 <p>The spark that was at x=109 was red and is now orange. Every colour after the removal point is off by one, and the program does not complain, because nothing in it knows those five lists were ever related.</p><p>There is a second problem. You cannot pass one spark to a function. You have to pass five lists and an index, and trust that whoever calls the function keeps them together.</p></div></div>
 </section>
 <section class="chunk"><p class="chunk-no">Section 2 &middot; 30 minutes</p><h2>One spark, one object</h2><p>One line in the class below needs explaining first. A spark is launched with a speed and an angle, but the program has to move it in two separate directions each frame: some amount across, and some amount up. Splitting one speed-and-angle into those two amounts is what <code>cos</code> and <code>sin</code> do.</p><p>Speed 10 at 60 degrees gives 5.0 across and 8.66 up. You can check those two numbers are right without knowing any trigonometry: 5.0 squared plus 8.66 squared is 100, and the speed squared is also 100. The across-amount and the up-amount always fit the original speed exactly.</p><p><code>math.radians</code> is a unit change, nothing more. Python's <code>cos</code> and <code>sin</code> want radians and you are thinking in degrees, so you convert. Treat all three as tools for today. You do not need to know how they work inside.</p><p class="fname">plume.py</p>
-<pre><code>class Particle:
-    &quot;&quot;&quot;One thrown speck that keeps a trail of where it has been.&quot;&quot;&quot;
+<pre class="py"><code><span class="hs">class</span> <span class="hc">Particle</span>:
+    <span class="hq">"""One thrown speck that keeps a trail of where it has been."""</span>
 
-    def __init__(self, x, y, speed, angle):
-        self.x = x
-        self.y = y
-        self.dx = speed * math.cos(math.radians(angle))
-        self.dy = -speed * math.sin(math.radians(angle))
-        self.trail = [(x, y)]
-        self.alive = 1
+    <span class="hs">def</span> <span class="hf">__init__</span>(<span class="hs">self</span>, <span class="hv">x</span>, <span class="hv">y</span>, <span class="hv">speed</span>, <span class="hv">angle</span>):
+        <span class="hs">self</span>.<span class="hv">x</span> = <span class="hv">x</span>
+        <span class="hs">self</span>.<span class="hv">y</span> = <span class="hv">y</span>
+        <span class="hs">self</span>.<span class="hv">dx</span> = <span class="hv">speed</span> * <span class="hc">math</span>.<span class="hf">cos</span>(<span class="hc">math</span>.<span class="hf">radians</span>(<span class="hv">angle</span>))
+        <span class="hs">self</span>.<span class="hv">dy</span> = -<span class="hv">speed</span> * <span class="hc">math</span>.<span class="hf">sin</span>(<span class="hc">math</span>.<span class="hf">radians</span>(<span class="hv">angle</span>))
+        <span class="hs">self</span>.<span class="hv">trail</span> = [(<span class="hv">x</span>, <span class="hv">y</span>)]
+        <span class="hs">self</span>.<span class="hv">alive</span> = <span class="hd">1</span>
 
-    def step(self):
-        &quot;&quot;&quot;Move one frame forward and record the new position.&quot;&quot;&quot;
-        self.dy = self.dy + GRAVITY
-        self.x = self.x + self.dx
-        self.y = self.y + self.dy
+    <span class="hs">def</span> <span class="hf">step</span>(<span class="hs">self</span>):
+        <span class="hq">"""Move one frame forward and record the new position."""</span>
+        <span class="hs">self</span>.<span class="hv">dy</span> = <span class="hs">self</span>.<span class="hv">dy</span> + <span class="hn">GRAVITY</span>
+        <span class="hs">self</span>.<span class="hv">x</span> = <span class="hs">self</span>.<span class="hv">x</span> + <span class="hs">self</span>.<span class="hv">dx</span>
+        <span class="hs">self</span>.<span class="hv">y</span> = <span class="hs">self</span>.<span class="hv">y</span> + <span class="hs">self</span>.<span class="hv">dy</span>
 
-        self.trail.append((self.x, self.y))
+        <span class="hs">self</span>.<span class="hv">trail</span>.<span class="hf">append</span>((<span class="hs">self</span>.<span class="hv">x</span>, <span class="hs">self</span>.<span class="hv">y</span>))
 
-        if self.y &gt; HEIGHT - 40:
-            self.alive = 0</code></pre>
+        <span class="hk">if</span> <span class="hs">self</span>.<span class="hv">y</span> &gt; <span class="hn">HEIGHT</span> - <span class="hd">40</span>:
+            <span class="hs">self</span>.<span class="hv">alive</span> = <span class="hd">0</span></code></pre>
 <div class="toolbar"><a class="btn quiet" href="plume.py" download="plume.py">Download plume.py</a></div>
 <div class="predict"><b>Predict first.</b> Why is there a minus sign on <code>self.dy</code> in <code>__init__</code> but a plus on <code>GRAVITY</code> in <code>step</code>?
 <button class="rev" data-target="a50" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a50">Show the answer</button>
 <div class="ans" id="a50"><p>Because the screen's y axis points down. <code>dy</code> is how much <code>y</code> changes each frame, so a positive <code>dy</code> moves the particle down the screen and a negative <code>dy</code> moves it up. An angle of 90 degrees means straight up, which on screen means y decreasing, so the initial dy has to be negative. Gravity pulls down the screen, which is y increasing, so it adds.</p><p>This is the coordinate system from session 4's grid, with one axis flipped relative to the one you use in maths class. It causes bugs in every program that draws, so say it out loud each time it comes up.</p></div></div>
 <p><code>self</code> is the particular spark this call is about. <code>self.x</code> is that spark's own x, not shared with any other. That one idea replaces all five lists and the comment that was holding them together.</p></section>
-<section class="chunk"><p class="chunk-no">Section 3 &middot; 25 minutes</p><h2>A list of objects</h2><pre><code>running = 1
-while running:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = 0
+<section class="chunk"><p class="chunk-no">Section 3 &middot; 25 minutes</p><h2>A list of objects</h2><pre class="py"><code><span class="hv">running</span> = <span class="hd">1</span>
+<span class="hk">while</span> <span class="hv">running</span>:
+    <span class="hk">for</span> <span class="hv">event</span> <span class="hs">in</span> <span class="hc">pygame</span>.<span class="hc">event</span>.<span class="hf">get</span>():
+        <span class="hk">if</span> <span class="hv">event</span>.<span class="hv">type</span> == <span class="hc">pygame</span>.<span class="hn">QUIT</span>:
+            <span class="hv">running</span> = <span class="hd">0</span>
 
-    screen.fill(BLACK)
-    pygame.draw.rect(screen, (90, 108, 116), (0, HEIGHT - 40, WIDTH, 40))
-    for p in particles:
-        if p.alive == 1:
-            p.step()
-        p.draw(screen)
+    <span class="hv">screen</span>.<span class="hf">fill</span>(<span class="hn">BLACK</span>)
+    <span class="hc">pygame</span>.<span class="hc">draw</span>.<span class="hf">rect</span>(<span class="hv">screen</span>, (<span class="hd">90</span>, <span class="hd">108</span>, <span class="hd">116</span>), (<span class="hd">0</span>, <span class="hn">HEIGHT</span> - <span class="hd">40</span>, <span class="hn">WIDTH</span>, <span class="hd">40</span>))
+    <span class="hk">for</span> <span class="hv">p</span> <span class="hs">in</span> <span class="hv">particles</span>:
+        <span class="hk">if</span> <span class="hv">p</span>.<span class="hv">alive</span> == <span class="hd">1</span>:
+            <span class="hv">p</span>.<span class="hf">step</span>()
+        <span class="hv">p</span>.<span class="hf">draw</span>(<span class="hv">screen</span>)
 
-    pygame.display.flip()
-    clock.tick(60)</code></pre>
+    <span class="hc">pygame</span>.<span class="hc">display</span>.<span class="hf">flip</span>()
+    <span class="hv">clock</span>.<span class="hf">tick</span>(<span class="hd">60</span>)</code></pre>
 <div class="predict"><b>Predict first.</b> 120 particles launched from the vent at speeds 6 to 11 and angles 60 to 120 degrees. After 240 frames, how many are still in the air, and how high did the highest one get?
 <button class="rev" data-target="a51" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a51">Show the answer</button>
 <div class="ans" id="a51"><div class="out"><span class="tag">verified from a headless run</span><pre><code>frames run: 241

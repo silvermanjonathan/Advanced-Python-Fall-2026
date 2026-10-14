@@ -113,6 +113,15 @@ pre code{background:none; padding:0; font-size:inherit; font-weight:inherit; col
 .part.ask button.rev{font-size:15px; padding:6px 14px; margin:0 16px 10px}
 .part.ask .ans{margin:0 16px; padding:8px 0 10px}
 .part.ask .ans .plabel{padding:0}
+/* Python code, colored as VS Code colors it: its dark theme on screen */
+pre.py{background:#1F1F1F; color:#D4D4D4; border:0; border-radius:6px; font-weight:400;
+  padding:18px 20px}
+.part pre.py{background:#1F1F1F; border-radius:0; padding:10px 16px}
+.predict > pre.py{background:#1F1F1F}
+pre.py .hk{color:#C586C0} pre.py .hs{color:#569CD6} pre.py .hf{color:#DCDCAA}
+pre.py .hc{color:#4EC9B0} pre.py .hv{color:#9CDCFE} pre.py .hn{color:#4FC1FF}
+pre.py .hq{color:#CE9178} pre.py .he{color:#D7BA7D} pre.py .hd{color:#B5CEA8}
+pre.py .hm{color:#6A9955}
 .fname{
   font-family:'JetBrains Mono',monospace; font-size:12.5px; letter-spacing:.1em;
   text-transform:uppercase; color:var(--ink-soft); margin:0 0 6px; font-weight:700;
@@ -269,6 +278,12 @@ footer p{margin:0}
   header.top h1,header.top .sub,header.top .eyebrow,.pill b{color:#111}
   .pill{border-color:#666}
   button.rev{display:none} .ans{display:block}
+  /* printers leave out dark backgrounds, so print uses VS Code's light theme */
+  pre.py,.part pre.py,.predict > pre.py{background:#fff; color:#000; border:1px solid #999}
+  pre.py .hk{color:#AF00DB} pre.py .hs{color:#0000FF} pre.py .hf{color:#795E26}
+  pre.py .hc{color:#267F99} pre.py .hv{color:#001080} pre.py .hn{color:#0070C1}
+  pre.py .hq{color:#A31515} pre.py .he{color:#EE0000} pre.py .hd{color:#098658}
+  pre.py .hm{color:#008000}
   nav.pager,footer,.toolbar{display:none}
   section,.exit{background:#fff; break-inside:avoid} pre{border:1px solid #999}
   a{color:#111}
@@ -285,26 +300,26 @@ footer p{margin:0}
 <div class="ans" id="a52"><p>Straight down the screen, because the ship is directly above the planet, and the distance is 180.</p><p>The general rule, in case you have not met it: if two points are <code>a</code> apart across and <code>b</code> apart up, the straight-line distance between them is the square root of <code>a</code> squared plus <code>b</code> squared. That is the Pythagorean theorem, and it is the one piece of geometry this session needs. Here the across gap is 0, so the distance is just 300 minus 120.</p><p>With gaps of 100 across and 80 up you need the whole rule: the distance is the square root of 10000 plus 6400, which is about 128.</p><p>When the ship is off to one side, both differences matter and you need the full calculation.</p></div></div>
 </section>
 <section class="chunk"><p class="chunk-no">Section 2 &middot; 30 minutes</p><h2>Falling sideways</h2><p class="fname">orbit.py</p>
-<pre><code>    def distance(self):
-        &quot;&quot;&quot;Return the distance from this ship to the planet centre.&quot;&quot;&quot;
-        gap_x = PLANET_X - self.x
-        gap_y = PLANET_Y - self.y
-        return math.sqrt(gap_x * gap_x + gap_y * gap_y)
+<pre class="py"><code>    <span class="hs">def</span> <span class="hf">distance</span>(<span class="hs">self</span>):
+        <span class="hq">"""Return the distance from this ship to the planet centre."""</span>
+        <span class="hv">gap_x</span> = <span class="hn">PLANET_X</span> - <span class="hs">self</span>.<span class="hv">x</span>
+        <span class="hv">gap_y</span> = <span class="hn">PLANET_Y</span> - <span class="hs">self</span>.<span class="hv">y</span>
+        <span class="hk">return</span> <span class="hc">math</span>.<span class="hf">sqrt</span>(<span class="hv">gap_x</span> * <span class="hv">gap_x</span> + <span class="hv">gap_y</span> * <span class="hv">gap_y</span>)
 
-    def step(self):
-        &quot;&quot;&quot;Apply one time slice of gravity, then move.&quot;&quot;&quot;
-        gap_x = PLANET_X - self.x
-        gap_y = PLANET_Y - self.y
-        r = self.distance()
-        pull = PULL / (r * r)
+    <span class="hs">def</span> <span class="hf">step</span>(<span class="hs">self</span>):
+        <span class="hq">"""Apply one time slice of gravity, then move."""</span>
+        <span class="hv">gap_x</span> = <span class="hn">PLANET_X</span> - <span class="hs">self</span>.<span class="hv">x</span>
+        <span class="hv">gap_y</span> = <span class="hn">PLANET_Y</span> - <span class="hs">self</span>.<span class="hv">y</span>
+        <span class="hv">r</span> = <span class="hs">self</span>.<span class="hf">distance</span>()
+        <span class="hv">pull</span> = <span class="hn">PULL</span> / (<span class="hv">r</span> * <span class="hv">r</span>)
 
-        self.dx = self.dx + pull * (gap_x / r) * DT
-        self.dy = self.dy + pull * (gap_y / r) * DT
+        <span class="hs">self</span>.<span class="hv">dx</span> = <span class="hs">self</span>.<span class="hv">dx</span> + <span class="hv">pull</span> * (<span class="hv">gap_x</span> / <span class="hv">r</span>) * <span class="hn">DT</span>
+        <span class="hs">self</span>.<span class="hv">dy</span> = <span class="hs">self</span>.<span class="hv">dy</span> + <span class="hv">pull</span> * (<span class="hv">gap_y</span> / <span class="hv">r</span>) * <span class="hn">DT</span>
 
-        self.x = self.x + self.dx * DT
-        self.y = self.y + self.dy * DT
+        <span class="hs">self</span>.<span class="hv">x</span> = <span class="hs">self</span>.<span class="hv">x</span> + <span class="hs">self</span>.<span class="hv">dx</span> * <span class="hn">DT</span>
+        <span class="hs">self</span>.<span class="hv">y</span> = <span class="hs">self</span>.<span class="hv">y</span> + <span class="hs">self</span>.<span class="hv">dy</span> * <span class="hn">DT</span>
 
-        self.trail.append((self.x, self.y))</code></pre>
+        <span class="hs">self</span>.<span class="hv">trail</span>.<span class="hf">append</span>((<span class="hs">self</span>.<span class="hv">x</span>, <span class="hs">self</span>.<span class="hv">y</span>))</code></pre>
 <div class="toolbar"><a class="btn quiet" href="orbit.py" download="orbit.py">Download orbit.py</a></div>
 <p>Three things are happening. <code>PULL / (r * r)</code> makes gravity weaker further out. <code>gap_x / r</code> and <code>gap_y / r</code> split that pull into its across and down parts, in proportion to how much of the gap lies along each axis. And <code>DT</code> is how big a slice of time each frame stands for.</p><div class="predict"><b>Predict first.</b> The ship starts at (400, 120) with <code>dx = 3.8</code> and <code>dy = 0</code>, so it is moving sideways at 180 pixels out. Does it fall into the planet, fly away, or go round?
 <button class="rev" data-target="a53" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a53">Show the answer</button>

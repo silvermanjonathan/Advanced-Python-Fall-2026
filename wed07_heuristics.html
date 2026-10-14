@@ -113,6 +113,15 @@ pre code{background:none; padding:0; font-size:inherit; font-weight:inherit; col
 .part.ask button.rev{font-size:15px; padding:6px 14px; margin:0 16px 10px}
 .part.ask .ans{margin:0 16px; padding:8px 0 10px}
 .part.ask .ans .plabel{padding:0}
+/* Python code, colored as VS Code colors it: its dark theme on screen */
+pre.py{background:#1F1F1F; color:#D4D4D4; border:0; border-radius:6px; font-weight:400;
+  padding:18px 20px}
+.part pre.py{background:#1F1F1F; border-radius:0; padding:10px 16px}
+.predict > pre.py{background:#1F1F1F}
+pre.py .hk{color:#C586C0} pre.py .hs{color:#569CD6} pre.py .hf{color:#DCDCAA}
+pre.py .hc{color:#4EC9B0} pre.py .hv{color:#9CDCFE} pre.py .hn{color:#4FC1FF}
+pre.py .hq{color:#CE9178} pre.py .he{color:#D7BA7D} pre.py .hd{color:#B5CEA8}
+pre.py .hm{color:#6A9955}
 .fname{
   font-family:'JetBrains Mono',monospace; font-size:12.5px; letter-spacing:.1em;
   text-transform:uppercase; color:var(--ink-soft); margin:0 0 6px; font-weight:700;
@@ -269,6 +278,12 @@ footer p{margin:0}
   header.top h1,header.top .sub,header.top .eyebrow,.pill b{color:#111}
   .pill{border-color:#666}
   button.rev{display:none} .ans{display:block}
+  /* printers leave out dark backgrounds, so print uses VS Code's light theme */
+  pre.py,.part pre.py,.predict > pre.py{background:#fff; color:#000; border:1px solid #999}
+  pre.py .hk{color:#AF00DB} pre.py .hs{color:#0000FF} pre.py .hf{color:#795E26}
+  pre.py .hc{color:#267F99} pre.py .hv{color:#001080} pre.py .hn{color:#0070C1}
+  pre.py .hq{color:#A31515} pre.py .he{color:#EE0000} pre.py .hd{color:#098658}
+  pre.py .hm{color:#008000}
   nav.pager,footer,.toolbar{display:none}
   section,.exit{background:#fff; break-inside:avoid} pre{border:1px solid #999}
   a{color:#111}
@@ -285,33 +300,33 @@ footer p{margin:0}
 <div class="ans" id="a34"><p>About twenty minutes, because three more digits is three more multiplications by ten: a second, ten seconds, a hundred seconds, a thousand seconds. Today's target is the same seven digit lock, <code>4703916</code>.</p></div></div>
 </section>
 <section class="chunk"><p class="chunk-no">Section 2 &middot; 25 minutes</p><h2>A score changes everything</h2><p>Brute force learns one thing per guess: right or wrong. Suppose instead the lock tells you how many positions are correct. That one change makes the problem much easier.</p><p class="fname">smarter_than_brute.py</p>
-<pre><code>def score(guess):
-    &quot;&quot;&quot;Return how many positions in guess match the secret.&quot;&quot;&quot;
-    hits = 0
-    for i in range(len(SECRET)):
-        if guess[i] == SECRET[i]:
-            hits = hits + 1
-    return hits
+<pre class="py"><code><span class="hs">def</span> <span class="hf">score</span>(<span class="hv">guess</span>):
+    <span class="hq">"""Return how many positions in guess match the secret."""</span>
+    <span class="hv">hits</span> = <span class="hd">0</span>
+    <span class="hk">for</span> <span class="hv">i</span> <span class="hs">in</span> <span class="hc">range</span>(<span class="hf">len</span>(<span class="hn">SECRET</span>)):
+        <span class="hk">if</span> <span class="hv">guess</span>[<span class="hv">i</span>] == <span class="hn">SECRET</span>[<span class="hv">i</span>]:
+            <span class="hv">hits</span> = <span class="hv">hits</span> + <span class="hd">1</span>
+    <span class="hk">return</span> <span class="hv">hits</span>
 
 
-def hill_climb():
-    &quot;&quot;&quot;Keep any single-digit change that does not make the score worse.&quot;&quot;&quot;
-    current = &quot;&quot;
-    for i in range(len(SECRET)):
-        current = current + random.choice(DIGITS)
+<span class="hs">def</span> <span class="hf">hill_climb</span>():
+    <span class="hq">"""Keep any single-digit change that does not make the score worse."""</span>
+    <span class="hv">current</span> = <span class="hq">""</span>
+    <span class="hk">for</span> <span class="hv">i</span> <span class="hs">in</span> <span class="hc">range</span>(<span class="hf">len</span>(<span class="hn">SECRET</span>)):
+        <span class="hv">current</span> = <span class="hv">current</span> + <span class="hc">random</span>.<span class="hf">choice</span>(<span class="hn">DIGITS</span>)
 
-    best = score(current)
-    tries = 1
-    while best &lt; len(SECRET):
-        spot = random.randrange(len(SECRET))
-        new_digit = random.choice(DIGITS)
-        candidate = current[:spot] + new_digit + current[spot + 1:]
+    <span class="hv">best</span> = <span class="hf">score</span>(<span class="hv">current</span>)
+    <span class="hv">tries</span> = <span class="hd">1</span>
+    <span class="hk">while</span> <span class="hv">best</span> &lt; <span class="hf">len</span>(<span class="hn">SECRET</span>):
+        <span class="hv">spot</span> = <span class="hc">random</span>.<span class="hf">randrange</span>(<span class="hf">len</span>(<span class="hn">SECRET</span>))
+        <span class="hv">new_digit</span> = <span class="hc">random</span>.<span class="hf">choice</span>(<span class="hn">DIGITS</span>)
+        <span class="hv">candidate</span> = <span class="hv">current</span>[:<span class="hv">spot</span>] + <span class="hv">new_digit</span> + <span class="hv">current</span>[<span class="hv">spot</span> + <span class="hd">1</span>:]
 
-        tries = tries + 1
-        if score(candidate) &gt;= best:
-            current = candidate
-            best = score(candidate)
-    return tries</code></pre>
+        <span class="hv">tries</span> = <span class="hv">tries</span> + <span class="hd">1</span>
+        <span class="hk">if</span> <span class="hf">score</span>(<span class="hv">candidate</span>) &gt;= <span class="hv">best</span>:
+            <span class="hv">current</span> = <span class="hv">candidate</span>
+            <span class="hv">best</span> = <span class="hf">score</span>(<span class="hv">candidate</span>)
+    <span class="hk">return</span> <span class="hv">tries</span></code></pre>
 <div class="predict"><b>Predict first.</b> Brute force needs about 4.7 million tries on this lock. Guess how many hill climbing needs. Write a number.
 <button class="rev" data-target="a35" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a35">Show the answer</button>
 <div class="ans" id="a35"><div class="out"><span class="tag">verified output</span><pre><code>secret is 7 digits, so there are 10000000 codes
@@ -328,24 +343,24 @@ hill climbing, five runs:
   average 165.8 tries</code></pre></div>
 <p>About 170. That is roughly twenty eight thousand times less work than the sweep. Note the middle line too: random guessing of whole codes failed inside 200000 tries, so random guessing on its own does not help. The score is what helps.</p><p>The five runs differ a lot, from 50 to 238. A method with a random start does not have one running time. It has a range. One run tells you almost nothing about the range; five runs start to.</p></div></div>
 <p>Why <code>&gt;=</code> rather than <code>&gt;</code> in the keep rule? Because a change that leaves the score alone still moves you sideways, and sideways moves are how you get out of a position where every single-digit change makes the score worse. It is the same <code>&gt;</code> against <code>&gt;=</code> question as session 1.</p></section>
-<section class="chunk"><p class="chunk-no">Section 3 &middot; 30 minutes</p><h2>Breeding codes</h2><p>A genetic algorithm keeps a population instead of one candidate. Sort by score, keep the best few, and build the rest by cutting two parents together and occasionally changing one digit at random.</p><pre><code>        population.sort(key=score, reverse=True)
-        if score(population[0]) == len(SECRET):
-            return generation, population[0]
+<section class="chunk"><p class="chunk-no">Section 3 &middot; 30 minutes</p><h2>Breeding codes</h2><p>A genetic algorithm keeps a population instead of one candidate. Sort by score, keep the best few, and build the rest by cutting two parents together and occasionally changing one digit at random.</p><pre class="py"><code>        <span class="hv">population</span>.<span class="hf">sort</span>(<span class="hv">key</span>=<span class="hv">score</span>, <span class="hv">reverse</span>=<span class="hs">True</span>)
+        <span class="hk">if</span> <span class="hf">score</span>(<span class="hv">population</span>[<span class="hd">0</span>]) == <span class="hf">len</span>(<span class="hn">SECRET</span>):
+            <span class="hk">return</span> <span class="hv">generation</span>, <span class="hv">population</span>[<span class="hd">0</span>]
 
-        parents = population[:keep]
-        population = list(parents)
+        <span class="hv">parents</span> = <span class="hv">population</span>[:<span class="hv">keep</span>]
+        <span class="hv">population</span> = <span class="hc">list</span>(<span class="hv">parents</span>)
 
-        while len(population) &lt; pop_size:
-            mum = random.choice(parents)
-            dad = random.choice(parents)
-            cut = random.randrange(1, len(SECRET))
-            child = mum[:cut] + dad[cut:]
+        <span class="hk">while</span> <span class="hf">len</span>(<span class="hv">population</span>) &lt; <span class="hv">pop_size</span>:
+            <span class="hv">mum</span> = <span class="hc">random</span>.<span class="hf">choice</span>(<span class="hv">parents</span>)
+            <span class="hv">dad</span> = <span class="hc">random</span>.<span class="hf">choice</span>(<span class="hv">parents</span>)
+            <span class="hv">cut</span> = <span class="hc">random</span>.<span class="hf">randrange</span>(<span class="hd">1</span>, <span class="hf">len</span>(<span class="hn">SECRET</span>))
+            <span class="hv">child</span> = <span class="hv">mum</span>[:<span class="hv">cut</span>] + <span class="hv">dad</span>[<span class="hv">cut</span>:]
 
-            if random.random() &lt; 0.3:
-                spot = random.randrange(len(SECRET))
-                child = child[:spot] + random.choice(DIGITS) + child[spot + 1:]
+            <span class="hk">if</span> <span class="hc">random</span>.<span class="hf">random</span>() &lt; <span class="hd">0.3</span>:
+                <span class="hv">spot</span> = <span class="hc">random</span>.<span class="hf">randrange</span>(<span class="hf">len</span>(<span class="hn">SECRET</span>))
+                <span class="hv">child</span> = <span class="hv">child</span>[:<span class="hv">spot</span>] + <span class="hc">random</span>.<span class="hf">choice</span>(<span class="hn">DIGITS</span>) + <span class="hv">child</span>[<span class="hv">spot</span> + <span class="hd">1</span>:]
 
-            population.append(child)</code></pre>
+            <span class="hv">population</span>.<span class="hf">append</span>(<span class="hv">child</span>)</code></pre>
 <div class="predict"><b>Predict first.</b> Population of 40, keeping the best 8. It finishes in about 17 generations. Is that better or worse than hill climbing's 170 tries? Careful.
 <button class="rev" data-target="a36" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a36">Show the answer</button>
 <div class="ans" id="a36"><div class="out"><span class="tag">verified output</span><pre><code>genetic algorithm, five runs:

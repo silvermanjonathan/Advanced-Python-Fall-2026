@@ -478,8 +478,11 @@ print(shift_by("gdzq", -3))''',
         "students did not build teaches nothing about the cipher.</p>"
         "<p>Students download two files, the starter and <code>letters.py</code>, and "
         "type the pygame code into the starter one step at a time. The starter already "
-        "holds the lines that teach nothing new: the message, the colors, "
-        "<code>shift_by</code>, and the prints. If the room is behind, type step 1 "
+        "holds the lines that teach nothing new: the message, most of the colors, "
+        "<code>shift_by</code>, and the prints. Step 1 has students type "
+        "<code>import pygame</code> and <code>BOARD</code> as well as the window code, "
+        "in the three places the starter marks, so every line the window needs is on "
+        "the page. If the room is behind, type step 1 "
         "together on the projector, line by line, and let students do steps 2 to 4 on "
         "their own. The answer key at the bottom of the page has the whole file after "
         "each step, behind one button, for a student whose program will not run.</p>",

@@ -1,6 +1,7 @@
 """Session 1: an animated trace of gate_log.py filling the worksheet table."""
 
 from build import masthead, pager
+from hl import highlight
 
 DOORS = [1, 0, 1, 1, 0, 0, 1, 0, 1, 1, 1, 0]
 
@@ -24,8 +25,8 @@ TRACE_CSS = """
 @media(min-width:820px){.two-up{grid-template-columns:1fr 1fr; align-items:start}}
 pre.prog{margin:0; font-size:15px; line-height:1.55; counter-reset:ln}
 pre.prog span.l{display:block; padding:0 6px; border-radius:3px; margin:0 -6px}
-pre.prog span.l.hot{background:var(--ochre-tint); box-shadow:inset 4px 0 0 var(--ochre-line)}
-pre.prog span.l.fired{background:var(--green-tint); box-shadow:inset 4px 0 0 var(--green)}
+pre.prog span.l.hot{background:#4A3C17; box-shadow:inset 4px 0 0 var(--ochre-line)}
+pre.prog span.l.fired{background:#173A26; box-shadow:inset 4px 0 0 #3FA36B}
 table.trace{table-layout:fixed; margin:0}
 table.trace th,table.trace td{text-align:center; font-family:'JetBrains Mono',monospace; height:36px; padding:4px}
 table.trace td.i{background:#EFE9DA; font-weight:700}
@@ -70,10 +71,11 @@ PROGRAM_LINES = [
 
 
 def program_block():
-    """Return gate_log.py with one span per line so lines can light up."""
-    out = '<pre class="prog">'
+    """Return gate_log.py, colored as in VS Code, with one span per line so lines can light up."""
+    whole = "\n".join(PROGRAM_LINES)
+    out = '<pre class="prog py">'
     for n, line in enumerate(PROGRAM_LINES):
-        text = line.replace("<", "&lt;").replace(">", "&gt;")
+        text = highlight(line, whole)
         out += f'<span class="l" id="ln{n}">{text if text else " "}</span>'
     return out + "</pre>"
 

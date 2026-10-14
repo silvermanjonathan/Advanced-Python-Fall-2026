@@ -171,8 +171,8 @@ for pagename, (cmd, lines) in CHECKS.items():
     real = run.stdout
     with open(os.path.join(SITE, pagename.split("#")[0])) as f:
         doc = f.read()
-    blocks = re.findall(r"<pre><code>(.*?)</code></pre>", doc, re.S)
-    page_text = "\n".join(html.unescape(b) for b in blocks)
+    blocks = re.findall(r"<pre(?: class=\"[^\"]*\")?><code>(.*?)</code></pre>", doc, re.S)
+    page_text = "\n".join(html.unescape(re.sub(r"<[^>]+>", "", b)) for b in blocks)
 
     for line in lines:
         if line not in real:

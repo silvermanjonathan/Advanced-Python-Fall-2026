@@ -161,6 +161,9 @@ while running:
 
 pygame.quit()"""
 
+IMPORT_MARK = "# step 1: replace this comment with import pygame"
+BOARD_MARK = "# step 1: replace this comment with the BOARD color"
+BOARD_LINE = "BOARD = (15, 19, 24)"
 STEP1_MARK = "# step 1: replace this comment with the window code"
 TILE_RECT = "        pygame.draw.rect(screen, TILE, (x, 130, 20, 26))"
 LAST_TILE_LINE = "        letters.draw_letter(screen, coded_row[i], x + 7, 198, 2, CODED_INK)"
@@ -170,7 +173,9 @@ DRAW_CODED = "    letters.draw_word(screen, coded, 40, 280, 4, CODED_INK)"
 # or "replace". The page shows the new lines, and the build checks that applying the
 # steps in order to the starter gives each answer-key file, then cipher_console.py.
 STEP_EDITS = {
-    1: [("replace", STEP1_MARK, WINDOW_TYPED)],
+    1: [("replace", IMPORT_MARK, "import pygame"),
+        ("replace", BOARD_MARK, BOARD_LINE),
+        ("replace", STEP1_MARK, WINDOW_TYPED)],
     2: [("after", "    screen.fill(BOARD)",
          "\n    for i in range(26):\n        x = 20 + i * 23\n" + TILE_RECT)],
     3: [("after", TILE_RECT,
@@ -264,9 +269,9 @@ def console_section():
     b += (
         "<p>If your browser saves the starter as <code>cipher_console_starter.py</code>, "
         "rename it to <code>cipher_console.py</code>.</p>"
-        "<p>The starter already has the lines that do not use pygame: the message and "
-        "the key, the colors, your <code>shift_by</code> from section 2, and the lines "
-        "that code the message and print it. You type the pygame code yourself, in four "
+        "<p>The starter already has the message and the key, the colors for the tiles, "
+        "the letters, and the orange boxes, your <code>shift_by</code> from section 2, "
+        "and the lines that code the message and print it. You type the pygame code yourself, in four "
         "steps, into the same file, and run it after every step.</p>"
         "<p>If the program stops with <code>ModuleNotFoundError: No module named "
         "'pygame'</code>, type <code>pip install pygame</code> in the terminal and run "
@@ -284,12 +289,33 @@ def console_section():
 
     b += "<h3>Step 1: a window</h3>"
     b += (
-        "<p>The last line of the starter is the comment <code>" + STEP1_MARK + "</code>. "
-        "Replace it with these lines. They are split into parts, with a button under "
-        "each part. Before you press a button, say what you think that part does. The "
-        "answer also says when the part runs: once, or again on every frame.</p>"
+        "<p>Step 1 goes in three places in the starter. Each place is a comment that "
+        "starts with <code># step 1:</code>. Replace each comment with the code shown "
+        "for it. There is a button under each part of the code. Before you press a "
+        "button, say what you think that part does.</p>"
+        "<p>First, near the top, replace the comment <code>" + IMPORT_MARK + "</code> "
+        "with this line:</p>"
     )
-    b += labelled_code(WINDOW_TYPED, WINDOW_PARTS, "cipher_console.py, step 1")
+    b += labelled_code(
+        "import pygame",
+        [("import pygame", "Bring in pygame, so this file can use it.", "")],
+        "cipher_console.py, step 1, near the top",
+    )
+    b += (
+        "<p>Next, above <code>TILE</code>, replace the comment <code>" + BOARD_MARK
+        + "</code> with this line:</p>"
+    )
+    b += labelled_code(
+        BOARD_LINE,
+        [("BOARD", "The color of the window's background. It is nearly black.", "")],
+        "cipher_console.py, step 1, with the colors",
+    )
+    b += (
+        "<p>Last, at the bottom, replace the comment <code>" + STEP1_MARK + "</code> "
+        "with these lines. The answer under each part also says when the part runs: "
+        "once, or again on every frame.</p>"
+    )
+    b += labelled_code(WINDOW_TYPED, WINDOW_PARTS, "cipher_console.py, step 1, at the bottom")
     b += (
         "<p>Run it. A dark window opens, and the terminal shows the three lines the "
         "starter prints. The window stays open until you click its close button. When "
@@ -300,9 +326,10 @@ def console_section():
     b += "<h4>Before the loop</h4>"
     b += (
         '<ul class="tight">'
-        "<li><code>import pygame</code>, near the top of the starter, brings in pygame, "
-        "the same way <code>import sweep_tools</code> brought in your own module in "
-        "session 2.</li>"
+        "<li><code>import pygame</code> brings in pygame, the same way "
+        "<code>import sweep_tools</code> brought in your own module in session 2. An "
+        "import goes at the top of the file, so it comes before any line that uses "
+        "pygame.</li>"
         "<li><code>pygame.init()</code> starts pygame. It comes before anything else "
         "from pygame.</li>"
         "<li><code>pygame.display.set_mode((640, 400))</code> opens a window 640 pixels "
@@ -320,7 +347,7 @@ def console_section():
         "pairs of brackets. The outer pair are the brackets of the call to "
         "<code>set_mode</code>, the same as in <code>print(...)</code>. The inner pair "
         "make the tuple. pygame uses tuples for sizes, colors, and rectangles.</p>"
-        "<p>The starter's <code>BOARD = (15, 19, 24)</code> is a color. A color is a "
+        "<p><code>BOARD = (15, 19, 24)</code> is a color. A color is a "
         "tuple of three numbers: how much red, how much green, and how much blue, each "
         "from 0 to 255. <code>(0, 0, 0)</code> is black and <code>(255, 255, 255)</code> "
         "is white. <code>(15, 19, 24)</code> has a little of each, so it is nearly "

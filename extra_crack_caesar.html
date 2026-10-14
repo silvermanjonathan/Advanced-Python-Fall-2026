@@ -113,6 +113,15 @@ pre code{background:none; padding:0; font-size:inherit; font-weight:inherit; col
 .part.ask button.rev{font-size:15px; padding:6px 14px; margin:0 16px 10px}
 .part.ask .ans{margin:0 16px; padding:8px 0 10px}
 .part.ask .ans .plabel{padding:0}
+/* Python code, colored as VS Code colors it: its dark theme on screen */
+pre.py{background:#1F1F1F; color:#D4D4D4; border:0; border-radius:6px; font-weight:400;
+  padding:18px 20px}
+.part pre.py{background:#1F1F1F; border-radius:0; padding:10px 16px}
+.predict > pre.py{background:#1F1F1F}
+pre.py .hk{color:#C586C0} pre.py .hs{color:#569CD6} pre.py .hf{color:#DCDCAA}
+pre.py .hc{color:#4EC9B0} pre.py .hv{color:#9CDCFE} pre.py .hn{color:#4FC1FF}
+pre.py .hq{color:#CE9178} pre.py .he{color:#D7BA7D} pre.py .hd{color:#B5CEA8}
+pre.py .hm{color:#6A9955}
 .fname{
   font-family:'JetBrains Mono',monospace; font-size:12.5px; letter-spacing:.1em;
   text-transform:uppercase; color:var(--ink-soft); margin:0 0 6px; font-weight:700;
@@ -269,6 +278,12 @@ footer p{margin:0}
   header.top h1,header.top .sub,header.top .eyebrow,.pill b{color:#111}
   .pill{border-color:#666}
   button.rev{display:none} .ans{display:block}
+  /* printers leave out dark backgrounds, so print uses VS Code's light theme */
+  pre.py,.part pre.py,.predict > pre.py{background:#fff; color:#000; border:1px solid #999}
+  pre.py .hk{color:#AF00DB} pre.py .hs{color:#0000FF} pre.py .hf{color:#795E26}
+  pre.py .hc{color:#267F99} pre.py .hv{color:#001080} pre.py .hn{color:#0070C1}
+  pre.py .hq{color:#A31515} pre.py .he{color:#EE0000} pre.py .hd{color:#098658}
+  pre.py .hm{color:#008000}
   nav.pager,footer,.toolbar{display:none}
   section,.exit{background:#fff; break-inside:avoid} pre{border:1px solid #999}
   a{color:#111}
@@ -280,30 +295,30 @@ footer p{margin:0}
 <header class="top"><div class="wrap"><p class="eyebrow">Advanced Python &middot; Robofun &middot; Extra</p><h1>Break a Caesar cipher by counting letters</h1><p class="sub">Learn dictionaries and Counter, a dictionary made for counting. Then count the letters of a message somebody encoded with a key you do not have, turn the most common one into a key, and decode it, without trying every key.</p><div class="dates"><span class="pill"><b>When</b> Any time after session 3</span><span class="pill"><b>Length</b> About 40 minutes</span></div></div></header>
 <main><div class="wrap">
 
-<p>This page uses <code>shift_by</code>, the function you wrote in section 2 of session 3.</p><div class="toolbar"><a class="btn quiet" href="wed03_counting.html">Back to session 3</a></div><section class="opener"><p class="chunk-no">Section 1 &middot; 15 minutes</p><h2>Dictionaries and Counter</h2><p>To break a cipher by counting, you need a count for every letter. A <b>dictionary</b> keeps them. It stores each value under a name called a <b>key</b>: here the letter is the key and its count is the value. That is a different key from the cipher's key in section 2. You met a dictionary in session 3, <code>SHAPES</code> in <code>letters.py</code>, where each key was a letter and each value was its picture.</p><p><code>{}</code> is an empty dictionary. <code>counts["b"] = 0</code> stores 0 under the key <code>"b"</code>. The print line has a label so you can compare it with a Counter below.</p><pre><code>counts = {}
-counts[&quot;b&quot;] = 0
-counts[&quot;b&quot;] = counts[&quot;b&quot;] + 1
-print(f&quot;made without Counter: {counts}&quot;)</code></pre>
+<p>This page uses <code>shift_by</code>, the function you wrote in section 2 of session 3.</p><div class="toolbar"><a class="btn quiet" href="wed03_counting.html">Back to session 3</a></div><section class="opener"><p class="chunk-no">Section 1 &middot; 15 minutes</p><h2>Dictionaries and Counter</h2><p>To break a cipher by counting, you need a count for every letter. A <b>dictionary</b> keeps them. It stores each value under a name called a <b>key</b>: here the letter is the key and its count is the value. That is a different key from the cipher's key in section 2. You met a dictionary in session 3, <code>SHAPES</code> in <code>letters.py</code>, where each key was a letter and each value was its picture.</p><p><code>{}</code> is an empty dictionary. <code>counts["b"] = 0</code> stores 0 under the key <code>"b"</code>. The print line has a label so you can compare it with a Counter below.</p><pre class="py"><code><span class="hv">counts</span> = {}
+<span class="hv">counts</span>[<span class="hq">"b"</span>] = <span class="hd">0</span>
+<span class="hv">counts</span>[<span class="hq">"b"</span>] = <span class="hv">counts</span>[<span class="hq">"b"</span>] + <span class="hd">1</span>
+<span class="hf">print</span>(<span class="hs">f</span><span class="hq">"made without Counter: </span><span class="hs">{</span><span class="hv">counts</span><span class="hs">}</span><span class="hq">"</span>)</code></pre>
 <div class="predict"><b>Predict first.</b> What prints? And what happens if you run <code>counts["z"] + 1</code> without setting <code>counts["z"]</code> first?
 <button class="rev" data-target="a55" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a55">Show the answer</button>
 <div class="ans" id="a55"><div class="out"><span class="tag">verified output</span><pre><code>made without Counter: {&#x27;b&#x27;: 1}</code></pre></div>
 <p>The first one prints the dictionary: the key <code>'b'</code> with the value 1.</p><p>The second one raises <code>KeyError: 'z'</code>. A dictionary does not start a missing key at zero for you. A Counter does, which is why it exists.</p></div></div>
 <p><code>collections</code> is a module that comes with Python, the same way <code>sweep_tools</code> was your own module in session 2. The line <code>from collections import Counter</code> takes one thing out of it, <code>Counter</code>, so you can write <code>Counter</code> instead of <code>collections.Counter</code>. That import line goes at the top of any file that uses a Counter.</p><p>A <b>Counter</b> is a dictionary made for counting. Give it a string and it counts every character. Here is what else it can do.</p><p class="fname">counter_tour.py</p>
-<pre><code>from collections import Counter
+<pre class="py"><code><span class="hk">from</span> <span class="hc">collections</span> <span class="hk">import</span> <span class="hc">Counter</span>
 
-counts = Counter(&quot;banana&quot;)
-print(f&quot;made with Counter: {counts}&quot;)
-print(counts[&quot;a&quot;])
-print(counts[&quot;z&quot;])
-print(counts.most_common(2))
-print(counts.total())
+<span class="hv">counts</span> = <span class="hc">Counter</span>(<span class="hq">"banana"</span>)
+<span class="hf">print</span>(<span class="hs">f</span><span class="hq">"made with Counter: </span><span class="hs">{</span><span class="hv">counts</span><span class="hs">}</span><span class="hq">"</span>)
+<span class="hf">print</span>(<span class="hv">counts</span>[<span class="hq">"a"</span>])
+<span class="hf">print</span>(<span class="hv">counts</span>[<span class="hq">"z"</span>])
+<span class="hf">print</span>(<span class="hv">counts</span>.<span class="hf">most_common</span>(<span class="hd">2</span>))
+<span class="hf">print</span>(<span class="hv">counts</span>.<span class="hf">total</span>())
 
-counts.update(&quot;bandana&quot;)
-print(f&quot;made with Counter: {counts}&quot;)
+<span class="hv">counts</span>.<span class="hf">update</span>(<span class="hq">"bandana"</span>)
+<span class="hf">print</span>(<span class="hs">f</span><span class="hq">"made with Counter: </span><span class="hs">{</span><span class="hv">counts</span><span class="hs">}</span><span class="hq">"</span>)
 
-first = Counter(&quot;listen&quot;)
-second = Counter(&quot;silent&quot;)
-print(first == second)</code></pre>
+<span class="hv">first</span> = <span class="hc">Counter</span>(<span class="hq">"listen"</span>)
+<span class="hv">second</span> = <span class="hc">Counter</span>(<span class="hq">"silent"</span>)
+<span class="hf">print</span>(<span class="hv">first</span> == <span class="hv">second</span>)</code></pre>
 <div class="predict"><b>Predict first.</b> Two to predict before you run it. What does <code>counts["z"]</code> print, when there is no z in banana? And what does the last line print?
 <button class="rev" data-target="a56" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a56">Show the answer</button>
 <div class="ans" id="a56"><div class="out"><span class="tag">verified output</span><pre><code>made with Counter: Counter({&#x27;a&#x27;: 3, &#x27;n&#x27;: 2, &#x27;b&#x27;: 1})
@@ -316,22 +331,22 @@ True</code></pre></div>
 <p>One line at a time:</p><ul class="tight"><li><code>counts["a"]</code> reads one count, the same way as a dictionary: 3.</li><li><code>counts["z"]</code> is 0. A plain dictionary would stop with <code>KeyError</code>. A Counter gives 0 for anything it has not seen.</li><li><code>most_common(2)</code> returns the top two, biggest first, as pairs of letter and count. Section 2 uses this to find the top letter.</li><li><code>total()</code> adds up every count: banana has 6 letters.</li><li><code>update("bandana")</code> counts more letters into the same Counter, so a goes from 3 to 6.</li><li><code>first == second</code> is <code>True</code> when two Counters have the same counts. listen and silent use the same letters the same number of times, so they are anagrams: two words made from the same letters.</li></ul></div></div>
 </section>
 <section class="chunk"><p class="chunk-no">Section 2 &middot; 25 minutes</p><h2>Break one</h2><p>Here is a message somebody encoded with a key you do not have. You could try all 26 keys, and for a Caesar cipher that is fast enough. There is a faster way: count the letters.</p><p>In ordinary English, <code>e</code> is the most common letter. So the most common letter in the ciphertext is probably what <code>e</code> turned into. Breaking the cipher takes three steps: count the letters, turn the top letter into a key, and decode. Do them one at a time.</p><p class="fname">the message</p>
-<pre><code>ciphertext = &quot;uhdg wkh frgh dqg wudfh wkh frgh ehiruh brx hyhu uxq wkh frgh&quot;</code></pre>
+<pre class="py"><code><span class="hv">ciphertext</span> = <span class="hq">"uhdg wkh frgh dqg wudfh wkh frgh ehiruh brx hyhu uxq wkh frgh"</span></code></pre>
 <h3>Step 1: count the letters</h3><p>This is the <code>Counter</code> from section 1, with the spaces taken out first. The file starts with <code>from collections import Counter</code>, the same import line as in section 1. <code>counts.most_common(5)</code> returns the five most common letters with how many times each appears, biggest first.</p><p class="fname">caesar_crack.py, step 1</p>
-<pre><code>from collections import Counter
+<pre class="py"><code><span class="hk">from</span> <span class="hc">collections</span> <span class="hk">import</span> <span class="hc">Counter</span>
 
 
-def letter_counts(text):
-    &quot;&quot;&quot;Return a Counter of the letters in text, ignoring spaces.&quot;&quot;&quot;
-    letters = &quot;&quot;
-    for ch in text:
-        if ch != &quot; &quot;:
-            letters = letters + ch
-    return Counter(letters)
+<span class="hs">def</span> <span class="hf">letter_counts</span>(<span class="hv">text</span>):
+    <span class="hq">"""Return a Counter of the letters in text, ignoring spaces."""</span>
+    <span class="hv">letters</span> = <span class="hq">""</span>
+    <span class="hk">for</span> <span class="hv">ch</span> <span class="hs">in</span> <span class="hv">text</span>:
+        <span class="hk">if</span> <span class="hv">ch</span> != <span class="hq">" "</span>:
+            <span class="hv">letters</span> = <span class="hv">letters</span> + <span class="hv">ch</span>
+    <span class="hk">return</span> <span class="hc">Counter</span>(<span class="hv">letters</span>)
 
 
-counts = letter_counts(ciphertext)
-print(&quot;five most common:&quot;, counts.most_common(5))</code></pre>
+<span class="hv">counts</span> = <span class="hf">letter_counts</span>(<span class="hv">ciphertext</span>)
+<span class="hf">print</span>(<span class="hq">"five most common:"</span>, <span class="hv">counts</span>.<span class="hf">most_common</span>(<span class="hd">5</span>))</code></pre>
 <div class="predict"><b>Predict first.</b> Look at the message before you run anything. Which letter do you see most often?
 <button class="rev" data-target="a57" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a57">Show the answer</button>
 <div class="ans" id="a57"><div class="out"><span class="tag">verified output</span><pre><code>five most common: [(&#x27;h&#x27;, 12), (&#x27;u&#x27;, 5), (&#x27;g&#x27;, 5), (&#x27;r&#x27;, 5), (&#x27;w&#x27;, 4)]</code></pre></div>
@@ -401,68 +416,68 @@ print(&quot;five most common:&quot;, counts.most_common(5))</code></pre>
 <div class="ans" id="ladder-crack-key-2"><p><code>e</code>, <code>f</code>, <code>g</code>, <code>h</code>. How many moves is that?</p><button class="rev" data-target="ladder-crack-key-3" data-show="Hint 3" data-hide="Hide hint 3" aria-expanded="false" aria-controls="ladder-crack-key-3">Hint 3</button>
 <div class="ans" id="ladder-crack-key-3"><p>In code, it is the distance between the two letters' numbers: <code>ord("h") - ord("e")</code>, which is 104 minus 101.</p><button class="rev" data-target="ladder-crack-key-answer" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="ladder-crack-key-answer">Show the answer</button>
 <div class="ans" id="ladder-crack-key-answer"><p>The key is 3.</p><p class="fname">caesar_crack.py, step 2</p>
-<pre><code>def guess_shift(text):
-    &quot;&quot;&quot;Return the shift that maps the most common letter onto &#x27;e&#x27;.&quot;&quot;&quot;
-    counts = letter_counts(text)
-    top_letter = counts.most_common(1)[0][0]
-    return (ord(top_letter) - ord(&quot;e&quot;)) % 26</code></pre>
+<pre class="py"><code><span class="hs">def</span> <span class="hf">guess_shift</span>(<span class="hv">text</span>):
+    <span class="hq">"""Return the shift that maps the most common letter onto 'e'."""</span>
+    <span class="hv">counts</span> = <span class="hf">letter_counts</span>(<span class="hv">text</span>)
+    <span class="hv">top_letter</span> = <span class="hv">counts</span>.<span class="hf">most_common</span>(<span class="hd">1</span>)[<span class="hd">0</span>][<span class="hd">0</span>]
+    <span class="hk">return</span> (<span class="hf">ord</span>(<span class="hv">top_letter</span>) - <span class="hf">ord</span>(<span class="hq">"e"</span>)) % <span class="hd">26</span></code></pre>
 <p><code>counts.most_common(1)[0][0]</code> is the top letter: the first pair in the list, and the letter in that pair. The <code>% 26</code> is for a top letter that comes before <code>e</code> in the alphabet. If the top letter were <code>b</code>, 98 minus 101 is -3, and <code>% 26</code> turns it into 23: <code>e</code> moved 23 places and wrapped round to <code>b</code>.</p></div>
 </div>
 </div>
 </div>
 </div>
 <h3>Step 3: decode</h3><p>You have the key, and you have <code>shift_by</code> from session 3. Moving every letter back by the key undoes the cipher, so decode with a negative key.</p><p class="fname">caesar_crack.py, step 3</p>
-<pre><code>k = guess_shift(ciphertext)
-print(f&quot;guessed shift {k}&quot;)
-print(&quot;plaintext:&quot;, shift_by(ciphertext, -k))</code></pre>
+<pre class="py"><code><span class="hv">k</span> = <span class="hf">guess_shift</span>(<span class="hv">ciphertext</span>)
+<span class="hf">print</span>(<span class="hs">f</span><span class="hq">"guessed shift </span><span class="hs">{</span><span class="hv">k</span><span class="hs">}</span><span class="hq">"</span>)
+<span class="hf">print</span>(<span class="hq">"plaintext:"</span>, <span class="hf">shift_by</span>(<span class="hv">ciphertext</span>, -<span class="hv">k</span>))</code></pre>
 <div class="predict"><b>Predict first.</b> The first word of the message is <code>uhdg</code>. Move each letter back 3 by hand. What is the first word of the plaintext?
 <button class="rev" data-target="a58" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a58">Show the answer</button>
 <div class="ans" id="a58"><div class="out"><span class="tag">verified output</span><pre><code>guessed shift 3
 plaintext: read the code and trace the code before you ever run the code</code></pre></div>
 <p><code>u</code> goes back to <code>r</code>, <code>h</code> to <code>e</code>, <code>d</code> to <code>a</code>, <code>g</code> to <code>d</code>: <code>read</code>. The program does the same for every letter.</p></div></div>
 <h3>The whole program</h3><p>Here are the three steps in one file, with <code>shift_by</code> at the top. It is the same function you wrote in session 3.</p><p class="fname">caesar_crack.py</p>
-<pre><code>&quot;&quot;&quot;Break a Caesar cipher by letter frequency instead of by guessing.&quot;&quot;&quot;
+<pre class="py"><code><span class="hq">"""Break a Caesar cipher by letter frequency instead of by guessing."""</span>
 
-from collections import Counter
+<span class="hk">from</span> <span class="hc">collections</span> <span class="hk">import</span> <span class="hc">Counter</span>
 
-ciphertext = &quot;uhdg wkh frgh dqg wudfh wkh frgh ehiruh brx hyhu uxq wkh frgh&quot;
-
-
-def shift_by(text, amount):
-    &quot;&quot;&quot;Return text with every letter rotated forward by amount.&quot;&quot;&quot;
-    out = &quot;&quot;
-    for ch in text:
-        if ch == &quot; &quot;:
-            out = out + &quot; &quot;
-        else:
-            spot = ord(ch) - ord(&quot;a&quot;)
-            spot = (spot + amount) % 26
-            out = out + chr(spot + ord(&quot;a&quot;))
-    return out
+<span class="hv">ciphertext</span> = <span class="hq">"uhdg wkh frgh dqg wudfh wkh frgh ehiruh brx hyhu uxq wkh frgh"</span>
 
 
-def letter_counts(text):
-    &quot;&quot;&quot;Return a Counter of the letters in text, ignoring spaces.&quot;&quot;&quot;
-    letters = &quot;&quot;
-    for ch in text:
-        if ch != &quot; &quot;:
-            letters = letters + ch
-    return Counter(letters)
+<span class="hs">def</span> <span class="hf">shift_by</span>(<span class="hv">text</span>, <span class="hv">amount</span>):
+    <span class="hq">"""Return text with every letter rotated forward by amount."""</span>
+    <span class="hv">out</span> = <span class="hq">""</span>
+    <span class="hk">for</span> <span class="hv">ch</span> <span class="hs">in</span> <span class="hv">text</span>:
+        <span class="hk">if</span> <span class="hv">ch</span> == <span class="hq">" "</span>:
+            <span class="hv">out</span> = <span class="hv">out</span> + <span class="hq">" "</span>
+        <span class="hk">else</span>:
+            <span class="hv">spot</span> = <span class="hf">ord</span>(<span class="hv">ch</span>) - <span class="hf">ord</span>(<span class="hq">"a"</span>)
+            <span class="hv">spot</span> = (<span class="hv">spot</span> + <span class="hv">amount</span>) % <span class="hd">26</span>
+            <span class="hv">out</span> = <span class="hv">out</span> + <span class="hf">chr</span>(<span class="hv">spot</span> + <span class="hf">ord</span>(<span class="hq">"a"</span>))
+    <span class="hk">return</span> <span class="hv">out</span>
 
 
-def guess_shift(text):
-    &quot;&quot;&quot;Return the shift that maps the most common letter onto &#x27;e&#x27;.&quot;&quot;&quot;
-    counts = letter_counts(text)
-    top_letter = counts.most_common(1)[0][0]
-    return (ord(top_letter) - ord(&quot;e&quot;)) % 26
+<span class="hs">def</span> <span class="hf">letter_counts</span>(<span class="hv">text</span>):
+    <span class="hq">"""Return a Counter of the letters in text, ignoring spaces."""</span>
+    <span class="hv">letters</span> = <span class="hq">""</span>
+    <span class="hk">for</span> <span class="hv">ch</span> <span class="hs">in</span> <span class="hv">text</span>:
+        <span class="hk">if</span> <span class="hv">ch</span> != <span class="hq">" "</span>:
+            <span class="hv">letters</span> = <span class="hv">letters</span> + <span class="hv">ch</span>
+    <span class="hk">return</span> <span class="hc">Counter</span>(<span class="hv">letters</span>)
 
 
-counts = letter_counts(ciphertext)
-print(&quot;five most common:&quot;, counts.most_common(5))
+<span class="hs">def</span> <span class="hf">guess_shift</span>(<span class="hv">text</span>):
+    <span class="hq">"""Return the shift that maps the most common letter onto 'e'."""</span>
+    <span class="hv">counts</span> = <span class="hf">letter_counts</span>(<span class="hv">text</span>)
+    <span class="hv">top_letter</span> = <span class="hv">counts</span>.<span class="hf">most_common</span>(<span class="hd">1</span>)[<span class="hd">0</span>][<span class="hd">0</span>]
+    <span class="hk">return</span> (<span class="hf">ord</span>(<span class="hv">top_letter</span>) - <span class="hf">ord</span>(<span class="hq">"e"</span>)) % <span class="hd">26</span>
 
-k = guess_shift(ciphertext)
-print(f&quot;guessed shift {k}&quot;)
-print(&quot;plaintext:&quot;, shift_by(ciphertext, -k))</code></pre>
+
+<span class="hv">counts</span> = <span class="hf">letter_counts</span>(<span class="hv">ciphertext</span>)
+<span class="hf">print</span>(<span class="hq">"five most common:"</span>, <span class="hv">counts</span>.<span class="hf">most_common</span>(<span class="hd">5</span>))
+
+<span class="hv">k</span> = <span class="hf">guess_shift</span>(<span class="hv">ciphertext</span>)
+<span class="hf">print</span>(<span class="hs">f</span><span class="hq">"guessed shift </span><span class="hs">{</span><span class="hv">k</span><span class="hs">}</span><span class="hq">"</span>)
+<span class="hf">print</span>(<span class="hq">"plaintext:"</span>, <span class="hf">shift_by</span>(<span class="hv">ciphertext</span>, -<span class="hv">k</span>))</code></pre>
 <div class="predict"><b>Predict first.</b> Run it. Do its lines match what you worked out in steps 1, 2, and 3?
 <button class="rev" data-target="a59" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a59">Show the answer</button>
 <div class="ans" id="a59"><div class="out"><span class="tag">verified output</span><pre><code>five most common: [(&#x27;h&#x27;, 12), (&#x27;u&#x27;, 5), (&#x27;g&#x27;, 5), (&#x27;r&#x27;, 5), (&#x27;w&#x27;, 4)]

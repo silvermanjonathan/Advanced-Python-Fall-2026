@@ -113,6 +113,15 @@ pre code{background:none; padding:0; font-size:inherit; font-weight:inherit; col
 .part.ask button.rev{font-size:15px; padding:6px 14px; margin:0 16px 10px}
 .part.ask .ans{margin:0 16px; padding:8px 0 10px}
 .part.ask .ans .plabel{padding:0}
+/* Python code, colored as VS Code colors it: its dark theme on screen */
+pre.py{background:#1F1F1F; color:#D4D4D4; border:0; border-radius:6px; font-weight:400;
+  padding:18px 20px}
+.part pre.py{background:#1F1F1F; border-radius:0; padding:10px 16px}
+.predict > pre.py{background:#1F1F1F}
+pre.py .hk{color:#C586C0} pre.py .hs{color:#569CD6} pre.py .hf{color:#DCDCAA}
+pre.py .hc{color:#4EC9B0} pre.py .hv{color:#9CDCFE} pre.py .hn{color:#4FC1FF}
+pre.py .hq{color:#CE9178} pre.py .he{color:#D7BA7D} pre.py .hd{color:#B5CEA8}
+pre.py .hm{color:#6A9955}
 .fname{
   font-family:'JetBrains Mono',monospace; font-size:12.5px; letter-spacing:.1em;
   text-transform:uppercase; color:var(--ink-soft); margin:0 0 6px; font-weight:700;
@@ -269,6 +278,12 @@ footer p{margin:0}
   header.top h1,header.top .sub,header.top .eyebrow,.pill b{color:#111}
   .pill{border-color:#666}
   button.rev{display:none} .ans{display:block}
+  /* printers leave out dark backgrounds, so print uses VS Code's light theme */
+  pre.py,.part pre.py,.predict > pre.py{background:#fff; color:#000; border:1px solid #999}
+  pre.py .hk{color:#AF00DB} pre.py .hs{color:#0000FF} pre.py .hf{color:#795E26}
+  pre.py .hc{color:#267F99} pre.py .hv{color:#001080} pre.py .hn{color:#0070C1}
+  pre.py .hq{color:#A31515} pre.py .he{color:#EE0000} pre.py .hd{color:#098658}
+  pre.py .hm{color:#008000}
   nav.pager,footer,.toolbar{display:none}
   section,.exit{background:#fff; break-inside:avoid} pre{border:1px solid #999}
   a{color:#111}
@@ -282,32 +297,32 @@ footer p{margin:0}
 
 <div class="toolbar"><a class="btn" href="wed01_worksheet.html">Open the worksheet</a><a class="btn quiet" href="wed01_worksheet.pdf" download>Download the worksheet (PDF)</a><a class="btn quiet" href="wed01_doors_trace.html">Watch the door trace fill in</a></div><section class="opener"><p class="chunk-no">Section 1 &middot; 10 minutes</p><h2>Opener</h2><p>No code yet. On paper, write down what each of these does. One line each. These four lines are what this course assumes you already know.</p><ul class="tight"><li><code>for i in range(10):</code></li><li><code>total = total + r</code></li><li><code>if r &gt; best:</code></li><li><code>slot = (slot + 5) % 9</code></li></ul><p>If any of the four is unfamiliar, say so now rather than in November. Nothing later in the course assumes more than these plus lists.</p><p>Keep the paper. You check your answers against a real program in four minutes.</p></section>
 <section class="chunk"><p class="chunk-no">Section 2 &middot; 25 minutes</p><h2>The cold read</h2><p>Here is the whole program. Read it top to bottom before you touch a keyboard. Do not run it. Do not type it. Read it. There is a <a href="wed01_worksheet.html">printed worksheet</a> for this session with a trace table for each loop, one row per pass, so you have somewhere to write the values down as they change.</p><p class="fname">sweep_report.py, first half</p>
-<pre><code>readings = [41, 58, 33, 58, 12, 77, 58, 60, 29, 77]
-limit = 55
+<pre class="py"><code><span class="hv">readings</span> = [<span class="hd">41</span>, <span class="hd">58</span>, <span class="hd">33</span>, <span class="hd">58</span>, <span class="hd">12</span>, <span class="hd">77</span>, <span class="hd">58</span>, <span class="hd">60</span>, <span class="hd">29</span>, <span class="hd">77</span>]
+<span class="hv">limit</span> = <span class="hd">55</span>
 
-t = 0
-c = 0
-b = 0
-bi = 0
+<span class="hv">t</span> = <span class="hd">0</span>
+<span class="hv">c</span> = <span class="hd">0</span>
+<span class="hv">b</span> = <span class="hd">0</span>
+<span class="hv">bi</span> = <span class="hd">0</span>
 
-for i in range(10):
-    r = readings[i]
+<span class="hk">for</span> <span class="hv">i</span> <span class="hs">in</span> <span class="hc">range</span>(<span class="hd">10</span>):
+    <span class="hv">r</span> = <span class="hv">readings</span>[<span class="hv">i</span>]
 
-    t = t + r
+    <span class="hv">t</span> = <span class="hv">t</span> + <span class="hv">r</span>
 
-    if r &gt; limit:
-        c = c + 1
+    <span class="hk">if</span> <span class="hv">r</span> &gt; <span class="hv">limit</span>:
+        <span class="hv">c</span> = <span class="hv">c</span> + <span class="hd">1</span>
 
-    if r &gt; b:
-        b = r
-        bi = i
+    <span class="hk">if</span> <span class="hv">r</span> &gt; <span class="hv">b</span>:
+        <span class="hv">b</span> = <span class="hv">r</span>
+        <span class="hv">bi</span> = <span class="hv">i</span>
 
-avg = t / 10
+<span class="hv">avg</span> = <span class="hv">t</span> / <span class="hd">10</span>
 
-print(f&quot;total {t}&quot;)
-print(f&quot;average {avg}&quot;)
-print(f&quot;over {limit}: {c}&quot;)
-print(f&quot;best {b} at index {bi}&quot;)</code></pre>
+<span class="hf">print</span>(<span class="hs">f</span><span class="hq">"total </span><span class="hs">{</span><span class="hv">t</span><span class="hs">}</span><span class="hq">"</span>)
+<span class="hf">print</span>(<span class="hs">f</span><span class="hq">"average </span><span class="hs">{</span><span class="hv">avg</span><span class="hs">}</span><span class="hq">"</span>)
+<span class="hf">print</span>(<span class="hs">f</span><span class="hq">"over </span><span class="hs">{</span><span class="hv">limit</span><span class="hs">}</span><span class="hq">: </span><span class="hs">{</span><span class="hv">c</span><span class="hs">}</span><span class="hq">"</span>)
+<span class="hf">print</span>(<span class="hs">f</span><span class="hq">"best </span><span class="hs">{</span><span class="hv">b</span><span class="hs">}</span><span class="hq"> at index </span><span class="hs">{</span><span class="hv">bi</span><span class="hs">}</span><span class="hq">"</span>)</code></pre>
 <div class="predict"><b>Predict first.</b> Four numbers come out. Write all four on your paper before you click. The fourth one is the one people get wrong.
 <button class="rev" data-target="a1" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a1">Show the answer</button>
 <div class="ans" id="a1"><div class="out"><span class="tag">verified output</span><pre><code>total 503
@@ -316,10 +331,10 @@ over 55: 6
 best 77 at index 5</code></pre></div>
 <p>The list holds 77 twice, at index 5 and at index 9. The program reports index 5. The reason is the single character <code>&gt;</code> in <code>if r &gt; b</code>. When the second 77 arrives, 77 is not greater than 77, so the gate stays shut and <code>bi</code> keeps the value it already had.</p><p>Change that one character to <code>&gt;=</code> and the answer becomes index 9. Neither version is wrong. They answer different questions. The code has to say which question you meant.</p></div></div>
 <h3>The second half</h3><p>Same file, next four lines. One operator here may be new. <code>%</code> gives the remainder after dividing: <code>41 % 9</code> is 5, because 41 is four nines with 5 left over. It never returns 9 or more.</p><p class="fname">sweep_report.py, second half</p>
-<pre><code>slot = 0
-for i in range(10):
-    slot = (slot + readings[i]) % 9
-    print(f&quot;i={i} reading={readings[i]} slot={slot}&quot;)</code></pre>
+<pre class="py"><code><span class="hv">slot</span> = <span class="hd">0</span>
+<span class="hk">for</span> <span class="hv">i</span> <span class="hs">in</span> <span class="hc">range</span>(<span class="hd">10</span>):
+    <span class="hv">slot</span> = (<span class="hv">slot</span> + <span class="hv">readings</span>[<span class="hv">i</span>]) % <span class="hd">9</span>
+    <span class="hf">print</span>(<span class="hs">f</span><span class="hq">"i=</span><span class="hs">{</span><span class="hv">i</span><span class="hs">}</span><span class="hq"> reading=</span><span class="hs">{</span><span class="hv">readings</span>[<span class="hv">i</span>]<span class="hs">}</span><span class="hq"> slot=</span><span class="hs">{</span><span class="hv">slot</span><span class="hs">}</span><span class="hq">"</span>)</code></pre>
 <div class="predict"><b>Predict first.</b> Trace this by hand. What is <code>slot</code> after i=0, after i=1, and after i=2?
 <button class="rev" data-target="a2" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a2">Show the answer</button>
 <div class="ans" id="a2"><div class="out"><span class="tag">verified output</span><pre><code>i=0 reading=41 slot=5
@@ -337,64 +352,64 @@ i=9 reading=77 slot=8</code></pre></div>
 <section class="chunk"><p class="chunk-no">Section 3 &middot; 10 minutes</p><h2>Run it</h2><p>Now download it, or type it, and run it. Compare the real output against your paper. Mark every line you got wrong. Do not erase the marks. For each wrong line, find the pass in your trace where the value went off.</p><div class="toolbar"><a class="btn quiet" href="sweep_report.py" download="sweep_report.py">Download sweep_report.py</a></div>
 <div class="predict"><b>Read it, trace it, then run it.</b> Running shows you what the program printed. Tracing shows you why. That is the order for every program in this course.</div></section>
 <section class="chunk"><p class="chunk-no">Section 4 &middot; 30 minutes</p><h2>The style pass</h2><p>The program works and it is hard to read. <code>t</code>, <code>c</code>, <code>b</code>, and <code>bi</code> made the cold read slower: every time you read one, you had to scroll back up to find out what it was.</p><p>Rename every variable so the name says what the value is. Then add a docstring at the top of the file. A docstring is a new word today. It is one sentence, inside triple quotes, on line 1 of the file, saying what the program is for. Python ignores it. The next reader does not. Here is one for this program. Copy it onto line 1, or put your own sentence between the quotes.</p><p class="fname">line 1 of sweep_report.py</p>
-<pre><code>&quot;&quot;&quot;Summarize a run of tower readings and report where the strongest one sat.&quot;&quot;&quot;</code></pre>
+<pre class="py"><code><span class="hq">"""Summarize a run of tower readings and report where the strongest one sat."""</span></code></pre>
 <div class="predict"><b>Predict first.</b> Rename all seven short names on paper before you look. Yours does not have to match mine. It has to say what the value is.
 <button class="rev" data-target="a3" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a3">Show the answer</button>
-<div class="ans" id="a3"><pre><code>&quot;&quot;&quot;Summarize a run of tower readings and report where the strongest one sat.&quot;&quot;&quot;
+<div class="ans" id="a3"><pre class="py"><code><span class="hq">"""Summarize a run of tower readings and report where the strongest one sat."""</span>
 
-readings = [41, 58, 33, 58, 12, 77, 58, 60, 29, 77]
-limit = 55
+<span class="hv">readings</span> = [<span class="hd">41</span>, <span class="hd">58</span>, <span class="hd">33</span>, <span class="hd">58</span>, <span class="hd">12</span>, <span class="hd">77</span>, <span class="hd">58</span>, <span class="hd">60</span>, <span class="hd">29</span>, <span class="hd">77</span>]
+<span class="hv">limit</span> = <span class="hd">55</span>
 
-total = 0
-over_limit = 0
-best = 0
-best_index = 0
+<span class="hv">total</span> = <span class="hd">0</span>
+<span class="hv">over_limit</span> = <span class="hd">0</span>
+<span class="hv">best</span> = <span class="hd">0</span>
+<span class="hv">best_index</span> = <span class="hd">0</span>
 
-for i in range(10):
-    reading = readings[i]
+<span class="hk">for</span> <span class="hv">i</span> <span class="hs">in</span> <span class="hc">range</span>(<span class="hd">10</span>):
+    <span class="hv">reading</span> = <span class="hv">readings</span>[<span class="hv">i</span>]
 
-    total = total + reading
+    <span class="hv">total</span> = <span class="hv">total</span> + <span class="hv">reading</span>
 
-    if reading &gt; limit:
-        over_limit = over_limit + 1
+    <span class="hk">if</span> <span class="hv">reading</span> &gt; <span class="hv">limit</span>:
+        <span class="hv">over_limit</span> = <span class="hv">over_limit</span> + <span class="hd">1</span>
 
-    if reading &gt; best:
-        best = reading
-        best_index = i
+    <span class="hk">if</span> <span class="hv">reading</span> &gt; <span class="hv">best</span>:
+        <span class="hv">best</span> = <span class="hv">reading</span>
+        <span class="hv">best_index</span> = <span class="hv">i</span>
 
-average = total / 10
+<span class="hv">average</span> = <span class="hv">total</span> / <span class="hd">10</span>
 
-print(f&quot;total {total}&quot;)
-print(f&quot;average {average}&quot;)
-print(f&quot;over {limit}: {over_limit}&quot;)
-print(f&quot;best {best} at index {best_index}&quot;)</code></pre>
+<span class="hf">print</span>(<span class="hs">f</span><span class="hq">"total </span><span class="hs">{</span><span class="hv">total</span><span class="hs">}</span><span class="hq">"</span>)
+<span class="hf">print</span>(<span class="hs">f</span><span class="hq">"average </span><span class="hs">{</span><span class="hv">average</span><span class="hs">}</span><span class="hq">"</span>)
+<span class="hf">print</span>(<span class="hs">f</span><span class="hq">"over </span><span class="hs">{</span><span class="hv">limit</span><span class="hs">}</span><span class="hq">: </span><span class="hs">{</span><span class="hv">over_limit</span><span class="hs">}</span><span class="hq">"</span>)
+<span class="hf">print</span>(<span class="hs">f</span><span class="hq">"best </span><span class="hs">{</span><span class="hv">best</span><span class="hs">}</span><span class="hq"> at index </span><span class="hs">{</span><span class="hv">best_index</span><span class="hs">}</span><span class="hq">"</span>)</code></pre>
 <p>One name here can still mislead. <code>best_index</code> holds the index of the first largest value, and nothing in the name says first. <code>first_best_index</code> says it. A name that leaves something out sends the next reader the wrong way.</p></div></div>
 <h3>A second one, harder</h3><p>Same job on a different program. This one counts doors along a corridor, where 1 means open and 0 means shut.</p><p class="fname">gate_log.py</p>
-<pre><code>door = [1, 0, 1, 1, 0, 0, 1, 0, 1, 1, 1, 0]
+<pre class="py"><code><span class="hv">door</span> = [<span class="hd">1</span>, <span class="hd">0</span>, <span class="hd">1</span>, <span class="hd">1</span>, <span class="hd">0</span>, <span class="hd">0</span>, <span class="hd">1</span>, <span class="hd">0</span>, <span class="hd">1</span>, <span class="hd">1</span>, <span class="hd">1</span>, <span class="hd">0</span>]
 
-x = 0
-y = 0
-z = 0
-q = 0
+<span class="hv">x</span> = <span class="hd">0</span>
+<span class="hv">y</span> = <span class="hd">0</span>
+<span class="hv">z</span> = <span class="hd">0</span>
+<span class="hv">q</span> = <span class="hd">0</span>
 
-for i in range(12):
-    d = door[i]
+<span class="hk">for</span> <span class="hv">i</span> <span class="hs">in</span> <span class="hc">range</span>(<span class="hd">12</span>):
+    <span class="hv">d</span> = <span class="hv">door</span>[<span class="hv">i</span>]
 
-    if d == 1:
-        x = x + 1
-        z = z + 1
+    <span class="hk">if</span> <span class="hv">d</span> == <span class="hd">1</span>:
+        <span class="hv">x</span> = <span class="hv">x</span> + <span class="hd">1</span>
+        <span class="hv">z</span> = <span class="hv">z</span> + <span class="hd">1</span>
 
-    if d == 0:
-        y = y + 1
-        z = 0
+    <span class="hk">if</span> <span class="hv">d</span> == <span class="hd">0</span>:
+        <span class="hv">y</span> = <span class="hv">y</span> + <span class="hd">1</span>
+        <span class="hv">z</span> = <span class="hd">0</span>
 
-    if z &gt; q:
-        q = z
+    <span class="hk">if</span> <span class="hv">z</span> &gt; <span class="hv">q</span>:
+        <span class="hv">q</span> = <span class="hv">z</span>
 
-print(f&quot;x {x}&quot;)
-print(f&quot;y {y}&quot;)
-print(f&quot;z {z}&quot;)
-print(f&quot;q {q}&quot;)</code></pre>
+<span class="hf">print</span>(<span class="hs">f</span><span class="hq">"x </span><span class="hs">{</span><span class="hv">x</span><span class="hs">}</span><span class="hq">"</span>)
+<span class="hf">print</span>(<span class="hs">f</span><span class="hq">"y </span><span class="hs">{</span><span class="hv">y</span><span class="hs">}</span><span class="hq">"</span>)
+<span class="hf">print</span>(<span class="hs">f</span><span class="hq">"z </span><span class="hs">{</span><span class="hv">z</span><span class="hs">}</span><span class="hq">"</span>)
+<span class="hf">print</span>(<span class="hs">f</span><span class="hq">"q </span><span class="hs">{</span><span class="hv">q</span><span class="hs">}</span><span class="hq">"</span>)</code></pre>
 <div class="toolbar"><a class="btn quiet" href="gate_log.py" download="gate_log.py">Download gate_log.py</a><a class="btn quiet" href="wed01_doors_trace.html">Watch this trace fill in, one gate at a time</a></div>
 <div class="predict"><b>Predict first.</b> Trace all four variables, then give each one a clear name. All four count something about the doors. One of the four is much harder to name than the others.
 <button class="rev" data-target="a4" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a4">Show the answer</button>
