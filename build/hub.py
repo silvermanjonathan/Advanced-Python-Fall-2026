@@ -44,7 +44,7 @@ LIFTED = [
      "of your own module, <code>and</code> to join two comparisons"),
     ("Session 3", "the word accumulator, the empty string, <code>+</code> to join strings, "
      "<code>ord</code> and <code>chr</code>, indexing a string, dictionaries (looking "
-     "up a key, <code>KeyError</code>), tuples, and a pygame "
+     "up a key, <code>KeyError</code>), a loop inside a loop, tuples, and a pygame "
      "window: the event loop, frames, <code>pygame.draw.rect</code>"),
     ("Session 4", "list of lists as a grid, slicing, <code>range</code> with a negative "
      "step, <code>abs</code>, <code>.join()</code>"),
@@ -315,7 +315,7 @@ def hub():
         "<code>sweep_report3.py</code>, <code>first_over_enumerate.py</code></td>"
         "<td>2</td></tr>"
         "<tr><td><code>accumulators.py</code>, "
-        "<code>hide_letters.py</code>, <code>caesar_encode.py</code>, <code>trace_shift_by.py</code>, <code>dict_tour.py</code>, <code>letters.py</code>, "
+        "<code>hide_letters.py</code>, <code>caesar_encode.py</code>, <code>trace_shift_by.py</code>, <code>dict_tour.py</code>, <code>grid_tour.py</code>, <code>letters.py</code>, "
         "<code>cipher_console_starter.py</code>, <code>cipher_console_step1.py</code>, "
         "<code>cipher_console_step2.py</code>, <code>cipher_console_step3.py</code>, "
         "<code>cipher_console.py</code>, "

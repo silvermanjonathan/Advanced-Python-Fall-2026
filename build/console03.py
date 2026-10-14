@@ -120,6 +120,13 @@ def _dict_parts():
     return parts
 
 
+def _grid_parts():
+    """Return grid_tour.py's two pieces, without its docstring, as the page shows them."""
+    parts = _source("grid_tour.py").split('"""\n\n', 1)[1].split("\n\n")
+    assert len(parts) == 2, "grid_tour.py should have two pieces"
+    return parts
+
+
 WINDOW_PARTS = [
     ("pygame.init()", "Set up. This runs once.", "once"),
     ("while running:", "The loop. Every line indented under it runs again on every "
@@ -511,6 +518,58 @@ def console_section():
         "<code>KeyError</code>, and the last line of the error names the missing "
         "key:</p>"
         + output("KeyError: 'dee'"),
+    )
+
+    g1, g2 = _grid_parts()
+    b += "<h3>Before step 3: a loop inside a loop</h3>"
+    b += (
+        "<p><code>letters.py</code> draws each letter as a grid of squares: 5 rows, "
+        "with 3 squares in each row. To go over every place in a grid, it uses a loop "
+        "inside another loop. Here is how that works.</p>"
+        "<p>Make a new file called <code>grid_tour.py</code>, in the same folder, and "
+        "type these lines.</p>"
+    )
+    b += code(g1, "grid_tour.py")
+    b += (
+        "<p>The <code>for col</code> loop is indented under the <code>for row</code> "
+        "loop, so it is inside it. The outside loop is called the <b>outer loop</b>, and "
+        "the one inside is the <b>inner loop</b>. On each pass of the outer loop, the "
+        "inner loop runs all the way through.</p>"
+    )
+    b += reveal(
+        "Before you run it: how many lines does it print? What are the first four?",
+        output("\n".join(f"row {r} col {c}" for r in range(2) for c in range(3)))
+        + "<p>Six lines. On the outer loop's first pass, <code>row</code> is 0 while "
+        "the inner loop sets <code>col</code> to 0, 1, and 2. Then <code>row</code> "
+        "becomes 1, and <code>col</code> starts again at 0. The outer loop runs 2 "
+        "times, and each time the inner loop runs 3 times, so the print line runs "
+        "2 × 3 = 6 times.</p>",
+    )
+    b += (
+        "<p>Now put characters in a grid. Add these lines under the first loop, and run "
+        "the file again.</p>"
+    )
+    b += code(g2, "grid_tour.py, under the first loop")
+    b += (
+        "<p>This is the accumulator from the opener, inside the outer loop. On each "
+        "pass of the outer loop, <code>line</code> starts as the empty string, the inner "
+        "loop adds one <code>#</code> for each column, and then <code>print</code> shows "
+        "the finished row.</p>"
+    )
+    b += reveal(
+        "What prints under the six lines from the first loop?",
+        output("\n".join("#" * 4 for _ in range(3)))
+        + "<p>Three rows, one for each pass of the outer loop, with four "
+        "<code>#</code> in each row, one for each pass of the inner loop. The outer "
+        "loop decides how many rows there are. The inner loop decides how long each "
+        "row is.</p>",
+    )
+    b += (
+        "<p><code>draw_letter</code> in <code>letters.py</code> uses the same two "
+        "loops, <code>for row in range(5)</code> and <code>for col in range(3)</code>, "
+        "to go over all 15 places in a letter's grid. At each place it checks the "
+        "letter's string, and draws a square only where the string has a "
+        "<code>#</code>.</p>"
     )
 
     b += "<h3>Step 3: letters</h3>"

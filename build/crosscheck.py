@@ -42,6 +42,10 @@ CHECKS = {
     "wed03_counting.html#dict": ("python3 dict_tour.py 2>&1", [
         "otter", "['#..', '#..', '#..', '#..', '###']", "KeyError: 'dee'",
     ]),
+    "wed03_counting.html#grid": ("python3 grid_tour.py", [
+        "row 0 col 0", "row 0 col 1", "row 0 col 2", "row 1 col 0", "row 1 col 1",
+        "row 1 col 2", "####",
+    ]),
     "wed03_counting.html#console": (
         "SDL_VIDEODRIVER=dummy SDL_AUDIODRIVER=dummy python3 verify_console.py", [
         "plain: attack at dawn", "coded: dwwdfn dw gdzq",

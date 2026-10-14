@@ -491,7 +491,8 @@ def extra_letters():
     )
     b += labelled_code(_function("draw_letter", src), LETTER_PARTS, "letters.py")
     b += (
-        "<p>One loop is inside the other. The inner loop runs all the way through for "
+        "<p>One loop is inside the other, as in <code>grid_tour.py</code> from "
+        "session 3. The inner loop runs all the way through for "
         "every pass of the outer loop, so the order is row 0, columns 0, 1, 2; then row "
         "1, columns 0, 1, 2; and so on down to row 4. That is 5 × 3 = 15 checks, one for "
         "each square of the grid.</p>"
@@ -564,7 +565,8 @@ def extra_letters():
         "<p>The double index is the hard part. Students read <code>shape[2][1]</code> as "
         "one number, or swap the row and the column. Have them point at the grid: the "
         "first index goes down to a row, the second goes across to a column.</p>"
-        "<p>Nested loops are new. The trace output is the answer to \"in what order?\": "
+        "<p>Students met a loop inside a loop in session 3, in <code>grid_tour.py</code>. "
+        "The trace output is the answer to \"in what order?\": "
         "it lists the squares row by row. If a student expects column by column, ask "
         "which loop is on the outside.</p>"
         "<p>y points down here too, so row 4 has the biggest y.</p>",
@@ -582,7 +584,7 @@ def extra_letters():
             "tells the truth about <code>letters.py</code>. Verified on Python 3.12.3 and "
             "pygame 2.6.1.</p>"
             "<h3>Lifted on this page</h3><p>A list of strings as a grid, two indexes "
-            "(<code>shape[row][col]</code>), and one loop inside another.</p>"
+            "(<code>shape[row][col]</code>). One loop inside another is lifted in session 3.</p>"
         ),
     )
     b += pager(

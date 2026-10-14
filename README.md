@@ -560,3 +560,12 @@ Known corrections made before first printing:
     and the MESSAGE rules point back to `code_names["dee"]`. The build checks the
     `pictures` entries match `letters.py`, and crosscheck runs `dict_tour.py`. The
     Extras page on breaking the cipher now builds on this lesson.
+49. Session 3, a short lesson on a loop inside a loop, after the dictionary lesson
+    and before step 3 ("Before step 3: a loop inside a loop"). Students type
+    `grid_tour.py` in two pieces, predicting before each run: a row loop with a col
+    loop inside it, printing `row 0 col 0` to `row 1 col 2` (outer and inner loop,
+    2 × 3 = 6 lines), then the opener's accumulator inside the outer loop to print
+    a 3 by 4 grid of `#`. It ends by saying `draw_letter` uses the same two loops
+    over a letter's 5 by 3 grid. Crosscheck runs `grid_tour.py`. The teacher panel
+    says both lessons come out of the console's 30 minutes and step 4 is what
+    slips; the letters Extras page now points back to `grid_tour.py`.
