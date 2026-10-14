@@ -39,8 +39,14 @@ CHECKS = {
     "wed02_return_and_modules.html": ("python3 sweep_report2.py", [
         "first best at 5", "last best at 9",
     ]),
-    "wed03_counting.html#dict": ("python3 dict_tour.py 2>&1", [
-        "otter", "['#..', '#..', '#..', '#..', '###']", "KeyError: 'dee'",
+    # dict_tour.py ends with the .get line; the page's earlier square-bracket line is
+    # run by swapping it back in, so its KeyError is checked too.
+    "wed03_counting.html#dict": (
+        "python3 dict_tour.py 2>&1; "
+        "sed 's/code_names.get(\"dee\", \"no code name\")/code_names[\"dee\"]/' "
+        "dict_tour.py | python3 - 2>&1", [
+        "otter", "['#..', '#..', '#..', '#..', '###']", "no code name",
+        "KeyError: 'dee'",
     ]),
     "wed03_counting.html#grid": ("python3 grid_tour.py", [
         "row 0 col 0", "row 0 col 1", "row 0 col 2", "row 1 col 0", "row 1 col 1",

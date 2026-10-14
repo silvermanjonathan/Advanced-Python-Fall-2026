@@ -109,14 +109,23 @@ def _shift(text, amount):
     return ns["shift_by"](text, amount)
 
 
+KEYERROR_LINE = 'print(code_names["dee"])'
+GET_LINE = 'print(code_names.get("dee", "no code name"))'
+
+
 def _dict_parts():
-    """Return dict_tour.py's three pieces, without its docstring, as the page shows them."""
+    """Return dict_tour.py's three pieces, without its docstring, as the page shows them.
+
+    The file ends with the .get line. The page shows the square-bracket line first,
+    which stops with KeyError, then has students replace it with the .get line.
+    """
     body = _source("dict_tour.py").split('"""\n\n', 1)[1]
     parts = body.split("\n\n")
     assert len(parts) == 3, "dict_tour.py should have three pieces"
     lines = [ln for ln in _source("letters.py").split("\n")]
     for ln in parts[1].split("\n")[1:3]:
         assert ln in lines, f"pictures entry differs from letters.py: {ln}"
+    assert parts[2] == GET_LINE, "dict_tour.py should end with the .get line"
     return parts
 
 
@@ -508,8 +517,8 @@ def console_section():
         "stored under the key <code>\"l\"</code>: five strings. In step 3 you will see "
         "how five strings like these make a picture of a letter.</p>",
     )
-    b += "<p>Last, add one more line and run the file again.</p>"
-    b += code(d3, "dict_tour.py, at the bottom")
+    b += "<p>Now add one more line at the bottom and run the file again.</p>"
+    b += code(KEYERROR_LINE, "dict_tour.py, at the bottom")
     b += reveal(
         "There is no key <code>\"dee\"</code> in <code>code_names</code>. What "
         "happens?",
@@ -518,6 +527,24 @@ def console_section():
         "<code>KeyError</code>, and the last line of the error names the missing "
         "key:</p>"
         + output("KeyError: 'dee'"),
+    )
+    b += (
+        "<p>Often you do not want a missing key to stop the whole program. A "
+        "dictionary has a safe way to look up a key: <code>.get</code>. It takes two "
+        "values: the key to look up, and the value to return if that key is not in "
+        "the dictionary. If the key is there, <code>.get</code> returns the value "
+        "stored under it, the same as the square brackets do. Replace the last line "
+        "with this one, and run the file again.</p>"
+    )
+    b += code(d3, "dict_tour.py, the last line, replaced")
+    b += reveal(
+        "What does the last line print now?",
+        output("otter\n['#..', '#..', '#..', '#..', '###']\nno code name")
+        + "<p>No error this time. <code>\"dee\"</code> is not a key, so "
+        "<code>.get</code> returns its second value, <code>\"no code name\"</code>, "
+        "and the program keeps going. <code>code_names.get(\"ben\", \"no code "
+        "name\")</code> would return <code>otter</code>, because <code>\"ben\"</code> "
+        "is a key.</p>",
     )
 
     g1, g2 = _grid_parts()

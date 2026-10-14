@@ -44,7 +44,7 @@ LIFTED = [
      "of your own module, <code>and</code> to join two comparisons"),
     ("Session 3", "the word accumulator, the empty string, <code>+</code> to join strings, "
      "<code>ord</code> and <code>chr</code>, indexing a string, dictionaries (looking "
-     "up a key, <code>KeyError</code>), a loop inside a loop, tuples, and a pygame "
+     "up a key, <code>KeyError</code>, <code>.get</code>), a loop inside a loop, tuples, and a pygame "
      "window: the event loop, frames, <code>pygame.draw.rect</code>"),
     ("Session 4", "list of lists as a grid, slicing, <code>range</code> with a negative "
      "step, <code>abs</code>, <code>.join()</code>"),

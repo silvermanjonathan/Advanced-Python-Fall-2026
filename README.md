@@ -569,3 +569,9 @@ Known corrections made before first printing:
     over a letter's 5 by 3 grid. Crosscheck runs `grid_tour.py`. The teacher panel
     says both lessons come out of the console's 30 minutes and step 4 is what
     slips; the letters Extras page now points back to `grid_tour.py`.
+50. Session 3's dictionary lesson now ends with `.get`, the safe way to look up a key.
+    After `print(code_names["dee"])` stops with `KeyError: 'dee'`, students replace
+    that line with `print(code_names.get("dee", "no code name"))` and predict the
+    run: no error, and `no code name` prints. `dict_tour.py` holds the final
+    version; crosscheck runs it and also runs the square-bracket version, so both
+    the `KeyError` and the `.get` output are checked.

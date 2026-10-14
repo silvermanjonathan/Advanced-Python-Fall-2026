@@ -9,4 +9,4 @@ pictures = {
 }
 print(pictures["l"])
 
-print(code_names["dee"])
+print(code_names.get("dee", "no code name"))
