@@ -543,3 +543,11 @@ Known corrections made before first printing:
     dark backgrounds. The session 1 trace page and the worksheet are colored too,
     and `wed01_worksheet.pdf` was rendered again. Outputs keep their green
     terminal style, and code inside sentences keeps its plain style.
+47. Session 3, section 3 opens with the finished console's screenshot, then "Get
+    the files" and a teal box headed "Now open the files": put both files in one
+    folder, open the folder in VS Code, open `cipher_console.py`, and run it
+    unchanged to see the starter's three lines. The box names the two errors a
+    student may hit instead (`No module named 'letters'`, `No module named
+    'pygame'`) and what each means; both were checked by real runs. The teacher
+    panel says to keep the starter closed until section 3, since it holds the
+    answer to section 2, and to do the box together on the projector.

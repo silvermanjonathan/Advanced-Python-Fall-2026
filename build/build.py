@@ -180,6 +180,10 @@ a.btn.quiet:hover{background:#EFE9DA}
 .ans{display:none; margin-top:16px; padding-top:16px; border-top:2px solid var(--rule)}
 .ans.show{display:block}
 .ans > :last-child{margin-bottom:0}
+/* a step everyone does now, before going on */
+.now{border:2px solid var(--teal); border-left:8px solid var(--teal); border-radius:5px;
+  padding:16px 18px; margin:0 0 18px; background:#E7F0EE}
+.now b{color:var(--teal-deep)} .now > :last-child{margin-bottom:0}
 .strip{border:2px solid var(--rule); border-radius:5px; background:var(--card); padding:14px 16px; margin:0 0 16px}
 .strip-controls{display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin:0 0 12px}
 .strip-controls button{font-family:'DM Sans',sans-serif; font-size:17px; font-weight:700; background:var(--teal);

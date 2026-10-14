@@ -259,32 +259,59 @@ def console_section():
         '<span class="mins">30 minutes</span></h2>'
         "<p>Now put your cipher in a window. The alphabet sits on top, the coded "
         "alphabet sits under it, and the coded message appears one letter at a "
-        "time.</p>"
-        "<h3>Get the files</h3>"
-        "<p>You need two files in the same folder: the starter, which saves as "
-        "<code>cipher_console.py</code>, and <code>letters.py</code>, a module that "
-        "draws letters. You will not need to read <code>letters.py</code>.</p>"
-    )
-    b += downloads(("cipher_console_starter.py", "cipher_console.py"), "letters.py")
-    b += (
-        "<p>If your browser saves the starter as <code>cipher_console_starter.py</code>, "
-        "rename it to <code>cipher_console.py</code>.</p>"
-        "<p>The starter already has the message and the key, the colors for the tiles, "
-        "the letters, and the orange boxes, your <code>shift_by</code> from section 2, "
-        "and the lines that code the message and print it. You type the pygame code yourself, in four "
-        "steps, into the same file, and run it after every step.</p>"
-        "<p>If the program stops with <code>ModuleNotFoundError: No module named "
-        "'pygame'</code>, type <code>pip install pygame</code> in the terminal and run "
-        "it again.</p>"
-        "<p>Here is the finished console after 130 frames, a little over two seconds. "
-        "The orange boxes are around the letter being coded now: <code>c</code> on the "
-        "top row becomes <code>f</code> on the row under it.</p>"
+        "time. Here is the finished console after 130 frames, a little over two "
+        "seconds. The orange boxes are around the letter being coded now: "
+        "<code>c</code> on the top row becomes <code>f</code> on the row under it.</p>"
     )
     b += _shot(
         "cipher_console_130.png",
         "The console: the message attack at dawn at the top, the alphabet on cream "
         "tiles, the coded alphabet on green tiles, c and f boxed in orange, and dwwd "
         "at the bottom.",
+    )
+    b += (
+        "<h3>Get the files</h3>"
+        "<p>Sections 1 and 2 used files you made yourself. From here on, you work in a "
+        "starter file. It already has part of the program, and you type the rest. You "
+        "need two files: the starter, which saves as <code>cipher_console.py</code>, "
+        "and <code>letters.py</code>, a module that draws letters. You will not need to "
+        "read <code>letters.py</code>.</p>"
+    )
+    b += downloads(("cipher_console_starter.py", "cipher_console.py"), "letters.py")
+    b += (
+        '<div class="now"><p><b>Now open the files.</b> Do these four things before '
+        "you type any code.</p>"
+        '<ol class="tight">'
+        "<li>Put both files in the same folder. If both are in your Downloads folder, "
+        "that works. If your browser saved the starter as "
+        "<code>cipher_console_starter.py</code>, rename it to "
+        "<code>cipher_console.py</code>.</li>"
+        "<li>In VS Code, choose File, then Open Folder, and open that folder.</li>"
+        "<li>Click <code>cipher_console.py</code> in the list on the left to open "
+        "it.</li>"
+        "<li>Run it without changing anything. The terminal shows these three "
+        "lines:</li>"
+        "</ol>"
+    )
+    b += output(starter_prints)
+    b += (
+        "<p>Before them, pygame prints two lines of its own, starting with "
+        "<code>pygame 2</code>. Those two lines are left out of the outputs on this "
+        "page.</p>"
+        "<p>If you see the three lines, you are ready for step 1. If the program stops "
+        "instead, read the last line of the error:</p>"
+        '<ul class="tight">'
+        "<li><code>ModuleNotFoundError: No module named 'letters'</code> means "
+        "<code>letters.py</code> is not in the same folder as "
+        "<code>cipher_console.py</code>.</li>"
+        "<li><code>ModuleNotFoundError: No module named 'pygame'</code> means pygame is "
+        "not installed. Type <code>pip install pygame</code> in the terminal, then run "
+        "the program again.</li>"
+        "</ul></div>"
+        "<p>The starter already has the message and the key, the colors for the tiles, "
+        "the letters, and the orange boxes, your <code>shift_by</code> from section 2, "
+        "and the lines that code the message and print it. You type the pygame code "
+        "yourself, in four steps, into the same file, and run it after every step.</p>"
     )
 
     b += "<h3>Step 1: a window</h3>"
@@ -317,12 +344,9 @@ def console_section():
     )
     b += labelled_code(WINDOW_TYPED, WINDOW_PARTS, "cipher_console.py, step 1, at the bottom")
     b += (
-        "<p>Run it. A dark window opens, and the terminal shows the three lines the "
-        "starter prints. The window stays open until you click its close button. When "
-        "pygame loads, it also prints two lines of its own, starting with "
-        "<code>pygame 2</code>; they are left out of the outputs on this page.</p>"
+        "<p>Run it. A dark window opens, and the terminal shows the same three lines "
+        "as before. The window stays open until you click its close button.</p>"
     )
-    b += output(starter_prints)
     b += "<h4>Before the loop</h4>"
     b += (
         '<ul class="tight">'
