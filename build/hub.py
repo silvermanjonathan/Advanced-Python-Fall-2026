@@ -43,8 +43,8 @@ LIFTED = [
     ("Session 2", "<code>return</code> values, <code>len()</code>, <code>import</code> "
      "of your own module, <code>and</code> to join two comparisons"),
     ("Session 3", "the word accumulator, the empty string, <code>+</code> to join strings, "
-     "<code>ord</code> and <code>chr</code>, indexing a string, the words dictionary "
-     "and key, tuples, and a pygame "
+     "<code>ord</code> and <code>chr</code>, indexing a string, dictionaries (looking "
+     "up a key, <code>KeyError</code>), tuples, and a pygame "
      "window: the event loop, frames, <code>pygame.draw.rect</code>"),
     ("Session 4", "list of lists as a grid, slicing, <code>range</code> with a negative "
      "step, <code>abs</code>, <code>.join()</code>"),
@@ -141,8 +141,8 @@ def hub():
         '<span class="t"><a href="extra_crack_caesar.html">Break a Caesar cipher by '
         "counting letters</a>"
         '<span class="s">Count the letters of a coded message, turn the most common one '
-        "into a key, and decode it without trying every key. Teaches dictionaries and "
-        "<code>collections.Counter</code> first, then uses them with "
+        "into a key, and decode it without trying every key. Teaches building a dictionary "
+        "one key at a time and <code>collections.Counter</code> first, then uses them with "
         "<code>shift_by</code> from session 3. About 40 minutes.</span></span></div>"
         '<div class="row extra"><span class="n">+</span>'
         '<span class="d">after session 3</span>'
@@ -315,7 +315,7 @@ def hub():
         "<code>sweep_report3.py</code>, <code>first_over_enumerate.py</code></td>"
         "<td>2</td></tr>"
         "<tr><td><code>accumulators.py</code>, "
-        "<code>hide_letters.py</code>, <code>caesar_encode.py</code>, <code>trace_shift_by.py</code>, <code>letters.py</code>, "
+        "<code>hide_letters.py</code>, <code>caesar_encode.py</code>, <code>trace_shift_by.py</code>, <code>dict_tour.py</code>, <code>letters.py</code>, "
         "<code>cipher_console_starter.py</code>, <code>cipher_console_step1.py</code>, "
         "<code>cipher_console_step2.py</code>, <code>cipher_console_step3.py</code>, "
         "<code>cipher_console.py</code>, "

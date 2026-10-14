@@ -39,6 +39,9 @@ CHECKS = {
     "wed02_return_and_modules.html": ("python3 sweep_report2.py", [
         "first best at 5", "last best at 9",
     ]),
+    "wed03_counting.html#dict": ("python3 dict_tour.py 2>&1", [
+        "otter", "['#..', '#..', '#..', '#..', '###']", "KeyError: 'dee'",
+    ]),
     "wed03_counting.html#console": (
         "SDL_VIDEODRIVER=dummy SDL_AUDIODRIVER=dummy python3 verify_console.py", [
         "plain: attack at dawn", "coded: dwwdfn dw gdzq",

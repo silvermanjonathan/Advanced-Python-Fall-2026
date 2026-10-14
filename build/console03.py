@@ -109,6 +109,17 @@ def _shift(text, amount):
     return ns["shift_by"](text, amount)
 
 
+def _dict_parts():
+    """Return dict_tour.py's three pieces, without its docstring, as the page shows them."""
+    body = _source("dict_tour.py").split('"""\n\n', 1)[1]
+    parts = body.split("\n\n")
+    assert len(parts) == 3, "dict_tour.py should have three pieces"
+    lines = [ln for ln in _source("letters.py").split("\n")]
+    for ln in parts[1].split("\n")[1:3]:
+        assert ln in lines, f"pictures entry differs from letters.py: {ln}"
+    return parts
+
+
 WINDOW_PARTS = [
     ("pygame.init()", "Set up. This runs once.", "once"),
     ("while running:", "The loop. Every line indented under it runs again on every "
@@ -452,14 +463,63 @@ def console_section():
         + _shot("cipher_console_step2_5.png", "A dark window with a row of 26 cream tiles."),
     )
 
+    d1, d2, d3 = _dict_parts()
+    b += "<h3>Before step 3: dictionaries</h3>"
+    b += (
+        "<p>Step 3 uses a dictionary, so here is a short lesson on them first.</p>"
+        "<p>You know lists. A list keeps its values in order, and you get one out by "
+        "its index, a number: in session 2, <code>values[0]</code> was the first value. "
+        "A <b>dictionary</b> keeps each value under a name instead of a number. The "
+        "name is called a <b>key</b>. This is a different key from the cipher's key in "
+        "section 2: in a dictionary, the key is the name a value is stored under.</p>"
+        "<p>Make a new file called <code>dict_tour.py</code>, in the same folder, and "
+        "type these two lines.</p>"
+    )
+    b += code(d1, "dict_tour.py")
+    b += (
+        "<p>The curly brackets <code>{ }</code> make the dictionary. Inside them, each "
+        "entry is a key, a colon, then a value, with commas between the entries. The "
+        "keys here are <code>\"ada\"</code>, <code>\"ben\"</code>, and "
+        "<code>\"cy\"</code>. Each value is that person's code name.</p>"
+    )
+    b += reveal(
+        "Before you run it: what does the print line show?",
+        output("otter")
+        + "<p><code>code_names[\"ben\"]</code> looks up the key <code>\"ben\"</code> "
+        "and gives the value stored under it.</p>",
+    )
+    b += (
+        "<p>A value can be a list. Add these lines under the print line, and run the "
+        "file again. Each entry is on its own line, which makes it easier to read. "
+        "Python keeps reading until the closing <code>}</code>.</p>"
+    )
+    b += code(d2, "dict_tour.py, under the print line")
+    b += reveal(
+        "What does <code>print(pictures[\"l\"])</code> show?",
+        output("otter\n['#..', '#..', '#..', '#..', '###']")
+        + "<p><code>otter</code> prints first, from the line before. Then comes the list "
+        "stored under the key <code>\"l\"</code>: five strings. In step 3 you will see "
+        "how five strings like these make a picture of a letter.</p>",
+    )
+    b += "<p>Last, add one more line and run the file again.</p>"
+    b += code(d3, "dict_tour.py, at the bottom")
+    b += reveal(
+        "There is no key <code>\"dee\"</code> in <code>code_names</code>. What "
+        "happens?",
+        "<p>The two prints above it run first. Then the program stops with an error. "
+        "Asking a dictionary for a key it does not have stops the program with a "
+        "<code>KeyError</code>, and the last line of the error names the missing "
+        "key:</p>"
+        + output("KeyError: 'dee'"),
+    )
+
     b += "<h3>Step 3: letters</h3>"
     b += (
         "<p>This course does not use pygame to write words, so each letter is drawn "
-        "from small squares. <code>letters.py</code> holds a <b>dictionary</b> called "
-        "<code>SHAPES</code>. A dictionary stores each value under a name called a "
-        "<b>key</b>. This is a different key from the cipher's key in section 2: in a "
-        "dictionary, the key is the name a value is stored under. In <code>SHAPES</code> "
-        "each key is a letter, or the space, and its value is that letter's picture. Here is the entry for <code>a</code>: the key "
+        "from small squares. <code>letters.py</code> holds a dictionary called "
+        "<code>SHAPES</code>, like <code>pictures</code> in <code>dict_tour.py</code>. In "
+        "<code>SHAPES</code> each key is a letter, or the space, and its value is that "
+        "letter's picture. Here is the entry for <code>a</code>: the key "
         "<code>\"a\"</code>, a colon, then the value.</p>"
     )
     b += code('"a": [".#.", "#.#", "###", "#.#", "#.#"],', "letters.py, one entry of SHAPES")
@@ -526,9 +586,9 @@ def console_section():
         f"<p><b>MESSAGE rules.</b> Keep <code>MESSAGE</code> to {fits} characters or "
         "fewer, or the end runs off the right edge. Use lowercase letters and spaces "
         "only. <code>SHAPES</code> has no key for a capital letter or a period, and "
-        "asking a dictionary for a key it does not have stops the program with "
-        "<code>KeyError</code>. So <code>MESSAGE = \"Attack at dawn\"</code> stops with "
-        "an error, and its last line names the missing key:</p>"
+        "asking for one stops the program with a <code>KeyError</code>, the same as "
+        "<code>code_names[\"dee\"]</code> did. So <code>MESSAGE = \"Attack at dawn\"</code> "
+        "stops with an error, and its last line names the missing key:</p>"
     )
     b += output("KeyError: 'A'")
 

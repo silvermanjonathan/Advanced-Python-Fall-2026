@@ -551,3 +551,12 @@ Known corrections made before first printing:
     'pygame'`) and what each means; both were checked by real runs. The teacher
     panel says to keep the starter closed until section 3, since it holds the
     answer to section 2, and to do the box together on the projector.
+48. Session 3, a short lesson on dictionaries before step 3 of the console
+    ("Before step 3: dictionaries", about five minutes of the console's 30). Students
+    type `dict_tour.py` in three pieces, predicting before each run: a dictionary of
+    code names and a lookup (`otter`), a dictionary whose values are lists, using
+    two real entries from `letters.py` (`pictures["l"]`), and a missing key
+    (`KeyError: 'dee'`). Step 3 now says `SHAPES` is a dictionary like `pictures`,
+    and the MESSAGE rules point back to `code_names["dee"]`. The build checks the
+    `pictures` entries match `letters.py`, and crosscheck runs `dict_tour.py`. The
+    Extras page on breaking the cipher now builds on this lesson.
