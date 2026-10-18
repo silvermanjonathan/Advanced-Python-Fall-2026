@@ -584,3 +584,9 @@ Known corrections made before first printing:
     Screen and print now use the same colors. The session 1 trace page's line
     highlights are back to their light tints, and `wed01_worksheet.pdf` was
     rendered again.
+52. Bigger code for projection. Code blocks and outputs go from 15.5px to 19px, a
+    little larger than the 18px prose. The page column widens from 900px to 1080px
+    to give them room; paragraphs and list items keep their 72ch cap, so prose lines
+    do not get longer. Phones keep 15px code, and print keeps 15.5px, so the
+    worksheet PDF is unchanged. At a 1280px-wide screen, 6 of 195 blocks scroll
+    sideways (lines of 89 characters or more), about the same as before.
