@@ -313,10 +313,7 @@ plaintext: read the code and trace the code before you ever run the code"""
         "has not seen, and a Counter gives 0.</p>"
         "<p>Some students will want to brute force all 26 shifts because it is easier "
         "to write. Let them, then ask what they would do with a Vigenere key of length "
-        "7. Brute force stops being available and counting does not.</p>"
-        "<p>Session 4's opener asks what happens to letter counts when letters are only "
-        "moved. Students who did this page will see straight away that counting no "
-        "longer helps.</p>",
+        "7. Brute force stops being available and counting does not.</p>",
         retouch=(
             "The returning functions from session 2: <code>guess_shift</code> is only "
             "possible because <code>letter_counts</code> returns a Counter."
@@ -335,7 +332,7 @@ plaintext: read the code and trace the code before you ever run the code"""
     )
     b += pager(
         ("wed03_counting.html", "Session 3: a cipher in a window"),
-        ("wed04_transposition.html", "Session 4: moving letters"),
+        ("wed04_two_way.html", "Session 4: encrypt or decrypt"),
     )
     return b
 
@@ -589,6 +586,6 @@ def extra_letters():
     )
     b += pager(
         ("extra_crack_caesar.html", "Extra: break a Caesar cipher"),
-        ("wed04_transposition.html", "Session 4: moving letters"),
+        ("wed04_two_way.html", "Session 4: encrypt or decrypt"),
     )
     return b

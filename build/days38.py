@@ -5,6 +5,7 @@ import os
 from build import answer_key, labelled_code, laddered, code, masthead, output, pager, reveal
 from stds import panel
 from console03 import console_section
+from twoway04 import day04  # noqa: F401  (session 4 lives in its own module)
 
 
 def exits(floor, middle, stretch):
@@ -566,186 +567,7 @@ print(shift_by("gdzq", -3))''',
     )
     b += pager(
         ("wed02_return_and_modules.html", "Session 2: functions that return a value"),
-        ("wed04_transposition.html", "Session 4: moving letters"),
-    )
-    return b
-
-
-def day04():
-    """Session 4: transposition ciphers."""
-    b = masthead(
-        "04",
-        "Ciphers that move letters instead of replacing them",
-        "Wednesday 7 October 2026",
-        "Session 3's Caesar cipher replaced each letter with a different one. These two "
-        "keep every letter and change only where it sits, so the letter counts stay "
-        "exactly the same.",
-    )
-    b += '<h2><span class="num">1</span>Opener<span class="mins">10 minutes</span></h2>'
-    b += (
-        "<p>In session 3 you built a Caesar cipher, which replaces each letter with a "
-        "different one. Question on paper: if I rearrange the letters of a message "
-        "without replacing any of them, what happens to the letter counts, the number "
-        "of times each letter appears?</p>"
-    )
-    b += reveal(
-        "Answer before you click.",
-        "<p>The counts do not change at all. Not one of them.</p>"
-        "<p>That matters for breaking ciphers. A Caesar cipher can be broken by counting "
-        "its letters: <code>e</code> is the most common letter in English, so the most "
-        "common letter in the ciphertext is probably what <code>e</code> turned into. "
-        'The <a href="extra_crack_caesar.html">Extras page</a> shows how. Against a '
-        "cipher that only moves letters, counting finds nothing, because it never looks "
-        "at where the letters sit.</p>"
-        "<p>This is why real systems use both kinds. Substitution hides which letters. "
-        "Transposition hides where they are.</p>",
-    )
-
-    b += '<h2><span class="num">2</span>Rail fence<span class="mins">30 minutes</span></h2>'
-    b += (
-        "<p>Write the message down a zig-zag across three rails, then read each rail "
-        "straight across. The message is "
-        "<code>meetatthenorthgateatdawn</code>.</p>"
-    )
-    b += code(
-        """def rail_encode(text, rails):
-    \"\"\"Return text written down a zig-zag of rails, then read across.\"\"\"
-    rows = []
-    for r in range(rails):
-        rows.append("")
-
-    r = 0
-    step = 1
-    for ch in text:
-        rows[r] = rows[r] + ch
-
-        if r == 0:
-            step = 1
-        if r == rails - 1:
-            step = -1
-
-        r = r + step
-
-    joined = ""
-    for row in rows:
-        joined = joined + row
-    return joined""",
-        "transposition.py",
-    )
-    b += reveal(
-        "The two gates set <code>step</code> before <code>r</code> changes. Trace the "
-        "first seven letters and write down which rail each one lands on.",
-        "<p>Rails go 0, 1, 2, 1, 0, 1, 2. The turn happens at the top rail and the bottom rail. The two gates are one after the other, not one inside the other, so both get checked every pass.</p>"
-        + output(
-            """message  meetatthenorthgateatdawn
-rails 3  maettdetthnrhaetanetogaw
-back     meetatthenorthgateatdawn
-round trip ok: True"""
-        )
-        + "<p>Count the letters in both. Twenty four each, same letters, different "
-        "order. Decoding is harder than encoding here: you have to rebuild the zig-zag "
-        "pattern first, then fill it in, because you need to know how many letters "
-        "landed on each rail before you can cut the ciphertext up.</p>"
-        "<p><code>rail_decode</code> is yours to write. Plan it on paper first: build "
-        "the list of rail numbers the same way <code>rail_encode</code> did, then put the ciphertext letters into those positions one rail at a time. The file on the "
-        "machines has a finished one to compare against when yours round-trips.</p>",
-    )
-
-    b += '<h2><span class="num">3</span>The route cipher<span class="mins">30 minutes</span></h2>'
-    b += (
-        "<p>Pack the message into a grid, then read the columns out in an order the key "
-        "gives you. A negative number in the key means read that column bottom to "
-        "top.</p>"
-    )
-    b += code(
-        """def to_grid(text, width):
-    \"\"\"Return text packed into rows of the given width.\"\"\"
-    grid = []
-    row = []
-    for ch in text:
-        row.append(ch)
-        if len(row) == width:
-            grid.append(row)
-            row = []
-
-    if len(row) > 0:
-        while len(row) < width:
-            row.append("x")
-        grid.append(row)
-    return grid
-
-
-def route_encode(text, key):
-    \"\"\"Return text read out column by column in the order key gives.
-
-    A negative number in key means read that column bottom to top.
-    \"\"\"
-    grid = to_grid(text, len(key))
-    out = ""
-    for signed in key:
-        col = abs(signed) - 1
-        rows = range(len(grid))
-        if signed < 0:
-            rows = range(len(grid) - 1, -1, -1)
-
-        for r in rows:
-            out = out + grid[r][col]
-    return out"""
-    )
-    b += reveal(
-        "The grid is four columns wide and the key is <code>[2, -4, 1, 3]</code>. Read "
-        "the first column of output by hand off the grid below.",
-        output(
-            """  m e e t
-  a t t h
-  e n o r
-  t h g a
-  t e a t
-  d a w n
-key      [2, -4, 1, 3]
-route    etnheantarhtmaettdetogaw"""
-        )
-        + "<p>Key entry 2 means column 2 top to bottom, which is "
-        "<code>etnhea</code>. Then -4 means column 4 bottom to top, "
-        "<code>ntarht</code> reversed off the grid. A grid position is a pair of numbers, row and column. The key says which column to read and which way, so every pair ends up at one place in the output.</p>",
-    )
-    b += exits(
-        "Rail fence encoding works on your own message and you can point at the two "
-        "gates that make the zig-zag turn.",
-        "Floor, plus <code>rail_decode</code> round-tripping true, plus the grid built "
-        "and one column read out by hand.",
-        "Middle, plus full route encoding with a signed key, then write "
-        "<code>route_decode</code>. It is harder than it looks, because you "
-        "have to work out the column heights before you can cut the string.",
-    )
-    b += panel(
-        ["5.G.A.1", "8.F.A.1", "MP7"],
-        "<p>10 opener, 30 rail fence, 30 route cipher, 20 exits. The decode functions "
-        "are where time goes. If the room is struggling, ship encoding only and make "
-        "decoding the take-home.</p>",
-        "<p>The padding question comes up and is worth stopping for. A twenty four "
-        "letter message fills a four wide grid exactly. Ask what happens with twenty "
-        "five letters, and let them find that you must pad and that the padding is then "
-        "visible to anyone reading the ciphertext.</p>"
-        "<p><code>range(len(grid) - 1, -1, -1)</code> reads as gibberish at first. Walk "
-        "it once out loud: start at the last row, stop before -1, step backwards.</p>",
-        retouch=(
-            "Session 3's Caesar cipher, and the frequency attack from the Extras "
-            "page, revisited to show what counting cannot do. The opener makes students "
-            "state that letter counts survive transposition, which is what this session "
-            "is about."
-        ),
-        extras=(
-            "<h3>Files</h3><p><code>transposition.py</code>. Round trip verified true "
-            "on Python 3.12.3.</p>"
-            "<h3>Lifted this week</h3><p>List of lists as a grid, "
-            "<code>range</code> with a negative step, <code>abs</code>, "
-            "<code>\" \".join()</code>, slicing.</p>"
-        ),
-    )
-    b += pager(
-        ("wed03_counting.html", "Session 3: a cipher in a window"),
-        ("wed05_hashing.html", "Session 5: seals and real hashes"),
+        ("wed04_two_way.html", "Session 4: encrypt or decrypt"),
     )
     return b
 
@@ -898,7 +720,7 @@ dawn vs dawn+period: 124 of 256 bits differ"""
         ),
     )
     b += pager(
-        ("wed04_transposition.html", "Session 4: moving letters"),
+        ("wed04_two_way.html", "Session 4: encrypt or decrypt"),
         ("wed06_what_it_costs.html", "Session 6: what a program costs"),
     )
     return b
@@ -1006,6 +828,15 @@ for n in range(1, 8):
     print(f"  {n}   {10 ** n:<10} {tries:<8} {elapsed:.4f}")''',
         "what_it_costs.py",
     )
+    b += (
+        "<p>Two small new pieces in <code>sweep</code>. <code>CODE[:digits]</code> is a "
+        "<b>slice</b>: the first <code>digits</code> characters of <code>CODE</code>, so "
+        "<code>CODE[:3]</code> is <code>\"470\"</code>. And <code>product</code> hands "
+        "over each guess as a tuple of single characters, such as "
+        "<code>('4', '7', '0')</code>. <code>\"\".join(guess)</code> joins them into one "
+        "string, <code>\"470\"</code>, with nothing between them, so it can be compared "
+        "with <code>target</code>.</p>"
+    )
     b += reveal(
         "Seven digits takes about 1.2 seconds on my machine. Before you look: how long "
         "for eight digits, and for ten?",
@@ -1067,7 +898,8 @@ for n in range(1, 8):
             "machines.</p>"
             "<h3>Lifted this week</h3><p><code>itertools.product</code>, "
             "<code>time.perf_counter</code>, <code>//</code>, <code>while</code> with a "
-            "compound condition, returning two values.</p>"
+            "compound condition, returning two values, a slice for the first characters "
+            "of a string, and <code>\"\".join()</code>.</p>"
         ),
     )
     b += pager(

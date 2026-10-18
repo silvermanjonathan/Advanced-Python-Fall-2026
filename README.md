@@ -590,3 +590,27 @@ Known corrections made before first printing:
     do not get longer. Phones keep 15px code, and print keeps 15.5px, so the
     worksheet PDF is unchanged. At a 1280px-wide screen, 6 of 195 blocks scroll
     sideways (lines of 89 characters or more), about the same as before.
+53. Session 4 replaced. "Ciphers that move letters" (rail fence and route cipher) is
+    gone; its page is deleted and `transposition.py` moved to `retired/`. The new
+    session 4, "Encrypt or decrypt, in one window" (`wed04_two_way.html`), starts from
+    session 3's finished console (downloaded as `two_way_console.py`) and teaches:
+    - Opener: a negative key undoes a positive one (`undo_tour.py`, run by the build):
+      `-1 % 26` is 25, and 7 and -7 are opposites that add to 0.
+    - Step 1: a `mode` variable and a question screen, "do you want to encrypt or
+      decrypt", drawn in the console's pixel letters with an E square and a D square,
+      painted over the console while `mode` is empty.
+    - Step 2: key events (`pygame.KEYDOWN`, `event.key`, `pygame.K_e`, `pygame.K_d`).
+      The E and D blocks differ only in `KEY` against `-KEY`.
+    - Step 3: decrypt session 3's `dwwdfn dw gdzq`, then swap messages with a partner.
+    - Stretch: the space bar brings the question back (`two_way_space.py`).
+    The typed lines live in `build/twoway_edits.py`; the build checks that session 3's
+    console plus each step gives each answer-key file. `verify_two_way.py` runs the
+    programs headless with key presses and takes the screenshots. Standards: 6.NS.C.5
+    and 7.NS.A.1.b, retrieved from the Learning Commons Knowledge Graph on 18 October
+    2026, plus MP7.
+    Knock-on changes: session 6 now explains its slice (`CODE[:digits]`) and
+    `"".join()`, which session 4 used to teach; sessions 11 and 12 point to session
+    3's window coordinates instead of session 4's grid; the hub's session list,
+    lifted rows, nested-gates rule, pygame row and programs table, the pagers on
+    sessions 3 and 5 and both Extras pages, and the crack-the-cipher teacher note are
+    updated.

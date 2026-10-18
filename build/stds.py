@@ -1,4 +1,4 @@
-"""The 27 standards retrieved and verified from the CASE Network, plus the panel."""
+"""The 29 standards retrieved and verified from the CASE Network, plus the panel."""
 
 from build import esc
 
@@ -32,6 +32,13 @@ STD = {
         "value to find distances between points with the same first coordinate or the "
         "same second coordinate."
     ),
+    "6.NS.C.5": (
+        "Understand that positive and negative numbers are used together to describe "
+        "quantities having opposite directions or values (e.g., temperature above/below "
+        "zero, elevation above/below sea level, credits/debits, positive/negative "
+        "electric charge); use positive and negative numbers to represent quantities in "
+        "real-world contexts, explaining the meaning of 0 in each situation."
+    ),
     "6.RP.A.3": (
         "Use ratio and rate reasoning to solve real-world and mathematical problems, "
         "e.g., by reasoning about tables of equivalent ratios, tape diagrams, double "
@@ -51,6 +58,12 @@ STD = {
         "(interquartile range and/or mean absolute deviation), as well as describing any "
         "overall pattern and any striking deviations from the overall pattern with "
         "reference to the context in which the data were gathered."
+    ),
+    "7.NS.A.1.b": (
+        "Understand p + q as the number located a distance |q| from p, in the positive "
+        "or negative direction depending on whether q is positive or negative. Show that "
+        "a number and its opposite have a sum of 0 (are additive inverses). Interpret "
+        "sums of rational numbers by describing real-world contexts."
     ),
     "7.RP.A.2": "Recognize and represent proportional relationships between quantities.",
     "7.SP.A.1": (
@@ -113,7 +126,8 @@ STD = {
 MAPNOTE = (
     '<p class="mapnote">Mapped to the Common Core State Standards for Mathematics '
     "(Multi-State). Each code and its wording was retrieved from the CASE Network "
-    "through the Learning Commons Knowledge Graph on 12 September 2026. New York's own "
+    "through the Learning Commons Knowledge Graph on 12 September 2026, except 6.NS.C.5 "
+    "and 7.NS.A.1.b, retrieved the same way on 18 October 2026. New York's own "
     "Computer Science and Digital Fluency framework and the CSTA standards are not "
     "carried in that graph, so no code from either appears anywhere on this site.</p>"
     '<p class="mapnote">Two deliberate deviations from the retrieved text. The "for '

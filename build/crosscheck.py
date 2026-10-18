@@ -99,9 +99,18 @@ CHECKS = {
         "guessed shift 3",
         "plaintext: read the code and trace the code before you ever run the code",
     ]),
-    "wed04_transposition.html": ("python3 transposition.py", [
-        "rails 3  maettdetthnrhaetanetogaw", "round trip ok: True",
-        "route    etnheantarhtmaettdetogaw",
+    "wed04_two_way.html": ("python3 undo_tour.py", ["gdzq", "dawn", "zab", "25", "hello"]),
+    "wed04_two_way.html#console": (
+        "SDL_VIDEODRIVER=dummy SDL_AUDIODRIVER=dummy python3 verify_two_way.py", [
+        "plain: attack at dawn", "coded: dwwdfn dw gdzq",
+        "coded row: defghijklmnopqrstuvwxyzabc",
+        "E pressed on pass 30, mode is '' after pass 60",
+        "D pressed: mode is 'decrypt', coded is 'xqqxzh xq axtk'",
+        "the green row after D: xyzabcdefghijklmnopqrstuvw",
+        "message: dwwdfn dw gdzq", "encrypted with key 3: gzzgiq gz jgct",
+        "decrypted with key 3: attack at dawn",
+        "AttributeError: 'pygame.event.Event' object has no attribute 'key'",
+        "D on pass 10, space on pass 200: mode is '' after pass 300",
     ]),
     "wed05_hashing.html": ("python3 avalanche.py", [
         "seal of 'ab' = 1", "seal of 'ba' = 1",

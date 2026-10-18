@@ -11,8 +11,9 @@ SESSIONS = [
     ("03", "30 Sep", "wed03_counting.html", "A cipher in a window",
      "The accumulator pattern again, then write a Caesar cipher and put it in a pygame "
      "window."),
-    ("04", "7 Oct", "wed04_transposition.html", "Ciphers that move letters",
-     "Rail fence, then a route cipher on a list-of-lists grid with a signed key."),
+    ("04", "7 Oct", "wed04_two_way.html", "Encrypt or decrypt",
+     "The session 3 console learns to go both ways: the window asks whether to encrypt "
+     "or decrypt, and pressing E or D answers it."),
     ("05", "14 Oct", "wed05_hashing.html", "Your seal, and a real one",
      "Build a letter-sum seal, find a collision in it, then hashlib.sha256 and the "
      "avalanche property, measured in bits."),
@@ -46,12 +47,13 @@ LIFTED = [
      "<code>ord</code> and <code>chr</code>, indexing a string, dictionaries (looking "
      "up a key, <code>KeyError</code>, <code>.get</code>), a loop inside a loop, tuples, and a pygame "
      "window: the event loop, frames, <code>pygame.draw.rect</code>"),
-    ("Session 4", "list of lists as a grid, slicing, <code>range</code> with a negative "
-     "step, <code>abs</code>, <code>.join()</code>"),
+    ("Session 4", "key events (<code>pygame.KEYDOWN</code>, <code>event.key</code>), a "
+     "variable that remembers a choice, <code>%</code> with a negative number"),
     ("Session 5", "<code>hashlib</code>, <code>.encode()</code>, "
      "<code>int(text, 16)</code>, <code>format</code> with a bit spec"),
     ("Session 6", "<code>itertools.product</code>, <code>time.perf_counter</code>, "
-     "<code>//</code>, compound <code>while</code> conditions"),
+     "<code>//</code>, compound <code>while</code> conditions, a slice for the first "
+     "characters of a string, <code>\"\".join()</code>"),
     ("Session 7", "<code>random.randrange</code>, <code>random.random</code>, "
      "<code>sort</code> with a <code>key</code>"),
     ("Session 8", "<code>random.seed</code> for reproducibility"),
@@ -69,8 +71,7 @@ LIFTED = [
 
 HELD = [
     ("Nested gates", "Flat <code>if</code> / <code>elif</code> / <code>else</code> "
-     "only, all term. Two flat gates in a row beat one nested pair, and session 4's "
-     "rail fence shows why."),
+     "only, all term. Two flat gates in a row beat one nested pair."),
     ("<code>break</code>", "Lifted, but only in session 6 and after, and only where the "
      "loop exit is itself the topic. Before that, every <code>while</code> names its "
      "exit condition."),
@@ -255,8 +256,9 @@ def hub():
 
     b += "<h2>Standards</h2>"
     b += (
-        "<p>All 27 codes below were retrieved from the CASE Network through the Learning "
-        "Commons Knowledge Graph on 12 September 2026, and each statement is quoted in "
+        "<p>All 29 codes below were retrieved from the CASE Network through the Learning "
+        "Commons Knowledge Graph, 27 of them on 12 September 2026 and 6.NS.C.5 and "
+        "7.NS.A.1.b on 18 October 2026, and each statement is quoted in "
         "full apart from the two deviations named under the table. Each session maps to "
         "at most three.</p>"
     )
@@ -285,7 +287,7 @@ def hub():
         "the plume and the orbit both go. Those two sessions would need replacing.</td>"
         "</tr>"
         "<tr><td>Environment</td><td>VS Code throughout, pygame for all graphics</td>"
-        "<td>Sessions 3, 9, 11, and 12 need pygame on the machines. Sessions 1, 2, 4 to "
+        "<td>Sessions 3, 4, 9, 11, and 12 need pygame on the machines. Sessions 1, 2, 5 to "
         "8, and 10 are terminal only and run anywhere.</td></tr>"
         "<tr><td>Theme</td><td>None.</td>"
         "<td>Sessions 3, 4, and 5 are all about ciphers and could share one theme. Sessions 6 to 12 would not.</td></tr>"
@@ -324,7 +326,9 @@ def hub():
         "<tr><td><code>counter_tour.py</code>, <code>caesar_crack.py</code>, "
         "<code>letters_tour.py</code>, <code>verify_letters.py</code></td>"
         "<td>Extras, after 3</td></tr>"
-        "<tr><td><code>transposition.py</code></td><td>4</td></tr>"
+        "<tr><td><code>undo_tour.py</code>, <code>two_way_step1.py</code>, "
+        "<code>two_way_step2.py</code>, <code>two_way_console.py</code>, "
+        "<code>two_way_space.py</code>, <code>verify_two_way.py</code></td><td>4</td></tr>"
         "<tr><td><code>avalanche.py</code></td><td>5</td></tr>"
         "<tr><td><code>what_it_costs.py</code></td><td>6</td></tr>"
         "<tr><td><code>smarter_than_brute.py</code></td><td>7</td></tr>"

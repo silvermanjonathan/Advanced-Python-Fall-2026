@@ -888,8 +888,8 @@ after removing from four lists but forgetting the fifth:
         "of 90 degrees means straight up, which on screen means y decreasing, so the "
         "initial dy has to be negative. Gravity pulls down the screen, which is y "
         "increasing, so it adds.</p>"
-        "<p>This is the coordinate system from session 4's grid, with one axis flipped "
-        "relative to the one you use in maths class. It causes bugs in every program that draws, so say it out loud each time it comes up.</p>",
+        "<p>This is the coordinate system from the cipher console in session 3, where y "
+        "counts down from the top, the opposite of the one you use in math class. It causes bugs in every program that draws, so say it out loud each time it comes up.</p>",
     )
     b += (
         "<p><code>self</code> is the particular spark this call is about. "
@@ -973,8 +973,8 @@ trail lengths: shortest 92, longest 183""",
         "that feeds it. Five minutes, then come back to the particle.</p>",
         retouch=(
             "Parallel lists, shown going wrong in the opener, now solved properly. Also "
-            "session 4's row and column coordinates, reappearing as screen coordinates "
-            "with the y axis flipped."
+            "the window coordinates from session 3's cipher console, with the y axis "
+            "pointing down."
         ),
         extras=(
             "<h3>Files</h3><p><code>sparks_parallel.py</code> for the opener, then "
