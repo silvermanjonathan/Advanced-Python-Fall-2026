@@ -50,7 +50,7 @@ LIFTED = [
     ("Session 4", "key events (<code>pygame.KEYDOWN</code>, <code>event.key</code>), a "
      "variable that remembers a choice, <code>%</code> with a negative number"),
     ("Session 5", "<code>class</code>, <code>__init__</code>, <code>self</code>, "
-     "attributes, methods, <code>type</code>, <code>pass</code>"),
+     "attributes, methods, <code>pass</code>"),
     ("Session 6", "<code>itertools.product</code>, <code>time.perf_counter</code>, "
      "<code>//</code>, compound <code>while</code> conditions, a slice for the first "
      "characters of a string, <code>\"\".join()</code>"),
@@ -329,7 +329,7 @@ def hub():
         "<tr><td><code>undo_tour.py</code>, <code>two_way_step1.py</code>, "
         "<code>two_way_step2.py</code>, <code>two_way_console.py</code>, "
         "<code>two_way_space.py</code>, <code>verify_two_way.py</code></td><td>4</td></tr>"
-        "<tr><td><code>objects_tour.py</code>, <code>pets.py</code>, <code>verify_pets.py</code></td><td>5</td></tr>"
+        "<tr><td><code>pets.py</code>, <code>verify_pets.py</code></td><td>5</td></tr>"
         "<tr><td><code>what_it_costs.py</code></td><td>6</td></tr>"
         "<tr><td><code>smarter_than_brute.py</code></td><td>7</td></tr>"
         "<tr><td><code>monty_hall.py</code></td><td>8</td></tr>"

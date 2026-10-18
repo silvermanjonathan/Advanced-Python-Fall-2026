@@ -97,7 +97,7 @@ removed hashing session; nothing on the site uses them.
 | 2 | `sweep_tools.py`, `sweep_report2.py`, `print_the_return.py`; answer key for section 5: `sweep_tools_more.py`, `sweep_report3.py`, `first_over_enumerate.py` |
 | 3 | `counter_tour.py`, `caesar_encode.py`, `caesar_crack.py` |
 | 4 | `undo_tour.py`, `two_way_step1.py`, `two_way_step2.py`, `two_way_console.py`, `two_way_space.py`; `verify_two_way.py` for the teacher |
-| 5 | `objects_tour.py`, `pets.py`; `verify_pets.py` for the teacher |
+| 5 | `pets.py`; `verify_pets.py` for the teacher |
 | 6 | `what_it_costs.py` |
 | 7 | `smarter_than_brute.py` |
 | 8 | `monty_hall.py` |
@@ -616,8 +616,7 @@ Known corrections made before first printing:
 54. Session 5 replaced, 18 October. The hashing session ("Your seal, and a real one")
     is gone; `avalanche.py` moved to `retired/` and `wed05_hashing.html` was deleted.
     The new session 5, `wed05_objects.html`, "Making your own objects", teaches
-    classes with virtual pets: an opener that runs `type` on a string, a list and a
-    dictionary; a `Pet` class built in six pieces (empty class, `__init__` and `self`,
+    classes with virtual pets, with no opener: a `Pet` class built in six pieces (empty class, `__init__` and `self`,
     attributes, `feed` and `play`, a `report` method that returns, two pets at once);
     three trace rounds and a four-option quick check; six broken pets; and a brief for
     a creature of the student's own. Design points: methods change attributes
@@ -628,8 +627,7 @@ Known corrections made before first printing:
     stretch exit fixes with an `if` gate; broken pet 6 is `__init__` misspelt with
     single underscores. Page code for the pieces, rounds, check, gate and
     broken pets is read from `pets.py` and from `SNIPPETS` in `verify_pets.py`, so it
-    cannot drift from what runs; crosscheck runs `objects_tour.py`, `pets.py` and
-    `verify_pets.py`. Classes are now lifted in session 5, so session 11 names session
+    cannot drift from what runs; crosscheck runs `pets.py` and `verify_pets.py`. Classes are now lifted in session 5, so session 11 names session
     5's `Pet` where it introduces `Particle`, its panel's fallback is session 5's class,
     and its lifted list is down to a list of objects and `pygame.draw.lines`. The hub's
     session rows, lifted table, open decisions and programs table follow.

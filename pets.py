@@ -32,4 +32,3 @@ luna.play()
 
 print(rocky.report())
 print(luna.report())
-print(type(rocky))

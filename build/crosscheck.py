@@ -112,13 +112,8 @@ CHECKS = {
         "AttributeError: 'pygame.event.Event' object has no attribute 'key'",
         "D on pass 10, space on pass 200: mode is '' after pass 300",
     ]),
-    "wed05_objects.html#opener": ("python3 objects_tour.py", [
-        "<class 'str'>", "<class 'list'>", "<class 'dict'>",
-        "['#', '.', '#', '#']", "['x']",
-    ]),
     "wed05_objects.html#pets": ("python3 pets.py", [
         "Rocky: hunger 3, happiness 5", "Luna: hunger 5, happiness 6",
-        "<class '__main__.Pet'>",
     ]),
     # verify_pets.py runs the pieces, rounds, quick check, gate, and broken pets
     "wed05_objects.html": ("python3 verify_pets.py", [

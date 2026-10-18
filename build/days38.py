@@ -622,43 +622,7 @@ def day05():
         "virtual pets from it. Each pet keeps its own hunger and its own happiness.",
     )
 
-    b += '<h2><span class="num">1</span>Opener: objects you already use<span class="mins">10 minutes</span></h2>'
-    b += (
-        "<p>Every value in Python is an <b>object</b>, and every object is made from a "
-        "<b>class</b>. The class says what its objects store and what they can do.</p>"
-        "<p>This program uses a string and two lists, which you have used since session "
-        "1, and a dictionary like the one in session 3. It also uses one new function, "
-        "<code>type</code>, which tells you the class of a value.</p>"
-    )
-    b += code(_root_file("objects_tour.py"), "objects_tour.py")
-    b += downloads("objects_tour.py")
-    b += reveal(
-        "Write down the five lines it prints. The last two are the ones to think about: "
-        "<code>append</code> is called on <code>row</code>. Does <code>other</code> "
-        "change too?",
-        output(
-            """<class 'str'>
-<class 'list'>
-<class 'dict'>
-['#', '.', '#', '#']
-['x']"""
-        )
-        + "<p><code>str</code>, <code>list</code>, and <code>dict</code> are classes. "
-        "<code>\"dawn\"</code> is one object made from the <code>str</code> class, and "
-        "<code>row</code> is one object made from the <code>list</code> class.</p>"
-        "<p><code>row.append(\"#\")</code> changed <code>row</code> and nothing else. "
-        "The dot means this object's: <code>row.append</code> is row's own "
-        "<code>append</code>, so it adds to row's items and leaves <code>other</code> "
-        "alone. Each list keeps its own items.</p>"
-        "<p>The session 3 console did the same thing. "
-        "<code>clock = pygame.time.Clock()</code> made one object from the "
-        "<code>Clock</code> class, and <code>clock.tick(60)</code> called that clock's "
-        "own <code>tick</code>. In session 4, <code>event.key</code> read a value "
-        "stored on one event object: which key was pressed. Today you write a class of "
-        "your own.</p>",
-    )
-
-    b += '<h2><span class="num">2</span>Build a pet, one piece at a time<span class="mins">30 minutes</span></h2>'
+    b += '<h2><span class="num">1</span>Build a pet, one piece at a time<span class="mins">30 minutes</span></h2>'
     b += (
         '<div class="now"><p><b>Do this now.</b> Make a new file called '
         "<code>pets.py</code>. Type each piece as you reach it and run the file after "
@@ -667,7 +631,9 @@ def day05():
     b += "<h3>Piece 1: an empty class</h3>"
     b += code(s["empty"])
     b += (
-        "<p><code>class Pet:</code> starts a class called <code>Pet</code>. Class names "
+        "<p><code>class Pet:</code> starts a class called <code>Pet</code>. A class is "
+        "code that describes a new kind of object: what each one stores and what each "
+        "one can do. Class names "
         "start with a capital letter, so you can tell a class from a variable. "
         "<code>pass</code> means nothing here yet. Python needs at least one line inside "
         "a class, and <code>pass</code> is a line that does nothing.</p>"
@@ -760,32 +726,25 @@ def day05():
     b += "<h3>Piece 6: two pets at once</h3>"
     b += (
         "<p>Here is the whole of <code>pets.py</code>. The part at the bottom makes "
-        "two pets and treats them differently. The last line asks for the class of "
-        "<code>rocky</code>, the way the opener asked for the class of a string.</p>"
+        "two pets and treats them differently.</p>"
     )
     b += code(_root_file("pets.py"), "pets.py")
     b += downloads("pets.py")
     b += reveal(
-        "Write all three lines on paper before you open the answer. Then say why "
+        "Write both lines on paper before you open the answer. Then say why "
         "Luna's hunger is not 3.",
         output(
             """Rocky: hunger 3, happiness 5
-Luna: hunger 5, happiness 6
-<class '__main__.Pet'>"""
+Luna: hunger 5, happiness 6"""
         )
         + "<p>Rocky was fed twice, so Rocky's hunger went 5, 4, 3. Luna was never fed, "
         "so Luna's hunger is still 5. Luna played once, so Luna's happiness is 6, and "
         "Rocky's is still 5.</p>"
         "<p>Each pet has its own copy of every attribute. <code>rocky.feed()</code> "
-        "changes <code>rocky.hunger</code> and nothing else, the same way "
-        "<code>row.append</code> changed <code>row</code> and not <code>other</code> "
-        "in the opener.</p>"
-        "<p>The last line says <code>Pet</code> is now a class, like <code>str</code> "
-        "and <code>list</code>. <code>__main__</code> is the name Python gives the file "
-        "you ran, so the line means the class <code>Pet</code>, from this file.</p>",
+        "changes <code>rocky.hunger</code> and nothing else.</p>",
     )
 
-    b += '<h2><span class="num">3</span>Trace, then predict<span class="mins">15 minutes</span></h2>'
+    b += '<h2><span class="num">2</span>Trace, then predict<span class="mins">15 minutes</span></h2>'
     b += (
         "<p>Each round goes under the class in <code>pets.py</code>, in place of the "
         "lines that make Rocky and Luna. Write your prediction on paper before you "
@@ -812,7 +771,7 @@ Pixel: hunger 5, happiness 7"""
         "hunger is 5 take away 7, which is -2, and happiness is 5 add 7, which is "
         "12.</p>"
         "<p>The program does what the code says, but the pet makes no sense. A hunger "
-        "of -2 means nothing, and nothing in the class stops it. Section 5 shows how to "
+        "of -2 means nothing, and nothing in the class stops it. Section 4 shows how to "
         "fix that.</p>",
     )
     b += "<h3>Round 3</h3>"
@@ -842,12 +801,12 @@ Mochi: hunger 3, happiness 5"""
         "error.</p>",
     )
 
-    b += '<h2><span class="num">4</span>Six broken pets<span class="mins">15 minutes</span></h2>'
+    b += '<h2><span class="num">3</span>Six broken pets<span class="mins">15 minutes</span></h2>'
     b += (
         "<p>Each program has exactly one mistake. With a partner, for each one: "
         "predict what the terminal says, find the mistake, and fix it. Ninety seconds "
         "each. Broken pets 3, 4, and 5 use the working <code>Pet</code> class from "
-        "section 2, so they only show the lines below it.</p>"
+        "section 1, so they only show the lines below it.</p>"
     )
     b += _broken(
         1, s,
@@ -903,7 +862,7 @@ Mochi: hunger 3, happiness 5"""
         "<code>def __init__(self, name):</code>, with two underscores on each side.",
     )
 
-    b += '<h2><span class="num">5</span>Build your own creature<span class="mins">20 minutes</span></h2>'
+    b += '<h2><span class="num">4</span>Build your own creature<span class="mins">30 minutes</span></h2>'
     b += (
         "<p>A dragon, a robot, a houseplant, a moody cat, a boss from a game. Pick "
         "something and write a class for it in a new file.</p>"
@@ -952,12 +911,12 @@ Mochi: hunger 3, happiness 5"""
         "has no gate yet. Writing that one is yours.</p>",
     )
     b += exits(
-        "<code>pets.py</code> runs and prints the three lines from piece 6, and you can "
+        "<code>pets.py</code> runs and prints the two lines from piece 6, and you can "
         "say what <code>self</code> is when <code>rocky.feed()</code> runs.",
-        "Floor, plus your own class that meets every line of the brief in section 5, "
+        "Floor, plus your own class that meets every line of the brief in section 4, "
         "with two creatures that end with different reports.",
         "Middle, plus every number in your class stays between 0 and 10: a gate in "
-        "every method that changes one, as in Keep a number in range in section 5. Then "
+        "every method that changes one, as in Keep a number in range in section 4. Then "
         "add a method "
         "called <code>tick</code> that moves time on by one hour (you decide what "
         "changes), call it 10 times in a <code>for</code> loop, and print the report "
@@ -965,11 +924,12 @@ Mochi: hunger 3, happiness 5"""
     )
     b += panel(
         ["6.EE.B.6", "MP7", "MP6"],
-        "<p>10 opener, 30 building the pet, 15 the rounds and the quick check, 15 broken "
-        "pets, 20 build your own and exits. Section 2's 30 minutes includes typing. A "
+        "<p>30 building the pet, 15 the rounds and the quick check, 15 broken pets, 30 "
+        "build your own and exits. There is no opener: the session starts with piece 1. "
+        "Section 1's 30 minutes includes typing. A "
         "student who falls behind downloads <code>pets.py</code> from the button under "
         "piece 6 and reads it instead of typing it.</p>",
-        "<p>Use the quick check at the end of section 3 as a hinge. Count hands for each "
+        "<p>Use the quick check at the end of section 2 as a hinge. Count hands for each "
         "letter before anyone opens the answer. <b>A</b> (3) means the student thinks "
         "all pets share one hunger. <b>C</b> (4) can mean the student shared the "
         "two feeds out between the two pets. <b>D</b> means the student thinks an "
@@ -980,7 +940,7 @@ Mochi: hunger 3, happiness 5"""
         "same pet a second name; it does not make a second pet. Have the room count "
         "the calls to <code>Pet(</code> before anyone opens the answer.</p>"
         "<p>Broken pets 1 to 5 are the mistakes to expect while students write their "
-        "own class in section 5: <code>self</code> missing from the parameter list, "
+        "own class in section 4: <code>self</code> missing from the parameter list, "
         "<code>self.</code> missing in the body, calling on the class instead of the "
         "pet, missing brackets, and sending the pet twice. Broken pet 6 is hard to see "
         "on a projector, where two underscores can look like one line. Point at them "
@@ -990,22 +950,18 @@ Mochi: hunger 3, happiness 5"""
         retouch=(
             "Session 2's print is not return, now inside a class: <code>report</code> "
             "returns a line and the caller prints it. Session 1's <code>if</code> gate, "
-            "used in Keep a number in range to hold hunger at 0. Session 3's "
-            "<code>clock.tick(60)</code> and session 4's <code>event.key</code>, read "
-            "again in the opener as an object's own method and an object's own value."
+            "used in Keep a number in range to hold hunger at 0."
         ),
         extras=(
-            "<h3>Files</h3><p><code>objects_tour.py</code> for the opener and "
-            "<code>pets.py</code> for sections 2 and 3, each with a download button on "
-            "the page. <code>verify_pets.py</code> is for you. It runs every piece, "
+            "<h3>Files</h3><p><code>pets.py</code> for sections 1 and 2, with a "
+            "download button under piece 6. <code>verify_pets.py</code> is for you. It runs every piece, "
             "every round, the quick check, the gate, and all six broken pets, and "
             "prints the last line of each error. The page's code for those comes from "
             "that file, and every output and error on the page came from running it "
             "on Python 3.12.3. The six error lines read the same on Python 3.11 and "
             "3.13. Older versions word some of them differently.</p>"
             "<h3>Lifted this week</h3><p><code>class</code>, <code>__init__</code>, "
-            "<code>self</code>, attributes, methods, objects, <code>type</code>, "
-            "<code>pass</code>.</p>"
+            "<code>self</code>, attributes, methods, objects, <code>pass</code>.</p>"
         ),
     )
     b += pager(
