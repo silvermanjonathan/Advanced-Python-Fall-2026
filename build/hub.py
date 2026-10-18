@@ -17,9 +17,9 @@ SESSIONS = [
     ("05", "28 Oct", "wed05_objects.html", "Making your own objects",
      "Write a class, make virtual pets from it, and show that each pet keeps its own "
      "attributes. Then six broken pets to fix and a creature of your own."),
-    ("06", "4 Nov", "wed06_what_it_costs.html", "What a program costs",
-     "Linear against binary search, brute force with itertools.product, and a "
-     "runtime-against-digits table you time yourself."),
+    ("06", "4 Nov", "wed06_rock_paper_scissors.html", "Rock, paper, scissors, three ways",
+     "Decide who wins with if lines, with a dictionary, and by counting steps around a "
+     "circle with %. Check all three on every pairing, then play the computer."),
     ("07", "18 Nov", "wed07_heuristics.html", "Smarter than brute force",
      "Fitness, mutation, selection. Hill climbing, then a small genetic algorithm, then a fair comparison of the two."),
     ("08", "25 Nov", "wed08_monte_carlo.html", "Settling an argument by simulation",
@@ -51,11 +51,11 @@ LIFTED = [
      "variable that remembers a choice, <code>%</code> with a negative number"),
     ("Session 5", "<code>class</code>, <code>__init__</code>, <code>self</code>, "
      "attributes, methods, <code>pass</code>"),
-    ("Session 6", "<code>itertools.product</code>, <code>time.perf_counter</code>, "
-     "<code>//</code>, compound <code>while</code> conditions, a slice for the first "
-     "characters of a string, <code>\"\".join()</code>"),
+    ("Session 6", "<code>input</code>, <code>import random</code> and "
+     "<code>random.choice</code>, <code>in</code> and <code>not in</code> with a list, "
+     "<code>.index</code> on a list, <code>ValueError</code>"),
     ("Session 7", "<code>random.randrange</code>, <code>random.random</code>, "
-     "<code>sort</code> with a <code>key</code>"),
+     "<code>sort</code> with a <code>key</code>, a slice of a string"),
     ("Session 8", "<code>random.seed</code> for reproducibility"),
     ("Session 9", "<code>collections.Counter</code>, <code>+=</code>, reading a file "
      "with <code>with open(...) as f:</code>, "
@@ -306,9 +306,7 @@ def hub():
     b += "<h2>Programs in this repo</h2>"
     b += (
         "<p>Every output printed on these pages came from running these files on Python "
-        "3.12.3, with pygame 2.6.1 for the sessions that open a window, verified headless. "
-        "Timings in session 6 are machine specific and will not match your classroom "
-        "machines. Re-run before Wednesday.</p>"
+        "3.12.3, with pygame 2.6.1 for the sessions that open a window, verified headless.</p>"
         "<table><tr><th>File</th><th>Session</th></tr>"
         "<tr><td><code>sweep_report.py</code>, <code>gate_log.py</code></td>"
         "<td>1</td></tr>"
@@ -330,7 +328,9 @@ def hub():
         "<code>two_way_step2.py</code>, <code>two_way_console.py</code>, "
         "<code>two_way_space.py</code>, <code>verify_two_way.py</code></td><td>4</td></tr>"
         "<tr><td><code>pets.py</code>, <code>verify_pets.py</code></td><td>5</td></tr>"
-        "<tr><td><code>what_it_costs.py</code></td><td>6</td></tr>"
+        "<tr><td><code>rps_if.py</code>, <code>rps_dict.py</code>, <code>rps_game.py</code>, "
+        "<code>rps_clock.py</code>, <code>rps_three_ways.py</code>, <code>rps_spock.py</code>, "
+        "<code>verify_rps.py</code></td><td>6</td></tr>"
         "<tr><td><code>smarter_than_brute.py</code></td><td>7</td></tr>"
         "<tr><td><code>monty_hall.py</code></td><td>8</td></tr>"
         "<tr><td><code>make_data.py</code>, <code>read_ledger.py</code>, <code>safe_count.py</code>, "

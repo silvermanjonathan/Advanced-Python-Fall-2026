@@ -23,7 +23,7 @@ PAGES = [
     ("wed03_counting.html", "Session 3: a cipher in a window", day03),
     ("wed04_two_way.html", "Session 4: encrypt or decrypt", day04),
     ("wed05_objects.html", "Session 5: making your own objects", day05),
-    ("wed06_what_it_costs.html", "Session 6: what a program costs", day06),
+    ("wed06_rock_paper_scissors.html", "Session 6: rock, paper, scissors, three ways", day06),
     ("wed07_heuristics.html", "Session 7: smarter than brute force", day07),
     ("wed08_monte_carlo.html", "Session 8: settling an argument by simulation", day08),
     ("wed09_benford.html", "Session 9: the first digit tells on you", day09),

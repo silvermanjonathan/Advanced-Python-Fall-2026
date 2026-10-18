@@ -131,11 +131,32 @@ CHECKS = {
         "TypeError: Pet.feed() takes 1 positional argument but 2 were given",
         "TypeError: Pet() takes no arguments",
     ]),
-    "wed06_what_it_costs.html": ("python3 what_it_costs.py", [
-        "linear: found at 999 after 1000 looks",
-        "binary: found at 999 after 10 looks",
-        "linear: returned -1 after 1000 looks",
-        "binary: returned -1 after 10 looks",
+    "wed06_rock_paper_scissors.html#if": ("python3 rps_if.py", [
+        "rock against paper: player 2", "paper against rock: player 1",
+        "scissors against scissors: tie",
+    ]),
+    "wed06_rock_paper_scissors.html#dict": ("python3 rps_dict.py", [
+        "rock against scissors: player 1", "paper against scissors: player 2",
+    ]),
+    "wed06_rock_paper_scissors.html#clock": ("python3 rps_clock.py", [
+        "rock against paper: (0 - 1) % 3 = 2", "rock against scissors: (0 - 2) % 3 = 1",
+        "scissors against paper: (2 - 1) % 3 = 1",
+    ]),
+    "wed06_rock_paper_scissors.html#three": ("python3 rps_three_ways.py", [
+        "the three versions agree on 9 of the 9 pairings",
+    ]),
+    "wed06_rock_paper_scissors.html#spock": ("python3 rps_spock.py", [
+        "the two versions agree on 25 of the 25 pairings",
+    ]),
+    "wed06_rock_paper_scissors.html": ("python3 verify_rps.py", [
+        "KeyError: 'rokc'", "ValueError: 'rokc' is not in list",
+        "ValueError: 'papper' is not in list",
+        "the three versions agree on 7 of the 9 pairings",
+        "the two versions agree on 11 of the 25 pairings",
+        "rock against lizard: steps 1, player 1", "lizard against spock: steps 1, player 1",
+        "type rock, paper, or scissors: paper",
+        "the computer played rock, so it is a tie",
+        "you won 2, lost 2, and tied 1",
     ]),
     "wed07_heuristics.html": ("python3 smarter_than_brute.py", [
         "brute force        4703917 tries",

@@ -1,4 +1,4 @@
-"""Sessions 3 to 7."""
+"""Sessions 3 to 7. Sessions 4 and 6 live in their own modules."""
 
 import ast
 import os
@@ -7,6 +7,7 @@ from build import answer_key, labelled_code, laddered, code, downloads, masthead
 from stds import panel
 from console03 import console_section
 from twoway04 import day04  # noqa: F401  (session 4 lives in its own module)
+from rps06 import day06  # noqa: F401  (session 6 lives in its own module)
 
 
 def exits(floor, middle, stretch):
@@ -966,190 +967,7 @@ Mochi: hunger 3, happiness 5"""
     )
     b += pager(
         ("wed04_two_way.html", "Session 4: encrypt or decrypt"),
-        ("wed06_what_it_costs.html", "Session 6: what a program costs"),
-    )
-    return b
-
-
-def day06():
-    """Session 6: the cost of a program."""
-    b = masthead(
-        "06",
-        "What a program costs",
-        "Wednesday 4 November 2026",
-        "Two programs can both be correct and one can be unusable. Today you measure "
-        "the difference, first by counting the work and then by timing it, and you build "
-        "a table that tells you when brute force stops being an option.",
-    )
-    b += '<h2><span class="num">1</span>Opener<span class="mins">10 minutes</span></h2>'
-    b += (
-        "<p>A sorted list holds the 1000 even numbers from 0 to 1998. You are looking "
-        "for 1998. On paper: how many values does a start-to-finish scan look at? Then, "
-        "if you are allowed to jump to the middle and throw half away each time, how "
-        "many?</p>"
-    )
-    b += reveal(
-        "Both numbers before you click.",
-        output(
-            """searching a sorted list of 1000 even numbers for 1998
-  linear: found at 999 after 1000 looks
-  binary: found at 999 after 10 looks
-
-searching for 1999, which is not there
-  linear: returned -1 after 1000 looks
-  binary: returned -1 after 10 looks"""
-        )
-        + "<p>1000 against 10. Halving 1000 ten times gets you below 1. That is where "
-        "the 10 comes from, and it is why doubling the list only adds one look.</p>"
-        "<p>Look at the missing-value case. Both searches do their worst "
-        "work when the answer is not there, and the scan has no way to stop early.</p>"
-        "<p>Here are the two searches that produced those numbers. Both return two "
-        "values: where the target was, and how many values they looked at.</p>"
-        + code(
-            '''def linear_find(values, target):
-    """Return the index of target, and how many values we looked at."""
-    looks = 0
-    for i in range(len(values)):
-        looks = looks + 1
-        if values[i] == target:
-            return i, looks
-    return -1, looks
-
-
-def binary_find(values, target):
-    """Return the index of target in a sorted list, and how many looks."""
-    low = 0
-    high = len(values) - 1
-    looks = 0
-    while low <= high:
-        mid = (low + high) // 2
-        looks = looks + 1
-
-        if values[mid] == target:
-            return mid, looks
-
-        if values[mid] < target:
-            low = mid + 1
-        else:
-            high = mid - 1
-    return -1, looks''',
-            "what_it_costs.py, the two searches",
-        )
-        + "<p><code>//</code> divides and throws the remainder away, so <code>mid</code> "
-        "is always a whole index. The <code>while</code> keeps going only while the "
-        "two ends have not crossed, the first loop in this course whose stopping condition has two parts.</p>",
-    )
-
-    b += '<h2><span class="num">2</span>Every code, timed<span class="mins">35 minutes</span></h2>'
-    b += (
-        "<p><code>itertools.product</code> generates every combination for you. This "
-        "sweeps every code of n digits and times it.</p>"
-    )
-    b += code(
-        '''from itertools import product
-from time import perf_counter
-
-CODE = "4703916"
-
-
-def sweep(digits):
-    """Try every code of the given length. Return the winner and the tries."""
-    tries = 0
-    winner = ""
-    target = CODE[:digits]
-
-    for guess in product("0123456789", repeat=digits):
-        tries = tries + 1
-        attempt = "".join(guess)
-        if attempt == target:
-            winner = attempt
-    return winner, tries
-
-
-for n in range(1, 8):
-    start = perf_counter()
-    found, tries = sweep(n)
-    elapsed = perf_counter() - start
-    print(f"  {n}   {10 ** n:<10} {tries:<8} {elapsed:.4f}")''',
-        "what_it_costs.py",
-    )
-    b += (
-        "<p>Two small new pieces in <code>sweep</code>. <code>CODE[:digits]</code> is a "
-        "<b>slice</b>: the first <code>digits</code> characters of <code>CODE</code>, so "
-        "<code>CODE[:3]</code> is <code>\"470\"</code>. And <code>product</code> hands "
-        "over each guess as a tuple of single characters, such as "
-        "<code>('4', '7', '0')</code>. <code>\"\".join(guess)</code> joins them into one "
-        "string, <code>\"470\"</code>, with nothing between them, so it can be compared "
-        "with <code>target</code>.</p>"
-    )
-    b += reveal(
-        "Seven digits takes about 1.2 seconds on my machine. Before you look: how long "
-        "for eight digits, and for ten?",
-        output(
-            """brute force, every code of n digits
-  n   codes      tries    seconds
-  1   10         10       0.0000
-  2   100        100      0.0000
-  3   1000       1000     0.0001
-  4   10000      10000    0.0010
-  5   100000     100000   0.0108
-  6   1000000    1000000  0.1092
-  7   10000000   10000000 1.1845"""
-        )
-        + "<p>Each row multiplies the one above it by ten. So eight digits is about 12 "
-        "seconds, nine is about two minutes, ten is about twenty minutes, and twelve is "
-        "about a day and a half. Nothing about the program changed. You added digits.</p>"
-        "<p>Ten to the seventh is ten million, and the seconds column follows it. Every extra digit multiplies the time by ten.</p>",
-    )
-    b += (
-        '<div class="predict"><b>These timings are from one machine.</b> Yours will '
-        "differ, maybe by a factor of three. What will not differ is the shape: every "
-        "extra digit costs ten times the last one. Run it and write your own numbers in "
-        "the table.</div>"
-    )
-    b += (
-        "<h3>Plot it</h3>"
-        "<p>Put digits on the horizontal axis and seconds on the vertical. Sketch it by "
-        "hand. Then sketch a second graph with the same data and seconds on a scale "
-        "where each step up is ten times the last. On the first graph the small rows are flat against the bottom and only the last one shows. On the second, every row is readable.</p>"
-    )
-    b += exits(
-        "You ran both searches and can say why binary needs 10 looks where the scan "
-        "needs 1000.",
-        "Floor, plus the runtime table built on your own machine out to six digits, plus "
-        "a hand sketch of digits against seconds.",
-        "Middle, plus extend to eight digits and check your prediction against the "
-        "clock. Then work out how many digits you would need before the sweep takes "
-        "longer than this class, and defend the arithmetic.",
-    )
-    b += panel(
-        ["8.EE.A.1", "8.F.B.5", "MP8"],
-        "<p>10 opener, 35 the sweep and the table, 20 plotting, 25 exits and "
-        "discussion. Warn them off nine digits on a classroom machine: that is roughly "
-        "two minutes with nothing on screen, and someone will assume it has hung.</p>",
-        "<p>The prediction that matters is eight digits. Students who say 2 seconds have "
-        "not understood the table; students who say 12 have. Make them commit out loud "
-        "before running.</p>"
-        "<p><code>perf_counter</code> measurements bounce around on a shared machine. "
-        "Run each row three times and take the middle. Say so, because otherwise a noisy row looks like a discovery.</p>",
-        retouch=(
-            "Trying every key, from session 3, now timed. Students who wanted to try all "
-            "26 Caesar shifts in session 3 see how long the same idea takes when there "
-            "are ten million codes."
-        ),
-        extras=(
-            "<h3>Files</h3><p><code>what_it_costs.py</code>. Timings above measured on "
-            "Python 3.12.3 in this container and will not match the classroom "
-            "machines.</p>"
-            "<h3>Lifted this week</h3><p><code>itertools.product</code>, "
-            "<code>time.perf_counter</code>, <code>//</code>, <code>while</code> with a "
-            "compound condition, returning two values, a slice for the first characters "
-            "of a string, and <code>\"\".join()</code>.</p>"
-        ),
-    )
-    b += pager(
-        ("wed05_objects.html", "Session 5: making your own objects"),
-        ("wed07_heuristics.html", "Session 7: smarter than brute force"),
+        ("wed06_rock_paper_scissors.html", "Session 6: rock, paper, scissors, three ways"),
     )
     return b
 
@@ -1160,21 +978,42 @@ def day07():
         "07",
         "Smarter than brute force",
         "Wednesday 18 November 2026",
-        "In session 6, brute force ran out of road at ten digits. Today you open a seven "
-        "digit lock in about 170 tries instead of ten million, using nothing but a "
-        "score, a random change, and a rule about when to keep it.",
+        "A lock with seven digits has ten million codes, and trying every code in turn "
+        "is called brute force. Today you open that lock in about 170 tries, using "
+        "nothing but a score, a random change, and a rule about when to keep it.",
     )
     b += (
         '<div class="flag"><b>No class on 11 November.</b> Veterans Day, so session 6 '
         "was two weeks ago.</div>"
     )
     b += '<h2><span class="num">1</span>Opener<span class="mins">10 minutes</span></h2>'
+    lock = "4703916"
+    codes = 10 ** len(lock)
+    tries = int(lock) + 1
+    b += "<p>Talk this one over with your neighbour first.</p>"
+    b += reveal(
+        "In session 6, <code>rps_three_ways.py</code> checked three versions of "
+        "<code>winner</code> on all nine pairings. Why check all nine, when three tests "
+        "had already passed?",
+        "<p>Three tests only try three pairings, and a mistake can sit in a pairing the "
+        "tests never tried. In session 6, a mistake in <code>BEATS</code> passed all "
+        "three tests and was caught only when every pairing was checked.</p>"
+        "<p>Today's first program does the same to a lock: it tries every code.</p>",
+    )
     b += (
-        "<p>From session 6: every extra digit made the sweep ten times slower. Seven digits took about a second. About how long would ten digits take, and why?</p>"
+        f"<p>A lock has {len(lock)} digits, and each digit is 0 to 9. A program tries "
+        "every code in order: 0000000, then 0000001, then 0000002, and so on. Trying "
+        "every possibility in turn like this is called <b>brute force</b>. The lock's "
+        f"code is <code>{lock}</code>.</p>"
     )
     b += reveal(
-        "Both, on paper.",
-        "<p>About twenty minutes, because three more digits is three more multiplications by ten: a second, ten seconds, a hundred seconds, a thousand seconds. Today's target is the same seven digit lock, <code>4703916</code>.</p>",
+        f"How many codes does the lock have? How many tries does the program need to "
+        f"reach {lock}?",
+        f"<p><b>Codes.</b> 10 choices for each of {len(lock)} digits: "
+        + " × ".join(["10"] * len(lock))
+        + f" = {codes}, ten million.</p>"
+        f"<p><b>Tries.</b> {tries}. Read as a number, {lock} has {int(lock)} codes before "
+        f"it, from 0000000 to {int(lock) - 1}, and the right code is one more try.</p>",
     )
 
     b += '<h2><span class="num">2</span>A score changes everything<span class="mins">25 minutes</span></h2>'
@@ -1211,6 +1050,23 @@ def hill_climb():
             best = score(candidate)
     return tries''',
         "smarter_than_brute.py",
+    )
+    example, spot, digit = "1234567", 2, "9"
+    b += (
+        "<p>Two pieces of <code>hill_climb</code> are new. "
+        "<code>random.randrange(len(SECRET))</code> returns a random whole number from 0 "
+        "up to, but not including, <code>len(SECRET)</code>, so it picks a position in "
+        "the code.</p>"
+        "<p><code>current[:spot]</code> is a <b>slice</b>: the characters of "
+        "<code>current</code> before position <code>spot</code>. "
+        "<code>current[spot + 1:]</code> is the characters after position "
+        "<code>spot</code>. Joined with <code>new_digit</code> between them, they make a "
+        "copy of <code>current</code> with the digit at <code>spot</code> replaced. If "
+        f"<code>current</code> is <code>\"{example}\"</code> and <code>spot</code> is "
+        f"{spot}, then <code>current[:{spot}]</code> is "
+        f"<code>\"{example[:spot]}\"</code> and <code>current[{spot + 1}:]</code> is "
+        f"<code>\"{example[spot + 1:]}\"</code>, so with a new digit of {digit} the "
+        f"candidate is <code>\"{example[:spot] + digit + example[spot + 1:]}\"</code>.</p>"
     )
     b += reveal(
         "Brute force needs about 4.7 million tries on this lock. Guess how many hill "
@@ -1307,9 +1163,9 @@ hill climbing, five runs:
         "<p>Expect resistance to the conclusion that the genetic algorithm lost. Good. "
         "Make them do the multiplication on the board.</p>",
         retouch=(
-            "Session 6's runtime table, which priced brute force at ten million tries "
-            "for this exact lock. The opener re-derives that number before the "
-            "alternative appears."
+            "Session 6's check of every pairing. Brute force is the same idea on a lock, "
+            "trying every code, and the opener counts how many tries that is before the "
+            "alternative appears. <code>random.choice</code> from session 6's game."
         ),
         extras=(
             "<h3>Files</h3><p><code>smarter_than_brute.py</code>, seeded with 4703. All "
@@ -1321,7 +1177,7 @@ hill climbing, five runs:
         ),
     )
     b += pager(
-        ("wed06_what_it_costs.html", "Session 6: what a program costs"),
+        ("wed06_rock_paper_scissors.html", "Session 6: rock, paper, scissors, three ways"),
         ("wed08_monte_carlo.html", "Session 8: settling it by simulation"),
     )
     return b
