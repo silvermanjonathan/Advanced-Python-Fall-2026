@@ -616,7 +616,7 @@ def day05():
     b = masthead(
         "05",
         "Making your own objects",
-        "Wednesday 14 October 2026",
+        "Wednesday 28 October 2026",
         "Strings, lists, and dictionaries are objects that someone else designed. Today "
         "you write a class, the code that describes a new kind of object, and make "
         "virtual pets from it. Each pet keeps its own hunger and its own happiness.",
@@ -976,7 +976,7 @@ def day06():
     b = masthead(
         "06",
         "What a program costs",
-        "Wednesday 21 October 2026",
+        "Wednesday 4 November 2026",
         "Two programs can both be correct and one can be unusable. Today you measure "
         "the difference, first by counting the work and then by timing it, and you build "
         "a table that tells you when brute force stops being an option.",
@@ -1159,14 +1159,18 @@ def day07():
     b = masthead(
         "07",
         "Smarter than brute force",
-        "Wednesday 28 October 2026",
-        "Last week brute force ran out of road at ten digits. Today you open a seven "
+        "Wednesday 18 November 2026",
+        "In session 6, brute force ran out of road at ten digits. Today you open a seven "
         "digit lock in about 170 tries instead of ten million, using nothing but a "
         "score, a random change, and a rule about when to keep it.",
     )
+    b += (
+        '<div class="flag"><b>No class on 11 November.</b> Veterans Day, so session 6 '
+        "was two weeks ago.</div>"
+    )
     b += '<h2><span class="num">1</span>Opener<span class="mins">10 minutes</span></h2>'
     b += (
-        "<p>From last week: every extra digit made the sweep ten times slower. Seven digits took about a second. About how long would ten digits take, and why?</p>"
+        "<p>From session 6: every extra digit made the sweep ten times slower. Seven digits took about a second. About how long would ten digits take, and why?</p>"
     )
     b += reveal(
         "Both, on paper.",

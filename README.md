@@ -631,3 +631,12 @@ Known corrections made before first printing:
     5's `Pet` where it introduces `Particle`, its panel's fallback is session 5's class,
     and its lifted list is down to a list of objects and `pygame.draw.lines`. The hub's
     session rows, lifted table, open decisions and programs table follow.
+54. Dates re-set from 18 October 2026, with session 4 on Wednesday 21 October:
+    4 on 21 Oct, 5 on 28 Oct, 6 on 4 Nov, no class 11 Nov, 7 on 18 Nov, 8 on 25 Nov,
+    9 on 2 Dec, 10 on 9 Dec, 13 (the demo) on 16 Dec. Sessions 11 and 12 say "Date to
+    be set" until Jonathan decides what to cut or merge. Sessions 1 to 3 keep their
+    original dates. Notes that depended on dates moved with them: the Veterans Day
+    gap note is now on session 7 (and the hub row sits after session 6), the
+    Thanksgiving note is now on session 8 (which also gives out the capstone brief),
+    session 9's note is now only the capstone reminder, and the capstone deadline
+    reads "start of session 11" with no date.

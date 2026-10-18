@@ -94,7 +94,7 @@ def day04():
     b = masthead(
         "04",
         "Encrypt or decrypt, in one window",
-        "Wednesday 7 October 2026",
+        "Wednesday 21 October 2026",
         "In session 3 the console turned a message into code. Today it goes both ways. "
         "When the window opens, it asks whether you want to encrypt or decrypt, and you "
         "answer with a key on the keyboard.",

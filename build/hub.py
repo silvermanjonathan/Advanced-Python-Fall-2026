@@ -11,29 +11,29 @@ SESSIONS = [
     ("03", "30 Sep", "wed03_counting.html", "A cipher in a window",
      "The accumulator pattern again, then write a Caesar cipher and put it in a pygame "
      "window."),
-    ("04", "7 Oct", "wed04_two_way.html", "Encrypt or decrypt",
+    ("04", "21 Oct", "wed04_two_way.html", "Encrypt or decrypt",
      "The session 3 console learns to go both ways: the window asks whether to encrypt "
      "or decrypt, and pressing E or D answers it."),
-    ("05", "14 Oct", "wed05_objects.html", "Making your own objects",
+    ("05", "28 Oct", "wed05_objects.html", "Making your own objects",
      "Write a class, make virtual pets from it, and show that each pet keeps its own "
      "attributes. Then six broken pets to fix and a creature of your own."),
-    ("06", "21 Oct", "wed06_what_it_costs.html", "What a program costs",
+    ("06", "4 Nov", "wed06_what_it_costs.html", "What a program costs",
      "Linear against binary search, brute force with itertools.product, and a "
      "runtime-against-digits table you time yourself."),
-    ("07", "28 Oct", "wed07_heuristics.html", "Smarter than brute force",
+    ("07", "18 Nov", "wed07_heuristics.html", "Smarter than brute force",
      "Fitness, mutation, selection. Hill climbing, then a small genetic algorithm, then a fair comparison of the two."),
-    ("08", "4 Nov", "wed08_monte_carlo.html", "Settling an argument by simulation",
+    ("08", "25 Nov", "wed08_monte_carlo.html", "Settling an argument by simulation",
      "Monty Hall: trials, tally, convergence, and a silent bug that produces a stable "
      "wrong answer. Capstone brief issued."),
-    ("09", "18 Nov", "wed09_benford.html", "The first digit tells on you",
+    ("09", "2 Dec", "wed09_benford.html", "The first digit tells on you",
      "Benford's law on two CSV files, one grown and one invented, with a histogram drawn "
      "in pygame."),
-    ("10", "25 Nov", "wed10_markov.html", "Machines that write",
+    ("10", "9 Dec", "wed10_markov.html", "Machines that write",
      "A word-pair model trained on a text file, then what the big language models do differently, and what they do the same."),
-    ("11", "2 Dec", "wed11_classes.html", "Objects that remember their own history",
+    ("11", "to be set", "wed11_classes.html", "Objects that remember their own history",
      "Session 5's classes put to work: a list of objects stepped in one loop. A "
      "particle plume with gravity and trails. Capstone sketches due."),
-    ("12", "9 Dec", "wed12_orbits.html", "Orbits",
+    ("12", "to be set", "wed12_orbits.html", "Orbits",
      "Gravity as acceleration toward a body, and time steps."),
     ("13", "16 Dec", "wed13_demo_day.html", "To be written, then the demo",
      "The first half is not written yet. The second half is the sixty second parent "
@@ -113,14 +113,13 @@ def hub():
             f'<span class="t"><a href="{href}">{esc(title)}</a>'
             f'<span class="s">{esc(sub)}</span></span></div>'
         )
-        if n == "08":
+        if n == "06":
             b += (
                 '<div class="row off"><span class="n">&middot;</span>'
                 '<span class="d">11 Nov</span>'
                 '<span class="t">No class, Veterans Day'
                 '<span class="s">Fourteen Wednesdays fall in the term. This is the one '
-                "that comes out, which is what makes it a thirteen session course. "
-                "Session 9 comes straight after the two week gap.</span>"
+                "that comes out. Session 7 comes straight after the two week gap.</span>"
                 "</span></div>"
             )
     b += "</div>"
@@ -128,9 +127,9 @@ def hub():
         '<div class="flag"><b>Two dates to confirm against Robofun\'s closure list '
         "before this syllabus goes to parents.</b> 30 September falls in the "
         "intermediate days of Sukkot, which some Upper West Side programs skip. "
-        "25 November, session 10, is the day before Thanksgiving, and attendance is "
-        "usually light. Nothing later in the term depends on session 10, so anyone away "
-        "can pick it up from its page.</div>"
+        "25 November, session 8, is the day before Thanksgiving, and attendance is "
+        "usually light. Session 8 gives out the capstone brief, so anyone away needs to "
+        "read it from that page.</div>"
     )
     b += (
         "<h2>Extras</h2>"
@@ -242,7 +241,8 @@ def hub():
     b += "<h2>Capstone</h2>"
     b += (
         "<p>The capstone runs from session 8 to the demo, not as a session of its own. "
-        "The brief goes out on 4 November and the sketch is due on 2 December. There "
+        "The brief goes out in session 8, on 25 November, and the sketch is due at the "
+        "start of session 11, whose date is still to be set. There "
         "is no separate build session: the capstone is an addition to one of the two "
         "programs the course gives you in sessions 11 and 12, the particle plume or the "
         "orbit, and it is built inside those two sessions' stretch exits and shown at "
@@ -296,10 +296,10 @@ def hub():
         "<code>cooked_ledger.csv</code>, <code>corpus.txt</code>. All three are generated "
         "by scripts in the repo, so nothing needs fetching over the network. Each has a "
         "download button on the page of the session that uses it.</td></tr>"
-        "<tr><td>Capstone sketch deadline</td><td>Session 11, 2 December</td>"
+        "<tr><td>Capstone sketch deadline</td><td>Session 11, date to be set</td>"
         "<td>It comes after session 9, the histogram window, because the sketch "
-        "describes a window, and after session 10, the light attendance day before "
-        "Thanksgiving. The build lives in the session 11 and 12 stretch exits.</td></tr>"
+        "describes a window. The build lives in the session 11 and 12 stretch "
+        "exits.</td></tr>"
         "</table>"
     )
 

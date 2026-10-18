@@ -20,7 +20,7 @@ CAPSTONE = (
     "<li>How it ends. Both ways: winning and losing.</li>"
     "<li>Then pseudocode, in English, before any Python.</li>"
     "</ul>"
-    "<p>Sketches are due at the start of session 11, on 2 December. No sketch means no build.</p>"
+    "<p>Sketches are due at the start of session 11. No sketch means no build.</p>"
     "<p>What you build on is fixed, so the sketch describes something real. In sessions "
     "11 and 12 you get two working programs with moving objects and gravity: a plume of "
     "particles, and a ship going round a planet. Your capstone is what you add to one of "
@@ -55,10 +55,14 @@ def day08():
     b = masthead(
         "08",
         "Settling an argument by simulation",
-        "Wednesday 4 November 2026",
+        "Wednesday 25 November 2026",
         "There is a probability question that fooled a great many mathematicians in "
         "1990. You are not going to argue about it. You are going to run it a hundred "
         "thousand times and read the answer off the screen.",
+    )
+    b += (
+        '<div class="flag"><b>Day before Thanksgiving.</b> Attendance is usually light. '
+        "The capstone brief is on this page, so anyone away today can read it here.</div>"
     )
     b += '<h2><span class="num">1</span>Opener<span class="mins">10 minutes</span></h2>'
     b += (
@@ -217,8 +221,8 @@ the model says stay 1/3 and switch 2/3:
         "the table, 15 the bug hunt, 10 capstone brief. That is 90 with no slack. If "
         "section 3 runs long, take the minutes from section 4 by running the table on "
         "the projector once rather than on every machine. The written model has to happen before any code runs, because the whole session compares the model against the run, and the capstone "
-        "brief has to be read aloud, because there is no class on 11 November and the "
-        "next session is two weeks away.</p>",
+        "brief has to be read aloud, because today is the day before Thanksgiving and "
+        "anyone away will only have the page.</p>",
         "<p>Some of the room will refuse the two thirds answer even after the "
         "simulation. That is the correct historical reaction and you should say so. Do "
         "not argue them into it. Have them run 100000 trials themselves.</p>"
@@ -289,15 +293,14 @@ def day09():
     b = masthead(
         "09",
         "The first digit tells on you",
-        "Wednesday 18 November 2026",
+        "Wednesday 2 December 2026",
         "Numbers that grow on their own start with 1 about thirty percent of the time "
         "and with 9 about five percent. Numbers people invent do not. Today you read two "
         "files and work out which one was made up.",
     )
     b += (
-        '<div class="flag"><b>No class on 11 November.</b> Veterans Day, so session 8 '
-        "was two weeks ago. Capstone sketches are due at the start of session 11, on 2 "
-        "December. If you have a question about the sketch, ask it after the histogram: "
+        '<div class="flag"><b>Capstone sketches are due at the start of session '
+        "11.</b> If you have a question about the sketch, ask it after the histogram: "
         "the histogram is a window, and the sketch describes a window.</div>"
     )
     b += '<h2><span class="num">1</span>Opener<span class="mins">10 minutes</span></h2>'
@@ -615,14 +618,8 @@ def day10():
     b = masthead(
         "10",
         "Machines that write, and what they are actually doing",
-        "Wednesday 25 November 2026",
+        "Wednesday 9 December 2026",
         "You are going to build a small version of the program behind a chatbot, out of a list, a loop, and a dictionary. It takes about forty lines. Once you have built it, you will know what that program is doing.",
-    )
-    b += (
-        '<div class="flag"><b>Day before Thanksgiving.</b> Attendance is usually light. '
-        "Nothing later in the term depends on this session, so anyone away can pick it "
-        "up from this page alone. Capstone sketches are due next week, at the start of "
-        "session 11, so nobody away today loses a deadline.</div>"
     )
     b += '<h2><span class="num">1</span>Opener<span class="mins">10 minutes</span></h2>'
     b += (
@@ -786,7 +783,7 @@ def day11():
     b = masthead(
         "11",
         "Objects that remember their own history",
-        "Wednesday 2 December 2026",
+        "Date to be set",
         "Tracking four moving sparks takes five lists kept in step by hand, and the "
         "lists are held together by nothing but your attention. Today each spark is one "
         "object that carries its own position, its own speed, and its own trail.",
@@ -1007,7 +1004,7 @@ def day12():
     b = masthead(
         "12",
         "Orbits",
-        "Wednesday 9 December 2026",
+        "Date to be set",
         "Gravity is one line of arithmetic applied over and over. A ship that only ever "
         "falls toward a planet, and never stops falling, is in orbit.",
     )
