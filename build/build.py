@@ -134,15 +134,16 @@ pre code{background:none; padding:0; font-size:inherit; font-weight:inherit; col
 .part.ask button.rev{font-size:15px; padding:6px 14px; margin:0 16px 10px}
 .part.ask .ans{margin:0 16px; padding:8px 0 10px}
 .part.ask .ans .plabel{padding:0}
-/* Python code, colored as VS Code colors it: its dark theme on screen */
-pre.py{background:#1F1F1F; color:#D4D4D4; border:0; border-radius:6px; font-weight:400;
-  padding:18px 20px}
-.part pre.py{background:#1F1F1F; border-radius:0; padding:10px 16px}
-.predict > pre.py{background:#1F1F1F}
-pre.py .hk{color:#C586C0} pre.py .hs{color:#569CD6} pre.py .hf{color:#DCDCAA}
-pre.py .hc{color:#4EC9B0} pre.py .hv{color:#9CDCFE} pre.py .hn{color:#4FC1FF}
-pre.py .hq{color:#CE9178} pre.py .he{color:#D7BA7D} pre.py .hd{color:#B5CEA8}
-pre.py .hm{color:#6A9955}
+/* Python code, colored with the hues of VS Code's light theme, each darkened to at
+   least 7:1 contrast on white so it reads when projected with the lights on */
+pre.py{background:#FFFFFF; color:#1F1F1F; border:2px solid var(--rule);
+  border-left:6px solid #B9AF96}
+.part pre.py{background:#FFFFFF; border:0; border-radius:0; padding:10px 16px}
+.predict > pre.py{background:#FFFFFF}
+pre.py .hk{color:#8A00B0} pre.py .hs{color:#0000FF} pre.py .hf{color:#6A4E14}
+pre.py .hc{color:#135C70} pre.py .hv{color:#001080} pre.py .hn{color:#00579A}
+pre.py .hq{color:#A31515} pre.py .he{color:#B00000} pre.py .hd{color:#035F3E}
+pre.py .hm{color:#006400}
 .fname{
   font-family:'JetBrains Mono',monospace; font-size:12.5px; letter-spacing:.1em;
   text-transform:uppercase; color:var(--ink-soft); margin:0 0 6px; font-weight:700;
@@ -303,12 +304,7 @@ footer p{margin:0}
   header.top h1,header.top .sub,header.top .eyebrow,.pill b{color:#111}
   .pill{border-color:#666}
   button.rev{display:none} .ans{display:block}
-  /* printers leave out dark backgrounds, so print uses VS Code's light theme */
-  pre.py,.part pre.py,.predict > pre.py{background:#fff; color:#000; border:1px solid #999}
-  pre.py .hk{color:#AF00DB} pre.py .hs{color:#0000FF} pre.py .hf{color:#795E26}
-  pre.py .hc{color:#267F99} pre.py .hv{color:#001080} pre.py .hn{color:#0070C1}
-  pre.py .hq{color:#A31515} pre.py .he{color:#EE0000} pre.py .hd{color:#098658}
-  pre.py .hm{color:#008000}
+  pre.py,.part pre.py,.predict > pre.py{background:#fff; border:1px solid #999}
   nav.pager,footer,.toolbar{display:none}
   section,.exit{background:#fff; break-inside:avoid} pre{border:1px solid #999}
   a{color:#111}

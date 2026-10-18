@@ -575,3 +575,12 @@ Known corrections made before first printing:
     run: no error, and `no code name` prints. `dict_tour.py` holds the final
     version; crosscheck runs it and also runs the square-bracket version, so both
     the `KeyError` and the `.get` output are checked.
+51. Code blocks are light again, for projection in a lit room. The dark VS Code
+    background washed out on the classroom wall, so every Python block is now on
+    white, colored with the hues of VS Code's light theme, each darkened to at
+    least 7:1 contrast on white (checked in the build notes): keywords purple,
+    `def` and `True` blue, functions brown, classes and modules teal, variables dark
+    blue, constants mid blue, strings dark red, numbers dark green, comments green.
+    Screen and print now use the same colors. The session 1 trace page's line
+    highlights are back to their light tints, and `wed01_worksheet.pdf` was
+    rendered again.

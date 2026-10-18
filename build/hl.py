@@ -7,18 +7,19 @@ the Python extension, which colors each name by what it is:
     hk  if, for, while, return, import, from, as, else, try, except, ...  purple
     hs  def, class, True, False, None, and, or, not, in, is, self, the
         f before an f-string, and the braces around a value in one         blue
-    hf  functions and methods, where they are defined and called           yellow
+    hf  functions and methods, where they are defined and called           brown
     hc  classes, types, and modules (pygame, Counter, int, range)          teal
-    hv  variables, parameters, and attributes                              light blue
-    hn  constants, names in capitals (MESSAGE, pygame.QUIT)                bright blue
-    hq  strings                                                            orange
-    he  escapes inside strings, such as \\n                                 gold
-    hd  numbers                                                            pale green
+    hv  variables, parameters, and attributes                              dark blue
+    hn  constants, names in capitals (MESSAGE, pygame.QUIT)                mid blue
+    hq  strings                                                            dark red
+    he  escapes inside strings, such as \\n                                 red
+    hd  numbers                                                            dark green
     hm  comments                                                           green
 
 Anything else (operators, brackets, commas) keeps the block's plain color. The
-colors themselves are in build.py's CSS: VS Code's dark theme on screen, and its
-light theme in print, since printers leave out dark backgrounds.
+colors themselves are in build.py's CSS: the hues of VS Code's light theme on a white
+background, each darkened to at least 7:1 contrast so the code reads when it is
+projected in a lit room, and the same in print.
 """
 
 import html
