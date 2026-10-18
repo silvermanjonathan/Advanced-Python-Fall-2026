@@ -14,9 +14,9 @@ SESSIONS = [
     ("04", "7 Oct", "wed04_two_way.html", "Encrypt or decrypt",
      "The session 3 console learns to go both ways: the window asks whether to encrypt "
      "or decrypt, and pressing E or D answers it."),
-    ("05", "14 Oct", "wed05_hashing.html", "Your seal, and a real one",
-     "Build a letter-sum seal, find a collision in it, then hashlib.sha256 and the "
-     "avalanche property, measured in bits."),
+    ("05", "14 Oct", "wed05_objects.html", "Making your own objects",
+     "Write a class, make virtual pets from it, and show that each pet keeps its own "
+     "attributes. Then six broken pets to fix and a creature of your own."),
     ("06", "21 Oct", "wed06_what_it_costs.html", "What a program costs",
      "Linear against binary search, brute force with itertools.product, and a "
      "runtime-against-digits table you time yourself."),
@@ -31,7 +31,7 @@ SESSIONS = [
     ("10", "25 Nov", "wed10_markov.html", "Machines that write",
      "A word-pair model trained on a text file, then what the big language models do differently, and what they do the same."),
     ("11", "2 Dec", "wed11_classes.html", "Objects that remember their own history",
-     "class, __init__, self, methods, and a list of objects stepped in one loop. A "
+     "Session 5's classes put to work: a list of objects stepped in one loop. A "
      "particle plume with gravity and trails. Capstone sketches due."),
     ("12", "9 Dec", "wed12_orbits.html", "Orbits",
      "Gravity as acceleration toward a body, and time steps."),
@@ -49,8 +49,8 @@ LIFTED = [
      "window: the event loop, frames, <code>pygame.draw.rect</code>"),
     ("Session 4", "key events (<code>pygame.KEYDOWN</code>, <code>event.key</code>), a "
      "variable that remembers a choice, <code>%</code> with a negative number"),
-    ("Session 5", "<code>hashlib</code>, <code>.encode()</code>, "
-     "<code>int(text, 16)</code>, <code>format</code> with a bit spec"),
+    ("Session 5", "<code>class</code>, <code>__init__</code>, <code>self</code>, "
+     "attributes, methods, <code>type</code>, <code>pass</code>"),
     ("Session 6", "<code>itertools.product</code>, <code>time.perf_counter</code>, "
      "<code>//</code>, compound <code>while</code> conditions, a slice for the first "
      "characters of a string, <code>\"\".join()</code>"),
@@ -64,8 +64,7 @@ LIFTED = [
      "<code>pygame.draw.line</code>, and a histogram drawn from data"),
     ("Session 10", "<code>collections.defaultdict</code>, tuples as dictionary keys, "
      "<code>.split()</code>, multiple assignment"),
-    ("Session 11", "<code>class</code>, <code>__init__</code>, <code>self</code>, "
-     "methods, a list of objects, <code>pygame.draw.lines</code>"),
+    ("Session 11", "a list of objects, <code>pygame.draw.lines</code>"),
     ("Session 12", "<code>math.sqrt</code> for distance, vector components, a time step"),
 ]
 
@@ -282,15 +281,16 @@ def hub():
         "<p>These are built one way and can be built the other. Each one is a real "
         "choice, not an oversight.</p>"
         "<table><tr><th>Decision</th><th>Built as</th><th>If you change it</th></tr>"
-        "<tr><td>Are classes lifted?</td><td>Yes, from session 11</td>"
-        "<td>Sessions 11 and 12 restructure around functions plus parallel lists, and "
-        "the plume and the orbit both go. Those two sessions would need replacing.</td>"
+        "<tr><td>Are classes lifted?</td><td>Yes, from session 5</td>"
+        "<td>Session 5 goes, and sessions 11 and 12 restructure around functions plus "
+        "parallel lists, so the plume and the orbit both go. All three sessions would "
+        "need replacing.</td>"
         "</tr>"
         "<tr><td>Environment</td><td>VS Code throughout, pygame for all graphics</td>"
         "<td>Sessions 3, 4, 9, 11, and 12 need pygame on the machines. Sessions 1, 2, 5 to "
         "8, and 10 are terminal only and run anywhere.</td></tr>"
         "<tr><td>Theme</td><td>None.</td>"
-        "<td>Sessions 3, 4, and 5 are all about ciphers and could share one theme. Sessions 6 to 12 would not.</td></tr>"
+        "<td>Sessions 3 and 4 are both about ciphers and could share one theme. Sessions 5 to 12 would not.</td></tr>"
         "<tr><td>Data files</td><td>Three needed on disk</td>"
         "<td><code>honest_ledger.csv</code>, "
         "<code>cooked_ledger.csv</code>, <code>corpus.txt</code>. All three are generated "
@@ -329,7 +329,7 @@ def hub():
         "<tr><td><code>undo_tour.py</code>, <code>two_way_step1.py</code>, "
         "<code>two_way_step2.py</code>, <code>two_way_console.py</code>, "
         "<code>two_way_space.py</code>, <code>verify_two_way.py</code></td><td>4</td></tr>"
-        "<tr><td><code>avalanche.py</code></td><td>5</td></tr>"
+        "<tr><td><code>objects_tour.py</code>, <code>pets.py</code>, <code>verify_pets.py</code></td><td>5</td></tr>"
         "<tr><td><code>what_it_costs.py</code></td><td>6</td></tr>"
         "<tr><td><code>smarter_than_brute.py</code></td><td>7</td></tr>"
         "<tr><td><code>monty_hall.py</code></td><td>8</td></tr>"

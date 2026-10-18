@@ -112,12 +112,29 @@ CHECKS = {
         "AttributeError: 'pygame.event.Event' object has no attribute 'key'",
         "D on pass 10, space on pass 200: mode is '' after pass 300",
     ]),
-    "wed05_hashing.html": ("python3 avalanche.py", [
-        "seal of 'ab' = 1", "seal of 'ba' = 1",
-        "d502810c71aeb17e5ea1cbf930b46b87bb645a75df45f500230d061992aeb90a",
-        "9076bc233a9100d5c0885c6a5f055ca13d856d28ee9cf74941719bb292f88da7",
-        "dawn vs dusk: 130 of 256 bits differ",
-        "dawn vs dawn+period: 124 of 256 bits differ",
+    "wed05_objects.html#opener": ("python3 objects_tour.py", [
+        "<class 'str'>", "<class 'list'>", "<class 'dict'>",
+        "['#', '.', '#', '#']", "['x']",
+    ]),
+    "wed05_objects.html#pets": ("python3 pets.py", [
+        "Rocky: hunger 3, happiness 5", "Luna: hunger 5, happiness 6",
+        "<class '__main__.Pet'>",
+    ]),
+    # verify_pets.py runs the pieces, rounds, quick check, gate, and broken pets
+    "wed05_objects.html": ("python3 verify_pets.py", [
+        "Rocky 5 5",
+        "Rocky: hunger 5, happiness 5",
+        "Mochi: hunger 2, happiness 5", "Pixel: hunger 5, happiness 7",
+        "Mochi: hunger -2, happiness 12",
+        "Mochi: hunger 3, happiness 5",
+        "Mochi: hunger 0, happiness 12",
+        "TypeError: Pet.feed() takes 0 positional arguments but 1 was given",
+        "UnboundLocalError: cannot access local variable 'hunger' where it is not "
+        "associated with a value",
+        "TypeError: Pet.feed() missing 1 required positional argument: 'self'",
+        "AttributeError: type object 'Pet' has no attribute 'name'",
+        "TypeError: Pet.feed() takes 1 positional argument but 2 were given",
+        "TypeError: Pet() takes no arguments",
     ]),
     "wed06_what_it_costs.html": ("python3 what_it_costs.py", [
         "linear: found at 999 after 1000 looks",

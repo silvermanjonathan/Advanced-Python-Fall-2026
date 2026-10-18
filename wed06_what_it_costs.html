@@ -134,6 +134,8 @@ pre.py .hm{color:#006400}
   display:block;
 }
 .out pre{background:var(--green-tint); border-color:#A9C6B2; border-left:6px solid var(--green); color:var(--green-ink)}
+/* a long error line wraps instead of scrolling out of sight */
+.out pre.wrap{white-space:pre-wrap; overflow-wrap:anywhere}
 
 /* predict and reveal */
 .predict{
@@ -298,8 +300,8 @@ footer p{margin:0}
 <main><div class="wrap">
 
 <section class="opener"><p class="chunk-no">Section 1 &middot; 10 minutes</p><h2>Opener</h2><p>A sorted list holds the 1000 even numbers from 0 to 1998. You are looking for 1998. On paper: how many values does a start-to-finish scan look at? Then, if you are allowed to jump to the middle and throw half away each time, how many?</p><div class="predict"><b>Predict first.</b> Both numbers before you click.
-<button class="rev" data-target="a45" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a45">Show the answer</button>
-<div class="ans" id="a45"><div class="out"><span class="tag">verified output</span><pre><code>searching a sorted list of 1000 even numbers for 1998
+<button class="rev" data-target="a60" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a60">Show the answer</button>
+<div class="ans" id="a60"><div class="out"><span class="tag">verified output</span><pre><code>searching a sorted list of 1000 even numbers for 1998
   linear: found at 999 after 1000 looks
   binary: found at 999 after 10 looks
 
@@ -363,8 +365,8 @@ searching for 1999, which is not there
     <span class="hv">elapsed</span> = <span class="hf">perf_counter</span>() - <span class="hv">start</span>
     <span class="hf">print</span>(<span class="hs">f</span><span class="hq">"  </span><span class="hs">{</span><span class="hv">n</span><span class="hs">}</span><span class="hq">   </span><span class="hs">{</span><span class="hd">10</span> ** <span class="hv">n</span><span class="hs">:&lt;10</span><span class="hs">}</span><span class="hq"> </span><span class="hs">{</span><span class="hv">tries</span><span class="hs">:&lt;8</span><span class="hs">}</span><span class="hq"> </span><span class="hs">{</span><span class="hv">elapsed</span><span class="hs">:.4f</span><span class="hs">}</span><span class="hq">"</span>)</code></pre>
 <p>Two small new pieces in <code>sweep</code>. <code>CODE[:digits]</code> is a <b>slice</b>: the first <code>digits</code> characters of <code>CODE</code>, so <code>CODE[:3]</code> is <code>"470"</code>. And <code>product</code> hands over each guess as a tuple of single characters, such as <code>('4', '7', '0')</code>. <code>"".join(guess)</code> joins them into one string, <code>"470"</code>, with nothing between them, so it can be compared with <code>target</code>.</p><div class="predict"><b>Predict first.</b> Seven digits takes about 1.2 seconds on my machine. Before you look: how long for eight digits, and for ten?
-<button class="rev" data-target="a46" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a46">Show the answer</button>
-<div class="ans" id="a46"><div class="out"><span class="tag">verified output</span><pre><code>brute force, every code of n digits
+<button class="rev" data-target="a61" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a61">Show the answer</button>
+<div class="ans" id="a61"><div class="out"><span class="tag">verified output</span><pre><code>brute force, every code of n digits
   n   codes      tries    seconds
   1   10         10       0.0000
   2   100        100      0.0000
@@ -381,7 +383,7 @@ searching for 1999, which is not there
 <p class="stdline"><span class="std">MP8</span> Look for and express regularity in repeated reasoning.</p>
 <p class="mapnote">Mapped to the Common Core State Standards for Mathematics (Multi-State). Each code and its wording was retrieved from the CASE Network through the Learning Commons Knowledge Graph on 12 September 2026, except 6.NS.C.5 and 7.NS.A.1.b, retrieved the same way on 18 October 2026. New York's own Computer Science and Digital Fluency framework and the CSTA standards are not carried in that graph, so no code from either appears anywhere on this site.</p><p class="mapnote">Two deliberate deviations from the retrieved text. The "for example…" illustrations attached to 7.SP.C.6 and 8.EE.A.1 are omitted, since they illustrate rather than state the standard. And where the source carries markup, italics or mathematical notation, it is rendered as plain text: 7.SP.C.5's fraction appears here as 1/2, and the italic stem of 6.SP.B.5.a and 6.SP.B.5.c is plain. Nothing else was shortened. Codes 6.SP.B.5.a and 6.SP.B.5.c are the lettered children of 6.SP.B.5, whose own statement is only a stem ending in a colon; the children carry that stem and are quoted in full.</p><h3>Timing</h3><p>10 opener, 35 the sweep and the table, 20 plotting, 25 exits and discussion. Warn them off nine digits on a classroom machine: that is roughly two minutes with nothing on screen, and someone will assume it has hung.</p><h3>What to watch for</h3><p>The prediction that matters is eight digits. Students who say 2 seconds have not understood the table; students who say 12 have. Make them commit out loud before running.</p><p><code>perf_counter</code> measurements bounce around on a shared machine. Run each row three times and take the middle. Say so, because otherwise a noisy row looks like a discovery.</p><h3>Files</h3><p><code>what_it_costs.py</code>. Timings above measured on Python 3.12.3 in this container and will not match the classroom machines.</p><h3>Lifted this week</h3><p><code>itertools.product</code>, <code>time.perf_counter</code>, <code>//</code>, <code>while</code> with a compound condition, returning two values, a slice for the first characters of a string, and <code>"".join()</code>.</p></section>
 </div></main>
-<nav class="pager"><a href="wed05_hashing.html">&larr; Session 5: seals and real hashes</a><a href="advanced_python_hub.html">Course hub</a><a href="wed07_heuristics.html">Session 7: smarter than brute force &rarr;</a></nav>
+<nav class="pager"><a href="wed05_objects.html">&larr; Session 5: making your own objects</a><a href="advanced_python_hub.html">Course hub</a><a href="wed07_heuristics.html">Session 7: smarter than brute force &rarr;</a></nav>
 <footer><div class="wrap"><p>Advanced Python, Robofun Fall 2026. Second printing, 13 September 2026. Built by a generator; the page, not the file, is the source of truth for output, because every quoted line came from a run.</p></div></footer>
 <script>
 document.addEventListener('click', function(e){

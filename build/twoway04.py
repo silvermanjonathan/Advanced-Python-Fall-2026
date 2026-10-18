@@ -437,6 +437,6 @@ def day04():
     )
     b += pager(
         ("wed03_counting.html", "Session 3: a cipher in a window"),
-        ("wed05_hashing.html", "Session 5: seals and real hashes"),
+        ("wed05_objects.html", "Session 5: making your own objects"),
     )
     return b

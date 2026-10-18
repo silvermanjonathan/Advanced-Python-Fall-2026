@@ -134,6 +134,8 @@ pre.py .hm{color:#006400}
   display:block;
 }
 .out pre{background:var(--green-tint); border-color:#A9C6B2; border-left:6px solid var(--green); color:var(--green-ink)}
+/* a long error line wraps instead of scrolling out of sight */
+.out pre.wrap{white-space:pre-wrap; overflow-wrap:anywhere}
 
 /* predict and reveal */
 .predict{

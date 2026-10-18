@@ -1,8 +1,9 @@
 """Sessions 3 to 7."""
 
+import ast
 import os
 
-from build import answer_key, labelled_code, laddered, code, masthead, output, pager, reveal
+from build import answer_key, labelled_code, laddered, code, downloads, masthead, output, pager, reveal
 from stds import panel
 from console03 import console_section
 from twoway04 import day04  # noqa: F401  (session 4 lives in its own module)
@@ -572,151 +573,439 @@ print(shift_by("gdzq", -3))''',
     return b
 
 
+def _root_file(name):
+    """Return the text of a program in the repo root."""
+    root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    return open(os.path.join(root, name)).read()
+
+
+def _pets_part(start, end):
+    """Return the lines of pets.py from the one beginning start, up to end."""
+    text = _root_file("pets.py")
+    i = text.index(start)
+    return text[i:text.index(end, i)].rstrip("\n")
+
+
+def _pet_snippets():
+    """Return the SNIPPETS dictionary from verify_pets.py, the code that was run."""
+    tree = ast.parse(_root_file("verify_pets.py"))
+    for node in tree.body:
+        if isinstance(node, ast.Assign) and getattr(node.targets[0], "id", "") == "SNIPPETS":
+            return ast.literal_eval(node.value)
+    raise ValueError("verify_pets.py has no SNIPPETS")
+
+
+def _broken(n, s, error, mistake, fix):
+    """Return one broken pet: the code, then the error and the fix behind a button."""
+    return (
+        f"<h3>Broken pet {n}</h3>"
+        + code(s[f"broken{n}"])
+        + reveal(
+            "What does the last line of the error say? What is the mistake, and what is "
+            "the fix?",
+            # an error line can be longer than the code column, so it wraps
+            output(error, "last line of the error").replace("<pre>", '<pre class="wrap">', 1)
+            + f"<p><b>The mistake.</b> {mistake}</p><p><b>The fix.</b> {fix}</p>",
+        )
+    )
+
+
 def day05():
-    """Session 5: hashing and integrity."""
+    """Session 5: classes, objects, and virtual pets."""
+    s = _pet_snippets()
     b = masthead(
         "05",
-        "A homemade seal, and a real one",
+        "Making your own objects",
         "Wednesday 14 October 2026",
-        "A seal is a short number computed from a message, so a reader can tell whether "
-        "the message changed on the way. You will build one, break it in about five "
-        "minutes, and then use a function that does not break.",
+        "Strings, lists, and dictionaries are objects that someone else designed. Today "
+        "you write a class, the code that describes a new kind of object, and make "
+        "virtual pets from it. Each pet keeps its own hunger and its own happiness.",
     )
-    b += '<h2><span class="num">1</span>Opener<span class="mins">10 minutes</span></h2>'
+
+    b += '<h2><span class="num">1</span>Opener: objects you already use<span class="mins">10 minutes</span></h2>'
     b += (
-        "<p>In session 3 you turned letters into numbers with <code>ord</code>. Here is "
-        "the simplest seal you can build out of that: add up the letter positions and "
-        "wrap the total at 97.</p>"
+        "<p>Every value in Python is an <b>object</b>, and every object is made from a "
+        "<b>class</b>. The class says what its objects store and what they can do.</p>"
+        "<p>This program uses a string and two lists, which you have used since session "
+        "1, and a dictionary like the one in session 3. It also uses one new function, "
+        "<code>type</code>, which tells you the class of a value.</p>"
     )
-    b += code(
-        '''def letter_sum_seal(text):
-    """Return a seal: add up the letter positions, wrap at 97."""
-    running = 0
-    for ch in text:
-        running = running + ord(ch)
-    return running % 97''',
-        "avalanche.py",
+    b += code(_root_file("objects_tour.py"), "objects_tour.py")
+    b += downloads("objects_tour.py")
+    b += reveal(
+        "Write down the five lines it prints. The last two are the ones to think about: "
+        "<code>append</code> is called on <code>row</code>. Does <code>other</code> "
+        "change too?",
+        output(
+            """<class 'str'>
+<class 'list'>
+<class 'dict'>
+['#', '.', '#', '#']
+['x']"""
+        )
+        + "<p><code>str</code>, <code>list</code>, and <code>dict</code> are classes. "
+        "<code>\"dawn\"</code> is one object made from the <code>str</code> class, and "
+        "<code>row</code> is one object made from the <code>list</code> class.</p>"
+        "<p><code>row.append(\"#\")</code> changed <code>row</code> and nothing else. "
+        "The dot means this object's: <code>row.append</code> is row's own "
+        "<code>append</code>, so it adds to row's items and leaves <code>other</code> "
+        "alone. Each list keeps its own items.</p>"
+        "<p>The session 3 console did the same thing. "
+        "<code>clock = pygame.time.Clock()</code> made one object from the "
+        "<code>Clock</code> class, and <code>clock.tick(60)</code> called that clock's "
+        "own <code>tick</code>. In session 4, <code>event.key</code> read a value "
+        "stored on one event object: which key was pressed. Today you write a class of "
+        "your own.</p>",
     )
+
+    b += '<h2><span class="num">2</span>Build a pet, one piece at a time<span class="mins">30 minutes</span></h2>'
     b += (
-        "<p>Send the message and the seal. The reader recomputes the seal and compares. "
-        "If the two disagree, the message changed.</p>"
-        "<p>Now break it. On paper: what is the seal of <code>ab</code>, and what is the "
-        "seal of <code>ba</code>?</p>"
+        '<div class="now"><p><b>Do this now.</b> Make a new file called '
+        "<code>pets.py</code>. Type each piece as you reach it and run the file after "
+        "each one. Answer each question before you open its answer.</p></div>"
+    )
+    b += "<h3>Piece 1: an empty class</h3>"
+    b += code(s["empty"])
+    b += (
+        "<p><code>class Pet:</code> starts a class called <code>Pet</code>. Class names "
+        "start with a capital letter, so you can tell a class from a variable. "
+        "<code>pass</code> means nothing here yet. Python needs at least one line inside "
+        "a class, and <code>pass</code> is a line that does nothing.</p>"
     )
     b += reveal(
-        "Both, before you click.",
-        output(
-            """seal of 'ab' = 1
-seal of 'ba' = 1
-same seal, different message: True"""
-        )
-        + "<p>Identical. Addition does not care what order it gets its numbers in, so "
-        "every rearrangement of a message carries the same seal. A seal that cannot "
-        "tell <code>ab</code> from <code>ba</code> cannot tell <code>attack at "
-        "dawn</code> from any anagram of it, so an attacker can shuffle your message "
-        "and leave the seal untouched.</p>"
-        "<p>Two different messages with the same seal is called a collision. Real hash "
-        "functions are built specifically to make collisions hard to find.</p>",
+        "You run this file. What appears in the terminal?",
+        "<p>Nothing. The file describes what a pet is, but no line makes a pet, and no "
+        "line prints. Writing a class does not make an object.</p>",
     )
 
-    b += '<h2><span class="num">2</span>sha256<span class="mins">25 minutes</span></h2>'
-    b += code(
-        '''import hashlib
+    b += "<h3>Piece 2: setting up a new pet</h3>"
+    b += code(s["first"])
+    b += reveal(
+        "What does it print? Then say what the difference is between <code>Pet</code> "
+        "and <code>rocky</code>.",
+        output("Rocky")
+        + "<p><code>Pet</code> is the class. <code>rocky</code> is one pet made from it. "
+        "A thing made from a class is called an <b>object</b> or an <b>instance</b> of "
+        "that class. The two words mean the same thing.</p>"
+        "<p><code>Pet(\"Rocky\")</code>, with brackets, makes a new pet. Python makes "
+        "an empty object, then straight away runs <code>__init__</code> on it, with "
+        "<code>self</code> set to the new object and <code>name</code> set to "
+        "<code>\"Rocky\"</code>. <code>__init__</code> is short for initialise, which "
+        "means set up. It has two underscores on each side.</p>"
+        "<p><code>self.name = name</code> stores the name on this pet. "
+        "<code>name</code> is a parameter, and like every parameter it is gone when "
+        "<code>__init__</code> finishes. <code>self.name</code> belongs to the pet and "
+        "stays. <code>rocky.name</code> reads it back: rocky's name.</p>",
+    )
 
+    b += "<h3>Piece 3: numbers every pet starts with</h3>"
+    b += code(s["stats"])
+    b += reveal(
+        "<code>Pet(\"Rocky\")</code> only passes a name. What does it print, and where "
+        "do the other two numbers come from?",
+        output("Rocky 5 5")
+        + "<p>Every new pet starts with hunger 5 and happiness 5, because "
+        "<code>__init__</code> sets them to 5 for every pet it sets up. A value stored "
+        "on an object like this is called an <b>attribute</b>. A pet has three: "
+        "<code>name</code>, <code>hunger</code>, and <code>happiness</code>. Only the "
+        "name comes from the line that makes the pet. To let pets start with different "
+        "hunger, you would add a <code>hunger</code> parameter to <code>__init__</code> "
+        "and pass a number in.</p>",
+    )
 
-def sha(text):
-    """Return the sha256 hex digest of text."""
-    return hashlib.sha256(text.encode()).hexdigest()''',
-        "avalanche.py",
+    b += "<h3>Piece 4: things a pet can do</h3>"
+    b += (
+        "<p>A function written inside a class is called a <b>method</b>. Add these two "
+        "below <code>__init__</code>, indented 4 spaces, the same as "
+        "<code>__init__</code>, so they are inside the class.</p>"
+    )
+    b += code(_pets_part("    def feed(self):", "    def report(self):"))
+    b += reveal(
+        "<code>self</code> appears in two kinds of places in <code>feed</code>. Find "
+        "both and say what each one does. Then: <code>rocky.feed()</code> has nothing "
+        "in its brackets, but <code>feed</code> has one parameter. Where does the "
+        "value of that parameter come from?",
+        "<p>The first place is <code>def feed(self):</code>, the parameter list. The "
+        "first parameter of every method is <code>self</code>. It holds the pet the "
+        "method is working on.</p>"
+        "<p>The second place is <code>self.hunger = self.hunger - 1</code>, in the "
+        "body. <code>self.hunger</code> means this pet's hunger. The line reads this "
+        "pet's hunger, takes 1 off, and stores the answer back on the same pet.</p>"
+        "<p>The value comes from the dot. When you write <code>rocky.feed()</code>, "
+        "Python runs <code>feed</code> with <code>self</code> set to "
+        "<code>rocky</code>. The object before the dot becomes <code>self</code>. "
+        "<code>luna.feed()</code> runs the same lines with <code>self</code> set to "
+        "<code>luna</code>.</p>",
+    )
+
+    b += "<h3>Piece 5: a method that returns</h3>"
+    b += (
+        "<p>Session 2's rule holds inside a class too: a function that works out a value "
+        "returns it, and the caller prints it. <code>report</code> builds one line "
+        "about the pet and returns it. Add it below <code>play</code>.</p>"
+    )
+    b += code(_pets_part("    def report(self):", "\n\n# make two pets"))
+    b += "<p>Then, below the class, make a pet and call <code>report</code> two ways:</p>"
+    b += code(s["report"])
+    b += reveal(
+        "Two calls to <code>report</code>, one inside <code>print</code> and one not. "
+        "What appears in the terminal?",
+        output("Rocky: hunger 5, happiness 5")
+        + "<p>One line, not two. <code>rocky.report()</code> on a line by itself "
+        "returns the line and nothing prints it, so it is thrown away. "
+        "<code>print(rocky.report())</code> prints whatever <code>report</code> "
+        "returned. This is session 2's print is not return, inside a class.</p>",
+    )
+
+    b += "<h3>Piece 6: two pets at once</h3>"
+    b += (
+        "<p>Here is the whole of <code>pets.py</code>. The part at the bottom makes "
+        "two pets and treats them differently. The last line asks for the class of "
+        "<code>rocky</code>, the way the opener asked for the class of a string.</p>"
+    )
+    b += code(_root_file("pets.py"), "pets.py")
+    b += downloads("pets.py")
+    b += reveal(
+        "Write all three lines on paper before you open the answer. Then say why "
+        "Luna's hunger is not 3.",
+        output(
+            """Rocky: hunger 3, happiness 5
+Luna: hunger 5, happiness 6
+<class '__main__.Pet'>"""
+        )
+        + "<p>Rocky was fed twice, so Rocky's hunger went 5, 4, 3. Luna was never fed, "
+        "so Luna's hunger is still 5. Luna played once, so Luna's happiness is 6, and "
+        "Rocky's is still 5.</p>"
+        "<p>Each pet has its own copy of every attribute. <code>rocky.feed()</code> "
+        "changes <code>rocky.hunger</code> and nothing else, the same way "
+        "<code>row.append</code> changed <code>row</code> and not <code>other</code> "
+        "in the opener.</p>"
+        "<p>The last line says <code>Pet</code> is now a class, like <code>str</code> "
+        "and <code>list</code>. <code>__main__</code> is the name Python gives the file "
+        "you ran, so the line means the class <code>Pet</code>, from this file.</p>",
+    )
+
+    b += '<h2><span class="num">3</span>Trace, then predict<span class="mins">15 minutes</span></h2>'
+    b += (
+        "<p>Each round goes under the class in <code>pets.py</code>, in place of the "
+        "lines that make Rocky and Luna. Write your prediction on paper before you "
+        "open the answer, then run it to check.</p>"
+    )
+    b += "<h3>Round 1</h3>"
+    b += code(s["round1"])
+    b += reveal(
+        "What two lines are printed?",
+        output(
+            """Mochi: hunger 2, happiness 5
+Pixel: hunger 5, happiness 7"""
+        )
+        + "<p>Mochi was fed three times: hunger 5, 4, 3, 2. Mochi never played, so "
+        "happiness stays 5. Pixel was never fed, so hunger stays 5. Pixel played "
+        "twice: happiness 5, 6, 7.</p>",
+    )
+    b += "<h3>Round 2</h3>"
+    b += code(s["round2"])
+    b += reveal(
+        "What is printed? Then: does the answer make sense for a pet?",
+        output("Mochi: hunger -2, happiness 12")
+        + "<p>Each pass through the loop feeds Mochi once and plays once. Seven passes: "
+        "hunger is 5 take away 7, which is -2, and happiness is 5 add 7, which is "
+        "12.</p>"
+        "<p>The program does what the code says, but the pet makes no sense. A hunger "
+        "of -2 means nothing, and nothing in the class stops it. Section 5 shows how to "
+        "fix that.</p>",
+    )
+    b += "<h3>Round 3</h3>"
+    b += code(s["round3"])
+    b += reveal(
+        "How many pets does this code make? What two lines are printed?",
+        output(
+            """Mochi: hunger 3, happiness 5
+Mochi: hunger 3, happiness 5"""
+        )
+        + "<p>One pet. Only <code>Pet(...)</code> makes a pet, and it appears once. "
+        "<code>b = a</code> does not copy Mochi. It gives the same pet a second name, "
+        "so feeding <code>b</code> feeds <code>a</code>. To count the pets in a "
+        "program, count the calls to <code>Pet(...)</code>.</p>",
+    )
+    b += "<h3>Quick check</h3>"
+    b += code(s["check"])
+    b += reveal(
+        "What does the last line print? Pick one and say why."
+        '<ul class="tight"><li><b>A.</b> 3</li><li><b>B.</b> 5</li>'
+        "<li><b>C.</b> 4</li><li><b>D.</b> an error, because luna has not been "
+        "fed</li></ul>",
+        output("5")
+        + "<p>B. Luna was made with hunger 5 and was never fed. Feeding "
+        "<code>rocky</code> changes rocky's hunger only. Luna's hunger exists from the "
+        "moment <code>Pet(\"Luna\")</code> runs <code>__init__</code>, so there is no "
+        "error.</p>",
+    )
+
+    b += '<h2><span class="num">4</span>Six broken pets<span class="mins">15 minutes</span></h2>'
+    b += (
+        "<p>Each program has exactly one mistake. With a partner, for each one: "
+        "predict what the terminal says, find the mistake, and fix it. Ninety seconds "
+        "each. Broken pets 3, 4, and 5 use the working <code>Pet</code> class from "
+        "section 2, so they only show the lines below it.</p>"
+    )
+    b += _broken(
+        1, s,
+        "TypeError: Pet.feed() takes 0 positional arguments but 1 was given",
+        "<code>def feed():</code> has no <code>self</code>. <code>rocky.feed()</code> "
+        "always sends rocky in as the first value, and this <code>feed</code> has no "
+        "parameter to put it in. The error says so: 0 parameters, but 1 value was "
+        "given.",
+        "<code>def feed(self):</code>",
+    )
+    b += _broken(
+        2, s,
+        "UnboundLocalError: cannot access local variable 'hunger' where it is not "
+        "associated with a value",
+        "<code>hunger = hunger - 1</code> has no <code>self.</code> in front. Without "
+        "it, <code>hunger</code> is an ordinary variable inside <code>feed</code>. It "
+        "has never been given a value, so Python cannot read it to take 1 off. The "
+        "pet's hunger is <code>self.hunger</code>.",
+        "<code>self.hunger = self.hunger - 1</code>",
+    )
+    b += _broken(
+        3, s,
+        "TypeError: Pet.feed() missing 1 required positional argument: 'self'",
+        "<code>Pet.feed()</code> calls the method on the class, not on a pet, so "
+        "there is no pet to put in <code>self</code>. The error names the empty "
+        "parameter.",
+        "<code>rocky.feed()</code>",
+    )
+    b += _broken(
+        4, s,
+        "AttributeError: type object 'Pet' has no attribute 'name'",
+        "<code>rocky = Pet</code> has no brackets, so no pet is made. "
+        "<code>rocky</code> becomes a second name for the class itself, which the "
+        "error calls a type object. The class has no <code>name</code>. Each pet gets "
+        "its own name in <code>__init__</code>, and no pet was made.",
+        "<code>rocky = Pet(\"Rocky\")</code>",
+    )
+    b += _broken(
+        5, s,
+        "TypeError: Pet.feed() takes 1 positional argument but 2 were given",
+        "<code>rocky.feed(rocky)</code> sends rocky twice: once through the dot, which "
+        "fills <code>self</code>, and once in the brackets. <code>feed</code> has 1 "
+        "parameter and was given 2 values.",
+        "<code>rocky.feed()</code>",
+    )
+    b += _broken(
+        6, s,
+        "TypeError: Pet() takes no arguments",
+        "<code>_init_</code> has one underscore on each side, so Python does not treat "
+        "it as the setup method. The class has no <code>__init__</code>, so "
+        "<code>Pet(\"Rocky\")</code> has nowhere to send the name. Some fonts draw two "
+        "underscores as one long line, so count them.",
+        "<code>def __init__(self, name):</code>, with two underscores on each side.",
+    )
+
+    b += '<h2><span class="num">5</span>Build your own creature<span class="mins">20 minutes</span></h2>'
+    b += (
+        "<p>A dragon, a robot, a houseplant, a moody cat, a boss from a game. Pick "
+        "something and write a class for it in a new file.</p>"
+        "<h3>The brief</h3>"
+        '<ul class="tight">'
+        "<li>An <code>__init__</code> that takes at least the creature's name as a "
+        "parameter.</li>"
+        "<li>At least 3 attributes that are numbers: health, energy, fuel, water, "
+        "whatever fits your creature.</li>"
+        "<li>At least 2 methods, and each one changes at least one attribute.</li>"
+        "<li>A <code>report</code> method that returns one line about the creature, "
+        "printed by the caller.</li>"
+        "<li>At least 2 creatures with different names, treated differently, that end "
+        "with different reports. That is your proof that each one keeps its own "
+        "attributes.</li>"
+        "<li>Your own class, not <code>Pet</code> with the names changed.</li>"
+        "</ul>"
+        "<h3>Check before you call it done</h3>"
+        '<ul class="tight">'
+        "<li>The class name starts with a capital letter.</li>"
+        "<li><code>__init__</code> has two underscores on each side.</li>"
+        "<li>Every method is indented inside the class.</li>"
+        "<li>Every method has <code>self</code> as its first parameter.</li>"
+        "<li>Every attribute inside a method has <code>self.</code> in front of it.</li>"
+        "<li>Every call has the object before the dot and nothing in the brackets for "
+        "<code>self</code>: <code>drake.fly()</code>, not <code>drake.fly(drake)</code> "
+        "and not <code>Dragon.fly()</code>.</li>"
+        "<li>You made as many creatures as your program has calls to the class.</li>"
+        "</ul>"
+        "<h3>Stuck for an idea?</h3>"
+        "<p>A dragon with health, fire, and age. A robot with battery, heat, and "
+        "version. A houseplant with water, light, and leaves. A wizard with mana, "
+        "spells, and wisdom.</p>"
+        "<h3>Keep a number in range</h3>"
+        "<p>Round 2 gave Mochi a hunger of -2. One <code>if</code> gate in "
+        "<code>feed</code>, like the gates in session 1, fixes it: only take 1 off when "
+        "hunger is above 0.</p>"
     )
     b += reveal(
-        "<code>attack at dawn</code> and <code>attack at dusk</code> differ by two "
-        "letters. How much of the output do you expect to change?",
-        output(
-            """sha256 'attack at dawn'
-  d502810c71aeb17e5ea1cbf930b46b87bb645a75df45f500230d061992aeb90a
-sha256 'attack at dusk'
-  9076bc233a9100d5c0885c6a5f055ca13d856d28ee9cf74941719bb292f88da7
-sha256 'attack at dawn.'
-  9156781e12f9522c7e8c5aef869a43a495be33b3f42c8c8fe9206dd7e2458b39"""
-        )
-        + "<p>All of it. Adding a single full stop to the end of "
-        "<code>dawn</code> also changes everything.</p>",
-    )
-
-    b += '<h2><span class="num">3</span>Measure the avalanche<span class="mins">30 minutes</span></h2>'
-    b += (
-        "<p>Do not take my word for it. Count. A sha256 digest is 256 bits, so "
-        "convert both digests to bits and count how many positions differ.</p>"
-    )
-    b += code(
-        '''def bits_of(hexdigest):
-    """Return hexdigest as a string of 0s and 1s."""
-    number = int(hexdigest, 16)
-    return format(number, "0256b")
-
-
-def bits_differing(a, b):
-    """Return how many bit positions differ between two hex digests."""
-    left = bits_of(a)
-    right = bits_of(b)
-
-    count = 0
-    for i in range(256):
-        if left[i] != right[i]:
-            count = count + 1
-    return count'''
-    )
-    b += reveal(
-        "Out of 256 bits, how many do you predict differ? Write a number, not a word.",
-        output(
-            """dawn vs dusk: 130 of 256 bits differ
-dawn vs dawn+period: 124 of 256 bits differ"""
-        )
-        + "<p>Around 128 both times, which is half. That is the design goal: each "
-        "output bit should flip with probability about one half whenever the input "
-        "changes at all, no matter how small the change. 130 and 124 are both close to 128. Two tries is a small sample, so neither lands on it exactly.</p>"
-        "<p>Two things follow. You cannot push the output in a chosen direction by making small changes to the input, because every small change changes about half the bits. And you cannot work backwards from a digest to the input, because nothing in the digest tells you which input produced it.</p>",
-    )
-    b += (
-        '<div class="predict"><b>One limit.</b> A hash proves a file was not '
-        "changed. It does not hide anything and it does not prove who sent it. If "
-        "someone can replace both the file and its posted hash, you learn nothing.</div>"
+        "Before you open this, write the condition the gate should check.",
+        code(s["gate"])
+        + "<p>Put this <code>feed</code> in place of the old one and run round 2 "
+        "again:</p>"
+        + output("Mochi: hunger 0, happiness 12")
+        + "<p>Hunger stops at 0. Happiness still reaches 12, because <code>play</code> "
+        "has no gate yet. Writing that one is yours.</p>",
     )
     b += exits(
-        "You built the seal, found a collision in it by hand, and can explain why "
-        "addition causes it.",
-        "Floor, plus sha256 running on your own strings, plus you can state the "
-        "avalanche property in your own words.",
-        "Middle, plus count the differing bits yourself and run it on five pairs of "
-        "near-identical strings. Record the five counts and their average. Then try to "
-        "find any sha256 collision by hand and write down why you stopped.",
+        "<code>pets.py</code> runs and prints the three lines from piece 6, and you can "
+        "say what <code>self</code> is when <code>rocky.feed()</code> runs.",
+        "Floor, plus your own class that meets every line of the brief in section 5, "
+        "with two creatures that end with different reports.",
+        "Middle, plus every number in your class stays between 0 and 10: a gate in "
+        "every method that changes one, as in Keep a number in range in section 5. Then "
+        "add a method "
+        "called <code>tick</code> that moves time on by one hour (you decide what "
+        "changes), call it 10 times in a <code>for</code> loop, and print the report "
+        "after each call.",
     )
     b += panel(
-        ["7.SP.C.8", "MP2", "MP6"],
-        "<p>10 opener, 25 sha256, 30 measuring the avalanche, 25 the limits and exits. "
-        "<code>format(number, \"0256b\")</code> is the line that needs unpacking.</p>",
-        "<p>Do not skip building the seal. A collision found in something you wrote "
-        "ten minutes ago lands differently from a collision in something handed to "
-        "you.</p>"
-        "<p>Students conclude a hash is encryption. It is not, and the difference is "
-        "worth ten minutes: encryption is meant to be reversed by the right person, and "
-        "a hash is meant to be reversed by nobody. Ask them how they would decrypt a "
-        "digest back to the message and let them work out that the digest is the same "
-        "length whatever goes in, so most of the message cannot be in there.</p>"
-        "<p>The bit-counting loop is the part most likely to defeat the floor group. "
-        "Have the digest comparison ready as a fallback: line the two hex strings up on "
-        "the projector and count matching characters instead.</p>",
+        ["6.EE.B.6", "MP7", "MP6"],
+        "<p>10 opener, 30 building the pet, 15 the rounds and the quick check, 15 broken "
+        "pets, 20 build your own and exits. Section 2's 30 minutes includes typing. A "
+        "student who falls behind downloads <code>pets.py</code> from the button under "
+        "piece 6 and reads it instead of typing it.</p>",
+        "<p>Use the quick check at the end of section 3 as a hinge. Count hands for each "
+        "letter before anyone opens the answer. <b>A</b> (3) means the student thinks "
+        "all pets share one hunger. <b>C</b> (4) can mean the student shared the "
+        "two feeds out between the two pets. <b>D</b> means the student thinks an "
+        "attribute exists only after a method has changed it, so <code>__init__</code> "
+        "is not yet real to them. If more than a few pick A or D, run piece 6 again "
+        "on the projector before broken pets.</p>"
+        "<p>Slow down on round 3. <code>b = a</code> gives the "
+        "same pet a second name; it does not make a second pet. Have the room count "
+        "the calls to <code>Pet(</code> before anyone opens the answer.</p>"
+        "<p>Broken pets 1 to 5 are the mistakes to expect while students write their "
+        "own class in section 5: <code>self</code> missing from the parameter list, "
+        "<code>self.</code> missing in the body, calling on the class instead of the "
+        "pet, missing brackets, and sending the pet twice. Broken pet 6 is hard to see "
+        "on a projector, where two underscores can look like one line. Point at them "
+        "and count them out loud.</p>"
+        "<p>Say <code>self</code> the same way every time: it is the object before the "
+        "dot. Broken pets 1, 3, and 5 all come down to that one sentence.</p>",
         retouch=(
-            "Session 3's <code>ord</code> arithmetic, used here to build a seal from "
-            "scratch in the first ten minutes so students own it before it breaks."
+            "Session 2's print is not return, now inside a class: <code>report</code> "
+            "returns a line and the caller prints it. Session 1's <code>if</code> gate, "
+            "used in Keep a number in range to hold hunger at 0. Session 3's "
+            "<code>clock.tick(60)</code> and session 4's <code>event.key</code>, read "
+            "again in the opener as an object's own method and an object's own value."
         ),
         extras=(
-            "<h3>Files</h3><p><code>avalanche.py</code>. Digests and bit counts on this "
-            "page verified on Python 3.12.3. The digests are reproducible, so students "
-            "should get the identical hex strings.</p>"
-            "<h3>Lifted this week</h3><p><code>hashlib</code>, <code>.encode()</code>, "
-            "<code>int(text, 16)</code>, <code>format</code> with a bit spec.</p>"
+            "<h3>Files</h3><p><code>objects_tour.py</code> for the opener and "
+            "<code>pets.py</code> for sections 2 and 3, each with a download button on "
+            "the page. <code>verify_pets.py</code> is for you. It runs every piece, "
+            "every round, the quick check, the gate, and all six broken pets, and "
+            "prints the last line of each error. The page's code for those comes from "
+            "that file, and every output and error on the page came from running it "
+            "on Python 3.12.3. The six error lines read the same on Python 3.11 and "
+            "3.13. Older versions word some of them differently.</p>"
+            "<h3>Lifted this week</h3><p><code>class</code>, <code>__init__</code>, "
+            "<code>self</code>, attributes, methods, objects, <code>type</code>, "
+            "<code>pass</code>.</p>"
         ),
     )
     b += pager(
@@ -903,7 +1192,7 @@ for n in range(1, 8):
         ),
     )
     b += pager(
-        ("wed05_hashing.html", "Session 5: seals and real hashes"),
+        ("wed05_objects.html", "Session 5: making your own objects"),
         ("wed07_heuristics.html", "Session 7: smarter than brute force"),
     )
     return b

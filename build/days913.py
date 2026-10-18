@@ -841,6 +841,10 @@ after removing from four lists but forgetting the fifth:
 
     b += '<h2><span class="num">2</span>One spark, one object<span class="mins">30 minutes</span></h2>'
     b += (
+        "<p>The class below has the same shape as session 5's <code>Pet</code>: "
+        "<code>__init__</code> sets up each new spark's own attributes, and a method, "
+        "<code>step</code>, changes them, the way <code>feed</code> changed a pet's "
+        "hunger.</p>"
         "<p>One line in the class below needs explaining first. A spark is launched "
         "with a speed and an angle, but the program has to move it in two separate "
         "directions each frame: some amount across, and some amount up. Splitting one "
@@ -965,13 +969,16 @@ trail lengths: shortest 92, longest 183""",
         "<p>The predictable error is forgetting <code>self</code> on an attribute inside "
         "a method, which gives <code>NameError</code> rather than anything helpful. "
         "Second is writing <code>def step(self)</code> and then calling "
-        "<code>step(p)</code> instead of <code>p.step()</code>.</p>"
+        "<code>step(p)</code> instead of <code>p.step()</code>. Both are broken pets "
+        "in session 5, so ask which broken pet it is before you fix it.</p>"
         "<p>Keep <code>pygame.font</code> out of it. Words in the terminal, visuals in "
         "the window, the rule set in session 9. If they want a readout, print it.</p>"
-        "<p>If the room needs a gentler first class, write a two-attribute one on the "
-        "board first: a <code>Pet</code> with a name and a hunger level, one method "
-        "that feeds it. Five minutes, then come back to the particle.</p>",
+        "<p>If the room has lost session 5, put its <code>Pet</code> class on the "
+        "board first: a name, a hunger level, and one method that feeds it. Five "
+        "minutes, then come back to the particle.</p>",
         retouch=(
+            "Session 5's <code>Pet</code> class: <code>__init__</code>, "
+            "<code>self</code>, and a method that changes an attribute. "
             "Parallel lists, shown going wrong in the opener, now solved properly. Also "
             "the window coordinates from session 3's cipher console, with the y axis "
             "pointing down."
@@ -982,9 +989,10 @@ trail lengths: shortest 92, longest 183""",
             "headless with <code>SDL_VIDEODRIVER=dummy</code> over 240 frames on pygame "
             "2.6.1. Confirm pygame is installed on the classroom machines before this "
             "session.</p>"
-            "<h3>Lifted this week</h3><p><code>class</code>, <code>__init__</code>, "
-            "<code>self</code>, methods, a list of objects, "
-            "<code>pygame.draw.lines</code>.</p>"
+            "<h3>Lifted this week</h3><p>A list of objects, "
+            "<code>pygame.draw.lines</code>. <code>class</code>, "
+            "<code>__init__</code>, <code>self</code>, and methods were lifted in "
+            "session 5.</p>"
         ),
     )
     b += pager(
