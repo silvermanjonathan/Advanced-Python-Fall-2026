@@ -15,8 +15,10 @@ SNIPPETS = {
     "tests": '''print(winner("rock", "scissors"))
 print(winner("rock", "paper"))
 print(winner("paper", "paper"))''',
-    "typo": '''print(winner("rokc", "paper"))''',
-    "typo2": '''print(winner("rock", "papper"))''',
+    "typo": '''print(winner("rokc", "scissors"))''',
+    "typo2": '''print(winner("rock", "sissors"))''',
+    "clock_typos": '''print(winner_clock("rokc", "scissors"))
+print(winner_clock("rock", "sissors"))''',
     "lookup": '''BEATS = {"rock": "scissors", "paper": "rock", "scissors": "paper"}
 
 print(BEATS["paper"])
@@ -47,7 +49,8 @@ print(random.choice(MOVES))''',
     for move2 in MOVES:
         if move1 != move2:
             steps = (MOVES.index(move1) - MOVES.index(move2)) % 5
-            result = winner(move1, move2)
+            result = winner_dict(move1, move2)
+
             print(f"{move1} against {move2}: steps {steps}, {result}")''',
 }
 
@@ -65,10 +68,7 @@ def part(name, start, end):
 
 IF_WINNER = part("rps_if.py", "MOVES =", "# every pairing")
 DICT_WINNER = part("rps_dict.py", "MOVES =", "# every pairing")
-CLOCK_WINNER = part("rps_three_ways.py", "MOVES =", "def winner_if")
-CLOCK_WINNER += part("rps_three_ways.py", "def winner_clock", "agree = 0")
-CLOCK_WINNER = CLOCK_WINNER.replace("winner_clock", "winner")
-SPOCK_DICT = part("rps_spock.py", "MOVES =", "def winner_clock").replace("winner_dict", "winner")
+SPOCK_DICT = part("rps_spock.py", "MOVES =", "def winner_clock")
 
 
 def run(source):
@@ -93,8 +93,10 @@ show("if version, three tests", IF_WINNER + SNIPPETS["tests"])
 show("if version, typo in move1", IF_WINNER + SNIPPETS["typo"])
 show("dictionary version, typo in move1", DICT_WINNER + SNIPPETS["typo"])
 show("dictionary version, typo in move2", DICT_WINNER + SNIPPETS["typo2"])
-show("clock version, typo in move1", CLOCK_WINNER + SNIPPETS["typo"])
-show("clock version, typo in move2", CLOCK_WINNER + SNIPPETS["typo2"])
+CLOCK_FILE = open("rps_three_ways.py").read()
+first, second = SNIPPETS["clock_typos"].split("\n")
+show("clock version, typo in move1", CLOCK_FILE + first)
+show("clock version, typo in move2", CLOCK_FILE + second)
 show("lookup", SNIPPETS["lookup"])
 show("index", SNIPPETS["index"])
 show("wrap", SNIPPETS["wrap"])

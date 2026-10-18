@@ -150,7 +150,7 @@ CHECKS = {
     ]),
     "wed06_rock_paper_scissors.html": ("python3 verify_rps.py", [
         "KeyError: 'rokc'", "ValueError: 'rokc' is not in list",
-        "ValueError: 'papper' is not in list",
+        "ValueError: 'sissors' is not in list",
         "the three versions agree on 7 of the 9 pairings",
         "the two versions agree on 11 of the 25 pairings",
         "rock against lizard: steps 1, player 1", "lizard against spock: steps 1, player 1",

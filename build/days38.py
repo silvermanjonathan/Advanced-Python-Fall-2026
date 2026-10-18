@@ -990,14 +990,14 @@ def day07():
     lock = "4703916"
     codes = 10 ** len(lock)
     tries = int(lock) + 1
-    b += "<p>Talk this one over with your neighbour first.</p>"
+    b += "<p>Talk this one over with your neighbor first.</p>"
     b += reveal(
         "In session 6, <code>rps_three_ways.py</code> checked three versions of "
         "<code>winner</code> on all nine pairings. Why check all nine, when three tests "
-        "had already passed?",
+        "had already printed the right answers?",
         "<p>Three tests only try three pairings, and a mistake can sit in a pairing the "
-        "tests never tried. In session 6, a mistake in <code>BEATS</code> passed all "
-        "three tests and was caught only when every pairing was checked.</p>"
+        "tests never tried. In session 6, a mistake planted in <code>BEATS</code> would "
+        "have passed all three tests, and checking every pairing caught it.</p>"
         "<p>Today's first program does the same to a lock: it tries every code.</p>",
     )
     b += (
@@ -1085,8 +1085,8 @@ hill climbing, five runs:
   run 5: 165 tries
   average 165.8 tries"""
         )
-        + "<p>About 170. That is roughly twenty eight thousand times less work than the "
-        "sweep. Note the middle line too: random guessing of whole codes failed inside "
+        + "<p>About 170. That is roughly twenty eight thousand times less work than "
+        "brute force's 4703917 tries. Note the middle line too: random guessing of whole codes failed inside "
         "200000 tries, so random guessing on its own does not help. The score is what helps.</p>"
         "<p>The five runs differ a lot, from 50 to 238. A method with a random start does not have one running time. It has a range. One run tells you almost nothing about the range; five runs start to.</p>",
     )
@@ -1121,6 +1121,18 @@ hill climbing, five runs:
                 child = child[:spot] + random.choice(DIGITS) + child[spot + 1:]
 
             population.append(child)"""
+    )
+    b += (
+        "<p>Slices work on lists too. <code>population[:keep]</code> is the first "
+        "<code>keep</code> codes in the list, the best ones after the sort. A slice with "
+        "the number before the colon starts there: <code>dad[cut:]</code> is the "
+        "characters of <code>dad</code> from position <code>cut</code> to the end. So "
+        "<code>mum[:cut] + dad[cut:]</code> is the front of one parent joined to the "
+        "back of the other.</p>"
+        "<p><code>return generation, population[0]</code> returns two values at once: "
+        "how many generations it took, and the code it found. The line that calls the "
+        "function stores them in two variables, <code>g, winner = genetic(40, 8)</code>, "
+        "in the order they were returned.</p>"
     )
     b += reveal(
         "Population of 40, keeping the best 8. It finishes in about 17 generations. Is "

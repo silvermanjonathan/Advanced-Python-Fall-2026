@@ -1,4 +1,4 @@
-"""Session 6: the number of steps from move2 to move1, for every pairing."""
+"""Session 6: steps from player 2's move to player 1's move, for every pairing."""
 
 MOVES = ["rock", "paper", "scissors"]
 

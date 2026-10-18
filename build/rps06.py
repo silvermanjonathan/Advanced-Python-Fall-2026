@@ -142,7 +142,7 @@ def _circle_svg():
         'display:block; margin:10px 0 16px" role="img" aria-label="Rock at position 0, '
         "paper at position 1, and scissors at position 2, around a circle. Arrows go "
         "one step forward: rock to paper, labelled paper beats rock; paper to scissors, "
-        "labelled scissors beats paper; scissors back round to rock, labelled rock beats "
+        "labelled scissors beats paper; scissors back around to rock, labelled rock beats "
         'scissors.">' + "".join(parts) + "</svg>"
     )
 
@@ -207,7 +207,7 @@ def day06():
     b += (
         '<h2><span class="num">1</span>Opener: nine pairings'
         '<span class="mins">10 minutes</span></h2>'
-        "<p>Talk this one over with your neighbour first.</p>"
+        "<p>Talk this one over with your neighbor first.</p>"
     )
     b += reveal(
         "In session 5, <code>report</code> worked out one line about a pet. Did "
@@ -249,13 +249,14 @@ def day06():
         '<span class="mins">15 minutes</span></h2>'
         '<div class="now"><p><b>Do this now.</b> Make a new file called '
         "<code>rps.py</code>. Type the list and the function below, then the three "
-        "<code>print</code> lines under them, and run it.</p></div>"
+        "<code>print</code> lines under them. Answer the question under them before you "
+        "run it.</p></div>"
     )
     b += code(_part("rps_if.py", "MOVES =", "# every pairing"), "rps.py")
     b += code(s["tests"], "rps.py, at the bottom")
     b += (
-        "<p><code>MOVES</code> is a list of the three moves. Its name is in capitals, "
-        "like <code>KEY</code> in session 3, because the program never changes it.</p>"
+        "<p><code>MOVES</code> is a list of the three moves. A name in capitals holds a "
+        "value the program never changes while it runs.</p>"
         "<p><code>winner</code> has two parameters: <code>move1</code> is player 1's move "
         "and <code>move2</code> is player 2's move. It returns one of three strings: "
         "<code>\"tie\"</code>, <code>\"player 1\"</code>, or "
@@ -282,8 +283,8 @@ def day06():
 
     b += "<h3>Check every pairing</h3>"
     b += (
-        "<p>Three tests are not all nine pairings. Replace the three <code>print</code> "
-        "lines with this loop:</p>"
+        "<p>Three tests try only three of the nine pairings. Replace the three "
+        "<code>print</code> lines with this loop:</p>"
     )
     b += code(_part("rps_if.py", "# every pairing"), "rps.py, in place of the three print lines")
     b += (
@@ -306,25 +307,30 @@ def day06():
     typo_if = _printed(v, "if version, typo in move1")
     assert typo_if == "player 2", typo_if
     b += reveal(
-        "<code>rokc</code> is not one of the three moves. What does this line print, and "
-        "which line of <code>winner</code> returns it?",
+        "The player meant rock and typed <code>rokc</code>, which is not one of the three "
+        "moves. What does this line print, and which line of <code>winner</code> returns "
+        "it?",
         output(typo_if)
         + "<p>It prints <code>player 2</code>, from the <code>else</code> line. "
-        "<code>\"rokc\"</code> is not equal to <code>\"paper\"</code>, so the first gate "
-        "is False. It is not <code>\"rock\"</code>, <code>\"scissors\"</code>, or "
-        "<code>\"paper\"</code>, so the three player 1 gates are False too. "
-        "<code>else</code> runs whenever every gate above it is False, typo or not. The "
-        "program gives a wrong answer and shows no error.</p>",
+        "<code>\"rokc\"</code> is not equal to <code>\"scissors\"</code>, so the first "
+        "gate is False. Each player 1 gate needs <code>move1</code> to be "
+        "<code>\"rock\"</code>, <code>\"scissors\"</code>, or <code>\"paper\"</code>, and "
+        "<code>\"rokc\"</code> is none of them, so those three gates are False too. "
+        "<code>else</code> runs whenever every gate above it is False, typo or not.</p>"
+        "<p>Rock beats scissors, so the right answer is player 1. The program gives a "
+        "wrong answer and shows no error.</p>",
     )
 
     # Section 3: a dictionary
     b += (
         '<h2><span class="num">3</span>The rules in a dictionary'
-        '<span class="mins">20 minutes</span></h2>'
+        '<span class="mins">15 minutes</span></h2>'
         "<p>In session 3, a dictionary stored values under keys, and "
         "<code>code_names[\"ben\"]</code> looked up the value stored under the key "
         "<code>\"ben\"</code>. The rules of rock paper scissors fit in a dictionary: each "
         "move is a key, and its value is the move it beats.</p>"
+        "<p>A comparison such as <code>BEATS[\"scissors\"] == \"paper\"</code> gives True "
+        "or False, and <code>print</code> shows which.</p>"
     )
     b += code(s["lookup"])
     lookup = _printed(v, "lookup")
@@ -354,14 +360,13 @@ def day06():
         "<p><code>BEATS[move1] == move2</code> asks one question: is <code>move2</code> "
         "the move that <code>move1</code> beats? If it is, player 1 wins. The three "
         "player 1 gates from section 2 are now one gate, and the rules are in the "
-        "dictionary instead of in the gates. To change the rules, you change the "
-        "dictionary.</p>"
+        "dictionary instead of in the gates.</p>"
     )
     typo_dict = _printed(v, "dictionary version, typo in move1", "KeyError: 'rokc'")
     assert typo_dict == ""
     b += reveal(
-        "Run it. Will the loop print the same nine lines as in section 2? Say yes or no, "
-        "and why. Then say what the typo line does now.",
+        "Before you run it: will the loop print the same nine lines as in section 2? Say "
+        "yes or no, and why. Then say what the typo line will do now.",
         "<p><b>The nine lines.</b> Yes, the same nine:</p>"
         + output("\n".join(dict_lines), label="verified output, rps.py")
         + "<p>The inside of the function is different, but for each pairing it returns "
@@ -384,10 +389,12 @@ def day06():
         output(typo2)
         + "<p>It prints an answer, and the answer is wrong. <code>BEATS[\"rock\"]</code> "
         "is <code>\"scissors\"</code>, so the lookup works. Then "
-        "<code>\"scissors\" == \"papper\"</code> is False, so the <code>else</code> line "
-        "returns player 2. Only <code>move1</code> is looked up in the dictionary, so "
-        "only a typo in <code>move1</code> stops the program. Section 4 stops typos "
-        "before they reach <code>winner</code>.</p>",
+        "<code>\"scissors\" == \"sissors\"</code> is False, so the <code>else</code> "
+        "line returns player 2. The player meant scissors, and rock beats scissors, so "
+        "the right answer is player 1.</p>"
+        "<p>Only <code>move1</code> is looked up in the dictionary, so only a typo in "
+        "<code>move1</code> stops the program. Section 4 stops typos before they reach "
+        "<code>winner</code>.</p>",
     )
     b += (
         "<p>If you fell behind, this is <code>rps.py</code> at the end of this section, "
@@ -416,10 +423,12 @@ def day06():
     choice = _printed(v, "choice, seed 6")
     assert len(set(choice.split("\n"))) == 3, choice
     b += reveal(
-        "What do the three <code>print</code> lines print?",
-        "<p>You cannot know before it runs. Each line is one of the three moves, and each "
-        "call picks again, so the same move can come up twice in a row. One run "
-        "printed:</p>"
+        "Before you run it: what do you know for sure about each of the three lines? Can "
+        "the same move come up twice?",
+        "<p><b>For sure.</b> Each line is one of the three moves: rock, paper, or "
+        "scissors. Which one, nobody can know before it runs.</p>"
+        "<p><b>Twice.</b> Yes. Each call picks again from all three moves, so the same "
+        "move can come up twice, or even three times. One run printed:</p>"
         + output(choice, label="verified output, one run")
         + "<p>Run it again and the lines change.</p>",
     )
@@ -464,9 +473,11 @@ def day06():
         "<code>papper</code>, <code>paper</code>, <code>scissors</code>, "
         "<code>rock</code>, <code>paper</code>. The game has five rounds. Which round got "
         "two answers, and which line of the program asked the second time?",
-        "<p>Round 2. <code>papper</code> is not in <code>MOVES</code>, so the line inside "
-        "the <code>while</code> loop asked again, and <code>paper</code> was accepted. "
-        "Here is the whole game:</p>"
+        "<p><b>Round.</b> Round 2. <code>papper</code> is not in <code>MOVES</code>, so "
+        "the <code>while</code> loop ran, and <code>paper</code> was accepted.</p>"
+        "<p><b>Line.</b> <code>my_move = input(\"type rock, paper, or scissors: \")</code>, "
+        "the line inside the <code>while</code> loop.</p>"
+        "<p>Here is the whole game:</p>"
         + output(game, label="verified output, one game")
         + "<p>The computer's moves are random, so your games will be different. Check "
         "the last line against the five rounds above it.</p>",
@@ -476,10 +487,10 @@ def day06():
     # Section 5: the circle
     b += (
         '<h2><span class="num">5</span>Count steps around a circle'
-        '<span class="mins">20 minutes</span></h2>'
+        '<span class="mins">25 minutes</span></h2>'
         "<p>The third version uses numbers. In <code>MOVES</code>, rock is at position "
         "0, paper at 1, and scissors at 2. Put the three moves around a circle in that "
-        "order. After scissors, the circle comes back round to rock.</p>"
+        "order. After scissors, the circle comes back around to rock.</p>"
     )
     b += _circle_svg()
     b += (
@@ -503,7 +514,7 @@ def day06():
     b += (
         "<h3>Wrapping with % 3</h3>"
         "<p>In session 4, <code>-1 % 26</code> was 25: going back 1 from <code>a</code>, "
-        "past the start of the alphabet, comes round to <code>z</code>. "
+        "past the start of the alphabet, comes around to <code>z</code>. "
         "<code>% 3</code> does the same on a circle of three positions.</p>"
     )
     b += code(s["wrap"])
@@ -513,8 +524,8 @@ def day06():
         "What do the two lines print?",
         output(wrap)
         + "<p><code>% 3</code> always gives 0, 1, or 2, even when the number before it is "
-        "negative. Going back 1 from position 0 comes round to position 2. Going back 2 "
-        "from position 0 comes round to position 1.</p>",
+        "negative. Going back 1 from position 0 comes around to position 2. Going back 2 "
+        "from position 0 comes around to position 1.</p>",
     )
     b += (
         "<h3>Steps for every pairing</h3>"
@@ -550,9 +561,17 @@ def day06():
     )
     b += (
         "<h3>winner, by counting steps</h3>"
-        "<p>The number of steps says who won, so a list can turn it into the answer: "
-        "position 0 holds <code>\"tie\"</code>, position 1 holds "
-        "<code>\"player 1\"</code>, and position 2 holds <code>\"player 2\"</code>.</p>"
+        '<div class="now"><p><b>Do this now.</b> Download <code>rps_three_ways.py</code> '
+        "and open it. It holds all three versions of <code>winner</code>, renamed "
+        "<code>winner_if</code>, <code>winner_dict</code>, and <code>winner_clock</code>, "
+        "and a check at the bottom that runs them against each other.</p></div>"
+    )
+    b += downloads("rps_three_ways.py")
+    b += (
+        "<p><code>winner_clock</code> is the new one. The number of steps says who won, "
+        "so a list turns it into the answer: position 0 holds <code>\"tie\"</code>, "
+        "position 1 holds <code>\"player 1\"</code>, and position 2 holds "
+        "<code>\"player 2\"</code>.</p>"
     )
     b += code(
         _part("rps_three_ways.py", "# what each number of steps", "\n\n\ndef winner_if")
@@ -582,16 +601,22 @@ def day06():
         "<code>spot1</code>, <code>spot2</code>, or <code>steps</code> to check it.</p>"
     )
     bad1 = "ValueError: 'rokc' is not in list"
-    bad2 = "ValueError: 'papper' is not in list"
-    assert _printed(v, "clock version, typo in move1", bad1) == ""
-    assert _printed(v, "clock version, typo in move2", bad2) == ""
+    bad2 = "ValueError: 'sissors' is not in list"
+    agree_line = three[0]
+    assert _printed(v, "clock version, typo in move1", bad1) == agree_line
+    assert _printed(v, "clock version, typo in move2", bad2) == agree_line
+    b += (
+        "<p>The two typos again. Add the first of these lines under the check at the "
+        "bottom of <code>rps_three_ways.py</code>. After you answer the question below, "
+        "run it, then replace it with the second line and run it again.</p>"
+    )
+    b += code(s["clock_typos"], "rps_three_ways.py, at the bottom, one line at a time")
     b += reveal(
-        "What does <code>winner_clock(\"rokc\", \"paper\")</code> do? And "
-        "<code>winner_clock(\"rock\", \"papper\")</code>, with the typo in player 2's "
-        "move?",
-        "<p><b>The first</b> stops with an error:</p>"
+        "For each line: does it print an answer, or stop with an error?",
+        "<p><b>The first line</b> stops with an error, after the check has printed its "
+        "line:</p>"
         + output(bad1, ERROR)
-        + "<p><b>The second</b> stops too:</p>"
+        + "<p><b>The second line</b> stops with an error too:</p>"
         + output(bad2, ERROR)
         + "<p><code>.index</code> stops the program with a <code>ValueError</code> when "
         "the item is not in the list. Both moves are looked up with <code>.index</code>, "
@@ -599,12 +624,9 @@ def day06():
     )
     b += (
         "<h3>Do all three agree?</h3>"
-        "<p><code>rps_three_ways.py</code> holds all three versions, renamed "
-        "<code>winner_if</code>, <code>winner_dict</code>, and <code>winner_clock</code>, "
-        "and checks them against each other on every pairing. Download it and open it. "
-        "This is the check at the bottom:</p>"
+        "<p>Take the typo line out again. This is the check at the bottom of "
+        "<code>rps_three_ways.py</code>. It runs all three versions on every pairing:</p>"
     )
-    b += downloads("rps_three_ways.py")
     b += code(_part("rps_three_ways.py", "agree = 0"), "rps_three_ways.py, the check")
     b += reveal(
         "What does it print?",
@@ -641,13 +663,13 @@ def day06():
         "<code>rps.py</code> runs with the dictionary version of <code>winner</code>, and "
         "its nine lines match your table from the opener. You can say what the if "
         "version and the dictionary version each do with "
-        "<code>winner(\"rokc\", \"paper\")</code>.",
+        "<code>winner(\"rokc\", \"scissors\")</code>.",
         "Floor, plus you played a game of <code>rps_game.py</code> with a typo in it, "
         "and <code>rps_three_ways.py</code> prints 9 of the 9. Trace "
         "<code>winner_clock(\"scissors\", \"rock\")</code> out loud: <code>spot1</code>, "
         "<code>spot2</code>, <code>steps</code>, and the return value.",
         "Middle, plus rock paper scissors lizard Spock. Write its <code>BEATS</code> and "
-        "a <code>winner</code> that uses it, then find the rule for steps with "
+        "a <code>winner_dict</code> that uses it, then find the rule for steps with "
         "<code>% 5</code>. Work it out below.",
     )
 
@@ -667,19 +689,18 @@ def day06():
         "<p>Make a new file called <code>rps_spock.py</code> for it.</p>"
     )
     b += laddered(
-        "Write <code>MOVES</code> and <code>BEATS</code> for five moves, and a "
-        "<code>winner</code> that uses <code>BEATS</code>. Each value in "
-        "<code>BEATS</code> is now a list of two moves.",
+        "Write <code>MOVES</code> and <code>BEATS</code> for five moves, and a function "
+        "called <code>winner_dict</code> that uses <code>BEATS</code>. The file gets a "
+        "second version later, so this one is not called <code>winner</code>. Each value "
+        "in <code>BEATS</code> is now a list of two moves.",
         [
             "<p>Each key still holds what it beats, now as a list: "
             "<code>\"rock\": [\"scissors\", \"lizard\"]</code>.</p>",
-            "<p>The gate in <code>winner</code> now asks whether <code>move2</code> is one "
+            "<p>The gate in <code>winner_dict</code> now asks whether <code>move2</code> is one "
             "of the items in the list <code>BEATS[move1]</code>. Section 4 used "
             "<code>in</code> to ask whether an item is in a list.</p>",
         ],
-        code(_part("rps_spock.py", "MOVES =", "def winner_clock"), "rps_spock.py")
-        + "<p>In <code>rps_spock.py</code> the function is called "
-        "<code>winner_dict</code>, because the same file has a second version.</p>",
+        code(_part("rps_spock.py", "MOVES =", "def winner_clock"), "rps_spock.py"),
         "spock-dict",
     )
     steps_table = _printed(v, "lizard Spock steps")
@@ -696,10 +717,11 @@ def day06():
         "<code>(spot1 - spot2) % 5</code>, a number from 0 to 4. Which numbers of steps "
         "mean player 1 wins? Write a <code>winner_clock</code> that uses the rule.",
         [
-            "<p>Let your dictionary <code>winner</code> say who wins, and print the steps "
-            "beside it, for every pairing that is not a tie. Put this under "
-            "<code>winner</code>:</p>"
-            + code(s["steps_table"], "rps_spock.py, under winner"),
+            "<p>Let <code>winner_dict</code> say who wins, and print the steps beside it, "
+            "for every pairing that is not a tie. <code>!=</code> means not equal, so the "
+            "gate skips the five pairings where both moves are the same. Put this under "
+            "<code>winner_dict</code>:</p>"
+            + code(s["steps_table"], "rps_spock.py, under winner_dict"),
             "<p>Here is what it prints. Look at the steps on the lines that end in "
             "player 1, then on the lines that end in player 2.</p>"
             + output(steps_table, label="verified output"),
@@ -707,7 +729,9 @@ def day06():
             f"when it is {losses[0]} or {losses[1]}. {wins[0]} and {wins[1]} are odd. A "
             "whole number is odd when <code>% 2</code> gives 1.</p>",
         ],
-        code(_part("rps_spock.py", "def winner_clock", "agree = 0"), "rps_spock.py")
+        f"<p>Player 1 wins when steps is {wins[0]} or {wins[1]}, the odd numbers. "
+        "Here is <code>winner_clock</code> with that rule:</p>"
+        + code(_part("rps_spock.py", "def winner_clock", "agree = 0"), "rps_spock.py")
         + "<p>The check at the bottom of <code>rps_spock.py</code> runs both versions on "
         "all 25 pairings:</p>"
         + output(spock[0], label="verified output, rps_spock.py")
@@ -734,11 +758,13 @@ def day06():
 
     b += panel(
         ["7.SP.C.8", "MP7", "MP8"],
-        "<p>10 opener, 15 if lines, 20 the dictionary, 15 the game, 20 the circle, 10 "
+        "<p>10 opener, 15 if lines, 15 the dictionary, 15 the game, 25 the circle, 10 "
         "exits. The opener's table is used again in sections 2, 3, and 5, so check that "
         "every student has one, with player 1 down the left side, before section 2. If "
         "the room is behind, the one-line version and the typo question in section 5 "
-        "can go: the middle exit needs the trace and the check, not those.</p>",
+        "can go, and the nine numbers from <code>rps_clock.py</code> can be worked out "
+        "together on the board: the middle exit needs the trace and the check, not "
+        "those.</p>",
         "<p>The <code>else</code> line in section 2. Students read it as \"player 2 "
         "won\". It means \"none of the gates above was True\", which is why a typo lands "
         "there. Ask the room which line returns for <code>rokc</code> before anyone opens "
@@ -746,9 +772,10 @@ def day06():
         "<p><code>BEATS[move1] == move2</code> reads backwards to some students. Say it "
         "the same way every time: is <code>move2</code> the move that <code>move1</code> "
         "beats?</p>"
-        "<p><code>input</code> needs the terminal to type into. If a student's game "
-        "waits and typing does nothing, the program is not running in VS Code's "
-        "terminal. Run it in the terminal.</p>"
+        "<p><code>input</code> reads what is typed in the terminal. If a student's game "
+        "waits and typing does nothing, the typing is going into the editor: click in "
+        "the terminal panel first. If the program runs in VS Code's Output tab, which "
+        "cannot take typing, run it in the terminal instead.</p>"
         "<p>A capital letter counts as a typo: <code>\"Rock\" in MOVES</code> is False, "
         "so the game asks again. Expect \"it keeps asking me\".</p>"
         "<p>Use the rock against scissors trace in section 5 as a hinge. The step that "

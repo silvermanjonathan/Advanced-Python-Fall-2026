@@ -18,8 +18,9 @@ SESSIONS = [
      "Write a class, make virtual pets from it, and show that each pet keeps its own "
      "attributes. Then six broken pets to fix and a creature of your own."),
     ("06", "4 Nov", "wed06_rock_paper_scissors.html", "Rock, paper, scissors, three ways",
-     "Decide who wins with if lines, with a dictionary, and by counting steps around a "
-     "circle with %. Check all three on every pairing, then play the computer."),
+     "Decide who wins with if lines and with a dictionary, play the computer, then "
+     "decide it by counting steps around a circle with % and check all three versions "
+     "on every pairing."),
     ("07", "18 Nov", "wed07_heuristics.html", "Smarter than brute force",
      "Fitness, mutation, selection. Hill climbing, then a small genetic algorithm, then a fair comparison of the two."),
     ("08", "25 Nov", "wed08_monte_carlo.html", "Settling an argument by simulation",

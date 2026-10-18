@@ -227,8 +227,8 @@ Built one way, can be built the other. Tabled on the hub.
 
 1. **Classes lifted: yes**, from session 12. Flip it and sessions 12 and 13 need
    replacing, since the plume and the orbit both go.
-2. **Theme: none.** Sessions 3, 5, and 6 share a cryptography thread and would take a
-   single skin cleanly. Sessions 7 to 13 would not.
+2. **Theme: none.** Sessions 3 and 4 are both about ciphers and could share one theme.
+   Sessions 5 to 12 would not.
 3. **Capstone sketch due session 11.** It was session 10, the light attendance day, and
    moved in the second printing: the sketch describes a window, and session 10 is the
    first window students see. No build time is lost, because the build lives in the
@@ -671,3 +671,14 @@ Known corrections made before first printing:
     names session 6's every-pairing check. The hub's session row, lifted rows (slices
     move to session 7), programs table, and the machine-specific timings note follow;
     the sessions table above gets the dates from item 54.
+56. Review fixes to session 6, 18 October. The typo examples now have a right answer the
+    typo spoils: `winner("rokc", "scissors")` and `winner("rock", "sissors")` both
+    return player 2 where rock should win (the first versions, against paper, happened
+    to give the right answer). Questions now come before runs in sections 2 and 3;
+    `rps_three_ways.py` is downloaded before `winner_clock` is shown, and its typo
+    question runs one line at a time; the `random.choice` question asks what is
+    certain; the stretch names its function `winner_dict` throughout, defines `!=`, and
+    its answer opens with the rule. Sections 3 and 5 are now 15 and 25 minutes. US
+    spellings (neighbor, around). Session 7 also explains list slices, a slice that
+    starts at a position, and returning two values, which the old session 6 taught,
+    and no longer mentions the sweep. README open decision 2 matches the hub.
