@@ -123,6 +123,16 @@ pre.py .hk{color:#8A00B0} pre.py .hs{color:#0000FF} pre.py .hf{color:#6A4E14}
 pre.py .hc{color:#135C70} pre.py .hv{color:#001080} pre.py .hn{color:#00579A}
 pre.py .hq{color:#A31515} pre.py .he{color:#B00000} pre.py .hd{color:#035F3E}
 pre.py .hm{color:#006400}
+/* Indent guides inside the hints, the lines VS Code draws down each step of
+   indentation, so a line shown on its own still shows how far in it goes. VS Code's
+   are 1px and light grey, which vanish on a projector with the lights on, so these are
+   6px and #595959, which clears 7:1 on white like the code colors. Each four-space step
+   is one box as tall as the line, so the bars join up from line to line. A border
+   rather than a shadow, so the bars print. */
+.ladder pre.py .ig,.hintset pre.py .ig{
+  display:inline-block; width:4ch; height:1.6em; vertical-align:top;
+  border-left:6px solid #595959;
+}
 .fname{
   font-family:'JetBrains Mono',monospace; font-size:12.5px; letter-spacing:.1em;
   text-transform:uppercase; color:var(--ink-soft); margin:0 0 6px; font-weight:700;
@@ -308,32 +318,32 @@ footer p{margin:0}
 </section>
 <section class="chunk"><p class="chunk-no">Section 2 &middot; 25 minutes</p><h2>A score changes everything</h2><p>Brute force learns one thing per guess: right or wrong. Suppose instead the lock tells you how many positions are correct. That one change makes the problem much easier.</p><p class="fname">smarter_than_brute.py</p>
 <pre class="py"><code><span class="hs">def</span> <span class="hf">score</span>(<span class="hv">guess</span>):
-    <span class="hq">"""Return how many positions in guess match the secret."""</span>
-    <span class="hv">hits</span> = <span class="hd">0</span>
-    <span class="hk">for</span> <span class="hv">i</span> <span class="hs">in</span> <span class="hc">range</span>(<span class="hf">len</span>(<span class="hn">SECRET</span>)):
-        <span class="hk">if</span> <span class="hv">guess</span>[<span class="hv">i</span>] == <span class="hn">SECRET</span>[<span class="hv">i</span>]:
-            <span class="hv">hits</span> = <span class="hv">hits</span> + <span class="hd">1</span>
-    <span class="hk">return</span> <span class="hv">hits</span>
+<span class="ig">    </span><span class="hq">"""Return how many positions in guess match the secret."""</span>
+<span class="ig">    </span><span class="hv">hits</span> = <span class="hd">0</span>
+<span class="ig">    </span><span class="hk">for</span> <span class="hv">i</span> <span class="hs">in</span> <span class="hc">range</span>(<span class="hf">len</span>(<span class="hn">SECRET</span>)):
+<span class="ig">    </span><span class="ig">    </span><span class="hk">if</span> <span class="hv">guess</span>[<span class="hv">i</span>] == <span class="hn">SECRET</span>[<span class="hv">i</span>]:
+<span class="ig">    </span><span class="ig">    </span><span class="ig">    </span><span class="hv">hits</span> = <span class="hv">hits</span> + <span class="hd">1</span>
+<span class="ig">    </span><span class="hk">return</span> <span class="hv">hits</span>
 
 
 <span class="hs">def</span> <span class="hf">hill_climb</span>():
-    <span class="hq">"""Keep any single-digit change that does not make the score worse."""</span>
-    <span class="hv">current</span> = <span class="hq">""</span>
-    <span class="hk">for</span> <span class="hv">i</span> <span class="hs">in</span> <span class="hc">range</span>(<span class="hf">len</span>(<span class="hn">SECRET</span>)):
-        <span class="hv">current</span> = <span class="hv">current</span> + <span class="hc">random</span>.<span class="hf">choice</span>(<span class="hn">DIGITS</span>)
-
-    <span class="hv">best</span> = <span class="hf">score</span>(<span class="hv">current</span>)
-    <span class="hv">tries</span> = <span class="hd">1</span>
-    <span class="hk">while</span> <span class="hv">best</span> &lt; <span class="hf">len</span>(<span class="hn">SECRET</span>):
-        <span class="hv">spot</span> = <span class="hc">random</span>.<span class="hf">randrange</span>(<span class="hf">len</span>(<span class="hn">SECRET</span>))
-        <span class="hv">new_digit</span> = <span class="hc">random</span>.<span class="hf">choice</span>(<span class="hn">DIGITS</span>)
-        <span class="hv">candidate</span> = <span class="hv">current</span>[:<span class="hv">spot</span>] + <span class="hv">new_digit</span> + <span class="hv">current</span>[<span class="hv">spot</span> + <span class="hd">1</span>:]
-
-        <span class="hv">tries</span> = <span class="hv">tries</span> + <span class="hd">1</span>
-        <span class="hk">if</span> <span class="hf">score</span>(<span class="hv">candidate</span>) &gt;= <span class="hv">best</span>:
-            <span class="hv">current</span> = <span class="hv">candidate</span>
-            <span class="hv">best</span> = <span class="hf">score</span>(<span class="hv">candidate</span>)
-    <span class="hk">return</span> <span class="hv">tries</span></code></pre>
+<span class="ig">    </span><span class="hq">"""Keep any single-digit change that does not make the score worse."""</span>
+<span class="ig">    </span><span class="hv">current</span> = <span class="hq">""</span>
+<span class="ig">    </span><span class="hk">for</span> <span class="hv">i</span> <span class="hs">in</span> <span class="hc">range</span>(<span class="hf">len</span>(<span class="hn">SECRET</span>)):
+<span class="ig">    </span><span class="ig">    </span><span class="hv">current</span> = <span class="hv">current</span> + <span class="hc">random</span>.<span class="hf">choice</span>(<span class="hn">DIGITS</span>)
+<span class="ig"></span>
+<span class="ig">    </span><span class="hv">best</span> = <span class="hf">score</span>(<span class="hv">current</span>)
+<span class="ig">    </span><span class="hv">tries</span> = <span class="hd">1</span>
+<span class="ig">    </span><span class="hk">while</span> <span class="hv">best</span> &lt; <span class="hf">len</span>(<span class="hn">SECRET</span>):
+<span class="ig">    </span><span class="ig">    </span><span class="hv">spot</span> = <span class="hc">random</span>.<span class="hf">randrange</span>(<span class="hf">len</span>(<span class="hn">SECRET</span>))
+<span class="ig">    </span><span class="ig">    </span><span class="hv">new_digit</span> = <span class="hc">random</span>.<span class="hf">choice</span>(<span class="hn">DIGITS</span>)
+<span class="ig">    </span><span class="ig">    </span><span class="hv">candidate</span> = <span class="hv">current</span>[:<span class="hv">spot</span>] + <span class="hv">new_digit</span> + <span class="hv">current</span>[<span class="hv">spot</span> + <span class="hd">1</span>:]
+<span class="ig"></span><span class="ig"></span>
+<span class="ig">    </span><span class="ig">    </span><span class="hv">tries</span> = <span class="hv">tries</span> + <span class="hd">1</span>
+<span class="ig">    </span><span class="ig">    </span><span class="hk">if</span> <span class="hf">score</span>(<span class="hv">candidate</span>) &gt;= <span class="hv">best</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="ig">    </span><span class="hv">current</span> = <span class="hv">candidate</span>
+<span class="ig">    </span><span class="ig">    </span><span class="ig">    </span><span class="hv">best</span> = <span class="hf">score</span>(<span class="hv">candidate</span>)
+<span class="ig">    </span><span class="hk">return</span> <span class="hv">tries</span></code></pre>
 <p>Two pieces of <code>hill_climb</code> are new. <code>random.randrange(len(SECRET))</code> returns a random whole number from 0 up to, but not including, <code>len(SECRET)</code>, so it picks a position in the code.</p><p><code>current[:spot]</code> is a <b>slice</b>: the characters of <code>current</code> before position <code>spot</code>. <code>current[spot + 1:]</code> is the characters after position <code>spot</code>. Joined with <code>new_digit</code> between them, they make a copy of <code>current</code> with the digit at <code>spot</code> replaced. If <code>current</code> is <code>"1234567"</code> and <code>spot</code> is 2, then <code>current[:2]</code> is <code>"12"</code> and <code>current[3:]</code> is <code>"4567"</code>, so with a new digit of 9 the candidate is <code>"1294567"</code>.</p><div class="predict"><b>Predict first.</b> Brute force needs about 4.7 million tries on this lock. Guess how many hill climbing needs. Write a number.
 <button class="rev" data-target="a80" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a80">Show the answer</button>
 <div class="ans" id="a80"><div class="out"><span class="tag">verified output</span><pre><code>secret is 7 digits, so there are 10000000 codes
@@ -350,24 +360,24 @@ hill climbing, five runs:
   average 165.8 tries</code></pre></div>
 <p>About 170. That is roughly twenty eight thousand times less work than brute force's 4703917 tries. Note the middle line too: random guessing of whole codes failed inside 200000 tries, so random guessing on its own does not help. The score is what helps.</p><p>The five runs differ a lot, from 50 to 238. A method with a random start does not have one running time. It has a range. One run tells you almost nothing about the range; five runs start to.</p></div></div>
 <p>Why <code>&gt;=</code> rather than <code>&gt;</code> in the keep rule? Because a change that leaves the score alone still moves you sideways, and sideways moves are how you get out of a position where every single-digit change makes the score worse. It is the same <code>&gt;</code> against <code>&gt;=</code> question as session 1.</p></section>
-<section class="chunk"><p class="chunk-no">Section 3 &middot; 30 minutes</p><h2>Breeding codes</h2><p>A genetic algorithm keeps a population instead of one candidate. Sort by score, keep the best few, and build the rest by cutting two parents together and occasionally changing one digit at random.</p><pre class="py"><code>        <span class="hv">population</span>.<span class="hf">sort</span>(<span class="hv">key</span>=<span class="hv">score</span>, <span class="hv">reverse</span>=<span class="hs">True</span>)
-        <span class="hk">if</span> <span class="hf">score</span>(<span class="hv">population</span>[<span class="hd">0</span>]) == <span class="hf">len</span>(<span class="hn">SECRET</span>):
-            <span class="hk">return</span> <span class="hv">generation</span>, <span class="hv">population</span>[<span class="hd">0</span>]
-
-        <span class="hv">parents</span> = <span class="hv">population</span>[:<span class="hv">keep</span>]
-        <span class="hv">population</span> = <span class="hc">list</span>(<span class="hv">parents</span>)
-
-        <span class="hk">while</span> <span class="hf">len</span>(<span class="hv">population</span>) &lt; <span class="hv">pop_size</span>:
-            <span class="hv">mum</span> = <span class="hc">random</span>.<span class="hf">choice</span>(<span class="hv">parents</span>)
-            <span class="hv">dad</span> = <span class="hc">random</span>.<span class="hf">choice</span>(<span class="hv">parents</span>)
-            <span class="hv">cut</span> = <span class="hc">random</span>.<span class="hf">randrange</span>(<span class="hd">1</span>, <span class="hf">len</span>(<span class="hn">SECRET</span>))
-            <span class="hv">child</span> = <span class="hv">mum</span>[:<span class="hv">cut</span>] + <span class="hv">dad</span>[<span class="hv">cut</span>:]
-
-            <span class="hk">if</span> <span class="hc">random</span>.<span class="hf">random</span>() &lt; <span class="hd">0.3</span>:
-                <span class="hv">spot</span> = <span class="hc">random</span>.<span class="hf">randrange</span>(<span class="hf">len</span>(<span class="hn">SECRET</span>))
-                <span class="hv">child</span> = <span class="hv">child</span>[:<span class="hv">spot</span>] + <span class="hc">random</span>.<span class="hf">choice</span>(<span class="hn">DIGITS</span>) + <span class="hv">child</span>[<span class="hv">spot</span> + <span class="hd">1</span>:]
-
-            <span class="hv">population</span>.<span class="hf">append</span>(<span class="hv">child</span>)</code></pre>
+<section class="chunk"><p class="chunk-no">Section 3 &middot; 30 minutes</p><h2>Breeding codes</h2><p>A genetic algorithm keeps a population instead of one candidate. Sort by score, keep the best few, and build the rest by cutting two parents together and occasionally changing one digit at random.</p><pre class="py"><code><span class="ig">    </span><span class="ig">    </span><span class="hv">population</span>.<span class="hf">sort</span>(<span class="hv">key</span>=<span class="hv">score</span>, <span class="hv">reverse</span>=<span class="hs">True</span>)
+<span class="ig">    </span><span class="ig">    </span><span class="hk">if</span> <span class="hf">score</span>(<span class="hv">population</span>[<span class="hd">0</span>]) == <span class="hf">len</span>(<span class="hn">SECRET</span>):
+<span class="ig">    </span><span class="ig">    </span><span class="ig">    </span><span class="hk">return</span> <span class="hv">generation</span>, <span class="hv">population</span>[<span class="hd">0</span>]
+<span class="ig"></span><span class="ig"></span>
+<span class="ig">    </span><span class="ig">    </span><span class="hv">parents</span> = <span class="hv">population</span>[:<span class="hv">keep</span>]
+<span class="ig">    </span><span class="ig">    </span><span class="hv">population</span> = <span class="hc">list</span>(<span class="hv">parents</span>)
+<span class="ig"></span><span class="ig"></span>
+<span class="ig">    </span><span class="ig">    </span><span class="hk">while</span> <span class="hf">len</span>(<span class="hv">population</span>) &lt; <span class="hv">pop_size</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="ig">    </span><span class="hv">mum</span> = <span class="hc">random</span>.<span class="hf">choice</span>(<span class="hv">parents</span>)
+<span class="ig">    </span><span class="ig">    </span><span class="ig">    </span><span class="hv">dad</span> = <span class="hc">random</span>.<span class="hf">choice</span>(<span class="hv">parents</span>)
+<span class="ig">    </span><span class="ig">    </span><span class="ig">    </span><span class="hv">cut</span> = <span class="hc">random</span>.<span class="hf">randrange</span>(<span class="hd">1</span>, <span class="hf">len</span>(<span class="hn">SECRET</span>))
+<span class="ig">    </span><span class="ig">    </span><span class="ig">    </span><span class="hv">child</span> = <span class="hv">mum</span>[:<span class="hv">cut</span>] + <span class="hv">dad</span>[<span class="hv">cut</span>:]
+<span class="ig"></span><span class="ig"></span><span class="ig"></span>
+<span class="ig">    </span><span class="ig">    </span><span class="ig">    </span><span class="hk">if</span> <span class="hc">random</span>.<span class="hf">random</span>() &lt; <span class="hd">0.3</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="ig">    </span><span class="ig">    </span><span class="hv">spot</span> = <span class="hc">random</span>.<span class="hf">randrange</span>(<span class="hf">len</span>(<span class="hn">SECRET</span>))
+<span class="ig">    </span><span class="ig">    </span><span class="ig">    </span><span class="ig">    </span><span class="hv">child</span> = <span class="hv">child</span>[:<span class="hv">spot</span>] + <span class="hc">random</span>.<span class="hf">choice</span>(<span class="hn">DIGITS</span>) + <span class="hv">child</span>[<span class="hv">spot</span> + <span class="hd">1</span>:]
+<span class="ig"></span><span class="ig"></span><span class="ig"></span>
+<span class="ig">    </span><span class="ig">    </span><span class="ig">    </span><span class="hv">population</span>.<span class="hf">append</span>(<span class="hv">child</span>)</code></pre>
 <p>Slices work on lists too. <code>population[:keep]</code> is the first <code>keep</code> codes in the list, the best ones after the sort. A slice with the number before the colon starts there: <code>dad[cut:]</code> is the characters of <code>dad</code> from position <code>cut</code> to the end. So <code>mum[:cut] + dad[cut:]</code> is the front of one parent joined to the back of the other.</p><p><code>return generation, population[0]</code> returns two values at once: how many generations it took, and the code it found. The line that calls the function stores them in two variables, <code>g, winner = genetic(40, 8)</code>, in the order they were returned.</p><div class="predict"><b>Predict first.</b> Population of 40, keeping the best 8. It finishes in about 17 generations. Is that better or worse than hill climbing's 170 tries? Careful.
 <button class="rev" data-target="a81" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a81">Show the answer</button>
 <div class="ans" id="a81"><div class="out"><span class="tag">verified output</span><pre><code>genetic algorithm, five runs:

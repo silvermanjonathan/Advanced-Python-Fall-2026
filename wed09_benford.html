@@ -123,6 +123,16 @@ pre.py .hk{color:#8A00B0} pre.py .hs{color:#0000FF} pre.py .hf{color:#6A4E14}
 pre.py .hc{color:#135C70} pre.py .hv{color:#001080} pre.py .hn{color:#00579A}
 pre.py .hq{color:#A31515} pre.py .he{color:#B00000} pre.py .hd{color:#035F3E}
 pre.py .hm{color:#006400}
+/* Indent guides inside the hints, the lines VS Code draws down each step of
+   indentation, so a line shown on its own still shows how far in it goes. VS Code's
+   are 1px and light grey, which vanish on a projector with the lights on, so these are
+   6px and #595959, which clears 7:1 on white like the code colors. Each four-space step
+   is one box as tall as the line, so the bars join up from line to line. A border
+   rather than a shadow, so the bars print. */
+.ladder pre.py .ig,.hintset pre.py .ig{
+  display:inline-block; width:4ch; height:1.6em; vertical-align:top;
+  border-left:6px solid #595959;
+}
 .fname{
   font-family:'JetBrains Mono',monospace; font-size:12.5px; letter-spacing:.1em;
   text-transform:uppercase; color:var(--ink-soft); margin:0 0 6px; font-weight:700;
@@ -305,12 +315,12 @@ footer p{margin:0}
 <pre class="py"><code><span class="hk">import</span> <span class="hc">csv</span>
 
 <span class="hk">with</span> <span class="hf">open</span>(<span class="hq">"honest_ledger.csv"</span>, <span class="hv">newline</span>=<span class="hq">""</span>) <span class="hk">as</span> <span class="hv">f</span>:
-    <span class="hv">reader</span> = <span class="hc">csv</span>.<span class="hc">DictReader</span>(<span class="hv">f</span>)
-    <span class="hv">count</span> = <span class="hd">0</span>
-    <span class="hk">for</span> <span class="hv">row</span> <span class="hs">in</span> <span class="hv">reader</span>:
-        <span class="hk">if</span> <span class="hv">count</span> &lt; <span class="hd">3</span>:
-            <span class="hf">print</span>(<span class="hv">row</span>)
-        <span class="hv">count</span> = <span class="hv">count</span> + <span class="hd">1</span>
+<span class="ig">    </span><span class="hv">reader</span> = <span class="hc">csv</span>.<span class="hc">DictReader</span>(<span class="hv">f</span>)
+<span class="ig">    </span><span class="hv">count</span> = <span class="hd">0</span>
+<span class="ig">    </span><span class="hk">for</span> <span class="hv">row</span> <span class="hs">in</span> <span class="hv">reader</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="hk">if</span> <span class="hv">count</span> &lt; <span class="hd">3</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="ig">    </span><span class="hf">print</span>(<span class="hv">row</span>)
+<span class="ig">    </span><span class="ig">    </span><span class="hv">count</span> = <span class="hv">count</span> + <span class="hd">1</span>
 
 <span class="hf">print</span>(<span class="hs">f</span><span class="hq">"rows read: </span><span class="hs">{</span><span class="hv">count</span><span class="hs">}</span><span class="hq">"</span>)</code></pre>
 <p>Three new pieces:</p><ul class="tight"><li><code>with open("honest_ledger.csv", newline="") as f:</code> opens the file and names it <code>f</code>. When the indented lines under it are finished, Python closes the file for you. <code>newline=""</code> is what the <code>csv</code> module asks for; leave it in.</li><li><code>csv.DictReader(f)</code> reads the file one row at a time. The first line of the file, <code>source,amount</code>, gives the column names.</li><li>Each <code>row</code> is a dictionary, the same kind of thing as <code>SHAPES</code> in session 3's <code>letters.py</code>: it stores each value under a name called a key. The column name is the key, so <code>row["amount"]</code> is the amount on that row.</li></ul><div class="predict"><b>Predict first.</b> What does the first <code>print(row)</code> show? Look at the first two lines of the file: <code>source,amount</code> and then <code>fibonacci,1</code>.
@@ -325,16 +335,16 @@ rows read: 600</code></pre></div>
 
 
 <span class="hs">def</span> <span class="hf">count_rows</span>(<span class="hv">filename</span>):
-    <span class="hq">"""Return how many rows the CSV file has, or 0 if there is no such file."""</span>
-    <span class="hk">try</span>:
-        <span class="hk">with</span> <span class="hf">open</span>(<span class="hv">filename</span>, <span class="hv">newline</span>=<span class="hq">""</span>) <span class="hk">as</span> <span class="hv">f</span>:
-            <span class="hv">count</span> = <span class="hd">0</span>
-            <span class="hk">for</span> <span class="hv">row</span> <span class="hs">in</span> <span class="hc">csv</span>.<span class="hc">DictReader</span>(<span class="hv">f</span>):
-                <span class="hv">count</span> = <span class="hv">count</span> + <span class="hd">1</span>
-    <span class="hk">except</span> <span class="hc">FileNotFoundError</span>:
-        <span class="hf">print</span>(<span class="hs">f</span><span class="hq">"no file called </span><span class="hs">{</span><span class="hv">filename</span><span class="hs">}</span><span class="hq">, so there is nothing to count"</span>)
-        <span class="hk">return</span> <span class="hd">0</span>
-    <span class="hk">return</span> <span class="hv">count</span>
+<span class="ig">    </span><span class="hq">"""Return how many rows the CSV file has, or 0 if there is no such file."""</span>
+<span class="ig">    </span><span class="hk">try</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="hk">with</span> <span class="hf">open</span>(<span class="hv">filename</span>, <span class="hv">newline</span>=<span class="hq">""</span>) <span class="hk">as</span> <span class="hv">f</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="ig">    </span><span class="hv">count</span> = <span class="hd">0</span>
+<span class="ig">    </span><span class="ig">    </span><span class="ig">    </span><span class="hk">for</span> <span class="hv">row</span> <span class="hs">in</span> <span class="hc">csv</span>.<span class="hc">DictReader</span>(<span class="hv">f</span>):
+<span class="ig">    </span><span class="ig">    </span><span class="ig">    </span><span class="ig">    </span><span class="hv">count</span> = <span class="hv">count</span> + <span class="hd">1</span>
+<span class="ig">    </span><span class="hk">except</span> <span class="hc">FileNotFoundError</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="hf">print</span>(<span class="hs">f</span><span class="hq">"no file called </span><span class="hs">{</span><span class="hv">filename</span><span class="hs">}</span><span class="hq">, so there is nothing to count"</span>)
+<span class="ig">    </span><span class="ig">    </span><span class="hk">return</span> <span class="hd">0</span>
+<span class="ig">    </span><span class="hk">return</span> <span class="hv">count</span>
 
 
 <span class="hf">print</span>(<span class="hf">count_rows</span>(<span class="hq">"honest_ledger.csv"</span>))
@@ -354,26 +364,26 @@ the program is still running</code></pre></div>
 
 
 <span class="hs">def</span> <span class="hf">leading_digit</span>(<span class="hv">text</span>):
-    <span class="hq">"""Return the first digit character in text as an integer."""</span>
-    <span class="hk">for</span> <span class="hv">ch</span> <span class="hs">in</span> <span class="hv">text</span>:
-        <span class="hk">if</span> <span class="hv">ch</span> <span class="hs">in</span> <span class="hq">"123456789"</span>:
-            <span class="hk">return</span> <span class="hc">int</span>(<span class="hv">ch</span>)
-    <span class="hk">return</span> <span class="hd">0</span>
+<span class="ig">    </span><span class="hq">"""Return the first digit character in text as an integer."""</span>
+<span class="ig">    </span><span class="hk">for</span> <span class="hv">ch</span> <span class="hs">in</span> <span class="hv">text</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="hk">if</span> <span class="hv">ch</span> <span class="hs">in</span> <span class="hq">"123456789"</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="ig">    </span><span class="hk">return</span> <span class="hc">int</span>(<span class="hv">ch</span>)
+<span class="ig">    </span><span class="hk">return</span> <span class="hd">0</span>
 
 
 <span class="hs">def</span> <span class="hf">tally_file</span>(<span class="hv">filename</span>):
-    <span class="hq">"""Return a Counter of leading digits in the amount column."""</span>
-    <span class="hv">counts</span> = <span class="hc">Counter</span>()
-    <span class="hk">with</span> <span class="hf">open</span>(<span class="hv">filename</span>, <span class="hv">newline</span>=<span class="hq">""</span>) <span class="hk">as</span> <span class="hv">f</span>:
-        <span class="hv">reader</span> = <span class="hc">csv</span>.<span class="hc">DictReader</span>(<span class="hv">f</span>)
-        <span class="hk">for</span> <span class="hv">row</span> <span class="hs">in</span> <span class="hv">reader</span>:
-            <span class="hv">counts</span>[<span class="hf">leading_digit</span>(<span class="hv">row</span>[<span class="hq">"amount"</span>])] += <span class="hd">1</span>
-    <span class="hk">return</span> <span class="hv">counts</span>
+<span class="ig">    </span><span class="hq">"""Return a Counter of leading digits in the amount column."""</span>
+<span class="ig">    </span><span class="hv">counts</span> = <span class="hc">Counter</span>()
+<span class="ig">    </span><span class="hk">with</span> <span class="hf">open</span>(<span class="hv">filename</span>, <span class="hv">newline</span>=<span class="hq">""</span>) <span class="hk">as</span> <span class="hv">f</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="hv">reader</span> = <span class="hc">csv</span>.<span class="hc">DictReader</span>(<span class="hv">f</span>)
+<span class="ig">    </span><span class="ig">    </span><span class="hk">for</span> <span class="hv">row</span> <span class="hs">in</span> <span class="hv">reader</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="ig">    </span><span class="hv">counts</span>[<span class="hf">leading_digit</span>(<span class="hv">row</span>[<span class="hq">"amount"</span>])] += <span class="hd">1</span>
+<span class="ig">    </span><span class="hk">return</span> <span class="hv">counts</span>
 
 
 <span class="hs">def</span> <span class="hf">benford_expected</span>(<span class="hv">digit</span>):
-    <span class="hq">"""Return the share of numbers Benford's law predicts start with digit."""</span>
-    <span class="hk">return</span> <span class="hc">math</span>.<span class="hf">log10</span>(<span class="hd">1</span> + <span class="hd">1</span> / <span class="hv">digit</span>)</code></pre>
+<span class="ig">    </span><span class="hq">"""Return the share of numbers Benford's law predicts start with digit."""</span>
+<span class="ig">    </span><span class="hk">return</span> <span class="hc">math</span>.<span class="hf">log10</span>(<span class="hd">1</span> + <span class="hd">1</span> / <span class="hv">digit</span>)</code></pre>
 <div class="toolbar"><a class="btn quiet" href="benford.py" download="benford.py">Download benford.py</a></div>
 <p><code>tally_file</code> uses a <b>Counter</b>, from <code>collections</code>, a module that comes with Python. A Counter is a dictionary made for counting. A key it has not seen counts as 0, so <code>counts[d] += 1</code> works the first time, where a plain dictionary would stop with <code>KeyError</code>. <code>+= 1</code> is short for <code>counts[d] = counts[d] + 1</code>. The Extras page after session 3 shows more of what a Counter can do.</p><p>One more function in there is probably new. <code>math.log10</code> asks: what power do I raise 10 to, to get this number? <code>log10(100)</code> is 2, because 10 squared is 100. <code>log10(2)</code> is about 0.301, because 10 to the 0.301 is 2. You do not need more than that today, and the calculator does the work.</p><p>Why does a logarithm turn up in a rule about first digits? A quantity that grows by multiplying takes as long to go from 1 to 10 as from 10 to 100. Inside each of those stretches, going from 1 to 2 is a doubling and takes a long time; going from 9 to 10 is a small step and takes a short time. So the quantity spends more of its time with a leading 1 than with a leading 9.</p><div class="predict"><b>Predict first.</b> <code>benford_expected(1)</code> and <code>benford_expected(9)</code>. Work both out on a calculator before you click.
 <button class="rev" data-target="a88" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a88">Show the answer</button>
@@ -429,21 +439,21 @@ cooked_ledger.csv
 
 <span class="hv">running</span> = <span class="hd">1</span>
 <span class="hk">while</span> <span class="hv">running</span>:
-    <span class="hk">for</span> <span class="hv">event</span> <span class="hs">in</span> <span class="hc">pygame</span>.<span class="hc">event</span>.<span class="hf">get</span>():
-        <span class="hk">if</span> <span class="hv">event</span>.<span class="hv">type</span> == <span class="hc">pygame</span>.<span class="hn">QUIT</span>:
-            <span class="hv">running</span> = <span class="hd">0</span>
-
-    <span class="hv">screen</span>.<span class="hf">fill</span>(<span class="hn">BLACK</span>)
-    <span class="hk">for</span> <span class="hv">d</span> <span class="hs">in</span> <span class="hc">range</span>(<span class="hd">1</span>, <span class="hd">10</span>):
-        <span class="hv">share</span> = <span class="hv">counts</span>[<span class="hv">d</span>] / <span class="hv">total</span>
-        <span class="hv">height</span> = <span class="hc">int</span>(<span class="hv">share</span> * <span class="hd">900</span>)
-        <span class="hv">x</span> = <span class="hd">60</span> + (<span class="hv">d</span> - <span class="hd">1</span>) * <span class="hd">80</span>
-        <span class="hc">pygame</span>.<span class="hc">draw</span>.<span class="hf">rect</span>(<span class="hv">screen</span>, <span class="hn">TEAL</span>, (<span class="hv">x</span>, <span class="hd">520</span> - <span class="hv">height</span>, <span class="hd">54</span>, <span class="hv">height</span>))
-        <span class="hv">expected</span> = <span class="hc">int</span>(<span class="hf">benford_expected</span>(<span class="hv">d</span>) * <span class="hd">900</span>)
-        <span class="hc">pygame</span>.<span class="hc">draw</span>.<span class="hf">line</span>(<span class="hv">screen</span>, <span class="hn">AMBER</span>, (<span class="hv">x</span>, <span class="hd">520</span> - <span class="hv">expected</span>), (<span class="hv">x</span> + <span class="hd">54</span>, <span class="hd">520</span> - <span class="hv">expected</span>), <span class="hd">3</span>)
-
-    <span class="hc">pygame</span>.<span class="hc">display</span>.<span class="hf">flip</span>()
-    <span class="hv">clock</span>.<span class="hf">tick</span>(<span class="hd">60</span>)
+<span class="ig">    </span><span class="hk">for</span> <span class="hv">event</span> <span class="hs">in</span> <span class="hc">pygame</span>.<span class="hc">event</span>.<span class="hf">get</span>():
+<span class="ig">    </span><span class="ig">    </span><span class="hk">if</span> <span class="hv">event</span>.<span class="hv">type</span> == <span class="hc">pygame</span>.<span class="hn">QUIT</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="ig">    </span><span class="hv">running</span> = <span class="hd">0</span>
+<span class="ig"></span>
+<span class="ig">    </span><span class="hv">screen</span>.<span class="hf">fill</span>(<span class="hn">BLACK</span>)
+<span class="ig">    </span><span class="hk">for</span> <span class="hv">d</span> <span class="hs">in</span> <span class="hc">range</span>(<span class="hd">1</span>, <span class="hd">10</span>):
+<span class="ig">    </span><span class="ig">    </span><span class="hv">share</span> = <span class="hv">counts</span>[<span class="hv">d</span>] / <span class="hv">total</span>
+<span class="ig">    </span><span class="ig">    </span><span class="hv">height</span> = <span class="hc">int</span>(<span class="hv">share</span> * <span class="hd">900</span>)
+<span class="ig">    </span><span class="ig">    </span><span class="hv">x</span> = <span class="hd">60</span> + (<span class="hv">d</span> - <span class="hd">1</span>) * <span class="hd">80</span>
+<span class="ig">    </span><span class="ig">    </span><span class="hc">pygame</span>.<span class="hc">draw</span>.<span class="hf">rect</span>(<span class="hv">screen</span>, <span class="hn">TEAL</span>, (<span class="hv">x</span>, <span class="hd">520</span> - <span class="hv">height</span>, <span class="hd">54</span>, <span class="hv">height</span>))
+<span class="ig">    </span><span class="ig">    </span><span class="hv">expected</span> = <span class="hc">int</span>(<span class="hf">benford_expected</span>(<span class="hv">d</span>) * <span class="hd">900</span>)
+<span class="ig">    </span><span class="ig">    </span><span class="hc">pygame</span>.<span class="hc">draw</span>.<span class="hf">line</span>(<span class="hv">screen</span>, <span class="hn">AMBER</span>, (<span class="hv">x</span>, <span class="hd">520</span> - <span class="hv">expected</span>), (<span class="hv">x</span> + <span class="hd">54</span>, <span class="hd">520</span> - <span class="hv">expected</span>), <span class="hd">3</span>)
+<span class="ig"></span>
+<span class="ig">    </span><span class="hc">pygame</span>.<span class="hc">display</span>.<span class="hf">flip</span>()
+<span class="ig">    </span><span class="hv">clock</span>.<span class="hf">tick</span>(<span class="hd">60</span>)
 
 <span class="hc">pygame</span>.<span class="hf">quit</span>()</code></pre>
 <div class="toolbar"><a class="btn quiet" href="benford_histogram.py" download="benford_histogram.py">Download benford_histogram.py</a></div>

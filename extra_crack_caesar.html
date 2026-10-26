@@ -123,6 +123,16 @@ pre.py .hk{color:#8A00B0} pre.py .hs{color:#0000FF} pre.py .hf{color:#6A4E14}
 pre.py .hc{color:#135C70} pre.py .hv{color:#001080} pre.py .hn{color:#00579A}
 pre.py .hq{color:#A31515} pre.py .he{color:#B00000} pre.py .hd{color:#035F3E}
 pre.py .hm{color:#006400}
+/* Indent guides inside the hints, the lines VS Code draws down each step of
+   indentation, so a line shown on its own still shows how far in it goes. VS Code's
+   are 1px and light grey, which vanish on a projector with the lights on, so these are
+   6px and #595959, which clears 7:1 on white like the code colors. Each four-space step
+   is one box as tall as the line, so the bars join up from line to line. A border
+   rather than a shadow, so the bars print. */
+.ladder pre.py .ig,.hintset pre.py .ig{
+  display:inline-block; width:4ch; height:1.6em; vertical-align:top;
+  border-left:6px solid #595959;
+}
 .fname{
   font-family:'JetBrains Mono',monospace; font-size:12.5px; letter-spacing:.1em;
   text-transform:uppercase; color:var(--ink-soft); margin:0 0 6px; font-weight:700;
@@ -341,12 +351,12 @@ True</code></pre></div>
 
 
 <span class="hs">def</span> <span class="hf">letter_counts</span>(<span class="hv">text</span>):
-    <span class="hq">"""Return a Counter of the letters in text, ignoring spaces."""</span>
-    <span class="hv">letters</span> = <span class="hq">""</span>
-    <span class="hk">for</span> <span class="hv">ch</span> <span class="hs">in</span> <span class="hv">text</span>:
-        <span class="hk">if</span> <span class="hv">ch</span> != <span class="hq">" "</span>:
-            <span class="hv">letters</span> = <span class="hv">letters</span> + <span class="hv">ch</span>
-    <span class="hk">return</span> <span class="hc">Counter</span>(<span class="hv">letters</span>)
+<span class="ig">    </span><span class="hq">"""Return a Counter of the letters in text, ignoring spaces."""</span>
+<span class="ig">    </span><span class="hv">letters</span> = <span class="hq">""</span>
+<span class="ig">    </span><span class="hk">for</span> <span class="hv">ch</span> <span class="hs">in</span> <span class="hv">text</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="hk">if</span> <span class="hv">ch</span> != <span class="hq">" "</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="ig">    </span><span class="hv">letters</span> = <span class="hv">letters</span> + <span class="hv">ch</span>
+<span class="ig">    </span><span class="hk">return</span> <span class="hc">Counter</span>(<span class="hv">letters</span>)
 
 
 <span class="hv">counts</span> = <span class="hf">letter_counts</span>(<span class="hv">ciphertext</span>)
@@ -414,17 +424,17 @@ True</code></pre></div>
   draw();
 })();
 </script>
-<div class="predict"><b>Predict first.</b> What is the key?
+<div class="predict ladder"><b>Predict first.</b> What is the key?
 <button class="rev" data-target="ladder-crack-key-1" data-show="Hint 1" data-hide="Hide hint 1" aria-expanded="false" aria-controls="ladder-crack-key-1">Hint 1</button>
 <div class="ans" id="ladder-crack-key-1"><p>Count along the alphabet from <code>e</code> to <code>h</code>.</p><button class="rev" data-target="ladder-crack-key-2" data-show="Hint 2" data-hide="Hide hint 2" aria-expanded="false" aria-controls="ladder-crack-key-2">Hint 2</button>
 <div class="ans" id="ladder-crack-key-2"><p><code>e</code>, <code>f</code>, <code>g</code>, <code>h</code>. How many moves is that?</p><button class="rev" data-target="ladder-crack-key-3" data-show="Hint 3" data-hide="Hide hint 3" aria-expanded="false" aria-controls="ladder-crack-key-3">Hint 3</button>
 <div class="ans" id="ladder-crack-key-3"><p>In code, it is the distance between the two letters' numbers: <code>ord("h") - ord("e")</code>, which is 104 minus 101.</p><button class="rev" data-target="ladder-crack-key-answer" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="ladder-crack-key-answer">Show the answer</button>
 <div class="ans" id="ladder-crack-key-answer"><p>The key is 3.</p><p class="fname">caesar_crack.py, step 2</p>
 <pre class="py"><code><span class="hs">def</span> <span class="hf">guess_shift</span>(<span class="hv">text</span>):
-    <span class="hq">"""Return the shift that maps the most common letter onto 'e'."""</span>
-    <span class="hv">counts</span> = <span class="hf">letter_counts</span>(<span class="hv">text</span>)
-    <span class="hv">top_letter</span> = <span class="hv">counts</span>.<span class="hf">most_common</span>(<span class="hd">1</span>)[<span class="hd">0</span>][<span class="hd">0</span>]
-    <span class="hk">return</span> (<span class="hf">ord</span>(<span class="hv">top_letter</span>) - <span class="hf">ord</span>(<span class="hq">"e"</span>)) % <span class="hd">26</span></code></pre>
+<span class="ig">    </span><span class="hq">"""Return the shift that maps the most common letter onto 'e'."""</span>
+<span class="ig">    </span><span class="hv">counts</span> = <span class="hf">letter_counts</span>(<span class="hv">text</span>)
+<span class="ig">    </span><span class="hv">top_letter</span> = <span class="hv">counts</span>.<span class="hf">most_common</span>(<span class="hd">1</span>)[<span class="hd">0</span>][<span class="hd">0</span>]
+<span class="ig">    </span><span class="hk">return</span> (<span class="hf">ord</span>(<span class="hv">top_letter</span>) - <span class="hf">ord</span>(<span class="hq">"e"</span>)) % <span class="hd">26</span></code></pre>
 <p><code>counts.most_common(1)[0][0]</code> is the top letter: the first pair in the list, and the letter in that pair. The <code>% 26</code> is for a top letter that comes before <code>e</code> in the alphabet. If the top letter were <code>b</code>, 98 minus 101 is -3, and <code>% 26</code> turns it into 23: <code>e</code> moved 23 places and wrapped round to <code>b</code>.</p></div>
 </div>
 </div>
@@ -448,32 +458,32 @@ plaintext: read the code and trace the code before you ever run the code</code><
 
 
 <span class="hs">def</span> <span class="hf">shift_by</span>(<span class="hv">text</span>, <span class="hv">amount</span>):
-    <span class="hq">"""Return text with every letter rotated forward by amount."""</span>
-    <span class="hv">out</span> = <span class="hq">""</span>
-    <span class="hk">for</span> <span class="hv">ch</span> <span class="hs">in</span> <span class="hv">text</span>:
-        <span class="hk">if</span> <span class="hv">ch</span> == <span class="hq">" "</span>:
-            <span class="hv">out</span> = <span class="hv">out</span> + <span class="hq">" "</span>
-        <span class="hk">else</span>:
-            <span class="hv">spot</span> = <span class="hf">ord</span>(<span class="hv">ch</span>) - <span class="hf">ord</span>(<span class="hq">"a"</span>)
-            <span class="hv">spot</span> = (<span class="hv">spot</span> + <span class="hv">amount</span>) % <span class="hd">26</span>
-            <span class="hv">out</span> = <span class="hv">out</span> + <span class="hf">chr</span>(<span class="hv">spot</span> + <span class="hf">ord</span>(<span class="hq">"a"</span>))
-    <span class="hk">return</span> <span class="hv">out</span>
+<span class="ig">    </span><span class="hq">"""Return text with every letter rotated forward by amount."""</span>
+<span class="ig">    </span><span class="hv">out</span> = <span class="hq">""</span>
+<span class="ig">    </span><span class="hk">for</span> <span class="hv">ch</span> <span class="hs">in</span> <span class="hv">text</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="hk">if</span> <span class="hv">ch</span> == <span class="hq">" "</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="ig">    </span><span class="hv">out</span> = <span class="hv">out</span> + <span class="hq">" "</span>
+<span class="ig">    </span><span class="ig">    </span><span class="hk">else</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="ig">    </span><span class="hv">spot</span> = <span class="hf">ord</span>(<span class="hv">ch</span>) - <span class="hf">ord</span>(<span class="hq">"a"</span>)
+<span class="ig">    </span><span class="ig">    </span><span class="ig">    </span><span class="hv">spot</span> = (<span class="hv">spot</span> + <span class="hv">amount</span>) % <span class="hd">26</span>
+<span class="ig">    </span><span class="ig">    </span><span class="ig">    </span><span class="hv">out</span> = <span class="hv">out</span> + <span class="hf">chr</span>(<span class="hv">spot</span> + <span class="hf">ord</span>(<span class="hq">"a"</span>))
+<span class="ig">    </span><span class="hk">return</span> <span class="hv">out</span>
 
 
 <span class="hs">def</span> <span class="hf">letter_counts</span>(<span class="hv">text</span>):
-    <span class="hq">"""Return a Counter of the letters in text, ignoring spaces."""</span>
-    <span class="hv">letters</span> = <span class="hq">""</span>
-    <span class="hk">for</span> <span class="hv">ch</span> <span class="hs">in</span> <span class="hv">text</span>:
-        <span class="hk">if</span> <span class="hv">ch</span> != <span class="hq">" "</span>:
-            <span class="hv">letters</span> = <span class="hv">letters</span> + <span class="hv">ch</span>
-    <span class="hk">return</span> <span class="hc">Counter</span>(<span class="hv">letters</span>)
+<span class="ig">    </span><span class="hq">"""Return a Counter of the letters in text, ignoring spaces."""</span>
+<span class="ig">    </span><span class="hv">letters</span> = <span class="hq">""</span>
+<span class="ig">    </span><span class="hk">for</span> <span class="hv">ch</span> <span class="hs">in</span> <span class="hv">text</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="hk">if</span> <span class="hv">ch</span> != <span class="hq">" "</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="ig">    </span><span class="hv">letters</span> = <span class="hv">letters</span> + <span class="hv">ch</span>
+<span class="ig">    </span><span class="hk">return</span> <span class="hc">Counter</span>(<span class="hv">letters</span>)
 
 
 <span class="hs">def</span> <span class="hf">guess_shift</span>(<span class="hv">text</span>):
-    <span class="hq">"""Return the shift that maps the most common letter onto 'e'."""</span>
-    <span class="hv">counts</span> = <span class="hf">letter_counts</span>(<span class="hv">text</span>)
-    <span class="hv">top_letter</span> = <span class="hv">counts</span>.<span class="hf">most_common</span>(<span class="hd">1</span>)[<span class="hd">0</span>][<span class="hd">0</span>]
-    <span class="hk">return</span> (<span class="hf">ord</span>(<span class="hv">top_letter</span>) - <span class="hf">ord</span>(<span class="hq">"e"</span>)) % <span class="hd">26</span>
+<span class="ig">    </span><span class="hq">"""Return the shift that maps the most common letter onto 'e'."""</span>
+<span class="ig">    </span><span class="hv">counts</span> = <span class="hf">letter_counts</span>(<span class="hv">text</span>)
+<span class="ig">    </span><span class="hv">top_letter</span> = <span class="hv">counts</span>.<span class="hf">most_common</span>(<span class="hd">1</span>)[<span class="hd">0</span>][<span class="hd">0</span>]
+<span class="ig">    </span><span class="hk">return</span> (<span class="hf">ord</span>(<span class="hv">top_letter</span>) - <span class="hf">ord</span>(<span class="hq">"e"</span>)) % <span class="hd">26</span>
 
 
 <span class="hv">counts</span> = <span class="hf">letter_counts</span>(<span class="hv">ciphertext</span>)

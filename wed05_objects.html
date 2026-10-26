@@ -123,6 +123,16 @@ pre.py .hk{color:#8A00B0} pre.py .hs{color:#0000FF} pre.py .hf{color:#6A4E14}
 pre.py .hc{color:#135C70} pre.py .hv{color:#001080} pre.py .hn{color:#00579A}
 pre.py .hq{color:#A31515} pre.py .he{color:#B00000} pre.py .hd{color:#035F3E}
 pre.py .hm{color:#006400}
+/* Indent guides inside the hints, the lines VS Code draws down each step of
+   indentation, so a line shown on its own still shows how far in it goes. VS Code's
+   are 1px and light grey, which vanish on a projector with the lights on, so these are
+   6px and #595959, which clears 7:1 on white like the code colors. Each four-space step
+   is one box as tall as the line, so the bars join up from line to line. A border
+   rather than a shadow, so the bars print. */
+.ladder pre.py .ig,.hintset pre.py .ig{
+  display:inline-block; width:4ch; height:1.6em; vertical-align:top;
+  border-left:6px solid #595959;
+}
 .fname{
   font-family:'JetBrains Mono',monospace; font-size:12.5px; letter-spacing:.1em;
   text-transform:uppercase; color:var(--ink-soft); margin:0 0 6px; font-weight:700;
@@ -300,13 +310,13 @@ footer p{margin:0}
 <main><div class="wrap">
 
 <section class="opener"><p class="chunk-no">Section 1 &middot; 30 minutes</p><h2>Build a pet, one piece at a time</h2><div class="now"><p><b>Do this now.</b> Make a new file called <code>pets.py</code>. Type each piece as you reach it and run the file after each one. Answer each question before you open its answer.</p></div><h3>Piece 1: an empty class</h3><pre class="py"><code><span class="hs">class</span> <span class="hc">Pet</span>:
-    <span class="hk">pass</span></code></pre>
+<span class="ig">    </span><span class="hk">pass</span></code></pre>
 <p><code>class Pet:</code> starts a class called <code>Pet</code>. A class is code that describes a new kind of object: what each one stores and what each one can do. Class names start with a capital letter, so you can tell a class from a variable. <code>pass</code> means nothing here yet. Python needs at least one line inside a class, and <code>pass</code> is a line that does nothing.</p><div class="predict"><b>Predict first.</b> You run this file. What appears in the terminal?
 <button class="rev" data-target="a42" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a42">Show the answer</button>
 <div class="ans" id="a42"><p>Nothing. The file describes what a pet is, but no line makes a pet, and no line prints. Writing a class does not make an object.</p></div></div>
 <h3>Piece 2: setting up a new pet</h3><pre class="py"><code><span class="hs">class</span> <span class="hc">Pet</span>:
-    <span class="hs">def</span> <span class="hf">__init__</span>(<span class="hs">self</span>, <span class="hv">name</span>):
-        <span class="hs">self</span>.<span class="hv">name</span> = <span class="hv">name</span>
+<span class="ig">    </span><span class="hs">def</span> <span class="hf">__init__</span>(<span class="hs">self</span>, <span class="hv">name</span>):
+<span class="ig">    </span><span class="ig">    </span><span class="hs">self</span>.<span class="hv">name</span> = <span class="hv">name</span>
 
 
 <span class="hv">rocky</span> = <span class="hc">Pet</span>(<span class="hq">"Rocky"</span>)
@@ -316,10 +326,10 @@ footer p{margin:0}
 <div class="ans" id="a43"><div class="out"><span class="tag">verified output</span><pre><code>Rocky</code></pre></div>
 <p><code>Pet</code> is the class. <code>rocky</code> is one pet made from it. A thing made from a class is called an <b>object</b> or an <b>instance</b> of that class. The two words mean the same thing.</p><p><code>Pet("Rocky")</code>, with brackets, makes a new pet. Python makes an empty object, then straight away runs <code>__init__</code> on it, with <code>self</code> set to the new object and <code>name</code> set to <code>"Rocky"</code>. <code>__init__</code> is short for initialise, which means set up. It has two underscores on each side.</p><p><code>self.name = name</code> stores the name on this pet. <code>name</code> is a parameter, and like every parameter it is gone when <code>__init__</code> finishes. <code>self.name</code> belongs to the pet and stays. <code>rocky.name</code> reads it back: rocky's name.</p></div></div>
 <h3>Piece 3: numbers every pet starts with</h3><pre class="py"><code><span class="hs">class</span> <span class="hc">Pet</span>:
-    <span class="hs">def</span> <span class="hf">__init__</span>(<span class="hs">self</span>, <span class="hv">name</span>):
-        <span class="hs">self</span>.<span class="hv">name</span> = <span class="hv">name</span>
-        <span class="hs">self</span>.<span class="hv">hunger</span> = <span class="hd">5</span>
-        <span class="hs">self</span>.<span class="hv">happiness</span> = <span class="hd">5</span>
+<span class="ig">    </span><span class="hs">def</span> <span class="hf">__init__</span>(<span class="hs">self</span>, <span class="hv">name</span>):
+<span class="ig">    </span><span class="ig">    </span><span class="hs">self</span>.<span class="hv">name</span> = <span class="hv">name</span>
+<span class="ig">    </span><span class="ig">    </span><span class="hs">self</span>.<span class="hv">hunger</span> = <span class="hd">5</span>
+<span class="ig">    </span><span class="ig">    </span><span class="hs">self</span>.<span class="hv">happiness</span> = <span class="hd">5</span>
 
 
 <span class="hv">rocky</span> = <span class="hc">Pet</span>(<span class="hq">"Rocky"</span>)
@@ -328,19 +338,19 @@ footer p{margin:0}
 <button class="rev" data-target="a44" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a44">Show the answer</button>
 <div class="ans" id="a44"><div class="out"><span class="tag">verified output</span><pre><code>Rocky 5 5</code></pre></div>
 <p>Every new pet starts with hunger 5 and happiness 5, because <code>__init__</code> sets them to 5 for every pet it sets up. A value stored on an object like this is called an <b>attribute</b>. A pet has three: <code>name</code>, <code>hunger</code>, and <code>happiness</code>. Only the name comes from the line that makes the pet. To let pets start with different hunger, you would add a <code>hunger</code> parameter to <code>__init__</code> and pass a number in.</p></div></div>
-<h3>Piece 4: things a pet can do</h3><p>A function written inside a class is called a <b>method</b>. Add these two below <code>__init__</code>, indented 4 spaces, the same as <code>__init__</code>, so they are inside the class.</p><pre class="py"><code>    <span class="hs">def</span> <span class="hf">feed</span>(<span class="hs">self</span>):
-        <span class="hq">"""Make this pet 1 less hungry."""</span>
-        <span class="hs">self</span>.<span class="hv">hunger</span> = <span class="hs">self</span>.<span class="hv">hunger</span> - <span class="hd">1</span>
-
-    <span class="hs">def</span> <span class="hf">play</span>(<span class="hs">self</span>):
-        <span class="hq">"""Make this pet 1 happier."""</span>
-        <span class="hs">self</span>.<span class="hv">happiness</span> = <span class="hs">self</span>.<span class="hv">happiness</span> + <span class="hd">1</span></code></pre>
+<h3>Piece 4: things a pet can do</h3><p>A function written inside a class is called a <b>method</b>. Add these two below <code>__init__</code>, indented 4 spaces, the same as <code>__init__</code>, so they are inside the class.</p><pre class="py"><code><span class="ig">    </span><span class="hs">def</span> <span class="hf">feed</span>(<span class="hs">self</span>):
+<span class="ig">    </span><span class="ig">    </span><span class="hq">"""Make this pet 1 less hungry."""</span>
+<span class="ig">    </span><span class="ig">    </span><span class="hs">self</span>.<span class="hv">hunger</span> = <span class="hs">self</span>.<span class="hv">hunger</span> - <span class="hd">1</span>
+<span class="ig"></span>
+<span class="ig">    </span><span class="hs">def</span> <span class="hf">play</span>(<span class="hs">self</span>):
+<span class="ig">    </span><span class="ig">    </span><span class="hq">"""Make this pet 1 happier."""</span>
+<span class="ig">    </span><span class="ig">    </span><span class="hs">self</span>.<span class="hv">happiness</span> = <span class="hs">self</span>.<span class="hv">happiness</span> + <span class="hd">1</span></code></pre>
 <div class="predict"><b>Predict first.</b> <code>self</code> appears in two kinds of places in <code>feed</code>. Find both and say what each one does. Then: <code>rocky.feed()</code> has nothing in its brackets, but <code>feed</code> has one parameter. Where does the value of that parameter come from?
 <button class="rev" data-target="a45" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a45">Show the answer</button>
 <div class="ans" id="a45"><p>The first place is <code>def feed(self):</code>, the parameter list. The first parameter of every method is <code>self</code>. It holds the pet the method is working on.</p><p>The second place is <code>self.hunger = self.hunger - 1</code>, in the body. <code>self.hunger</code> means this pet's hunger. The line reads this pet's hunger, takes 1 off, and stores the answer back on the same pet.</p><p>The value comes from the dot. When you write <code>rocky.feed()</code>, Python runs <code>feed</code> with <code>self</code> set to <code>rocky</code>. The object before the dot becomes <code>self</code>. <code>luna.feed()</code> runs the same lines with <code>self</code> set to <code>luna</code>.</p></div></div>
-<h3>Piece 5: a method that returns</h3><p>Session 2's rule holds inside a class too: a function that works out a value returns it, and the caller prints it. <code>report</code> builds one line about the pet and returns it. Add it below <code>play</code>.</p><pre class="py"><code>    <span class="hs">def</span> <span class="hf">report</span>(<span class="hs">self</span>):
-        <span class="hq">"""Return one line about this pet."""</span>
-        <span class="hk">return</span> <span class="hs">f</span><span class="hq">"</span><span class="hs">{</span><span class="hs">self</span>.<span class="hv">name</span><span class="hs">}</span><span class="hq">: hunger </span><span class="hs">{</span><span class="hs">self</span>.<span class="hv">hunger</span><span class="hs">}</span><span class="hq">, happiness </span><span class="hs">{</span><span class="hs">self</span>.<span class="hv">happiness</span><span class="hs">}</span><span class="hq">"</span></code></pre>
+<h3>Piece 5: a method that returns</h3><p>Session 2's rule holds inside a class too: a function that works out a value returns it, and the caller prints it. <code>report</code> builds one line about the pet and returns it. Add it below <code>play</code>.</p><pre class="py"><code><span class="ig">    </span><span class="hs">def</span> <span class="hf">report</span>(<span class="hs">self</span>):
+<span class="ig">    </span><span class="ig">    </span><span class="hq">"""Return one line about this pet."""</span>
+<span class="ig">    </span><span class="ig">    </span><span class="hk">return</span> <span class="hs">f</span><span class="hq">"</span><span class="hs">{</span><span class="hs">self</span>.<span class="hv">name</span><span class="hs">}</span><span class="hq">: hunger </span><span class="hs">{</span><span class="hs">self</span>.<span class="hv">hunger</span><span class="hs">}</span><span class="hq">, happiness </span><span class="hs">{</span><span class="hs">self</span>.<span class="hv">happiness</span><span class="hs">}</span><span class="hq">"</span></code></pre>
 <p>Then, below the class, make a pet and call <code>report</code> two ways:</p><pre class="py"><code><span class="hv">rocky</span> = <span class="hc">Pet</span>(<span class="hq">"Rocky"</span>)
 <span class="hv">rocky</span>.<span class="hf">report</span>()
 <span class="hf">print</span>(<span class="hv">rocky</span>.<span class="hf">report</span>())</code></pre>
@@ -353,24 +363,24 @@ footer p{margin:0}
 
 
 <span class="hs">class</span> <span class="hc">Pet</span>:
-    <span class="hq">"""A virtual pet that keeps its own name, hunger, and happiness."""</span>
-
-    <span class="hs">def</span> <span class="hf">__init__</span>(<span class="hs">self</span>, <span class="hv">name</span>):
-        <span class="hs">self</span>.<span class="hv">name</span> = <span class="hv">name</span>
-        <span class="hs">self</span>.<span class="hv">hunger</span> = <span class="hd">5</span>
-        <span class="hs">self</span>.<span class="hv">happiness</span> = <span class="hd">5</span>
-
-    <span class="hs">def</span> <span class="hf">feed</span>(<span class="hs">self</span>):
-        <span class="hq">"""Make this pet 1 less hungry."""</span>
-        <span class="hs">self</span>.<span class="hv">hunger</span> = <span class="hs">self</span>.<span class="hv">hunger</span> - <span class="hd">1</span>
-
-    <span class="hs">def</span> <span class="hf">play</span>(<span class="hs">self</span>):
-        <span class="hq">"""Make this pet 1 happier."""</span>
-        <span class="hs">self</span>.<span class="hv">happiness</span> = <span class="hs">self</span>.<span class="hv">happiness</span> + <span class="hd">1</span>
-
-    <span class="hs">def</span> <span class="hf">report</span>(<span class="hs">self</span>):
-        <span class="hq">"""Return one line about this pet."""</span>
-        <span class="hk">return</span> <span class="hs">f</span><span class="hq">"</span><span class="hs">{</span><span class="hs">self</span>.<span class="hv">name</span><span class="hs">}</span><span class="hq">: hunger </span><span class="hs">{</span><span class="hs">self</span>.<span class="hv">hunger</span><span class="hs">}</span><span class="hq">, happiness </span><span class="hs">{</span><span class="hs">self</span>.<span class="hv">happiness</span><span class="hs">}</span><span class="hq">"</span>
+<span class="ig">    </span><span class="hq">"""A virtual pet that keeps its own name, hunger, and happiness."""</span>
+<span class="ig"></span>
+<span class="ig">    </span><span class="hs">def</span> <span class="hf">__init__</span>(<span class="hs">self</span>, <span class="hv">name</span>):
+<span class="ig">    </span><span class="ig">    </span><span class="hs">self</span>.<span class="hv">name</span> = <span class="hv">name</span>
+<span class="ig">    </span><span class="ig">    </span><span class="hs">self</span>.<span class="hv">hunger</span> = <span class="hd">5</span>
+<span class="ig">    </span><span class="ig">    </span><span class="hs">self</span>.<span class="hv">happiness</span> = <span class="hd">5</span>
+<span class="ig"></span>
+<span class="ig">    </span><span class="hs">def</span> <span class="hf">feed</span>(<span class="hs">self</span>):
+<span class="ig">    </span><span class="ig">    </span><span class="hq">"""Make this pet 1 less hungry."""</span>
+<span class="ig">    </span><span class="ig">    </span><span class="hs">self</span>.<span class="hv">hunger</span> = <span class="hs">self</span>.<span class="hv">hunger</span> - <span class="hd">1</span>
+<span class="ig"></span>
+<span class="ig">    </span><span class="hs">def</span> <span class="hf">play</span>(<span class="hs">self</span>):
+<span class="ig">    </span><span class="ig">    </span><span class="hq">"""Make this pet 1 happier."""</span>
+<span class="ig">    </span><span class="ig">    </span><span class="hs">self</span>.<span class="hv">happiness</span> = <span class="hs">self</span>.<span class="hv">happiness</span> + <span class="hd">1</span>
+<span class="ig"></span>
+<span class="ig">    </span><span class="hs">def</span> <span class="hf">report</span>(<span class="hs">self</span>):
+<span class="ig">    </span><span class="ig">    </span><span class="hq">"""Return one line about this pet."""</span>
+<span class="ig">    </span><span class="ig">    </span><span class="hk">return</span> <span class="hs">f</span><span class="hq">"</span><span class="hs">{</span><span class="hs">self</span>.<span class="hv">name</span><span class="hs">}</span><span class="hq">: hunger </span><span class="hs">{</span><span class="hs">self</span>.<span class="hv">hunger</span><span class="hs">}</span><span class="hq">, happiness </span><span class="hs">{</span><span class="hs">self</span>.<span class="hv">happiness</span><span class="hs">}</span><span class="hq">"</span>
 
 
 <span class="hm"># make two pets from the one class</span>
@@ -409,8 +419,8 @@ Pixel: hunger 5, happiness 7</code></pre></div>
 <h3>Round 2</h3><pre class="py"><code><span class="hv">a</span> = <span class="hc">Pet</span>(<span class="hq">"Mochi"</span>)
 
 <span class="hk">for</span> <span class="hv">i</span> <span class="hs">in</span> <span class="hc">range</span>(<span class="hd">7</span>):
-    <span class="hv">a</span>.<span class="hf">feed</span>()
-    <span class="hv">a</span>.<span class="hf">play</span>()
+<span class="ig">    </span><span class="hv">a</span>.<span class="hf">feed</span>()
+<span class="ig">    </span><span class="hv">a</span>.<span class="hf">play</span>()
 
 <span class="hf">print</span>(<span class="hv">a</span>.<span class="hf">report</span>())</code></pre>
 <div class="predict"><b>Predict first.</b> What is printed? Then: does the answer make sense for a pet?
@@ -443,12 +453,12 @@ Mochi: hunger 3, happiness 5</code></pre></div>
 <p>B. Luna was made with hunger 5 and was never fed. Feeding <code>rocky</code> changes rocky's hunger only. Luna's hunger exists from the moment <code>Pet("Luna")</code> runs <code>__init__</code>, so there is no error.</p></div></div>
 </section>
 <section class="chunk"><p class="chunk-no">Section 3 &middot; 15 minutes</p><h2>Six broken pets</h2><p>Each program has exactly one mistake. With a partner, for each one: predict what the terminal says, find the mistake, and fix it. Ninety seconds each. Broken pets 3, 4, and 5 use the working <code>Pet</code> class from section 1, so they only show the lines below it.</p><h3>Broken pet 1</h3><pre class="py"><code><span class="hs">class</span> <span class="hc">Pet</span>:
-    <span class="hs">def</span> <span class="hf">__init__</span>(<span class="hs">self</span>, <span class="hv">name</span>):
-        <span class="hs">self</span>.<span class="hv">name</span> = <span class="hv">name</span>
-        <span class="hs">self</span>.<span class="hv">hunger</span> = <span class="hd">5</span>
-
-    <span class="hs">def</span> <span class="hf">feed</span>():
-        <span class="hs">self</span>.<span class="hv">hunger</span> = <span class="hs">self</span>.<span class="hv">hunger</span> - <span class="hd">1</span>
+<span class="ig">    </span><span class="hs">def</span> <span class="hf">__init__</span>(<span class="hs">self</span>, <span class="hv">name</span>):
+<span class="ig">    </span><span class="ig">    </span><span class="hs">self</span>.<span class="hv">name</span> = <span class="hv">name</span>
+<span class="ig">    </span><span class="ig">    </span><span class="hs">self</span>.<span class="hv">hunger</span> = <span class="hd">5</span>
+<span class="ig"></span>
+<span class="ig">    </span><span class="hs">def</span> <span class="hf">feed</span>():
+<span class="ig">    </span><span class="ig">    </span><span class="hs">self</span>.<span class="hv">hunger</span> = <span class="hs">self</span>.<span class="hv">hunger</span> - <span class="hd">1</span>
 
 
 <span class="hv">rocky</span> = <span class="hc">Pet</span>(<span class="hq">"Rocky"</span>)
@@ -458,12 +468,12 @@ Mochi: hunger 3, happiness 5</code></pre></div>
 <div class="ans" id="a52"><div class="out"><span class="tag">last line of the error</span><pre class="wrap"><code>TypeError: Pet.feed() takes 0 positional arguments but 1 was given</code></pre></div>
 <p><b>The mistake.</b> <code>def feed():</code> has no <code>self</code>. <code>rocky.feed()</code> always sends rocky in as the first value, and this <code>feed</code> has no parameter to put it in. The error says so: 0 parameters, but 1 value was given.</p><p><b>The fix.</b> <code>def feed(self):</code></p></div></div>
 <h3>Broken pet 2</h3><pre class="py"><code><span class="hs">class</span> <span class="hc">Pet</span>:
-    <span class="hs">def</span> <span class="hf">__init__</span>(<span class="hs">self</span>, <span class="hv">name</span>):
-        <span class="hs">self</span>.<span class="hv">name</span> = <span class="hv">name</span>
-        <span class="hs">self</span>.<span class="hv">hunger</span> = <span class="hd">5</span>
-
-    <span class="hs">def</span> <span class="hf">feed</span>(<span class="hs">self</span>):
-        <span class="hv">hunger</span> = <span class="hv">hunger</span> - <span class="hd">1</span>
+<span class="ig">    </span><span class="hs">def</span> <span class="hf">__init__</span>(<span class="hs">self</span>, <span class="hv">name</span>):
+<span class="ig">    </span><span class="ig">    </span><span class="hs">self</span>.<span class="hv">name</span> = <span class="hv">name</span>
+<span class="ig">    </span><span class="ig">    </span><span class="hs">self</span>.<span class="hv">hunger</span> = <span class="hd">5</span>
+<span class="ig"></span>
+<span class="ig">    </span><span class="hs">def</span> <span class="hf">feed</span>(<span class="hs">self</span>):
+<span class="ig">    </span><span class="ig">    </span><span class="hv">hunger</span> = <span class="hv">hunger</span> - <span class="hd">1</span>
 
 
 <span class="hv">rocky</span> = <span class="hc">Pet</span>(<span class="hq">"Rocky"</span>)
@@ -491,9 +501,9 @@ Mochi: hunger 3, happiness 5</code></pre></div>
 <div class="ans" id="a56"><div class="out"><span class="tag">last line of the error</span><pre class="wrap"><code>TypeError: Pet.feed() takes 1 positional argument but 2 were given</code></pre></div>
 <p><b>The mistake.</b> <code>rocky.feed(rocky)</code> sends rocky twice: once through the dot, which fills <code>self</code>, and once in the brackets. <code>feed</code> has 1 parameter and was given 2 values.</p><p><b>The fix.</b> <code>rocky.feed()</code></p></div></div>
 <h3>Broken pet 6</h3><pre class="py"><code><span class="hs">class</span> <span class="hc">Pet</span>:
-    <span class="hs">def</span> <span class="hf">_init_</span>(<span class="hs">self</span>, <span class="hv">name</span>):
-        <span class="hs">self</span>.<span class="hv">name</span> = <span class="hv">name</span>
-        <span class="hs">self</span>.<span class="hv">hunger</span> = <span class="hd">5</span>
+<span class="ig">    </span><span class="hs">def</span> <span class="hf">_init_</span>(<span class="hs">self</span>, <span class="hv">name</span>):
+<span class="ig">    </span><span class="ig">    </span><span class="hs">self</span>.<span class="hv">name</span> = <span class="hv">name</span>
+<span class="ig">    </span><span class="ig">    </span><span class="hs">self</span>.<span class="hv">hunger</span> = <span class="hd">5</span>
 
 
 <span class="hv">rocky</span> = <span class="hc">Pet</span>(<span class="hq">"Rocky"</span>)</code></pre>
@@ -504,10 +514,10 @@ Mochi: hunger 3, happiness 5</code></pre></div>
 </section>
 <section class="chunk"><p class="chunk-no">Section 4 &middot; 30 minutes</p><h2>Build your own creature</h2><p>A dragon, a robot, a houseplant, a moody cat, a boss from a game. Pick something and write a class for it in a new file.</p><h3>The brief</h3><ul class="tight"><li>An <code>__init__</code> that takes at least the creature's name as a parameter.</li><li>At least 3 attributes that are numbers: health, energy, fuel, water, whatever fits your creature.</li><li>At least 2 methods, and each one changes at least one attribute.</li><li>A <code>report</code> method that returns one line about the creature, printed by the caller.</li><li>At least 2 creatures with different names, treated differently, that end with different reports. That is your proof that each one keeps its own attributes.</li><li>Your own class, not <code>Pet</code> with the names changed.</li></ul><h3>Check before you call it done</h3><ul class="tight"><li>The class name starts with a capital letter.</li><li><code>__init__</code> has two underscores on each side.</li><li>Every method is indented inside the class.</li><li>Every method has <code>self</code> as its first parameter.</li><li>Every attribute inside a method has <code>self.</code> in front of it.</li><li>Every call has the object before the dot and nothing in the brackets for <code>self</code>: <code>drake.fly()</code>, not <code>drake.fly(drake)</code> and not <code>Dragon.fly()</code>.</li><li>You made as many creatures as your program has calls to the class.</li></ul><h3>Stuck for an idea?</h3><p>A dragon with health, fire, and age. A robot with battery, heat, and version. A houseplant with water, light, and leaves. A wizard with mana, spells, and wisdom.</p><h3>Keep a number in range</h3><p>Round 2 gave Mochi a hunger of -2. One <code>if</code> gate in <code>feed</code>, like the gates in session 1, fixes it: only take 1 off when hunger is above 0.</p><div class="predict"><b>Predict first.</b> Before you open this, write the condition the gate should check.
 <button class="rev" data-target="a58" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a58">Show the answer</button>
-<div class="ans" id="a58"><pre class="py"><code>    <span class="hs">def</span> <span class="hf">feed</span>(<span class="hs">self</span>):
-        <span class="hq">"""Make this pet 1 less hungry, but never below 0."""</span>
-        <span class="hk">if</span> <span class="hs">self</span>.<span class="hv">hunger</span> &gt; <span class="hd">0</span>:
-            <span class="hs">self</span>.<span class="hv">hunger</span> = <span class="hs">self</span>.<span class="hv">hunger</span> - <span class="hd">1</span></code></pre>
+<div class="ans" id="a58"><pre class="py"><code><span class="ig">    </span><span class="hs">def</span> <span class="hf">feed</span>(<span class="hs">self</span>):
+<span class="ig">    </span><span class="ig">    </span><span class="hq">"""Make this pet 1 less hungry, but never below 0."""</span>
+<span class="ig">    </span><span class="ig">    </span><span class="hk">if</span> <span class="hs">self</span>.<span class="hv">hunger</span> &gt; <span class="hd">0</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="ig">    </span><span class="hs">self</span>.<span class="hv">hunger</span> = <span class="hs">self</span>.<span class="hv">hunger</span> - <span class="hd">1</span></code></pre>
 <p>Put this <code>feed</code> in place of the old one and run round 2 again:</p><div class="out"><span class="tag">verified output</span><pre><code>Mochi: hunger 0, happiness 12</code></pre></div>
 <p>Hunger stops at 0. Happiness still reaches 12, because <code>play</code> has no gate yet. Writing that one is yours.</p></div></div>
 </section>

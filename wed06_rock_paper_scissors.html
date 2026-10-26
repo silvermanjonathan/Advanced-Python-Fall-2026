@@ -123,6 +123,16 @@ pre.py .hk{color:#8A00B0} pre.py .hs{color:#0000FF} pre.py .hf{color:#6A4E14}
 pre.py .hc{color:#135C70} pre.py .hv{color:#001080} pre.py .hn{color:#00579A}
 pre.py .hq{color:#A31515} pre.py .he{color:#B00000} pre.py .hd{color:#035F3E}
 pre.py .hm{color:#006400}
+/* Indent guides inside the hints, the lines VS Code draws down each step of
+   indentation, so a line shown on its own still shows how far in it goes. VS Code's
+   are 1px and light grey, which vanish on a projector with the lights on, so these are
+   6px and #595959, which clears 7:1 on white like the code colors. Each four-space step
+   is one box as tall as the line, so the bars join up from line to line. A border
+   rather than a shadow, so the bars print. */
+.ladder pre.py .ig,.hintset pre.py .ig{
+  display:inline-block; width:4ch; height:1.6em; vertical-align:top;
+  border-left:6px solid #595959;
+}
 .fname{
   font-family:'JetBrains Mono',monospace; font-size:12.5px; letter-spacing:.1em;
   text-transform:uppercase; color:var(--ink-soft); margin:0 0 6px; font-weight:700;
@@ -311,17 +321,17 @@ footer p{margin:0}
 
 
 <span class="hs">def</span> <span class="hf">winner</span>(<span class="hv">move1</span>, <span class="hv">move2</span>):
-    <span class="hq">"""Return who wins when player 1 plays move1 and player 2 plays move2."""</span>
-    <span class="hk">if</span> <span class="hv">move1</span> == <span class="hv">move2</span>:
-        <span class="hk">return</span> <span class="hq">"tie"</span>
-    <span class="hk">elif</span> <span class="hv">move1</span> == <span class="hq">"rock"</span> <span class="hs">and</span> <span class="hv">move2</span> == <span class="hq">"scissors"</span>:
-        <span class="hk">return</span> <span class="hq">"player 1"</span>
-    <span class="hk">elif</span> <span class="hv">move1</span> == <span class="hq">"scissors"</span> <span class="hs">and</span> <span class="hv">move2</span> == <span class="hq">"paper"</span>:
-        <span class="hk">return</span> <span class="hq">"player 1"</span>
-    <span class="hk">elif</span> <span class="hv">move1</span> == <span class="hq">"paper"</span> <span class="hs">and</span> <span class="hv">move2</span> == <span class="hq">"rock"</span>:
-        <span class="hk">return</span> <span class="hq">"player 1"</span>
-    <span class="hk">else</span>:
-        <span class="hk">return</span> <span class="hq">"player 2"</span></code></pre>
+<span class="ig">    </span><span class="hq">"""Return who wins when player 1 plays move1 and player 2 plays move2."""</span>
+<span class="ig">    </span><span class="hk">if</span> <span class="hv">move1</span> == <span class="hv">move2</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="hk">return</span> <span class="hq">"tie"</span>
+<span class="ig">    </span><span class="hk">elif</span> <span class="hv">move1</span> == <span class="hq">"rock"</span> <span class="hs">and</span> <span class="hv">move2</span> == <span class="hq">"scissors"</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="hk">return</span> <span class="hq">"player 1"</span>
+<span class="ig">    </span><span class="hk">elif</span> <span class="hv">move1</span> == <span class="hq">"scissors"</span> <span class="hs">and</span> <span class="hv">move2</span> == <span class="hq">"paper"</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="hk">return</span> <span class="hq">"player 1"</span>
+<span class="ig">    </span><span class="hk">elif</span> <span class="hv">move1</span> == <span class="hq">"paper"</span> <span class="hs">and</span> <span class="hv">move2</span> == <span class="hq">"rock"</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="hk">return</span> <span class="hq">"player 1"</span>
+<span class="ig">    </span><span class="hk">else</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="hk">return</span> <span class="hq">"player 2"</span></code></pre>
 <p class="fname">rps.py, at the bottom</p>
 <pre class="py"><code><span class="hf">print</span>(<span class="hf">winner</span>(<span class="hq">"rock"</span>, <span class="hq">"scissors"</span>))
 <span class="hf">print</span>(<span class="hf">winner</span>(<span class="hq">"rock"</span>, <span class="hq">"paper"</span>))
@@ -335,8 +345,8 @@ tie</code></pre></div>
 <h3>Check every pairing</h3><p>Three tests try only three of the nine pairings. Replace the three <code>print</code> lines with this loop:</p><p class="fname">rps.py, in place of the three print lines</p>
 <pre class="py"><code><span class="hm"># every pairing, one line each</span>
 <span class="hk">for</span> <span class="hv">move1</span> <span class="hs">in</span> <span class="hn">MOVES</span>:
-    <span class="hk">for</span> <span class="hv">move2</span> <span class="hs">in</span> <span class="hn">MOVES</span>:
-        <span class="hf">print</span>(<span class="hs">f</span><span class="hq">"</span><span class="hs">{</span><span class="hv">move1</span><span class="hs">}</span><span class="hq"> against </span><span class="hs">{</span><span class="hv">move2</span><span class="hs">}</span><span class="hq">: </span><span class="hs">{</span><span class="hf">winner</span>(<span class="hv">move1</span>, <span class="hv">move2</span>)<span class="hs">}</span><span class="hq">"</span>)</code></pre>
+<span class="ig">    </span><span class="hk">for</span> <span class="hv">move2</span> <span class="hs">in</span> <span class="hn">MOVES</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="hf">print</span>(<span class="hs">f</span><span class="hq">"</span><span class="hs">{</span><span class="hv">move1</span><span class="hs">}</span><span class="hq"> against </span><span class="hs">{</span><span class="hv">move2</span><span class="hs">}</span><span class="hq">: </span><span class="hs">{</span><span class="hf">winner</span>(<span class="hv">move1</span>, <span class="hv">move2</span>)<span class="hs">}</span><span class="hq">"</span>)</code></pre>
 <p>This is a loop inside a loop, as in session 3. The outer loop gives <code>move1</code> each of the three moves in turn. For each one, the inner loop gives <code>move2</code> all three moves.</p><div class="predict"><b>Predict first.</b> How many lines does it print? Check each line against the square for the same pairing in your table.
 <button class="rev" data-target="a62" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a62">Show the answer</button>
 <div class="ans" id="a62"><div class="out"><span class="tag">verified output, rps.py</span><pre><code>rock against rock: tie
@@ -372,13 +382,13 @@ False</code></pre></div>
 <span class="hn">BEATS</span> = {<span class="hq">"rock"</span>: <span class="hq">"scissors"</span>, <span class="hq">"paper"</span>: <span class="hq">"rock"</span>, <span class="hq">"scissors"</span>: <span class="hq">"paper"</span>}</code></pre>
 <p class="fname">rps.py, the new winner</p>
 <pre class="py"><code><span class="hs">def</span> <span class="hf">winner</span>(<span class="hv">move1</span>, <span class="hv">move2</span>):
-    <span class="hq">"""Return who wins when player 1 plays move1 and player 2 plays move2."""</span>
-    <span class="hk">if</span> <span class="hv">move1</span> == <span class="hv">move2</span>:
-        <span class="hk">return</span> <span class="hq">"tie"</span>
-    <span class="hk">elif</span> <span class="hn">BEATS</span>[<span class="hv">move1</span>] == <span class="hv">move2</span>:
-        <span class="hk">return</span> <span class="hq">"player 1"</span>
-    <span class="hk">else</span>:
-        <span class="hk">return</span> <span class="hq">"player 2"</span></code></pre>
+<span class="ig">    </span><span class="hq">"""Return who wins when player 1 plays move1 and player 2 plays move2."""</span>
+<span class="ig">    </span><span class="hk">if</span> <span class="hv">move1</span> == <span class="hv">move2</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="hk">return</span> <span class="hq">"tie"</span>
+<span class="ig">    </span><span class="hk">elif</span> <span class="hn">BEATS</span>[<span class="hv">move1</span>] == <span class="hv">move2</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="hk">return</span> <span class="hq">"player 1"</span>
+<span class="ig">    </span><span class="hk">else</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="hk">return</span> <span class="hq">"player 2"</span></code></pre>
 <p><code>BEATS[move1] == move2</code> asks one question: is <code>move2</code> the move that <code>move1</code> beats? If it is, player 1 wins. The three player 1 gates from section 2 are now one gate, and the rules are in the dictionary instead of in the gates.</p><div class="predict"><b>Predict first.</b> Before you run it: will the loop print the same nine lines as in section 2? Say yes or no, and why. Then say what the typo line will do now.
 <button class="rev" data-target="a65" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a65">Show the answer</button>
 <div class="ans" id="a65"><p><b>The nine lines.</b> Yes, the same nine:</p><div class="out"><span class="tag">verified output, rps.py</span><pre><code>rock against rock: tie
@@ -437,26 +447,26 @@ True</code></pre></div>
 
 
 <span class="hs">def</span> <span class="hf">winner</span>(<span class="hv">move1</span>, <span class="hv">move2</span>):
-    <span class="hq">"""Return who wins when player 1 plays move1 and player 2 plays move2."""</span>
-    <span class="hk">if</span> <span class="hv">move1</span> == <span class="hv">move2</span>:
-        <span class="hk">return</span> <span class="hq">"tie"</span>
-    <span class="hk">elif</span> <span class="hn">BEATS</span>[<span class="hv">move1</span>] == <span class="hv">move2</span>:
-        <span class="hk">return</span> <span class="hq">"player 1"</span>
-    <span class="hk">else</span>:
-        <span class="hk">return</span> <span class="hq">"player 2"</span></code></pre>
+<span class="ig">    </span><span class="hq">"""Return who wins when player 1 plays move1 and player 2 plays move2."""</span>
+<span class="ig">    </span><span class="hk">if</span> <span class="hv">move1</span> == <span class="hv">move2</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="hk">return</span> <span class="hq">"tie"</span>
+<span class="ig">    </span><span class="hk">elif</span> <span class="hn">BEATS</span>[<span class="hv">move1</span>] == <span class="hv">move2</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="hk">return</span> <span class="hq">"player 1"</span>
+<span class="ig">    </span><span class="hk">else</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="hk">return</span> <span class="hq">"player 2"</span></code></pre>
 <p><code>SAY</code> is a dictionary too. Its keys are the three strings <code>winner</code> can return, and each value is what to tell the player, so <code>SAY["player 1"]</code> is <code>"you win"</code>. You are player 1.</p><p>Then type the game under <code>winner</code>. There is a button under each part. Before you press it, say what you think that part does.</p><p class="fname">rps_game.py, under winner</p>
 <div class="parts"><div class="part ask once"><pre class="py"><code><span class="hv">wins</span> = <span class="hd">0</span>
 <span class="hv">losses</span> = <span class="hd">0</span>
 <span class="hv">ties</span> = <span class="hd">0</span></code></pre><button class="rev" data-target="part-28" data-show="What do you think these lines of code do?" data-hide="Hide the answer" aria-expanded="false" aria-controls="part-28">What do you think these lines of code do?</button><div class="ans" id="part-28"><p class="plabel">Three counters, each starting at 0: rounds you win, rounds you lose, and ties. These lines run once.</p></div></div><div class="part ask frame"><pre class="py"><code><span class="hk">for</span> <span class="hv">turn</span> <span class="hs">in</span> <span class="hc">range</span>(<span class="hd">5</span>):
-    <span class="hv">my_move</span> = <span class="hf">input</span>(<span class="hq">"rock, paper, or scissors? "</span>)</code></pre><button class="rev" data-target="part-29" data-show="What do you think these lines of code do?" data-hide="Hide the answer" aria-expanded="false" aria-controls="part-29">What do you think these lines of code do?</button><div class="ans" id="part-29"><p class="plabel">Five rounds. Every line indented under this one runs once in each round. First, show the question and store what you type in <code>my_move</code>.</p></div></div><div class="part ask frame"><pre class="py"><code>    <span class="hk">while</span> <span class="hv">my_move</span> <span class="hs">not</span> <span class="hs">in</span> <span class="hn">MOVES</span>:
-        <span class="hv">my_move</span> = <span class="hf">input</span>(<span class="hq">"type rock, paper, or scissors: "</span>)</code></pre><button class="rev" data-target="part-30" data-show="What do you think these lines of code do?" data-hide="Hide the answer" aria-expanded="false" aria-controls="part-30">What do you think these lines of code do?</button><div class="ans" id="part-30"><p class="plabel">While what you typed is not one of the three moves, ask again and store the new answer. The loop stops when the answer is one of the moves, so <code>winner</code> never gets a typo.</p></div></div><div class="part ask frame"><pre class="py"><code>    <span class="hv">computer_move</span> = <span class="hc">random</span>.<span class="hf">choice</span>(<span class="hn">MOVES</span>)
-    <span class="hv">result</span> = <span class="hf">winner</span>(<span class="hv">my_move</span>, <span class="hv">computer_move</span>)
-    <span class="hf">print</span>(<span class="hs">f</span><span class="hq">"the computer played </span><span class="hs">{</span><span class="hv">computer_move</span><span class="hs">}</span><span class="hq">, so </span><span class="hs">{</span><span class="hn">SAY</span>[<span class="hv">result</span>]<span class="hs">}</span><span class="hq">"</span>)</code></pre><button class="rev" data-target="part-31" data-show="What do you think these lines of code do?" data-hide="Hide the answer" aria-expanded="false" aria-controls="part-31">What do you think these lines of code do?</button><div class="ans" id="part-31"><p class="plabel">The computer picks a move at random. <code>winner</code> works out who won, with you as player 1, and the printed line uses <code>SAY</code> to put the result in words.</p></div></div><div class="part ask frame"><pre class="py"><code>    <span class="hk">if</span> <span class="hv">result</span> == <span class="hq">"player 1"</span>:
-        <span class="hv">wins</span> = <span class="hv">wins</span> + <span class="hd">1</span>
-    <span class="hk">elif</span> <span class="hv">result</span> == <span class="hq">"player 2"</span>:
-        <span class="hv">losses</span> = <span class="hv">losses</span> + <span class="hd">1</span>
-    <span class="hk">else</span>:
-        <span class="hv">ties</span> = <span class="hv">ties</span> + <span class="hd">1</span></code></pre><button class="rev" data-target="part-32" data-show="What do you think these lines of code do?" data-hide="Hide the answer" aria-expanded="false" aria-controls="part-32">What do you think these lines of code do?</button><div class="ans" id="part-32"><p class="plabel">Add 1 to the counter that matches the result.</p></div></div><div class="part ask after"><pre class="py"><code><span class="hf">print</span>(<span class="hs">f</span><span class="hq">"you won </span><span class="hs">{</span><span class="hv">wins</span><span class="hs">}</span><span class="hq">, lost </span><span class="hs">{</span><span class="hv">losses</span><span class="hs">}</span><span class="hq">, and tied </span><span class="hs">{</span><span class="hv">ties</span><span class="hs">}</span><span class="hq">"</span>)</code></pre><button class="rev" data-target="part-33" data-show="What do you think this line of code does?" data-hide="Hide the answer" aria-expanded="false" aria-controls="part-33">What do you think this line of code does?</button><div class="ans" id="part-33"><p class="plabel">After the fifth round, print the three counters. This line is not indented, so it runs once, after the loop.</p></div></div></div>
+<span class="ig">    </span><span class="hv">my_move</span> = <span class="hf">input</span>(<span class="hq">"rock, paper, or scissors? "</span>)</code></pre><button class="rev" data-target="part-29" data-show="What do you think these lines of code do?" data-hide="Hide the answer" aria-expanded="false" aria-controls="part-29">What do you think these lines of code do?</button><div class="ans" id="part-29"><p class="plabel">Five rounds. Every line indented under this one runs once in each round. First, show the question and store what you type in <code>my_move</code>.</p></div></div><div class="part ask frame"><pre class="py"><code><span class="ig">    </span><span class="hk">while</span> <span class="hv">my_move</span> <span class="hs">not</span> <span class="hs">in</span> <span class="hn">MOVES</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="hv">my_move</span> = <span class="hf">input</span>(<span class="hq">"type rock, paper, or scissors: "</span>)</code></pre><button class="rev" data-target="part-30" data-show="What do you think these lines of code do?" data-hide="Hide the answer" aria-expanded="false" aria-controls="part-30">What do you think these lines of code do?</button><div class="ans" id="part-30"><p class="plabel">While what you typed is not one of the three moves, ask again and store the new answer. The loop stops when the answer is one of the moves, so <code>winner</code> never gets a typo.</p></div></div><div class="part ask frame"><pre class="py"><code><span class="ig">    </span><span class="hv">computer_move</span> = <span class="hc">random</span>.<span class="hf">choice</span>(<span class="hn">MOVES</span>)
+<span class="ig">    </span><span class="hv">result</span> = <span class="hf">winner</span>(<span class="hv">my_move</span>, <span class="hv">computer_move</span>)
+<span class="ig">    </span><span class="hf">print</span>(<span class="hs">f</span><span class="hq">"the computer played </span><span class="hs">{</span><span class="hv">computer_move</span><span class="hs">}</span><span class="hq">, so </span><span class="hs">{</span><span class="hn">SAY</span>[<span class="hv">result</span>]<span class="hs">}</span><span class="hq">"</span>)</code></pre><button class="rev" data-target="part-31" data-show="What do you think these lines of code do?" data-hide="Hide the answer" aria-expanded="false" aria-controls="part-31">What do you think these lines of code do?</button><div class="ans" id="part-31"><p class="plabel">The computer picks a move at random. <code>winner</code> works out who won, with you as player 1, and the printed line uses <code>SAY</code> to put the result in words.</p></div></div><div class="part ask frame"><pre class="py"><code><span class="ig">    </span><span class="hk">if</span> <span class="hv">result</span> == <span class="hq">"player 1"</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="hv">wins</span> = <span class="hv">wins</span> + <span class="hd">1</span>
+<span class="ig">    </span><span class="hk">elif</span> <span class="hv">result</span> == <span class="hq">"player 2"</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="hv">losses</span> = <span class="hv">losses</span> + <span class="hd">1</span>
+<span class="ig">    </span><span class="hk">else</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="hv">ties</span> = <span class="hv">ties</span> + <span class="hd">1</span></code></pre><button class="rev" data-target="part-32" data-show="What do you think these lines of code do?" data-hide="Hide the answer" aria-expanded="false" aria-controls="part-32">What do you think these lines of code do?</button><div class="ans" id="part-32"><p class="plabel">Add 1 to the counter that matches the result.</p></div></div><div class="part ask after"><pre class="py"><code><span class="hf">print</span>(<span class="hs">f</span><span class="hq">"you won </span><span class="hs">{</span><span class="hv">wins</span><span class="hs">}</span><span class="hq">, lost </span><span class="hs">{</span><span class="hv">losses</span><span class="hs">}</span><span class="hq">, and tied </span><span class="hs">{</span><span class="hv">ties</span><span class="hs">}</span><span class="hq">"</span>)</code></pre><button class="rev" data-target="part-33" data-show="What do you think this line of code does?" data-hide="Hide the answer" aria-expanded="false" aria-controls="part-33">What do you think this line of code does?</button><div class="ans" id="part-33"><p class="plabel">After the fifth round, print the three counters. This line is not indented, so it runs once, after the loop.</p></div></div></div>
 <div class="toolbar"><a class="btn quiet" href="rps_game.py" download="rps_game.py">Download rps_game.py</a></div>
 <div class="predict"><b>Predict first.</b> In one game the player typed six answers: <code>rock</code>, <code>papper</code>, <code>paper</code>, <code>scissors</code>, <code>rock</code>, <code>paper</code>. The game has five rounds. Which round got two answers, and which line of the program asked the second time?
 <button class="rev" data-target="a69" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a69">Show the answer</button>
@@ -496,11 +506,11 @@ you won 2, lost 2, and tied 1</code></pre></div>
 <span class="hn">MOVES</span> = [<span class="hq">"rock"</span>, <span class="hq">"paper"</span>, <span class="hq">"scissors"</span>]
 
 <span class="hk">for</span> <span class="hv">spot1</span> <span class="hs">in</span> <span class="hc">range</span>(<span class="hd">3</span>):
-    <span class="hk">for</span> <span class="hv">spot2</span> <span class="hs">in</span> <span class="hc">range</span>(<span class="hd">3</span>):
-        <span class="hv">steps</span> = (<span class="hv">spot1</span> - <span class="hv">spot2</span>) % <span class="hd">3</span>
-
-        <span class="hv">pairing</span> = <span class="hs">f</span><span class="hq">"</span><span class="hs">{</span><span class="hn">MOVES</span>[<span class="hv">spot1</span>]<span class="hs">}</span><span class="hq"> against </span><span class="hs">{</span><span class="hn">MOVES</span>[<span class="hv">spot2</span>]<span class="hs">}</span><span class="hq">"</span>
-        <span class="hf">print</span>(<span class="hs">f</span><span class="hq">"</span><span class="hs">{</span><span class="hv">pairing</span><span class="hs">}</span><span class="hq">: (</span><span class="hs">{</span><span class="hv">spot1</span><span class="hs">}</span><span class="hq"> - </span><span class="hs">{</span><span class="hv">spot2</span><span class="hs">}</span><span class="hq">) % 3 = </span><span class="hs">{</span><span class="hv">steps</span><span class="hs">}</span><span class="hq">"</span>)</code></pre>
+<span class="ig">    </span><span class="hk">for</span> <span class="hv">spot2</span> <span class="hs">in</span> <span class="hc">range</span>(<span class="hd">3</span>):
+<span class="ig">    </span><span class="ig">    </span><span class="hv">steps</span> = (<span class="hv">spot1</span> - <span class="hv">spot2</span>) % <span class="hd">3</span>
+<span class="ig"></span><span class="ig"></span>
+<span class="ig">    </span><span class="ig">    </span><span class="hv">pairing</span> = <span class="hs">f</span><span class="hq">"</span><span class="hs">{</span><span class="hn">MOVES</span>[<span class="hv">spot1</span>]<span class="hs">}</span><span class="hq"> against </span><span class="hs">{</span><span class="hn">MOVES</span>[<span class="hv">spot2</span>]<span class="hs">}</span><span class="hq">"</span>
+<span class="ig">    </span><span class="ig">    </span><span class="hf">print</span>(<span class="hs">f</span><span class="hq">"</span><span class="hs">{</span><span class="hv">pairing</span><span class="hs">}</span><span class="hq">: (</span><span class="hs">{</span><span class="hv">spot1</span><span class="hs">}</span><span class="hq"> - </span><span class="hs">{</span><span class="hv">spot2</span><span class="hs">}</span><span class="hq">) % 3 = </span><span class="hs">{</span><span class="hv">steps</span><span class="hs">}</span><span class="hq">"</span>)</code></pre>
 <p><code>spot1</code> is the position of player 1's move and <code>spot2</code> is the position of player 2's move. They are numbers this time, so the loops use <code>range(3)</code>. <code>MOVES[spot1]</code> turns a position back into a move for the printed line.</p><div class="predict"><b>Predict first.</b> Before you run it, work out the number at the end of each of the nine lines. The first one is <code>(0 - 0) % 3 = 0</code>.
 <button class="rev" data-target="a72" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a72">Show the answer</button>
 <div class="ans" id="a72"><div class="out"><span class="tag">verified output, rps_clock.py</span><pre><code>rock against rock: (0 - 0) % 3 = 0
@@ -523,18 +533,18 @@ scissors against scissors: (2 - 2) % 3 = 0</code></pre></div>
 
 
 <span class="hs">def</span> <span class="hf">winner_clock</span>(<span class="hv">move1</span>, <span class="hv">move2</span>):
-    <span class="hq">"""Return who wins, decided by counting steps around the circle of moves."""</span>
-    <span class="hv">spot1</span> = <span class="hn">MOVES</span>.<span class="hf">index</span>(<span class="hv">move1</span>)
-    <span class="hv">spot2</span> = <span class="hn">MOVES</span>.<span class="hf">index</span>(<span class="hv">move2</span>)
-
-    <span class="hv">steps</span> = (<span class="hv">spot1</span> - <span class="hv">spot2</span>) % <span class="hd">3</span>
-    <span class="hk">return</span> <span class="hn">RESULTS</span>[<span class="hv">steps</span>]</code></pre>
+<span class="ig">    </span><span class="hq">"""Return who wins, decided by counting steps around the circle of moves."""</span>
+<span class="ig">    </span><span class="hv">spot1</span> = <span class="hn">MOVES</span>.<span class="hf">index</span>(<span class="hv">move1</span>)
+<span class="ig">    </span><span class="hv">spot2</span> = <span class="hn">MOVES</span>.<span class="hf">index</span>(<span class="hv">move2</span>)
+<span class="ig"></span>
+<span class="ig">    </span><span class="hv">steps</span> = (<span class="hv">spot1</span> - <span class="hv">spot2</span>) % <span class="hd">3</span>
+<span class="ig">    </span><span class="hk">return</span> <span class="hn">RESULTS</span>[<span class="hv">steps</span>]</code></pre>
 <div class="predict"><b>Predict first.</b> Trace <code>winner_clock("rock", "scissors")</code>. Write the value of <code>spot1</code>, <code>spot2</code>, and <code>steps</code>, then the return value.
 <button class="rev" data-target="a74" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a74">Show the answer</button>
 <div class="ans" id="a74"><p><code>spot1</code> is 0, the position of rock. <code>spot2</code> is 2, the position of scissors.</p><p><code>steps</code> is <code>(0 - 2) % 3</code>. 0 - 2 = -2, and <code>-2 % 3</code> is 1, the same wrap as above.</p><p>The function returns <code>RESULTS[1]</code>, which is <code>"player 1"</code>. Rock beats scissors.</p></div></div>
 <p>Some programmers write the whole function on one line:</p><pre class="py"><code><span class="hs">def</span> <span class="hf">winner</span>(<span class="hv">move1</span>, <span class="hv">move2</span>):
-    <span class="hq">"""Return who wins when player 1 plays move1 and player 2 plays move2."""</span>
-    <span class="hk">return</span> <span class="hn">RESULTS</span>[(<span class="hn">MOVES</span>.<span class="hf">index</span>(<span class="hv">move1</span>) - <span class="hn">MOVES</span>.<span class="hf">index</span>(<span class="hv">move2</span>)) % <span class="hd">3</span>]</code></pre>
+<span class="ig">    </span><span class="hq">"""Return who wins when player 1 plays move1 and player 2 plays move2."""</span>
+<span class="ig">    </span><span class="hk">return</span> <span class="hn">RESULTS</span>[(<span class="hn">MOVES</span>.<span class="hf">index</span>(<span class="hv">move1</span>) - <span class="hn">MOVES</span>.<span class="hf">index</span>(<span class="hv">move2</span>)) % <span class="hd">3</span>]</code></pre>
 <p>It does the same arithmetic in the same order and returns the same answers. The four-line version gives each step a name, so you can print <code>spot1</code>, <code>spot2</code>, or <code>steps</code> to check it.</p><p>The two typos again. Add the first of these lines under the check at the bottom of <code>rps_three_ways.py</code>. After you answer the question below, run it, then replace it with the second line and run it again.</p><p class="fname">rps_three_ways.py, at the bottom, one line at a time</p>
 <pre class="py"><code><span class="hf">print</span>(<span class="hf">winner_clock</span>(<span class="hq">"rokc"</span>, <span class="hq">"scissors"</span>))
 <span class="hf">print</span>(<span class="hf">winner_clock</span>(<span class="hq">"rock"</span>, <span class="hq">"sissors"</span>))</code></pre>
@@ -547,13 +557,13 @@ scissors against scissors: (2 - 2) % 3 = 0</code></pre></div>
 <pre class="py"><code><span class="hv">agree</span> = <span class="hd">0</span>
 
 <span class="hk">for</span> <span class="hv">move1</span> <span class="hs">in</span> <span class="hn">MOVES</span>:
-    <span class="hk">for</span> <span class="hv">move2</span> <span class="hs">in</span> <span class="hn">MOVES</span>:
-        <span class="hv">first</span> = <span class="hf">winner_if</span>(<span class="hv">move1</span>, <span class="hv">move2</span>)
-        <span class="hv">second</span> = <span class="hf">winner_dict</span>(<span class="hv">move1</span>, <span class="hv">move2</span>)
-        <span class="hv">third</span> = <span class="hf">winner_clock</span>(<span class="hv">move1</span>, <span class="hv">move2</span>)
-
-        <span class="hk">if</span> <span class="hv">first</span> == <span class="hv">second</span> <span class="hs">and</span> <span class="hv">second</span> == <span class="hv">third</span>:
-            <span class="hv">agree</span> = <span class="hv">agree</span> + <span class="hd">1</span>
+<span class="ig">    </span><span class="hk">for</span> <span class="hv">move2</span> <span class="hs">in</span> <span class="hn">MOVES</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="hv">first</span> = <span class="hf">winner_if</span>(<span class="hv">move1</span>, <span class="hv">move2</span>)
+<span class="ig">    </span><span class="ig">    </span><span class="hv">second</span> = <span class="hf">winner_dict</span>(<span class="hv">move1</span>, <span class="hv">move2</span>)
+<span class="ig">    </span><span class="ig">    </span><span class="hv">third</span> = <span class="hf">winner_clock</span>(<span class="hv">move1</span>, <span class="hv">move2</span>)
+<span class="ig"></span><span class="ig"></span>
+<span class="ig">    </span><span class="ig">    </span><span class="hk">if</span> <span class="hv">first</span> == <span class="hv">second</span> <span class="hs">and</span> <span class="hv">second</span> == <span class="hv">third</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="ig">    </span><span class="hv">agree</span> = <span class="hv">agree</span> + <span class="hd">1</span>
 
 <span class="hf">print</span>(<span class="hs">f</span><span class="hq">"the three versions agree on </span><span class="hs">{</span><span class="hv">agree</span><span class="hs">}</span><span class="hq"> of the 9 pairings"</span>)</code></pre>
 <div class="predict"><b>Predict first.</b> What does it print?
@@ -565,7 +575,7 @@ scissors against scissors: (2 - 2) % 3 = 0</code></pre></div>
 <div class="ans" id="a77"><div class="out"><span class="tag">verified output</span><pre><code>the three versions agree on 7 of the 9 pairings</code></pre></div>
 <p><b>How many.</b> 7.</p><p><b>Which pairings.</b> <code>winner_dict</code> only looks up <code>BEATS["paper"]</code> when player 1 plays paper. Paper against paper is a tie, which the first gate returns before any lookup. That leaves paper against scissors, which now says player 1, and paper against rock, which now says player 2. Both are wrong, and the other 7 pairings still agree.</p><p>The three tests from section 2 would not have caught this mistake: rock against scissors, rock against paper, and paper against paper all still give the right answer. Checking all nine pairings does catch it.</p></div></div>
 <p>Any of the three versions can go in <code>rps_game.py</code>. They take the same two moves and return the same answer, so the game plays the same way. The third version needs <code>RESULTS</code> copied in with it.</p></section>
-<section class="brief"><h2>Exits</h2><div class="exits"><div class="exit"><span class="lab">FLOOR</span><p><code>rps.py</code> runs with the dictionary version of <code>winner</code>, and its nine lines match your table from the opener. You can say what the if version and the dictionary version each do with <code>winner("rokc", "scissors")</code>.</p></div><div class="exit"><span class="lab">MIDDLE</span><p>Floor, plus you played a game of <code>rps_game.py</code> with a typo in it, and <code>rps_three_ways.py</code> prints 9 of the 9. Trace <code>winner_clock("scissors", "rock")</code> out loud: <code>spot1</code>, <code>spot2</code>, <code>steps</code>, and the return value.</p></div><div class="exit"><span class="lab">STRETCH</span><p>Middle, plus rock paper scissors lizard Spock. Write its <code>BEATS</code> and a <code>winner_dict</code> that uses it, then find the rule for steps with <code>% 5</code>. Work it out below.</p></div></div><h3>Stretch: rock paper scissors lizard Spock</h3><p>This game has five moves. Each move beats two others:</p><ul class="tight"><li>Rock beats scissors and lizard.</li><li>Paper beats rock and Spock.</li><li>Scissors beats paper and lizard.</li><li>Spock beats scissors and rock.</li><li>Lizard beats Spock and paper.</li></ul><p>Make a new file called <code>rps_spock.py</code> for it.</p><div class="predict"><b>Predict first.</b> Write <code>MOVES</code> and <code>BEATS</code> for five moves, and a function called <code>winner_dict</code> that uses <code>BEATS</code>. The file gets a second version later, so this one is not called <code>winner</code>. Each value in <code>BEATS</code> is now a list of two moves.
+<section class="brief"><h2>Exits</h2><div class="exits"><div class="exit"><span class="lab">FLOOR</span><p><code>rps.py</code> runs with the dictionary version of <code>winner</code>, and its nine lines match your table from the opener. You can say what the if version and the dictionary version each do with <code>winner("rokc", "scissors")</code>.</p></div><div class="exit"><span class="lab">MIDDLE</span><p>Floor, plus you played a game of <code>rps_game.py</code> with a typo in it, and <code>rps_three_ways.py</code> prints 9 of the 9. Trace <code>winner_clock("scissors", "rock")</code> out loud: <code>spot1</code>, <code>spot2</code>, <code>steps</code>, and the return value.</p></div><div class="exit"><span class="lab">STRETCH</span><p>Middle, plus rock paper scissors lizard Spock. Write its <code>BEATS</code> and a <code>winner_dict</code> that uses it, then find the rule for steps with <code>% 5</code>. Work it out below.</p></div></div><h3>Stretch: rock paper scissors lizard Spock</h3><p>This game has five moves. Each move beats two others:</p><ul class="tight"><li>Rock beats scissors and lizard.</li><li>Paper beats rock and Spock.</li><li>Scissors beats paper and lizard.</li><li>Spock beats scissors and rock.</li><li>Lizard beats Spock and paper.</li></ul><p>Make a new file called <code>rps_spock.py</code> for it.</p><div class="predict ladder"><b>Predict first.</b> Write <code>MOVES</code> and <code>BEATS</code> for five moves, and a function called <code>winner_dict</code> that uses <code>BEATS</code>. The file gets a second version later, so this one is not called <code>winner</code>. Each value in <code>BEATS</code> is now a list of two moves.
 <button class="rev" data-target="ladder-spock-dict-1" data-show="Hint 1" data-hide="Hide hint 1" aria-expanded="false" aria-controls="ladder-spock-dict-1">Hint 1</button>
 <div class="ans" id="ladder-spock-dict-1"><p>Each key still holds what it beats, now as a list: <code>"rock": ["scissors", "lizard"]</code>.</p><button class="rev" data-target="ladder-spock-dict-2" data-show="Hint 2" data-hide="Hide hint 2" aria-expanded="false" aria-controls="ladder-spock-dict-2">Hint 2</button>
 <div class="ans" id="ladder-spock-dict-2"><p>The gate in <code>winner_dict</code> now asks whether <code>move2</code> is one of the items in the list <code>BEATS[move1]</code>. Section 4 used <code>in</code> to ask whether an item is in a list.</p><button class="rev" data-target="ladder-spock-dict-answer" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="ladder-spock-dict-answer">Show the answer</button>
@@ -574,36 +584,36 @@ scissors against scissors: (2 - 2) % 3 = 0</code></pre></div>
 
 <span class="hm"># each move beats the two moves in its list</span>
 <span class="hn">BEATS</span> = {
-    <span class="hq">"rock"</span>: [<span class="hq">"scissors"</span>, <span class="hq">"lizard"</span>],
-    <span class="hq">"paper"</span>: [<span class="hq">"rock"</span>, <span class="hq">"spock"</span>],
-    <span class="hq">"scissors"</span>: [<span class="hq">"paper"</span>, <span class="hq">"lizard"</span>],
-    <span class="hq">"spock"</span>: [<span class="hq">"scissors"</span>, <span class="hq">"rock"</span>],
-    <span class="hq">"lizard"</span>: [<span class="hq">"spock"</span>, <span class="hq">"paper"</span>],
+<span class="ig">    </span><span class="hq">"rock"</span>: [<span class="hq">"scissors"</span>, <span class="hq">"lizard"</span>],
+<span class="ig">    </span><span class="hq">"paper"</span>: [<span class="hq">"rock"</span>, <span class="hq">"spock"</span>],
+<span class="ig">    </span><span class="hq">"scissors"</span>: [<span class="hq">"paper"</span>, <span class="hq">"lizard"</span>],
+<span class="ig">    </span><span class="hq">"spock"</span>: [<span class="hq">"scissors"</span>, <span class="hq">"rock"</span>],
+<span class="ig">    </span><span class="hq">"lizard"</span>: [<span class="hq">"spock"</span>, <span class="hq">"paper"</span>],
 }
 
 
 <span class="hs">def</span> <span class="hf">winner_dict</span>(<span class="hv">move1</span>, <span class="hv">move2</span>):
-    <span class="hq">"""Return who wins, decided with the BEATS dictionary."""</span>
-    <span class="hk">if</span> <span class="hv">move1</span> == <span class="hv">move2</span>:
-        <span class="hk">return</span> <span class="hq">"tie"</span>
-    <span class="hk">elif</span> <span class="hv">move2</span> <span class="hs">in</span> <span class="hn">BEATS</span>[<span class="hv">move1</span>]:
-        <span class="hk">return</span> <span class="hq">"player 1"</span>
-    <span class="hk">else</span>:
-        <span class="hk">return</span> <span class="hq">"player 2"</span></code></pre>
+<span class="ig">    </span><span class="hq">"""Return who wins, decided with the BEATS dictionary."""</span>
+<span class="ig">    </span><span class="hk">if</span> <span class="hv">move1</span> == <span class="hv">move2</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="hk">return</span> <span class="hq">"tie"</span>
+<span class="ig">    </span><span class="hk">elif</span> <span class="hv">move2</span> <span class="hs">in</span> <span class="hn">BEATS</span>[<span class="hv">move1</span>]:
+<span class="ig">    </span><span class="ig">    </span><span class="hk">return</span> <span class="hq">"player 1"</span>
+<span class="ig">    </span><span class="hk">else</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="hk">return</span> <span class="hq">"player 2"</span></code></pre>
 </div>
 </div>
 </div>
 </div>
-<div class="predict"><b>Predict first.</b> Keep the moves in this order: rock, paper, scissors, spock, lizard. With <code>% 5</code> in place of <code>% 3</code>, steps is <code>(spot1 - spot2) % 5</code>, a number from 0 to 4. Which numbers of steps mean player 1 wins? Write a <code>winner_clock</code> that uses the rule.
+<div class="predict ladder"><b>Predict first.</b> Keep the moves in this order: rock, paper, scissors, spock, lizard. With <code>% 5</code> in place of <code>% 3</code>, steps is <code>(spot1 - spot2) % 5</code>, a number from 0 to 4. Which numbers of steps mean player 1 wins? Write a <code>winner_clock</code> that uses the rule.
 <button class="rev" data-target="ladder-spock-clock-1" data-show="Hint 1" data-hide="Hide hint 1" aria-expanded="false" aria-controls="ladder-spock-clock-1">Hint 1</button>
 <div class="ans" id="ladder-spock-clock-1"><p>Let <code>winner_dict</code> say who wins, and print the steps beside it, for every pairing that is not a tie. <code>!=</code> means not equal, so the gate skips the five pairings where both moves are the same. Put this under <code>winner_dict</code>:</p><p class="fname">rps_spock.py, under winner_dict</p>
 <pre class="py"><code><span class="hk">for</span> <span class="hv">move1</span> <span class="hs">in</span> <span class="hn">MOVES</span>:
-    <span class="hk">for</span> <span class="hv">move2</span> <span class="hs">in</span> <span class="hn">MOVES</span>:
-        <span class="hk">if</span> <span class="hv">move1</span> != <span class="hv">move2</span>:
-            <span class="hv">steps</span> = (<span class="hn">MOVES</span>.<span class="hf">index</span>(<span class="hv">move1</span>) - <span class="hn">MOVES</span>.<span class="hf">index</span>(<span class="hv">move2</span>)) % <span class="hd">5</span>
-            <span class="hv">result</span> = <span class="hf">winner_dict</span>(<span class="hv">move1</span>, <span class="hv">move2</span>)
-
-            <span class="hf">print</span>(<span class="hs">f</span><span class="hq">"</span><span class="hs">{</span><span class="hv">move1</span><span class="hs">}</span><span class="hq"> against </span><span class="hs">{</span><span class="hv">move2</span><span class="hs">}</span><span class="hq">: steps </span><span class="hs">{</span><span class="hv">steps</span><span class="hs">}</span><span class="hq">, </span><span class="hs">{</span><span class="hv">result</span><span class="hs">}</span><span class="hq">"</span>)</code></pre>
+<span class="ig">    </span><span class="hk">for</span> <span class="hv">move2</span> <span class="hs">in</span> <span class="hn">MOVES</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="hk">if</span> <span class="hv">move1</span> != <span class="hv">move2</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="ig">    </span><span class="hv">steps</span> = (<span class="hn">MOVES</span>.<span class="hf">index</span>(<span class="hv">move1</span>) - <span class="hn">MOVES</span>.<span class="hf">index</span>(<span class="hv">move2</span>)) % <span class="hd">5</span>
+<span class="ig">    </span><span class="ig">    </span><span class="ig">    </span><span class="hv">result</span> = <span class="hf">winner_dict</span>(<span class="hv">move1</span>, <span class="hv">move2</span>)
+<span class="ig"></span><span class="ig"></span><span class="ig"></span>
+<span class="ig">    </span><span class="ig">    </span><span class="ig">    </span><span class="hf">print</span>(<span class="hs">f</span><span class="hq">"</span><span class="hs">{</span><span class="hv">move1</span><span class="hs">}</span><span class="hq"> against </span><span class="hs">{</span><span class="hv">move2</span><span class="hs">}</span><span class="hq">: steps </span><span class="hs">{</span><span class="hv">steps</span><span class="hs">}</span><span class="hq">, </span><span class="hs">{</span><span class="hv">result</span><span class="hs">}</span><span class="hq">"</span>)</code></pre>
 <button class="rev" data-target="ladder-spock-clock-2" data-show="Hint 2" data-hide="Hide hint 2" aria-expanded="false" aria-controls="ladder-spock-clock-2">Hint 2</button>
 <div class="ans" id="ladder-spock-clock-2"><p>Here is what it prints. Look at the steps on the lines that end in player 1, then on the lines that end in player 2.</p><div class="out"><span class="tag">verified output</span><pre><code>rock against paper: steps 4, player 2
 rock against scissors: steps 3, player 1
@@ -629,18 +639,18 @@ lizard against spock: steps 1, player 1</code></pre></div>
 <div class="ans" id="ladder-spock-clock-3"><p>Player 1 wins when steps is 1 or 3, and player 2 wins when it is 2 or 4. 1 and 3 are odd. A whole number is odd when <code>% 2</code> gives 1.</p><button class="rev" data-target="ladder-spock-clock-answer" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="ladder-spock-clock-answer">Show the answer</button>
 <div class="ans" id="ladder-spock-clock-answer"><p>Player 1 wins when steps is 1 or 3, the odd numbers. Here is <code>winner_clock</code> with that rule:</p><p class="fname">rps_spock.py</p>
 <pre class="py"><code><span class="hs">def</span> <span class="hf">winner_clock</span>(<span class="hv">move1</span>, <span class="hv">move2</span>):
-    <span class="hq">"""Return who wins, decided by counting steps around the circle."""</span>
-    <span class="hv">spot1</span> = <span class="hn">MOVES</span>.<span class="hf">index</span>(<span class="hv">move1</span>)
-    <span class="hv">spot2</span> = <span class="hn">MOVES</span>.<span class="hf">index</span>(<span class="hv">move2</span>)
-
-    <span class="hv">steps</span> = (<span class="hv">spot1</span> - <span class="hv">spot2</span>) % <span class="hd">5</span>
-
-    <span class="hk">if</span> <span class="hv">steps</span> == <span class="hd">0</span>:
-        <span class="hk">return</span> <span class="hq">"tie"</span>
-    <span class="hk">elif</span> <span class="hv">steps</span> % <span class="hd">2</span> == <span class="hd">1</span>:
-        <span class="hk">return</span> <span class="hq">"player 1"</span>
-    <span class="hk">else</span>:
-        <span class="hk">return</span> <span class="hq">"player 2"</span></code></pre>
+<span class="ig">    </span><span class="hq">"""Return who wins, decided by counting steps around the circle."""</span>
+<span class="ig">    </span><span class="hv">spot1</span> = <span class="hn">MOVES</span>.<span class="hf">index</span>(<span class="hv">move1</span>)
+<span class="ig">    </span><span class="hv">spot2</span> = <span class="hn">MOVES</span>.<span class="hf">index</span>(<span class="hv">move2</span>)
+<span class="ig"></span>
+<span class="ig">    </span><span class="hv">steps</span> = (<span class="hv">spot1</span> - <span class="hv">spot2</span>) % <span class="hd">5</span>
+<span class="ig"></span>
+<span class="ig">    </span><span class="hk">if</span> <span class="hv">steps</span> == <span class="hd">0</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="hk">return</span> <span class="hq">"tie"</span>
+<span class="ig">    </span><span class="hk">elif</span> <span class="hv">steps</span> % <span class="hd">2</span> == <span class="hd">1</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="hk">return</span> <span class="hq">"player 1"</span>
+<span class="ig">    </span><span class="hk">else</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="hk">return</span> <span class="hq">"player 2"</span></code></pre>
 <p>The check at the bottom of <code>rps_spock.py</code> runs both versions on all 25 pairings:</p><div class="out"><span class="tag">verified output, rps_spock.py</span><pre><code>the two versions agree on 25 of the 25 pairings</code></pre></div>
 <p>The order of <code>MOVES</code> matters. With <code>spock</code> and <code>lizard</code> swapped, the same check prints:</p><div class="out"><span class="tag">verified output</span><pre><code>the two versions agree on 11 of the 25 pairings</code></pre></div>
 <p>The odd rule only works when the moves go around the circle in an order where each move beats the moves 1 and 3 steps before it.</p></div>
@@ -657,23 +667,23 @@ lizard against spock: steps 1, player 1</code></pre></div>
 
 
 <span class="hs">def</span> <span class="hf">winner</span>(<span class="hv">move1</span>, <span class="hv">move2</span>):
-    <span class="hq">"""Return who wins when player 1 plays move1 and player 2 plays move2."""</span>
-    <span class="hk">if</span> <span class="hv">move1</span> == <span class="hv">move2</span>:
-        <span class="hk">return</span> <span class="hq">"tie"</span>
-    <span class="hk">elif</span> <span class="hv">move1</span> == <span class="hq">"rock"</span> <span class="hs">and</span> <span class="hv">move2</span> == <span class="hq">"scissors"</span>:
-        <span class="hk">return</span> <span class="hq">"player 1"</span>
-    <span class="hk">elif</span> <span class="hv">move1</span> == <span class="hq">"scissors"</span> <span class="hs">and</span> <span class="hv">move2</span> == <span class="hq">"paper"</span>:
-        <span class="hk">return</span> <span class="hq">"player 1"</span>
-    <span class="hk">elif</span> <span class="hv">move1</span> == <span class="hq">"paper"</span> <span class="hs">and</span> <span class="hv">move2</span> == <span class="hq">"rock"</span>:
-        <span class="hk">return</span> <span class="hq">"player 1"</span>
-    <span class="hk">else</span>:
-        <span class="hk">return</span> <span class="hq">"player 2"</span>
+<span class="ig">    </span><span class="hq">"""Return who wins when player 1 plays move1 and player 2 plays move2."""</span>
+<span class="ig">    </span><span class="hk">if</span> <span class="hv">move1</span> == <span class="hv">move2</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="hk">return</span> <span class="hq">"tie"</span>
+<span class="ig">    </span><span class="hk">elif</span> <span class="hv">move1</span> == <span class="hq">"rock"</span> <span class="hs">and</span> <span class="hv">move2</span> == <span class="hq">"scissors"</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="hk">return</span> <span class="hq">"player 1"</span>
+<span class="ig">    </span><span class="hk">elif</span> <span class="hv">move1</span> == <span class="hq">"scissors"</span> <span class="hs">and</span> <span class="hv">move2</span> == <span class="hq">"paper"</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="hk">return</span> <span class="hq">"player 1"</span>
+<span class="ig">    </span><span class="hk">elif</span> <span class="hv">move1</span> == <span class="hq">"paper"</span> <span class="hs">and</span> <span class="hv">move2</span> == <span class="hq">"rock"</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="hk">return</span> <span class="hq">"player 1"</span>
+<span class="ig">    </span><span class="hk">else</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="hk">return</span> <span class="hq">"player 2"</span>
 
 
 <span class="hm"># every pairing, one line each</span>
 <span class="hk">for</span> <span class="hv">move1</span> <span class="hs">in</span> <span class="hn">MOVES</span>:
-    <span class="hk">for</span> <span class="hv">move2</span> <span class="hs">in</span> <span class="hn">MOVES</span>:
-        <span class="hf">print</span>(<span class="hs">f</span><span class="hq">"</span><span class="hs">{</span><span class="hv">move1</span><span class="hs">}</span><span class="hq"> against </span><span class="hs">{</span><span class="hv">move2</span><span class="hs">}</span><span class="hq">: </span><span class="hs">{</span><span class="hf">winner</span>(<span class="hv">move1</span>, <span class="hv">move2</span>)<span class="hs">}</span><span class="hq">"</span>)</code></pre>
+<span class="ig">    </span><span class="hk">for</span> <span class="hv">move2</span> <span class="hs">in</span> <span class="hn">MOVES</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="hf">print</span>(<span class="hs">f</span><span class="hq">"</span><span class="hs">{</span><span class="hv">move1</span><span class="hs">}</span><span class="hq"> against </span><span class="hs">{</span><span class="hv">move2</span><span class="hs">}</span><span class="hq">: </span><span class="hs">{</span><span class="hf">winner</span>(<span class="hv">move1</span>, <span class="hv">move2</span>)<span class="hs">}</span><span class="hq">"</span>)</code></pre>
 <p class="fname">rps.py after section 3, without the typo line (rps_dict.py)</p>
 <pre class="py"><code><span class="hq">"""Session 6: who wins a round of rock paper scissors, decided with a dictionary."""</span>
 
@@ -684,19 +694,19 @@ lizard against spock: steps 1, player 1</code></pre></div>
 
 
 <span class="hs">def</span> <span class="hf">winner</span>(<span class="hv">move1</span>, <span class="hv">move2</span>):
-    <span class="hq">"""Return who wins when player 1 plays move1 and player 2 plays move2."""</span>
-    <span class="hk">if</span> <span class="hv">move1</span> == <span class="hv">move2</span>:
-        <span class="hk">return</span> <span class="hq">"tie"</span>
-    <span class="hk">elif</span> <span class="hn">BEATS</span>[<span class="hv">move1</span>] == <span class="hv">move2</span>:
-        <span class="hk">return</span> <span class="hq">"player 1"</span>
-    <span class="hk">else</span>:
-        <span class="hk">return</span> <span class="hq">"player 2"</span>
+<span class="ig">    </span><span class="hq">"""Return who wins when player 1 plays move1 and player 2 plays move2."""</span>
+<span class="ig">    </span><span class="hk">if</span> <span class="hv">move1</span> == <span class="hv">move2</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="hk">return</span> <span class="hq">"tie"</span>
+<span class="ig">    </span><span class="hk">elif</span> <span class="hn">BEATS</span>[<span class="hv">move1</span>] == <span class="hv">move2</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="hk">return</span> <span class="hq">"player 1"</span>
+<span class="ig">    </span><span class="hk">else</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="hk">return</span> <span class="hq">"player 2"</span>
 
 
 <span class="hm"># every pairing, one line each</span>
 <span class="hk">for</span> <span class="hv">move1</span> <span class="hs">in</span> <span class="hn">MOVES</span>:
-    <span class="hk">for</span> <span class="hv">move2</span> <span class="hs">in</span> <span class="hn">MOVES</span>:
-        <span class="hf">print</span>(<span class="hs">f</span><span class="hq">"</span><span class="hs">{</span><span class="hv">move1</span><span class="hs">}</span><span class="hq"> against </span><span class="hs">{</span><span class="hv">move2</span><span class="hs">}</span><span class="hq">: </span><span class="hs">{</span><span class="hf">winner</span>(<span class="hv">move1</span>, <span class="hv">move2</span>)<span class="hs">}</span><span class="hq">"</span>)</code></pre>
+<span class="ig">    </span><span class="hk">for</span> <span class="hv">move2</span> <span class="hs">in</span> <span class="hn">MOVES</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="hf">print</span>(<span class="hs">f</span><span class="hq">"</span><span class="hs">{</span><span class="hv">move1</span><span class="hs">}</span><span class="hq"> against </span><span class="hs">{</span><span class="hv">move2</span><span class="hs">}</span><span class="hq">: </span><span class="hs">{</span><span class="hf">winner</span>(<span class="hv">move1</span>, <span class="hv">move2</span>)<span class="hs">}</span><span class="hq">"</span>)</code></pre>
 <p class="fname">rps_game.py</p>
 <pre class="py"><code><span class="hq">"""Session 6: five rounds of rock paper scissors against the computer."""</span>
 
@@ -712,13 +722,13 @@ lizard against spock: steps 1, player 1</code></pre></div>
 
 
 <span class="hs">def</span> <span class="hf">winner</span>(<span class="hv">move1</span>, <span class="hv">move2</span>):
-    <span class="hq">"""Return who wins when player 1 plays move1 and player 2 plays move2."""</span>
-    <span class="hk">if</span> <span class="hv">move1</span> == <span class="hv">move2</span>:
-        <span class="hk">return</span> <span class="hq">"tie"</span>
-    <span class="hk">elif</span> <span class="hn">BEATS</span>[<span class="hv">move1</span>] == <span class="hv">move2</span>:
-        <span class="hk">return</span> <span class="hq">"player 1"</span>
-    <span class="hk">else</span>:
-        <span class="hk">return</span> <span class="hq">"player 2"</span>
+<span class="ig">    </span><span class="hq">"""Return who wins when player 1 plays move1 and player 2 plays move2."""</span>
+<span class="ig">    </span><span class="hk">if</span> <span class="hv">move1</span> == <span class="hv">move2</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="hk">return</span> <span class="hq">"tie"</span>
+<span class="ig">    </span><span class="hk">elif</span> <span class="hn">BEATS</span>[<span class="hv">move1</span>] == <span class="hv">move2</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="hk">return</span> <span class="hq">"player 1"</span>
+<span class="ig">    </span><span class="hk">else</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="hk">return</span> <span class="hq">"player 2"</span>
 
 
 <span class="hv">wins</span> = <span class="hd">0</span>
@@ -726,21 +736,21 @@ lizard against spock: steps 1, player 1</code></pre></div>
 <span class="hv">ties</span> = <span class="hd">0</span>
 
 <span class="hk">for</span> <span class="hv">turn</span> <span class="hs">in</span> <span class="hc">range</span>(<span class="hd">5</span>):
-    <span class="hv">my_move</span> = <span class="hf">input</span>(<span class="hq">"rock, paper, or scissors? "</span>)
-
-    <span class="hk">while</span> <span class="hv">my_move</span> <span class="hs">not</span> <span class="hs">in</span> <span class="hn">MOVES</span>:
-        <span class="hv">my_move</span> = <span class="hf">input</span>(<span class="hq">"type rock, paper, or scissors: "</span>)
-
-    <span class="hv">computer_move</span> = <span class="hc">random</span>.<span class="hf">choice</span>(<span class="hn">MOVES</span>)
-    <span class="hv">result</span> = <span class="hf">winner</span>(<span class="hv">my_move</span>, <span class="hv">computer_move</span>)
-    <span class="hf">print</span>(<span class="hs">f</span><span class="hq">"the computer played </span><span class="hs">{</span><span class="hv">computer_move</span><span class="hs">}</span><span class="hq">, so </span><span class="hs">{</span><span class="hn">SAY</span>[<span class="hv">result</span>]<span class="hs">}</span><span class="hq">"</span>)
-
-    <span class="hk">if</span> <span class="hv">result</span> == <span class="hq">"player 1"</span>:
-        <span class="hv">wins</span> = <span class="hv">wins</span> + <span class="hd">1</span>
-    <span class="hk">elif</span> <span class="hv">result</span> == <span class="hq">"player 2"</span>:
-        <span class="hv">losses</span> = <span class="hv">losses</span> + <span class="hd">1</span>
-    <span class="hk">else</span>:
-        <span class="hv">ties</span> = <span class="hv">ties</span> + <span class="hd">1</span>
+<span class="ig">    </span><span class="hv">my_move</span> = <span class="hf">input</span>(<span class="hq">"rock, paper, or scissors? "</span>)
+<span class="ig"></span>
+<span class="ig">    </span><span class="hk">while</span> <span class="hv">my_move</span> <span class="hs">not</span> <span class="hs">in</span> <span class="hn">MOVES</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="hv">my_move</span> = <span class="hf">input</span>(<span class="hq">"type rock, paper, or scissors: "</span>)
+<span class="ig"></span>
+<span class="ig">    </span><span class="hv">computer_move</span> = <span class="hc">random</span>.<span class="hf">choice</span>(<span class="hn">MOVES</span>)
+<span class="ig">    </span><span class="hv">result</span> = <span class="hf">winner</span>(<span class="hv">my_move</span>, <span class="hv">computer_move</span>)
+<span class="ig">    </span><span class="hf">print</span>(<span class="hs">f</span><span class="hq">"the computer played </span><span class="hs">{</span><span class="hv">computer_move</span><span class="hs">}</span><span class="hq">, so </span><span class="hs">{</span><span class="hn">SAY</span>[<span class="hv">result</span>]<span class="hs">}</span><span class="hq">"</span>)
+<span class="ig"></span>
+<span class="ig">    </span><span class="hk">if</span> <span class="hv">result</span> == <span class="hq">"player 1"</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="hv">wins</span> = <span class="hv">wins</span> + <span class="hd">1</span>
+<span class="ig">    </span><span class="hk">elif</span> <span class="hv">result</span> == <span class="hq">"player 2"</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="hv">losses</span> = <span class="hv">losses</span> + <span class="hd">1</span>
+<span class="ig">    </span><span class="hk">else</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="hv">ties</span> = <span class="hv">ties</span> + <span class="hd">1</span>
 
 <span class="hf">print</span>(<span class="hs">f</span><span class="hq">"you won </span><span class="hs">{</span><span class="hv">wins</span><span class="hs">}</span><span class="hq">, lost </span><span class="hs">{</span><span class="hv">losses</span><span class="hs">}</span><span class="hq">, and tied </span><span class="hs">{</span><span class="hv">ties</span><span class="hs">}</span><span class="hq">"</span>)</code></pre>
 <p class="fname">rps_three_ways.py</p>
@@ -756,48 +766,48 @@ lizard against spock: steps 1, player 1</code></pre></div>
 
 
 <span class="hs">def</span> <span class="hf">winner_if</span>(<span class="hv">move1</span>, <span class="hv">move2</span>):
-    <span class="hq">"""Return who wins, decided with if lines."""</span>
-    <span class="hk">if</span> <span class="hv">move1</span> == <span class="hv">move2</span>:
-        <span class="hk">return</span> <span class="hq">"tie"</span>
-    <span class="hk">elif</span> <span class="hv">move1</span> == <span class="hq">"rock"</span> <span class="hs">and</span> <span class="hv">move2</span> == <span class="hq">"scissors"</span>:
-        <span class="hk">return</span> <span class="hq">"player 1"</span>
-    <span class="hk">elif</span> <span class="hv">move1</span> == <span class="hq">"scissors"</span> <span class="hs">and</span> <span class="hv">move2</span> == <span class="hq">"paper"</span>:
-        <span class="hk">return</span> <span class="hq">"player 1"</span>
-    <span class="hk">elif</span> <span class="hv">move1</span> == <span class="hq">"paper"</span> <span class="hs">and</span> <span class="hv">move2</span> == <span class="hq">"rock"</span>:
-        <span class="hk">return</span> <span class="hq">"player 1"</span>
-    <span class="hk">else</span>:
-        <span class="hk">return</span> <span class="hq">"player 2"</span>
+<span class="ig">    </span><span class="hq">"""Return who wins, decided with if lines."""</span>
+<span class="ig">    </span><span class="hk">if</span> <span class="hv">move1</span> == <span class="hv">move2</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="hk">return</span> <span class="hq">"tie"</span>
+<span class="ig">    </span><span class="hk">elif</span> <span class="hv">move1</span> == <span class="hq">"rock"</span> <span class="hs">and</span> <span class="hv">move2</span> == <span class="hq">"scissors"</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="hk">return</span> <span class="hq">"player 1"</span>
+<span class="ig">    </span><span class="hk">elif</span> <span class="hv">move1</span> == <span class="hq">"scissors"</span> <span class="hs">and</span> <span class="hv">move2</span> == <span class="hq">"paper"</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="hk">return</span> <span class="hq">"player 1"</span>
+<span class="ig">    </span><span class="hk">elif</span> <span class="hv">move1</span> == <span class="hq">"paper"</span> <span class="hs">and</span> <span class="hv">move2</span> == <span class="hq">"rock"</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="hk">return</span> <span class="hq">"player 1"</span>
+<span class="ig">    </span><span class="hk">else</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="hk">return</span> <span class="hq">"player 2"</span>
 
 
 <span class="hs">def</span> <span class="hf">winner_dict</span>(<span class="hv">move1</span>, <span class="hv">move2</span>):
-    <span class="hq">"""Return who wins, decided with the BEATS dictionary."""</span>
-    <span class="hk">if</span> <span class="hv">move1</span> == <span class="hv">move2</span>:
-        <span class="hk">return</span> <span class="hq">"tie"</span>
-    <span class="hk">elif</span> <span class="hn">BEATS</span>[<span class="hv">move1</span>] == <span class="hv">move2</span>:
-        <span class="hk">return</span> <span class="hq">"player 1"</span>
-    <span class="hk">else</span>:
-        <span class="hk">return</span> <span class="hq">"player 2"</span>
+<span class="ig">    </span><span class="hq">"""Return who wins, decided with the BEATS dictionary."""</span>
+<span class="ig">    </span><span class="hk">if</span> <span class="hv">move1</span> == <span class="hv">move2</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="hk">return</span> <span class="hq">"tie"</span>
+<span class="ig">    </span><span class="hk">elif</span> <span class="hn">BEATS</span>[<span class="hv">move1</span>] == <span class="hv">move2</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="hk">return</span> <span class="hq">"player 1"</span>
+<span class="ig">    </span><span class="hk">else</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="hk">return</span> <span class="hq">"player 2"</span>
 
 
 <span class="hs">def</span> <span class="hf">winner_clock</span>(<span class="hv">move1</span>, <span class="hv">move2</span>):
-    <span class="hq">"""Return who wins, decided by counting steps around the circle of moves."""</span>
-    <span class="hv">spot1</span> = <span class="hn">MOVES</span>.<span class="hf">index</span>(<span class="hv">move1</span>)
-    <span class="hv">spot2</span> = <span class="hn">MOVES</span>.<span class="hf">index</span>(<span class="hv">move2</span>)
-
-    <span class="hv">steps</span> = (<span class="hv">spot1</span> - <span class="hv">spot2</span>) % <span class="hd">3</span>
-    <span class="hk">return</span> <span class="hn">RESULTS</span>[<span class="hv">steps</span>]
+<span class="ig">    </span><span class="hq">"""Return who wins, decided by counting steps around the circle of moves."""</span>
+<span class="ig">    </span><span class="hv">spot1</span> = <span class="hn">MOVES</span>.<span class="hf">index</span>(<span class="hv">move1</span>)
+<span class="ig">    </span><span class="hv">spot2</span> = <span class="hn">MOVES</span>.<span class="hf">index</span>(<span class="hv">move2</span>)
+<span class="ig"></span>
+<span class="ig">    </span><span class="hv">steps</span> = (<span class="hv">spot1</span> - <span class="hv">spot2</span>) % <span class="hd">3</span>
+<span class="ig">    </span><span class="hk">return</span> <span class="hn">RESULTS</span>[<span class="hv">steps</span>]
 
 
 <span class="hv">agree</span> = <span class="hd">0</span>
 
 <span class="hk">for</span> <span class="hv">move1</span> <span class="hs">in</span> <span class="hn">MOVES</span>:
-    <span class="hk">for</span> <span class="hv">move2</span> <span class="hs">in</span> <span class="hn">MOVES</span>:
-        <span class="hv">first</span> = <span class="hf">winner_if</span>(<span class="hv">move1</span>, <span class="hv">move2</span>)
-        <span class="hv">second</span> = <span class="hf">winner_dict</span>(<span class="hv">move1</span>, <span class="hv">move2</span>)
-        <span class="hv">third</span> = <span class="hf">winner_clock</span>(<span class="hv">move1</span>, <span class="hv">move2</span>)
-
-        <span class="hk">if</span> <span class="hv">first</span> == <span class="hv">second</span> <span class="hs">and</span> <span class="hv">second</span> == <span class="hv">third</span>:
-            <span class="hv">agree</span> = <span class="hv">agree</span> + <span class="hd">1</span>
+<span class="ig">    </span><span class="hk">for</span> <span class="hv">move2</span> <span class="hs">in</span> <span class="hn">MOVES</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="hv">first</span> = <span class="hf">winner_if</span>(<span class="hv">move1</span>, <span class="hv">move2</span>)
+<span class="ig">    </span><span class="ig">    </span><span class="hv">second</span> = <span class="hf">winner_dict</span>(<span class="hv">move1</span>, <span class="hv">move2</span>)
+<span class="ig">    </span><span class="ig">    </span><span class="hv">third</span> = <span class="hf">winner_clock</span>(<span class="hv">move1</span>, <span class="hv">move2</span>)
+<span class="ig"></span><span class="ig"></span>
+<span class="ig">    </span><span class="ig">    </span><span class="hk">if</span> <span class="hv">first</span> == <span class="hv">second</span> <span class="hs">and</span> <span class="hv">second</span> == <span class="hv">third</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="ig">    </span><span class="hv">agree</span> = <span class="hv">agree</span> + <span class="hd">1</span>
 
 <span class="hf">print</span>(<span class="hs">f</span><span class="hq">"the three versions agree on </span><span class="hs">{</span><span class="hv">agree</span><span class="hs">}</span><span class="hq"> of the 9 pairings"</span>)</code></pre>
 <p class="fname">rps_spock.py, the stretch</p>
@@ -807,45 +817,45 @@ lizard against spock: steps 1, player 1</code></pre></div>
 
 <span class="hm"># each move beats the two moves in its list</span>
 <span class="hn">BEATS</span> = {
-    <span class="hq">"rock"</span>: [<span class="hq">"scissors"</span>, <span class="hq">"lizard"</span>],
-    <span class="hq">"paper"</span>: [<span class="hq">"rock"</span>, <span class="hq">"spock"</span>],
-    <span class="hq">"scissors"</span>: [<span class="hq">"paper"</span>, <span class="hq">"lizard"</span>],
-    <span class="hq">"spock"</span>: [<span class="hq">"scissors"</span>, <span class="hq">"rock"</span>],
-    <span class="hq">"lizard"</span>: [<span class="hq">"spock"</span>, <span class="hq">"paper"</span>],
+<span class="ig">    </span><span class="hq">"rock"</span>: [<span class="hq">"scissors"</span>, <span class="hq">"lizard"</span>],
+<span class="ig">    </span><span class="hq">"paper"</span>: [<span class="hq">"rock"</span>, <span class="hq">"spock"</span>],
+<span class="ig">    </span><span class="hq">"scissors"</span>: [<span class="hq">"paper"</span>, <span class="hq">"lizard"</span>],
+<span class="ig">    </span><span class="hq">"spock"</span>: [<span class="hq">"scissors"</span>, <span class="hq">"rock"</span>],
+<span class="ig">    </span><span class="hq">"lizard"</span>: [<span class="hq">"spock"</span>, <span class="hq">"paper"</span>],
 }
 
 
 <span class="hs">def</span> <span class="hf">winner_dict</span>(<span class="hv">move1</span>, <span class="hv">move2</span>):
-    <span class="hq">"""Return who wins, decided with the BEATS dictionary."""</span>
-    <span class="hk">if</span> <span class="hv">move1</span> == <span class="hv">move2</span>:
-        <span class="hk">return</span> <span class="hq">"tie"</span>
-    <span class="hk">elif</span> <span class="hv">move2</span> <span class="hs">in</span> <span class="hn">BEATS</span>[<span class="hv">move1</span>]:
-        <span class="hk">return</span> <span class="hq">"player 1"</span>
-    <span class="hk">else</span>:
-        <span class="hk">return</span> <span class="hq">"player 2"</span>
+<span class="ig">    </span><span class="hq">"""Return who wins, decided with the BEATS dictionary."""</span>
+<span class="ig">    </span><span class="hk">if</span> <span class="hv">move1</span> == <span class="hv">move2</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="hk">return</span> <span class="hq">"tie"</span>
+<span class="ig">    </span><span class="hk">elif</span> <span class="hv">move2</span> <span class="hs">in</span> <span class="hn">BEATS</span>[<span class="hv">move1</span>]:
+<span class="ig">    </span><span class="ig">    </span><span class="hk">return</span> <span class="hq">"player 1"</span>
+<span class="ig">    </span><span class="hk">else</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="hk">return</span> <span class="hq">"player 2"</span>
 
 
 <span class="hs">def</span> <span class="hf">winner_clock</span>(<span class="hv">move1</span>, <span class="hv">move2</span>):
-    <span class="hq">"""Return who wins, decided by counting steps around the circle."""</span>
-    <span class="hv">spot1</span> = <span class="hn">MOVES</span>.<span class="hf">index</span>(<span class="hv">move1</span>)
-    <span class="hv">spot2</span> = <span class="hn">MOVES</span>.<span class="hf">index</span>(<span class="hv">move2</span>)
-
-    <span class="hv">steps</span> = (<span class="hv">spot1</span> - <span class="hv">spot2</span>) % <span class="hd">5</span>
-
-    <span class="hk">if</span> <span class="hv">steps</span> == <span class="hd">0</span>:
-        <span class="hk">return</span> <span class="hq">"tie"</span>
-    <span class="hk">elif</span> <span class="hv">steps</span> % <span class="hd">2</span> == <span class="hd">1</span>:
-        <span class="hk">return</span> <span class="hq">"player 1"</span>
-    <span class="hk">else</span>:
-        <span class="hk">return</span> <span class="hq">"player 2"</span>
+<span class="ig">    </span><span class="hq">"""Return who wins, decided by counting steps around the circle."""</span>
+<span class="ig">    </span><span class="hv">spot1</span> = <span class="hn">MOVES</span>.<span class="hf">index</span>(<span class="hv">move1</span>)
+<span class="ig">    </span><span class="hv">spot2</span> = <span class="hn">MOVES</span>.<span class="hf">index</span>(<span class="hv">move2</span>)
+<span class="ig"></span>
+<span class="ig">    </span><span class="hv">steps</span> = (<span class="hv">spot1</span> - <span class="hv">spot2</span>) % <span class="hd">5</span>
+<span class="ig"></span>
+<span class="ig">    </span><span class="hk">if</span> <span class="hv">steps</span> == <span class="hd">0</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="hk">return</span> <span class="hq">"tie"</span>
+<span class="ig">    </span><span class="hk">elif</span> <span class="hv">steps</span> % <span class="hd">2</span> == <span class="hd">1</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="hk">return</span> <span class="hq">"player 1"</span>
+<span class="ig">    </span><span class="hk">else</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="hk">return</span> <span class="hq">"player 2"</span>
 
 
 <span class="hv">agree</span> = <span class="hd">0</span>
 
 <span class="hk">for</span> <span class="hv">move1</span> <span class="hs">in</span> <span class="hn">MOVES</span>:
-    <span class="hk">for</span> <span class="hv">move2</span> <span class="hs">in</span> <span class="hn">MOVES</span>:
-        <span class="hk">if</span> <span class="hf">winner_dict</span>(<span class="hv">move1</span>, <span class="hv">move2</span>) == <span class="hf">winner_clock</span>(<span class="hv">move1</span>, <span class="hv">move2</span>):
-            <span class="hv">agree</span> = <span class="hv">agree</span> + <span class="hd">1</span>
+<span class="ig">    </span><span class="hk">for</span> <span class="hv">move2</span> <span class="hs">in</span> <span class="hn">MOVES</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="hk">if</span> <span class="hf">winner_dict</span>(<span class="hv">move1</span>, <span class="hv">move2</span>) == <span class="hf">winner_clock</span>(<span class="hv">move1</span>, <span class="hv">move2</span>):
+<span class="ig">    </span><span class="ig">    </span><span class="ig">    </span><span class="hv">agree</span> = <span class="hv">agree</span> + <span class="hd">1</span>
 
 <span class="hf">print</span>(<span class="hs">f</span><span class="hq">"the two versions agree on </span><span class="hs">{</span><span class="hv">agree</span><span class="hs">}</span><span class="hq"> of the 25 pairings"</span>)</code></pre>
 </div></section>

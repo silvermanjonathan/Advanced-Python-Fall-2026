@@ -123,6 +123,16 @@ pre.py .hk{color:#8A00B0} pre.py .hs{color:#0000FF} pre.py .hf{color:#6A4E14}
 pre.py .hc{color:#135C70} pre.py .hv{color:#001080} pre.py .hn{color:#00579A}
 pre.py .hq{color:#A31515} pre.py .he{color:#B00000} pre.py .hd{color:#035F3E}
 pre.py .hm{color:#006400}
+/* Indent guides inside the hints, the lines VS Code draws down each step of
+   indentation, so a line shown on its own still shows how far in it goes. VS Code's
+   are 1px and light grey, which vanish on a projector with the lights on, so these are
+   6px and #595959, which clears 7:1 on white like the code colors. Each four-space step
+   is one box as tall as the line, so the bars join up from line to line. A border
+   rather than a shadow, so the bars print. */
+.ladder pre.py .ig,.hintset pre.py .ig{
+  display:inline-block; width:4ch; height:1.6em; vertical-align:top;
+  border-left:6px solid #595959;
+}
 .fname{
   font-family:'JetBrains Mono',monospace; font-size:12.5px; letter-spacing:.1em;
   text-transform:uppercase; color:var(--ink-soft); margin:0 0 6px; font-weight:700;
@@ -375,16 +385,16 @@ table.rename td.old{font-family:'JetBrains Mono',monospace; font-weight:700; wid
 <span class="hv">bi</span> = <span class="hd">0</span>
 
 <span class="hk">for</span> <span class="hv">i</span> <span class="hs">in</span> <span class="hc">range</span>(<span class="hd">10</span>):
-    <span class="hv">r</span> = <span class="hv">readings</span>[<span class="hv">i</span>]
-
-    <span class="hv">t</span> = <span class="hv">t</span> + <span class="hv">r</span>
-
-    <span class="hk">if</span> <span class="hv">r</span> &gt; <span class="hv">limit</span>:
-        <span class="hv">c</span> = <span class="hv">c</span> + <span class="hd">1</span>
-
-    <span class="hk">if</span> <span class="hv">r</span> &gt; <span class="hv">b</span>:
-        <span class="hv">b</span> = <span class="hv">r</span>
-        <span class="hv">bi</span> = <span class="hv">i</span>
+<span class="ig">    </span><span class="hv">r</span> = <span class="hv">readings</span>[<span class="hv">i</span>]
+<span class="ig"></span>
+<span class="ig">    </span><span class="hv">t</span> = <span class="hv">t</span> + <span class="hv">r</span>
+<span class="ig"></span>
+<span class="ig">    </span><span class="hk">if</span> <span class="hv">r</span> &gt; <span class="hv">limit</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="hv">c</span> = <span class="hv">c</span> + <span class="hd">1</span>
+<span class="ig"></span>
+<span class="ig">    </span><span class="hk">if</span> <span class="hv">r</span> &gt; <span class="hv">b</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="hv">b</span> = <span class="hv">r</span>
+<span class="ig">    </span><span class="ig">    </span><span class="hv">bi</span> = <span class="hv">i</span>
 
 <span class="hv">avg</span> = <span class="hv">t</span> / <span class="hd">10</span>
 
@@ -395,8 +405,8 @@ table.rename td.old{font-family:'JetBrains Mono',monospace; font-weight:700; wid
 <div><table class="trace"><thead><tr><th>i</th><th>r</th><th>t</th><th class="q">r &gt; limit?</th><th>c</th><th class="q">r &gt; b?</th><th>b</th><th>bi</th></tr></thead><tr class="start"><td>start</td><td></td><td>0</td><td></td><td>0</td><td></td><td>0</td><td>0</td></tr><tr class="done"><td class="i">0</td><td>41</td><td>41</td><td class="q">no</td><td>0</td><td class="q">yes</td><td>41</td><td>0</td></tr><tr><td class="i">1</td><td>58</td><td></td><td class="q"></td><td></td><td class="q"></td><td></td><td></td></tr><tr><td class="i">2</td><td>33</td><td></td><td class="q"></td><td></td><td class="q"></td><td></td><td></td></tr><tr class="done"><td class="i">3</td><td>58</td><td>190</td><td class="q">yes</td><td>2</td><td class="q">no</td><td>58</td><td>1</td></tr><tr><td class="i">4</td><td>12</td><td></td><td class="q"></td><td></td><td class="q"></td><td></td><td></td></tr><tr><td class="i">5</td><td>77</td><td></td><td class="q"></td><td></td><td class="q"></td><td></td><td></td></tr><tr><td class="i">6</td><td>58</td><td></td><td class="q"></td><td></td><td class="q"></td><td></td><td></td></tr><tr class="done"><td class="i">7</td><td>60</td><td>397</td><td class="q">yes</td><td>5</td><td class="q">no</td><td>77</td><td>5</td></tr><tr><td class="i">8</td><td>29</td><td></td><td class="q"></td><td></td><td class="q"></td><td></td><td></td></tr><tr><td class="i">9</td><td>77</td><td></td><td class="q"></td><td></td><td class="q"></td><td></td><td></td></tr></table></div></div><p>Now write the four lines the program will print.</p><p class="nb"><code>total</code></p><div class="lines"><p></p></div><p class="nb"><code>average</code></p><div class="lines"><p></p></div><p class="nb"><code>over 55:</code></p><div class="lines"><p></p></div><p class="nb"><code>best ... at index ...</code></p><div class="lines"><p></p></div><div class="keep"><p>The list holds 77 twice, at index 5 and at index 9, and the fourth line names only one of them. The gate <code>if r &gt; b:</code> decides which. Circle the one character in that gate that makes the comparison, then write one sentence: when the second 77 arrives, will the gate say yes or no, and why?</p><div class="lines"><p></p><p></p></div></div><h3>The second half</h3><p><code>%</code> gives the remainder after dividing. <code>41 % 9</code> is 5, because 41 is four nines with 5 left over. Work the middle column first, then take the remainder. Rows 3, 6, and 9 are done for you, shaded. The first three rows are required, and row 3 is there to check yourself against. Finish the rest if you have time.</p><div class="two-up"><p class="fname">sweep_report.py, second half</p>
 <pre class="py"><code><span class="hv">slot</span> = <span class="hd">0</span>
 <span class="hk">for</span> <span class="hv">i</span> <span class="hs">in</span> <span class="hc">range</span>(<span class="hd">10</span>):
-    <span class="hv">slot</span> = (<span class="hv">slot</span> + <span class="hv">readings</span>[<span class="hv">i</span>]) % <span class="hd">9</span>
-    <span class="hf">print</span>(<span class="hs">f</span><span class="hq">"i=</span><span class="hs">{</span><span class="hv">i</span><span class="hs">}</span><span class="hq"> reading=</span><span class="hs">{</span><span class="hv">readings</span>[<span class="hv">i</span>]<span class="hs">}</span><span class="hq"> slot=</span><span class="hs">{</span><span class="hv">slot</span><span class="hs">}</span><span class="hq">"</span>)</code></pre>
+<span class="ig">    </span><span class="hv">slot</span> = (<span class="hv">slot</span> + <span class="hv">readings</span>[<span class="hv">i</span>]) % <span class="hd">9</span>
+<span class="ig">    </span><span class="hf">print</span>(<span class="hs">f</span><span class="hq">"i=</span><span class="hs">{</span><span class="hv">i</span><span class="hs">}</span><span class="hq"> reading=</span><span class="hs">{</span><span class="hv">readings</span>[<span class="hv">i</span>]<span class="hs">}</span><span class="hq"> slot=</span><span class="hs">{</span><span class="hv">slot</span><span class="hs">}</span><span class="hq">"</span>)</code></pre>
 <div><table class="trace"><thead><tr><th>i</th><th>reading</th><th>slot + reading</th><th>% 9 = slot</th></tr></thead><tr class="start"><td>start</td><td></td><td></td><td>0</td></tr><tr><td class="i">0</td><td>41</td><td></td><td></td></tr><tr><td class="i">1</td><td>58</td><td></td><td></td></tr><tr><td class="i">2</td><td>33</td><td></td><td></td></tr><tr class="done"><td class="i">3</td><td>58</td><td>64</td><td>1</td></tr><tr><td class="i">4</td><td>12</td><td></td><td></td></tr><tr><td class="i">5</td><td>77</td><td></td><td></td></tr><tr class="done"><td class="i">6</td><td>58</td><td>58</td><td>4</td></tr><tr><td class="i">7</td><td>60</td><td></td><td></td></tr><tr><td class="i">8</td><td>29</td><td></td><td></td></tr><tr class="done"><td class="i">9</td><td>77</td><td>80</td><td>8</td></tr></table></div></div><p>Rows 1 and 3 both have a reading of 58. Do they land on the same slot? Say why or why not in one sentence.</p><div class="lines"><p></p><p></p></div></section>
 <section class="chunk"><p class="chunk-no">Section 3 &middot; 10 minutes</p><h2>Run it</h2><p>Now run the program. Copy the real output next to your prediction. Mark each line right or wrong. Do not erase a wrong prediction.</p><table class="rename"><tr><th>Line</th><th>What I predicted</th><th>What it printed</th><th>Right?</th></tr><tr><td class="old">total</td><td></td><td></td><td></td></tr><tr><td class="old">average</td><td></td><td></td><td></td></tr><tr><td class="old">over 55</td><td></td><td></td><td></td></tr><tr><td class="old">best</td><td></td><td></td><td></td></tr><tr><td class="old">slot, i=0 to 2</td><td></td><td></td><td></td></tr></table></section>
 <section class="chunk"><p class="chunk-no">Section 4 &middot; 30 minutes</p><h2>The style pass</h2><p>The program works and it is hard to read. Rename every short name so the name says what the value is. Yours does not have to match anyone else's. It has to be a name the next reader understands without scrolling back up.</p><table class="rename"><tr><th>Old name</th><th>What the value is, in words</th><th>Clearer new name</th></tr><tr><td class="old">t</td><td></td><td></td></tr><tr><td class="old">c</td><td></td><td></td></tr><tr><td class="old">b</td><td></td><td></td></tr><tr><td class="old">bi</td><td></td><td></td></tr><tr><td class="old">r</td><td></td><td></td></tr><tr><td class="old">avg</td><td></td><td></td></tr><tr><td class="old">i</td><td></td><td></td></tr></table><p>Then the docstring. A docstring is one sentence, inside triple quotes, on line 1 of the file, saying what the program is for. Python ignores it. The next reader does not. Here is one for this program:</p><p class="fname">line 1 of sweep_report.py</p>
@@ -410,18 +420,18 @@ table.rename td.old{font-family:'JetBrains Mono',monospace; font-weight:700; wid
 <span class="hv">q</span> = <span class="hd">0</span>
 
 <span class="hk">for</span> <span class="hv">i</span> <span class="hs">in</span> <span class="hc">range</span>(<span class="hd">12</span>):
-    <span class="hv">d</span> = <span class="hv">door</span>[<span class="hv">i</span>]
-
-    <span class="hk">if</span> <span class="hv">d</span> == <span class="hd">1</span>:
-        <span class="hv">x</span> = <span class="hv">x</span> + <span class="hd">1</span>
-        <span class="hv">z</span> = <span class="hv">z</span> + <span class="hd">1</span>
-
-    <span class="hk">if</span> <span class="hv">d</span> == <span class="hd">0</span>:
-        <span class="hv">y</span> = <span class="hv">y</span> + <span class="hd">1</span>
-        <span class="hv">z</span> = <span class="hd">0</span>
-
-    <span class="hk">if</span> <span class="hv">z</span> &gt; <span class="hv">q</span>:
-        <span class="hv">q</span> = <span class="hv">z</span>
+<span class="ig">    </span><span class="hv">d</span> = <span class="hv">door</span>[<span class="hv">i</span>]
+<span class="ig"></span>
+<span class="ig">    </span><span class="hk">if</span> <span class="hv">d</span> == <span class="hd">1</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="hv">x</span> = <span class="hv">x</span> + <span class="hd">1</span>
+<span class="ig">    </span><span class="ig">    </span><span class="hv">z</span> = <span class="hv">z</span> + <span class="hd">1</span>
+<span class="ig"></span>
+<span class="ig">    </span><span class="hk">if</span> <span class="hv">d</span> == <span class="hd">0</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="hv">y</span> = <span class="hv">y</span> + <span class="hd">1</span>
+<span class="ig">    </span><span class="ig">    </span><span class="hv">z</span> = <span class="hd">0</span>
+<span class="ig"></span>
+<span class="ig">    </span><span class="hk">if</span> <span class="hv">z</span> &gt; <span class="hv">q</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="hv">q</span> = <span class="hv">z</span>
 
 <span class="hf">print</span>(<span class="hs">f</span><span class="hq">"x </span><span class="hs">{</span><span class="hv">x</span><span class="hs">}</span><span class="hq">"</span>)
 <span class="hf">print</span>(<span class="hs">f</span><span class="hq">"y </span><span class="hs">{</span><span class="hv">y</span><span class="hs">}</span><span class="hq">"</span>)

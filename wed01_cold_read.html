@@ -123,6 +123,16 @@ pre.py .hk{color:#8A00B0} pre.py .hs{color:#0000FF} pre.py .hf{color:#6A4E14}
 pre.py .hc{color:#135C70} pre.py .hv{color:#001080} pre.py .hn{color:#00579A}
 pre.py .hq{color:#A31515} pre.py .he{color:#B00000} pre.py .hd{color:#035F3E}
 pre.py .hm{color:#006400}
+/* Indent guides inside the hints, the lines VS Code draws down each step of
+   indentation, so a line shown on its own still shows how far in it goes. VS Code's
+   are 1px and light grey, which vanish on a projector with the lights on, so these are
+   6px and #595959, which clears 7:1 on white like the code colors. Each four-space step
+   is one box as tall as the line, so the bars join up from line to line. A border
+   rather than a shadow, so the bars print. */
+.ladder pre.py .ig,.hintset pre.py .ig{
+  display:inline-block; width:4ch; height:1.6em; vertical-align:top;
+  border-left:6px solid #595959;
+}
 .fname{
   font-family:'JetBrains Mono',monospace; font-size:12.5px; letter-spacing:.1em;
   text-transform:uppercase; color:var(--ink-soft); margin:0 0 6px; font-weight:700;
@@ -310,16 +320,16 @@ footer p{margin:0}
 <span class="hv">bi</span> = <span class="hd">0</span>
 
 <span class="hk">for</span> <span class="hv">i</span> <span class="hs">in</span> <span class="hc">range</span>(<span class="hd">10</span>):
-    <span class="hv">r</span> = <span class="hv">readings</span>[<span class="hv">i</span>]
-
-    <span class="hv">t</span> = <span class="hv">t</span> + <span class="hv">r</span>
-
-    <span class="hk">if</span> <span class="hv">r</span> &gt; <span class="hv">limit</span>:
-        <span class="hv">c</span> = <span class="hv">c</span> + <span class="hd">1</span>
-
-    <span class="hk">if</span> <span class="hv">r</span> &gt; <span class="hv">b</span>:
-        <span class="hv">b</span> = <span class="hv">r</span>
-        <span class="hv">bi</span> = <span class="hv">i</span>
+<span class="ig">    </span><span class="hv">r</span> = <span class="hv">readings</span>[<span class="hv">i</span>]
+<span class="ig"></span>
+<span class="ig">    </span><span class="hv">t</span> = <span class="hv">t</span> + <span class="hv">r</span>
+<span class="ig"></span>
+<span class="ig">    </span><span class="hk">if</span> <span class="hv">r</span> &gt; <span class="hv">limit</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="hv">c</span> = <span class="hv">c</span> + <span class="hd">1</span>
+<span class="ig"></span>
+<span class="ig">    </span><span class="hk">if</span> <span class="hv">r</span> &gt; <span class="hv">b</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="hv">b</span> = <span class="hv">r</span>
+<span class="ig">    </span><span class="ig">    </span><span class="hv">bi</span> = <span class="hv">i</span>
 
 <span class="hv">avg</span> = <span class="hv">t</span> / <span class="hd">10</span>
 
@@ -337,8 +347,8 @@ best 77 at index 5</code></pre></div>
 <h3>The second half</h3><p>Same file, next four lines. One operator here may be new. <code>%</code> gives the remainder after dividing: <code>41 % 9</code> is 5, because 41 is four nines with 5 left over. It never returns 9 or more.</p><p class="fname">sweep_report.py, second half</p>
 <pre class="py"><code><span class="hv">slot</span> = <span class="hd">0</span>
 <span class="hk">for</span> <span class="hv">i</span> <span class="hs">in</span> <span class="hc">range</span>(<span class="hd">10</span>):
-    <span class="hv">slot</span> = (<span class="hv">slot</span> + <span class="hv">readings</span>[<span class="hv">i</span>]) % <span class="hd">9</span>
-    <span class="hf">print</span>(<span class="hs">f</span><span class="hq">"i=</span><span class="hs">{</span><span class="hv">i</span><span class="hs">}</span><span class="hq"> reading=</span><span class="hs">{</span><span class="hv">readings</span>[<span class="hv">i</span>]<span class="hs">}</span><span class="hq"> slot=</span><span class="hs">{</span><span class="hv">slot</span><span class="hs">}</span><span class="hq">"</span>)</code></pre>
+<span class="ig">    </span><span class="hv">slot</span> = (<span class="hv">slot</span> + <span class="hv">readings</span>[<span class="hv">i</span>]) % <span class="hd">9</span>
+<span class="ig">    </span><span class="hf">print</span>(<span class="hs">f</span><span class="hq">"i=</span><span class="hs">{</span><span class="hv">i</span><span class="hs">}</span><span class="hq"> reading=</span><span class="hs">{</span><span class="hv">readings</span>[<span class="hv">i</span>]<span class="hs">}</span><span class="hq"> slot=</span><span class="hs">{</span><span class="hv">slot</span><span class="hs">}</span><span class="hq">"</span>)</code></pre>
 <div class="predict"><b>Predict first.</b> Trace this by hand. What is <code>slot</code> after i=0, after i=1, and after i=2?
 <button class="rev" data-target="a2" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a2">Show the answer</button>
 <div class="ans" id="a2"><div class="out"><span class="tag">verified output</span><pre><code>i=0 reading=41 slot=5
@@ -370,16 +380,16 @@ i=9 reading=77 slot=8</code></pre></div>
 <span class="hv">best_index</span> = <span class="hd">0</span>
 
 <span class="hk">for</span> <span class="hv">i</span> <span class="hs">in</span> <span class="hc">range</span>(<span class="hd">10</span>):
-    <span class="hv">reading</span> = <span class="hv">readings</span>[<span class="hv">i</span>]
-
-    <span class="hv">total</span> = <span class="hv">total</span> + <span class="hv">reading</span>
-
-    <span class="hk">if</span> <span class="hv">reading</span> &gt; <span class="hv">limit</span>:
-        <span class="hv">over_limit</span> = <span class="hv">over_limit</span> + <span class="hd">1</span>
-
-    <span class="hk">if</span> <span class="hv">reading</span> &gt; <span class="hv">best</span>:
-        <span class="hv">best</span> = <span class="hv">reading</span>
-        <span class="hv">best_index</span> = <span class="hv">i</span>
+<span class="ig">    </span><span class="hv">reading</span> = <span class="hv">readings</span>[<span class="hv">i</span>]
+<span class="ig"></span>
+<span class="ig">    </span><span class="hv">total</span> = <span class="hv">total</span> + <span class="hv">reading</span>
+<span class="ig"></span>
+<span class="ig">    </span><span class="hk">if</span> <span class="hv">reading</span> &gt; <span class="hv">limit</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="hv">over_limit</span> = <span class="hv">over_limit</span> + <span class="hd">1</span>
+<span class="ig"></span>
+<span class="ig">    </span><span class="hk">if</span> <span class="hv">reading</span> &gt; <span class="hv">best</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="hv">best</span> = <span class="hv">reading</span>
+<span class="ig">    </span><span class="ig">    </span><span class="hv">best_index</span> = <span class="hv">i</span>
 
 <span class="hv">average</span> = <span class="hv">total</span> / <span class="hd">10</span>
 
@@ -397,18 +407,18 @@ i=9 reading=77 slot=8</code></pre></div>
 <span class="hv">q</span> = <span class="hd">0</span>
 
 <span class="hk">for</span> <span class="hv">i</span> <span class="hs">in</span> <span class="hc">range</span>(<span class="hd">12</span>):
-    <span class="hv">d</span> = <span class="hv">door</span>[<span class="hv">i</span>]
-
-    <span class="hk">if</span> <span class="hv">d</span> == <span class="hd">1</span>:
-        <span class="hv">x</span> = <span class="hv">x</span> + <span class="hd">1</span>
-        <span class="hv">z</span> = <span class="hv">z</span> + <span class="hd">1</span>
-
-    <span class="hk">if</span> <span class="hv">d</span> == <span class="hd">0</span>:
-        <span class="hv">y</span> = <span class="hv">y</span> + <span class="hd">1</span>
-        <span class="hv">z</span> = <span class="hd">0</span>
-
-    <span class="hk">if</span> <span class="hv">z</span> &gt; <span class="hv">q</span>:
-        <span class="hv">q</span> = <span class="hv">z</span>
+<span class="ig">    </span><span class="hv">d</span> = <span class="hv">door</span>[<span class="hv">i</span>]
+<span class="ig"></span>
+<span class="ig">    </span><span class="hk">if</span> <span class="hv">d</span> == <span class="hd">1</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="hv">x</span> = <span class="hv">x</span> + <span class="hd">1</span>
+<span class="ig">    </span><span class="ig">    </span><span class="hv">z</span> = <span class="hv">z</span> + <span class="hd">1</span>
+<span class="ig"></span>
+<span class="ig">    </span><span class="hk">if</span> <span class="hv">d</span> == <span class="hd">0</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="hv">y</span> = <span class="hv">y</span> + <span class="hd">1</span>
+<span class="ig">    </span><span class="ig">    </span><span class="hv">z</span> = <span class="hd">0</span>
+<span class="ig"></span>
+<span class="ig">    </span><span class="hk">if</span> <span class="hv">z</span> &gt; <span class="hv">q</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="hv">q</span> = <span class="hv">z</span>
 
 <span class="hf">print</span>(<span class="hs">f</span><span class="hq">"x </span><span class="hs">{</span><span class="hv">x</span><span class="hs">}</span><span class="hq">"</span>)
 <span class="hf">print</span>(<span class="hs">f</span><span class="hq">"y </span><span class="hs">{</span><span class="hv">y</span><span class="hs">}</span><span class="hq">"</span>)

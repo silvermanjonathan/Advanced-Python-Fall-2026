@@ -123,6 +123,16 @@ pre.py .hk{color:#8A00B0} pre.py .hs{color:#0000FF} pre.py .hf{color:#6A4E14}
 pre.py .hc{color:#135C70} pre.py .hv{color:#001080} pre.py .hn{color:#00579A}
 pre.py .hq{color:#A31515} pre.py .he{color:#B00000} pre.py .hd{color:#035F3E}
 pre.py .hm{color:#006400}
+/* Indent guides inside the hints, the lines VS Code draws down each step of
+   indentation, so a line shown on its own still shows how far in it goes. VS Code's
+   are 1px and light grey, which vanish on a projector with the lights on, so these are
+   6px and #595959, which clears 7:1 on white like the code colors. Each four-space step
+   is one box as tall as the line, so the bars join up from line to line. A border
+   rather than a shadow, so the bars print. */
+.ladder pre.py .ig,.hintset pre.py .ig{
+  display:inline-block; width:4ch; height:1.6em; vertical-align:top;
+  border-left:6px solid #595959;
+}
 .fname{
   font-family:'JetBrains Mono',monospace; font-size:12.5px; letter-spacing:.1em;
   text-transform:uppercase; color:var(--ink-soft); margin:0 0 6px; font-weight:700;
@@ -306,12 +316,12 @@ footer p{margin:0}
 <section class="chunk"><p class="chunk-no">Section 2 &middot; 30 minutes</p><h2>The table</h2><p>Read a text file. Walk through it a word at a time. For every pair of words that sit next to each other, record which word came next. That record is the model.</p><p>The text file is <code>corpus.txt</code>. Download it into the same folder as <code>markov.py</code>.</p><div class="toolbar"><a class="btn quiet" href="corpus.txt" download="corpus.txt">Download corpus.txt</a></div>
 <p class="fname">markov.py</p>
 <pre class="py"><code><span class="hs">def</span> <span class="hf">build_model</span>(<span class="hv">words</span>):
-    <span class="hq">"""Return a table mapping each word pair to the words that followed it."""</span>
-    <span class="hv">model</span> = <span class="hc">defaultdict</span>(<span class="hc">list</span>)
-    <span class="hk">for</span> <span class="hv">i</span> <span class="hs">in</span> <span class="hc">range</span>(<span class="hf">len</span>(<span class="hv">words</span>) - <span class="hd">2</span>):
-        <span class="hv">pair</span> = (<span class="hv">words</span>[<span class="hv">i</span>], <span class="hv">words</span>[<span class="hv">i</span> + <span class="hd">1</span>])
-        <span class="hv">model</span>[<span class="hv">pair</span>].<span class="hf">append</span>(<span class="hv">words</span>[<span class="hv">i</span> + <span class="hd">2</span>])
-    <span class="hk">return</span> <span class="hv">model</span></code></pre>
+<span class="ig">    </span><span class="hq">"""Return a table mapping each word pair to the words that followed it."""</span>
+<span class="ig">    </span><span class="hv">model</span> = <span class="hc">defaultdict</span>(<span class="hc">list</span>)
+<span class="ig">    </span><span class="hk">for</span> <span class="hv">i</span> <span class="hs">in</span> <span class="hc">range</span>(<span class="hf">len</span>(<span class="hv">words</span>) - <span class="hd">2</span>):
+<span class="ig">    </span><span class="ig">    </span><span class="hv">pair</span> = (<span class="hv">words</span>[<span class="hv">i</span>], <span class="hv">words</span>[<span class="hv">i</span> + <span class="hd">1</span>])
+<span class="ig">    </span><span class="ig">    </span><span class="hv">model</span>[<span class="hv">pair</span>].<span class="hf">append</span>(<span class="hv">words</span>[<span class="hv">i</span> + <span class="hd">2</span>])
+<span class="ig">    </span><span class="hk">return</span> <span class="hv">model</span></code></pre>
 <div class="predict"><b>Predict first.</b> The corpus is a short passage about how these models work. In it, the pair <code>("the", "machine")</code> appears eleven times. What do you expect the table to hold for that key?
 <button class="rev" data-target="a92" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a92">Show the answer</button>
 <div class="ans" id="a92"><div class="out"><span class="tag">verified output</span><pre><code>corpus words: 340
@@ -322,19 +332,19 @@ what followed (&#x27;the&#x27;, &#x27;machine&#x27;):
 <p>Seven different words, each one recorded because it actually followed those two words somewhere in the text. The program prints each word once, with the repeats removed. The table itself holds all eleven: <code>does</code>, <code>is</code>, <code>knows</code>, and <code>was</code> twice each, and the other three once. Nothing in that list is a guess. It is a record of what happened in the text.</p><p>340 words produced 250 distinct pairs. Most pairs occur once, which is why a small corpus generates text that quotes itself in long stretches.</p></div></div>
 <p><code>defaultdict(list)</code> gives you an empty list for a key you have not seen, so <code>.append</code> works the first time. Compare that to a plain dictionary, which stops with <code>KeyError</code> for a key it has not seen, and to session 9's Counter, which starts a new key at 0.</p></section>
 <section class="chunk"><p class="chunk-no">Section 3 &middot; 25 minutes</p><h2>Let it write</h2><pre class="py"><code><span class="hs">def</span> <span class="hf">generate</span>(<span class="hv">model</span>, <span class="hv">seed_pair</span>, <span class="hv">length</span>):
-    <span class="hq">"""Return a sentence of the given length, starting from seed_pair."""</span>
-    <span class="hv">first</span>, <span class="hv">second</span> = <span class="hv">seed_pair</span>
-    <span class="hv">out</span> = [<span class="hv">first</span>, <span class="hv">second</span>]
-    <span class="hk">for</span> <span class="hv">step</span> <span class="hs">in</span> <span class="hc">range</span>(<span class="hv">length</span>):
-        <span class="hv">options</span> = <span class="hv">model</span>[(<span class="hv">first</span>, <span class="hv">second</span>)]
-        <span class="hk">if</span> <span class="hf">len</span>(<span class="hv">options</span>) == <span class="hd">0</span>:
-            <span class="hk">return</span> <span class="hq">" "</span>.<span class="hf">join</span>(<span class="hv">out</span>)
-
-        <span class="hv">nxt</span> = <span class="hc">random</span>.<span class="hf">choice</span>(<span class="hv">options</span>)
-        <span class="hv">out</span>.<span class="hf">append</span>(<span class="hv">nxt</span>)
-
-        <span class="hv">first</span>, <span class="hv">second</span> = <span class="hv">second</span>, <span class="hv">nxt</span>
-    <span class="hk">return</span> <span class="hq">" "</span>.<span class="hf">join</span>(<span class="hv">out</span>)</code></pre>
+<span class="ig">    </span><span class="hq">"""Return a sentence of the given length, starting from seed_pair."""</span>
+<span class="ig">    </span><span class="hv">first</span>, <span class="hv">second</span> = <span class="hv">seed_pair</span>
+<span class="ig">    </span><span class="hv">out</span> = [<span class="hv">first</span>, <span class="hv">second</span>]
+<span class="ig">    </span><span class="hk">for</span> <span class="hv">step</span> <span class="hs">in</span> <span class="hc">range</span>(<span class="hv">length</span>):
+<span class="ig">    </span><span class="ig">    </span><span class="hv">options</span> = <span class="hv">model</span>[(<span class="hv">first</span>, <span class="hv">second</span>)]
+<span class="ig">    </span><span class="ig">    </span><span class="hk">if</span> <span class="hf">len</span>(<span class="hv">options</span>) == <span class="hd">0</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="ig">    </span><span class="hk">return</span> <span class="hq">" "</span>.<span class="hf">join</span>(<span class="hv">out</span>)
+<span class="ig"></span><span class="ig"></span>
+<span class="ig">    </span><span class="ig">    </span><span class="hv">nxt</span> = <span class="hc">random</span>.<span class="hf">choice</span>(<span class="hv">options</span>)
+<span class="ig">    </span><span class="ig">    </span><span class="hv">out</span>.<span class="hf">append</span>(<span class="hv">nxt</span>)
+<span class="ig"></span><span class="ig"></span>
+<span class="ig">    </span><span class="ig">    </span><span class="hv">first</span>, <span class="hv">second</span> = <span class="hv">second</span>, <span class="hv">nxt</span>
+<span class="ig">    </span><span class="hk">return</span> <span class="hq">" "</span>.<span class="hf">join</span>(<span class="hv">out</span>)</code></pre>
 <div class="predict"><b>Predict first.</b> Starting from <code>("the", "machine")</code>, twenty two words. Will the output be grammatical? Will it make sense? Those are two separate questions.
 <button class="rev" data-target="a93" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a93">Show the answer</button>
 <div class="ans" id="a93"><div class="out"><span class="tag">verified output</span><pre><code>1. the machine reads a great deal of text. the machine is often followed by the word machine, and that the word not. you are

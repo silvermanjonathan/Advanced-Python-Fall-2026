@@ -123,6 +123,16 @@ pre.py .hk{color:#8A00B0} pre.py .hs{color:#0000FF} pre.py .hf{color:#6A4E14}
 pre.py .hc{color:#135C70} pre.py .hv{color:#001080} pre.py .hn{color:#00579A}
 pre.py .hq{color:#A31515} pre.py .he{color:#B00000} pre.py .hd{color:#035F3E}
 pre.py .hm{color:#006400}
+/* Indent guides inside the hints, the lines VS Code draws down each step of
+   indentation, so a line shown on its own still shows how far in it goes. VS Code's
+   are 1px and light grey, which vanish on a projector with the lights on, so these are
+   6px and #595959, which clears 7:1 on white like the code colors. Each four-space step
+   is one box as tall as the line, so the bars join up from line to line. A border
+   rather than a shadow, so the bars print. */
+.ladder pre.py .ig,.hintset pre.py .ig{
+  display:inline-block; width:4ch; height:1.6em; vertical-align:top;
+  border-left:6px solid #595959;
+}
 .fname{
   font-family:'JetBrains Mono',monospace; font-size:12.5px; letter-spacing:.1em;
   text-transform:uppercase; color:var(--ink-soft); margin:0 0 6px; font-weight:700;
@@ -328,26 +338,26 @@ after removing from four lists but forgetting the fifth:
 </section>
 <section class="chunk"><p class="chunk-no">Section 2 &middot; 30 minutes</p><h2>One spark, one object</h2><p>The class below has the same shape as session 5's <code>Pet</code>: <code>__init__</code> sets up each new spark's own attributes, and a method, <code>step</code>, changes them, the way <code>feed</code> changed a pet's hunger.</p><p>One line in the class below needs explaining first. A spark is launched with a speed and an angle, but the program has to move it in two separate directions each frame: some amount across, and some amount up. Splitting one speed-and-angle into those two amounts is what <code>cos</code> and <code>sin</code> do.</p><p>Speed 10 at 60 degrees gives 5.0 across and 8.66 up. You can check those two numbers are right without knowing any trigonometry: 5.0 squared plus 8.66 squared is 100, and the speed squared is also 100. The across-amount and the up-amount always fit the original speed exactly.</p><p><code>math.radians</code> is a unit change, nothing more. Python's <code>cos</code> and <code>sin</code> want radians and you are thinking in degrees, so you convert. Treat all three as tools for today. You do not need to know how they work inside.</p><p class="fname">plume.py</p>
 <pre class="py"><code><span class="hs">class</span> <span class="hc">Particle</span>:
-    <span class="hq">"""One thrown speck that keeps a trail of where it has been."""</span>
-
-    <span class="hs">def</span> <span class="hf">__init__</span>(<span class="hs">self</span>, <span class="hv">x</span>, <span class="hv">y</span>, <span class="hv">speed</span>, <span class="hv">angle</span>):
-        <span class="hs">self</span>.<span class="hv">x</span> = <span class="hv">x</span>
-        <span class="hs">self</span>.<span class="hv">y</span> = <span class="hv">y</span>
-        <span class="hs">self</span>.<span class="hv">dx</span> = <span class="hv">speed</span> * <span class="hc">math</span>.<span class="hf">cos</span>(<span class="hc">math</span>.<span class="hf">radians</span>(<span class="hv">angle</span>))
-        <span class="hs">self</span>.<span class="hv">dy</span> = -<span class="hv">speed</span> * <span class="hc">math</span>.<span class="hf">sin</span>(<span class="hc">math</span>.<span class="hf">radians</span>(<span class="hv">angle</span>))
-        <span class="hs">self</span>.<span class="hv">trail</span> = [(<span class="hv">x</span>, <span class="hv">y</span>)]
-        <span class="hs">self</span>.<span class="hv">alive</span> = <span class="hd">1</span>
-
-    <span class="hs">def</span> <span class="hf">step</span>(<span class="hs">self</span>):
-        <span class="hq">"""Move one frame forward and record the new position."""</span>
-        <span class="hs">self</span>.<span class="hv">dy</span> = <span class="hs">self</span>.<span class="hv">dy</span> + <span class="hn">GRAVITY</span>
-        <span class="hs">self</span>.<span class="hv">x</span> = <span class="hs">self</span>.<span class="hv">x</span> + <span class="hs">self</span>.<span class="hv">dx</span>
-        <span class="hs">self</span>.<span class="hv">y</span> = <span class="hs">self</span>.<span class="hv">y</span> + <span class="hs">self</span>.<span class="hv">dy</span>
-
-        <span class="hs">self</span>.<span class="hv">trail</span>.<span class="hf">append</span>((<span class="hs">self</span>.<span class="hv">x</span>, <span class="hs">self</span>.<span class="hv">y</span>))
-
-        <span class="hk">if</span> <span class="hs">self</span>.<span class="hv">y</span> &gt; <span class="hn">HEIGHT</span> - <span class="hd">40</span>:
-            <span class="hs">self</span>.<span class="hv">alive</span> = <span class="hd">0</span></code></pre>
+<span class="ig">    </span><span class="hq">"""One thrown speck that keeps a trail of where it has been."""</span>
+<span class="ig"></span>
+<span class="ig">    </span><span class="hs">def</span> <span class="hf">__init__</span>(<span class="hs">self</span>, <span class="hv">x</span>, <span class="hv">y</span>, <span class="hv">speed</span>, <span class="hv">angle</span>):
+<span class="ig">    </span><span class="ig">    </span><span class="hs">self</span>.<span class="hv">x</span> = <span class="hv">x</span>
+<span class="ig">    </span><span class="ig">    </span><span class="hs">self</span>.<span class="hv">y</span> = <span class="hv">y</span>
+<span class="ig">    </span><span class="ig">    </span><span class="hs">self</span>.<span class="hv">dx</span> = <span class="hv">speed</span> * <span class="hc">math</span>.<span class="hf">cos</span>(<span class="hc">math</span>.<span class="hf">radians</span>(<span class="hv">angle</span>))
+<span class="ig">    </span><span class="ig">    </span><span class="hs">self</span>.<span class="hv">dy</span> = -<span class="hv">speed</span> * <span class="hc">math</span>.<span class="hf">sin</span>(<span class="hc">math</span>.<span class="hf">radians</span>(<span class="hv">angle</span>))
+<span class="ig">    </span><span class="ig">    </span><span class="hs">self</span>.<span class="hv">trail</span> = [(<span class="hv">x</span>, <span class="hv">y</span>)]
+<span class="ig">    </span><span class="ig">    </span><span class="hs">self</span>.<span class="hv">alive</span> = <span class="hd">1</span>
+<span class="ig"></span>
+<span class="ig">    </span><span class="hs">def</span> <span class="hf">step</span>(<span class="hs">self</span>):
+<span class="ig">    </span><span class="ig">    </span><span class="hq">"""Move one frame forward and record the new position."""</span>
+<span class="ig">    </span><span class="ig">    </span><span class="hs">self</span>.<span class="hv">dy</span> = <span class="hs">self</span>.<span class="hv">dy</span> + <span class="hn">GRAVITY</span>
+<span class="ig">    </span><span class="ig">    </span><span class="hs">self</span>.<span class="hv">x</span> = <span class="hs">self</span>.<span class="hv">x</span> + <span class="hs">self</span>.<span class="hv">dx</span>
+<span class="ig">    </span><span class="ig">    </span><span class="hs">self</span>.<span class="hv">y</span> = <span class="hs">self</span>.<span class="hv">y</span> + <span class="hs">self</span>.<span class="hv">dy</span>
+<span class="ig"></span><span class="ig"></span>
+<span class="ig">    </span><span class="ig">    </span><span class="hs">self</span>.<span class="hv">trail</span>.<span class="hf">append</span>((<span class="hs">self</span>.<span class="hv">x</span>, <span class="hs">self</span>.<span class="hv">y</span>))
+<span class="ig"></span><span class="ig"></span>
+<span class="ig">    </span><span class="ig">    </span><span class="hk">if</span> <span class="hs">self</span>.<span class="hv">y</span> &gt; <span class="hn">HEIGHT</span> - <span class="hd">40</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="ig">    </span><span class="hs">self</span>.<span class="hv">alive</span> = <span class="hd">0</span></code></pre>
 <div class="toolbar"><a class="btn quiet" href="plume.py" download="plume.py">Download plume.py</a></div>
 <div class="predict"><b>Predict first.</b> Why is there a minus sign on <code>self.dy</code> in <code>__init__</code> but a plus on <code>GRAVITY</code> in <code>step</code>?
 <button class="rev" data-target="a95" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a95">Show the answer</button>
@@ -355,19 +365,19 @@ after removing from four lists but forgetting the fifth:
 <p><code>self</code> is the particular spark this call is about. <code>self.x</code> is that spark's own x, not shared with any other. That one idea replaces all five lists and the comment that was holding them together.</p></section>
 <section class="chunk"><p class="chunk-no">Section 3 &middot; 25 minutes</p><h2>A list of objects</h2><pre class="py"><code><span class="hv">running</span> = <span class="hd">1</span>
 <span class="hk">while</span> <span class="hv">running</span>:
-    <span class="hk">for</span> <span class="hv">event</span> <span class="hs">in</span> <span class="hc">pygame</span>.<span class="hc">event</span>.<span class="hf">get</span>():
-        <span class="hk">if</span> <span class="hv">event</span>.<span class="hv">type</span> == <span class="hc">pygame</span>.<span class="hn">QUIT</span>:
-            <span class="hv">running</span> = <span class="hd">0</span>
-
-    <span class="hv">screen</span>.<span class="hf">fill</span>(<span class="hn">BLACK</span>)
-    <span class="hc">pygame</span>.<span class="hc">draw</span>.<span class="hf">rect</span>(<span class="hv">screen</span>, (<span class="hd">90</span>, <span class="hd">108</span>, <span class="hd">116</span>), (<span class="hd">0</span>, <span class="hn">HEIGHT</span> - <span class="hd">40</span>, <span class="hn">WIDTH</span>, <span class="hd">40</span>))
-    <span class="hk">for</span> <span class="hv">p</span> <span class="hs">in</span> <span class="hv">particles</span>:
-        <span class="hk">if</span> <span class="hv">p</span>.<span class="hv">alive</span> == <span class="hd">1</span>:
-            <span class="hv">p</span>.<span class="hf">step</span>()
-        <span class="hv">p</span>.<span class="hf">draw</span>(<span class="hv">screen</span>)
-
-    <span class="hc">pygame</span>.<span class="hc">display</span>.<span class="hf">flip</span>()
-    <span class="hv">clock</span>.<span class="hf">tick</span>(<span class="hd">60</span>)</code></pre>
+<span class="ig">    </span><span class="hk">for</span> <span class="hv">event</span> <span class="hs">in</span> <span class="hc">pygame</span>.<span class="hc">event</span>.<span class="hf">get</span>():
+<span class="ig">    </span><span class="ig">    </span><span class="hk">if</span> <span class="hv">event</span>.<span class="hv">type</span> == <span class="hc">pygame</span>.<span class="hn">QUIT</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="ig">    </span><span class="hv">running</span> = <span class="hd">0</span>
+<span class="ig"></span>
+<span class="ig">    </span><span class="hv">screen</span>.<span class="hf">fill</span>(<span class="hn">BLACK</span>)
+<span class="ig">    </span><span class="hc">pygame</span>.<span class="hc">draw</span>.<span class="hf">rect</span>(<span class="hv">screen</span>, (<span class="hd">90</span>, <span class="hd">108</span>, <span class="hd">116</span>), (<span class="hd">0</span>, <span class="hn">HEIGHT</span> - <span class="hd">40</span>, <span class="hn">WIDTH</span>, <span class="hd">40</span>))
+<span class="ig">    </span><span class="hk">for</span> <span class="hv">p</span> <span class="hs">in</span> <span class="hv">particles</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="hk">if</span> <span class="hv">p</span>.<span class="hv">alive</span> == <span class="hd">1</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="ig">    </span><span class="hv">p</span>.<span class="hf">step</span>()
+<span class="ig">    </span><span class="ig">    </span><span class="hv">p</span>.<span class="hf">draw</span>(<span class="hv">screen</span>)
+<span class="ig"></span>
+<span class="ig">    </span><span class="hc">pygame</span>.<span class="hc">display</span>.<span class="hf">flip</span>()
+<span class="ig">    </span><span class="hv">clock</span>.<span class="hf">tick</span>(<span class="hd">60</span>)</code></pre>
 <div class="predict"><b>Predict first.</b> 120 particles launched from the vent at speeds 6 to 11 and angles 60 to 120 degrees. After 240 frames, how many are still in the air, and how high did the highest one get?
 <button class="rev" data-target="a96" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a96">Show the answer</button>
 <div class="ans" id="a96"><div class="out"><span class="tag">verified from a headless run</span><pre><code>frames run: 241

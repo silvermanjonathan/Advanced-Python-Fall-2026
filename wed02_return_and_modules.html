@@ -123,6 +123,16 @@ pre.py .hk{color:#8A00B0} pre.py .hs{color:#0000FF} pre.py .hf{color:#6A4E14}
 pre.py .hc{color:#135C70} pre.py .hv{color:#001080} pre.py .hn{color:#00579A}
 pre.py .hq{color:#A31515} pre.py .he{color:#B00000} pre.py .hd{color:#035F3E}
 pre.py .hm{color:#006400}
+/* Indent guides inside the hints, the lines VS Code draws down each step of
+   indentation, so a line shown on its own still shows how far in it goes. VS Code's
+   are 1px and light grey, which vanish on a projector with the lights on, so these are
+   6px and #595959, which clears 7:1 on white like the code colors. Each four-space step
+   is one box as tall as the line, so the bars join up from line to line. A border
+   rather than a shadow, so the bars print. */
+.ladder pre.py .ig,.hintset pre.py .ig{
+  display:inline-block; width:4ch; height:1.6em; vertical-align:top;
+  border-left:6px solid #595959;
+}
 .fname{
   font-family:'JetBrains Mono',monospace; font-size:12.5px; letter-spacing:.1em;
   text-transform:uppercase; color:var(--ink-soft); margin:0 0 6px; font-weight:700;
@@ -304,17 +314,17 @@ footer p{margin:0}
 <div class="ans" id="a5"><p><b>Tracing.</b> Running shows you what the program printed. Tracing shows you why, one pass at a time. The trace table showed the pass where the second 77 arrived and the gate stayed shut. The printed output does not show that.</p><p><b>Names.</b> A good name says what the value is, so the next reader does not have to scroll back up to work it out. The next reader is usually you, a week later.</p><p><b>One character.</b> A single character can change which question the program answers, so you have to read every character. That is why the rule is read it, trace it, then run it.</p></div></div>
 </section>
 <section class="chunk"><p class="chunk-no">Section 2 &middot; 20 minutes</p><h2>Print is not return</h2><p>Two functions that look like they do the same job.</p><pre class="py"><code><span class="hs">def</span> <span class="hf">show_total</span>(<span class="hv">values</span>):
-    <span class="hv">running</span> = <span class="hd">0</span>
-    <span class="hk">for</span> <span class="hv">v</span> <span class="hs">in</span> <span class="hv">values</span>:
-        <span class="hv">running</span> = <span class="hv">running</span> + <span class="hv">v</span>
-    <span class="hf">print</span>(<span class="hv">running</span>)
+<span class="ig">    </span><span class="hv">running</span> = <span class="hd">0</span>
+<span class="ig">    </span><span class="hk">for</span> <span class="hv">v</span> <span class="hs">in</span> <span class="hv">values</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="hv">running</span> = <span class="hv">running</span> + <span class="hv">v</span>
+<span class="ig">    </span><span class="hf">print</span>(<span class="hv">running</span>)
 
 
 <span class="hs">def</span> <span class="hf">total_of</span>(<span class="hv">values</span>):
-    <span class="hv">running</span> = <span class="hd">0</span>
-    <span class="hk">for</span> <span class="hv">v</span> <span class="hs">in</span> <span class="hv">values</span>:
-        <span class="hv">running</span> = <span class="hv">running</span> + <span class="hv">v</span>
-    <span class="hk">return</span> <span class="hv">running</span></code></pre>
+<span class="ig">    </span><span class="hv">running</span> = <span class="hd">0</span>
+<span class="ig">    </span><span class="hk">for</span> <span class="hv">v</span> <span class="hs">in</span> <span class="hv">values</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="hv">running</span> = <span class="hv">running</span> + <span class="hv">v</span>
+<span class="ig">    </span><span class="hk">return</span> <span class="hv">running</span></code></pre>
 <div class="predict"><b>Predict first.</b> What does <code>doubled = show_total([1, 2, 3]) * 2</code> do? And what does <code>doubled = total_of([1, 2, 3]) * 2</code> do?
 <button class="rev" data-target="a6" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a6">Show the answer</button>
 <div class="ans" id="a6"><p><b>The first one</b>, with <code>show_total</code>, prints 6 and then crashes on the multiplication.</p><div class="out"><span class="tag">what Python says</span><pre><code>6
@@ -340,47 +350,47 @@ Every function here returns a value. None of them print.
 
 
 <span class="hs">def</span> <span class="hf">total_of</span>(<span class="hv">values</span>):
-    <span class="hq">"""Return the sum of every number in values."""</span>
-    <span class="hv">running</span> = <span class="hd">0</span>
-    <span class="hk">for</span> <span class="hv">v</span> <span class="hs">in</span> <span class="hv">values</span>:
-        <span class="hv">running</span> = <span class="hv">running</span> + <span class="hv">v</span>
-    <span class="hk">return</span> <span class="hv">running</span>
+<span class="ig">    </span><span class="hq">"""Return the sum of every number in values."""</span>
+<span class="ig">    </span><span class="hv">running</span> = <span class="hd">0</span>
+<span class="ig">    </span><span class="hk">for</span> <span class="hv">v</span> <span class="hs">in</span> <span class="hv">values</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="hv">running</span> = <span class="hv">running</span> + <span class="hv">v</span>
+<span class="ig">    </span><span class="hk">return</span> <span class="hv">running</span>
 
 
 <span class="hs">def</span> <span class="hf">average_of</span>(<span class="hv">values</span>):
-    <span class="hq">"""Return the mean of values."""</span>
-    <span class="hk">return</span> <span class="hf">total_of</span>(<span class="hv">values</span>) / <span class="hf">len</span>(<span class="hv">values</span>)
+<span class="ig">    </span><span class="hq">"""Return the mean of values."""</span>
+<span class="ig">    </span><span class="hk">return</span> <span class="hf">total_of</span>(<span class="hv">values</span>) / <span class="hf">len</span>(<span class="hv">values</span>)
 
 
 <span class="hs">def</span> <span class="hf">count_over</span>(<span class="hv">values</span>, <span class="hv">limit</span>):
-    <span class="hq">"""Return how many values are strictly greater than limit."""</span>
-    <span class="hv">hits</span> = <span class="hd">0</span>
-    <span class="hk">for</span> <span class="hv">v</span> <span class="hs">in</span> <span class="hv">values</span>:
-        <span class="hk">if</span> <span class="hv">v</span> &gt; <span class="hv">limit</span>:
-            <span class="hv">hits</span> = <span class="hv">hits</span> + <span class="hd">1</span>
-    <span class="hk">return</span> <span class="hv">hits</span>
+<span class="ig">    </span><span class="hq">"""Return how many values are strictly greater than limit."""</span>
+<span class="ig">    </span><span class="hv">hits</span> = <span class="hd">0</span>
+<span class="ig">    </span><span class="hk">for</span> <span class="hv">v</span> <span class="hs">in</span> <span class="hv">values</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="hk">if</span> <span class="hv">v</span> &gt; <span class="hv">limit</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="ig">    </span><span class="hv">hits</span> = <span class="hv">hits</span> + <span class="hd">1</span>
+<span class="ig">    </span><span class="hk">return</span> <span class="hv">hits</span>
 
 
 <span class="hs">def</span> <span class="hf">best_index</span>(<span class="hv">values</span>):
-    <span class="hq">"""Return the index of the first largest value in values."""</span>
-    <span class="hv">best</span> = <span class="hv">values</span>[<span class="hd">0</span>]
-    <span class="hv">where</span> = <span class="hd">0</span>
-    <span class="hk">for</span> <span class="hv">i</span> <span class="hs">in</span> <span class="hc">range</span>(<span class="hf">len</span>(<span class="hv">values</span>)):
-        <span class="hk">if</span> <span class="hv">values</span>[<span class="hv">i</span>] &gt; <span class="hv">best</span>:
-            <span class="hv">best</span> = <span class="hv">values</span>[<span class="hv">i</span>]
-            <span class="hv">where</span> = <span class="hv">i</span>
-    <span class="hk">return</span> <span class="hv">where</span>
+<span class="ig">    </span><span class="hq">"""Return the index of the first largest value in values."""</span>
+<span class="ig">    </span><span class="hv">best</span> = <span class="hv">values</span>[<span class="hd">0</span>]
+<span class="ig">    </span><span class="hv">where</span> = <span class="hd">0</span>
+<span class="ig">    </span><span class="hk">for</span> <span class="hv">i</span> <span class="hs">in</span> <span class="hc">range</span>(<span class="hf">len</span>(<span class="hv">values</span>)):
+<span class="ig">    </span><span class="ig">    </span><span class="hk">if</span> <span class="hv">values</span>[<span class="hv">i</span>] &gt; <span class="hv">best</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="ig">    </span><span class="hv">best</span> = <span class="hv">values</span>[<span class="hv">i</span>]
+<span class="ig">    </span><span class="ig">    </span><span class="ig">    </span><span class="hv">where</span> = <span class="hv">i</span>
+<span class="ig">    </span><span class="hk">return</span> <span class="hv">where</span>
 
 
 <span class="hs">def</span> <span class="hf">last_best_index</span>(<span class="hv">values</span>):
-    <span class="hq">"""Return the index of the last largest value in values."""</span>
-    <span class="hv">best</span> = <span class="hv">values</span>[<span class="hd">0</span>]
-    <span class="hv">where</span> = <span class="hd">0</span>
-    <span class="hk">for</span> <span class="hv">i</span> <span class="hs">in</span> <span class="hc">range</span>(<span class="hf">len</span>(<span class="hv">values</span>)):
-        <span class="hk">if</span> <span class="hv">values</span>[<span class="hv">i</span>] &gt;= <span class="hv">best</span>:
-            <span class="hv">best</span> = <span class="hv">values</span>[<span class="hv">i</span>]
-            <span class="hv">where</span> = <span class="hv">i</span>
-    <span class="hk">return</span> <span class="hv">where</span></code></pre>
+<span class="ig">    </span><span class="hq">"""Return the index of the last largest value in values."""</span>
+<span class="ig">    </span><span class="hv">best</span> = <span class="hv">values</span>[<span class="hd">0</span>]
+<span class="ig">    </span><span class="hv">where</span> = <span class="hd">0</span>
+<span class="ig">    </span><span class="hk">for</span> <span class="hv">i</span> <span class="hs">in</span> <span class="hc">range</span>(<span class="hf">len</span>(<span class="hv">values</span>)):
+<span class="ig">    </span><span class="ig">    </span><span class="hk">if</span> <span class="hv">values</span>[<span class="hv">i</span>] &gt;= <span class="hv">best</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="ig">    </span><span class="hv">best</span> = <span class="hv">values</span>[<span class="hv">i</span>]
+<span class="ig">    </span><span class="ig">    </span><span class="ig">    </span><span class="hv">where</span> = <span class="hv">i</span>
+<span class="ig">    </span><span class="hk">return</span> <span class="hv">where</span></code></pre>
 <p>Look at <code>average_of</code>. It does not add anything up. It calls <code>total_of</code> and divides. A function that only prints could not be used this way, because it has nothing to give another function.</p><p><code>best_index</code> and <code>last_best_index</code> differ by exactly the character you found last week. Now both questions have a name, and the name says which one you are asking.</p></section>
 <section class="chunk"><p class="chunk-no">Section 4 &middot; 15 minutes</p><h2>Import your own file</h2><p>Second file, same folder. <code>import sweep_tools</code> sends Python looking for a file called <code>sweep_tools.py</code> and gives you everything inside it.</p><p class="fname">sweep_report2.py</p>
 <pre class="py"><code><span class="hq">"""Summarize tower readings using our own sweep_tools module."""</span>
@@ -408,12 +418,12 @@ last best at 9</code></pre></div>
 <button class="rev" data-target="a9" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a9">Show the answer</button>
 <div class="ans" id="a9"><p class="fname">sweep_tools.py, added at the bottom</p>
 <pre class="py"><code><span class="hs">def</span> <span class="hf">smallest_of</span>(<span class="hv">values</span>):
-    <span class="hq">"""Return the smallest number in values."""</span>
-    <span class="hv">smallest</span> = <span class="hv">values</span>[<span class="hd">0</span>]
-    <span class="hk">for</span> <span class="hv">v</span> <span class="hs">in</span> <span class="hv">values</span>:
-        <span class="hk">if</span> <span class="hv">v</span> &lt; <span class="hv">smallest</span>:
-            <span class="hv">smallest</span> = <span class="hv">v</span>
-    <span class="hk">return</span> <span class="hv">smallest</span></code></pre>
+<span class="ig">    </span><span class="hq">"""Return the smallest number in values."""</span>
+<span class="ig">    </span><span class="hv">smallest</span> = <span class="hv">values</span>[<span class="hd">0</span>]
+<span class="ig">    </span><span class="hk">for</span> <span class="hv">v</span> <span class="hs">in</span> <span class="hv">values</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="hk">if</span> <span class="hv">v</span> &lt; <span class="hv">smallest</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="ig">    </span><span class="hv">smallest</span> = <span class="hv">v</span>
+<span class="ig">    </span><span class="hk">return</span> <span class="hv">smallest</span></code></pre>
 <p class="fname">sweep_report2.py, added at the bottom</p>
 <pre class="py"><code><span class="hf">print</span>(<span class="hs">f</span><span class="hq">"smallest </span><span class="hs">{</span><span class="hc">sweep_tools</span>.<span class="hf">smallest_of</span>(<span class="hv">readings</span>)<span class="hs">}</span><span class="hq">"</span>)</code></pre>
 <p>The running value starts at the first reading, not at 0. Start it at 0 and nothing is ever smaller than 0, so the function returns 0 for every list that has no negatives in it. That is the same kind of mistake as the <code>&gt;</code> against <code>&gt;=</code> question from session 1: the starting value decides the answer.</p><p>The print line is the same shape as the five above it: a label, then the module name, a dot, the function name, and the readings list in the brackets.</p></div></div>
@@ -422,18 +432,18 @@ last best at 9</code></pre></div>
 <div class="ans" id="hint-smallest_of-2"><p>Loop over every value. Inside the loop, one gate: is this value smaller than the smallest so far? If yes, it becomes the new smallest. After the loop, return the smallest.</p><button class="rev" data-target="hint-smallest_of-3" data-show="Hint 3" data-hide="Hide hint 3" aria-expanded="false" aria-controls="hint-smallest_of-3">Hint 3</button>
 <div class="ans" id="hint-smallest_of-3"><pre class="py"><code><span class="hv">smallest</span> = <span class="hv">values</span>[<span class="hd">0</span>]
 <span class="hk">for</span> <span class="hv">v</span> <span class="hs">in</span> <span class="hv">values</span>:
-    <span class="hk">if</span> <span class="hv">v</span> &lt; <span class="hv">smallest</span>:
-        <span class="hv">smallest</span> = <span class="hv">____</span>
+<span class="ig">    </span><span class="hk">if</span> <span class="hv">v</span> &lt; <span class="hv">smallest</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="hv">smallest</span> = <span class="hv">____</span>
 <span class="hk">return</span> <span class="hv">smallest</span></code></pre>
 <button class="rev" data-target="hint-smallest_of-answer" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="hint-smallest_of-answer">Show the answer</button>
 <div class="ans" id="hint-smallest_of-answer"><p class="fname">sweep_tools_more.py</p>
 <pre class="py"><code><span class="hs">def</span> <span class="hf">smallest_of</span>(<span class="hv">values</span>):
-    <span class="hq">"""Return the smallest number in values."""</span>
-    <span class="hv">smallest</span> = <span class="hv">values</span>[<span class="hd">0</span>]
-    <span class="hk">for</span> <span class="hv">v</span> <span class="hs">in</span> <span class="hv">values</span>:
-        <span class="hk">if</span> <span class="hv">v</span> &lt; <span class="hv">smallest</span>:
-            <span class="hv">smallest</span> = <span class="hv">v</span>
-    <span class="hk">return</span> <span class="hv">smallest</span></code></pre>
+<span class="ig">    </span><span class="hq">"""Return the smallest number in values."""</span>
+<span class="ig">    </span><span class="hv">smallest</span> = <span class="hv">values</span>[<span class="hd">0</span>]
+<span class="ig">    </span><span class="hk">for</span> <span class="hv">v</span> <span class="hs">in</span> <span class="hv">values</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="hk">if</span> <span class="hv">v</span> &lt; <span class="hv">smallest</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="ig">    </span><span class="hv">smallest</span> = <span class="hv">v</span>
+<span class="ig">    </span><span class="hk">return</span> <span class="hv">smallest</span></code></pre>
 </div>
 </div>
 </div>
@@ -444,18 +454,18 @@ last best at 9</code></pre></div>
 <div class="ans" id="hint-largest_of-2"><p>Start at <code>values[0]</code> again. The gate asks: is this value greater than the largest so far?</p><button class="rev" data-target="hint-largest_of-3" data-show="Hint 3" data-hide="Hide hint 3" aria-expanded="false" aria-controls="hint-largest_of-3">Hint 3</button>
 <div class="ans" id="hint-largest_of-3"><pre class="py"><code><span class="hv">largest</span> = <span class="hv">values</span>[<span class="hd">0</span>]
 <span class="hk">for</span> <span class="hv">v</span> <span class="hs">in</span> <span class="hv">values</span>:
-    <span class="hk">if</span> <span class="hv">v</span> <span class="hv">____</span> <span class="hv">largest</span>:
-        <span class="hv">largest</span> = <span class="hv">v</span>
+<span class="ig">    </span><span class="hk">if</span> <span class="hv">v</span> <span class="hv">____</span> <span class="hv">largest</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="hv">largest</span> = <span class="hv">v</span>
 <span class="hk">return</span> <span class="hv">largest</span></code></pre>
 <button class="rev" data-target="hint-largest_of-answer" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="hint-largest_of-answer">Show the answer</button>
 <div class="ans" id="hint-largest_of-answer"><p class="fname">sweep_tools_more.py</p>
 <pre class="py"><code><span class="hs">def</span> <span class="hf">largest_of</span>(<span class="hv">values</span>):
-    <span class="hq">"""Return the largest number in values."""</span>
-    <span class="hv">largest</span> = <span class="hv">values</span>[<span class="hd">0</span>]
-    <span class="hk">for</span> <span class="hv">v</span> <span class="hs">in</span> <span class="hv">values</span>:
-        <span class="hk">if</span> <span class="hv">v</span> &gt; <span class="hv">largest</span>:
-            <span class="hv">largest</span> = <span class="hv">v</span>
-    <span class="hk">return</span> <span class="hv">largest</span></code></pre>
+<span class="ig">    </span><span class="hq">"""Return the largest number in values."""</span>
+<span class="ig">    </span><span class="hv">largest</span> = <span class="hv">values</span>[<span class="hd">0</span>]
+<span class="ig">    </span><span class="hk">for</span> <span class="hv">v</span> <span class="hs">in</span> <span class="hv">values</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="hk">if</span> <span class="hv">v</span> &gt; <span class="hv">largest</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="ig">    </span><span class="hv">largest</span> = <span class="hv">v</span>
+<span class="ig">    </span><span class="hk">return</span> <span class="hv">largest</span></code></pre>
 </div>
 </div>
 </div>
@@ -465,13 +475,13 @@ last best at 9</code></pre></div>
 <div class="ans" id="hint-spread_of-1"><p>The spread is the largest reading minus the smallest reading. You have already written a function for each of those.</p><button class="rev" data-target="hint-spread_of-2" data-show="Hint 2" data-hide="Hide hint 2" aria-expanded="false" aria-controls="hint-spread_of-2">Hint 2</button>
 <div class="ans" id="hint-spread_of-2"><p>No loop. Call <code>largest_of(values)</code> and <code>smallest_of(values)</code> inside this function and subtract.</p><button class="rev" data-target="hint-spread_of-3" data-show="Hint 3" data-hide="Hide hint 3" aria-expanded="false" aria-controls="hint-spread_of-3">Hint 3</button>
 <div class="ans" id="hint-spread_of-3"><pre class="py"><code><span class="hs">def</span> <span class="hf">spread_of</span>(<span class="hv">values</span>):
-    <span class="hq">"""Return the largest minus the smallest."""</span>
-    <span class="hk">return</span> <span class="hf">largest_of</span>(<span class="hv">values</span>) - <span class="hv">____</span></code></pre>
+<span class="ig">    </span><span class="hq">"""Return the largest minus the smallest."""</span>
+<span class="ig">    </span><span class="hk">return</span> <span class="hf">largest_of</span>(<span class="hv">values</span>) - <span class="hv">____</span></code></pre>
 <button class="rev" data-target="hint-spread_of-answer" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="hint-spread_of-answer">Show the answer</button>
 <div class="ans" id="hint-spread_of-answer"><p class="fname">sweep_tools_more.py</p>
 <pre class="py"><code><span class="hs">def</span> <span class="hf">spread_of</span>(<span class="hv">values</span>):
-    <span class="hq">"""Return the largest minus the smallest, using the two functions above."""</span>
-    <span class="hk">return</span> <span class="hf">largest_of</span>(<span class="hv">values</span>) - <span class="hf">smallest_of</span>(<span class="hv">values</span>)</code></pre>
+<span class="ig">    </span><span class="hq">"""Return the largest minus the smallest, using the two functions above."""</span>
+<span class="ig">    </span><span class="hk">return</span> <span class="hf">largest_of</span>(<span class="hv">values</span>) - <span class="hf">smallest_of</span>(<span class="hv">values</span>)</code></pre>
 </div>
 </div>
 </div>
@@ -482,18 +492,18 @@ last best at 9</code></pre></div>
 <div class="ans" id="hint-count_under-2"><p>A counter starts at 0. Every value that passes the gate adds 1 to it. The gate asks: is this value less than the limit?</p><button class="rev" data-target="hint-count_under-3" data-show="Hint 3" data-hide="Hide hint 3" aria-expanded="false" aria-controls="hint-count_under-3">Hint 3</button>
 <div class="ans" id="hint-count_under-3"><pre class="py"><code><span class="hv">hits</span> = <span class="hd">0</span>
 <span class="hk">for</span> <span class="hv">v</span> <span class="hs">in</span> <span class="hv">values</span>:
-    <span class="hk">if</span> <span class="hv">v</span> <span class="hv">____</span> <span class="hv">limit</span>:
-        <span class="hv">hits</span> = <span class="hv">hits</span> + <span class="hd">1</span>
+<span class="ig">    </span><span class="hk">if</span> <span class="hv">v</span> <span class="hv">____</span> <span class="hv">limit</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="hv">hits</span> = <span class="hv">hits</span> + <span class="hd">1</span>
 <span class="hk">return</span> <span class="hv">hits</span></code></pre>
 <button class="rev" data-target="hint-count_under-answer" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="hint-count_under-answer">Show the answer</button>
 <div class="ans" id="hint-count_under-answer"><p class="fname">sweep_tools_more.py</p>
 <pre class="py"><code><span class="hs">def</span> <span class="hf">count_under</span>(<span class="hv">values</span>, <span class="hv">limit</span>):
-    <span class="hq">"""Return how many values are strictly less than limit."""</span>
-    <span class="hv">hits</span> = <span class="hd">0</span>
-    <span class="hk">for</span> <span class="hv">v</span> <span class="hs">in</span> <span class="hv">values</span>:
-        <span class="hk">if</span> <span class="hv">v</span> &lt; <span class="hv">limit</span>:
-            <span class="hv">hits</span> = <span class="hv">hits</span> + <span class="hd">1</span>
-    <span class="hk">return</span> <span class="hv">hits</span></code></pre>
+<span class="ig">    </span><span class="hq">"""Return how many values are strictly less than limit."""</span>
+<span class="ig">    </span><span class="hv">hits</span> = <span class="hd">0</span>
+<span class="ig">    </span><span class="hk">for</span> <span class="hv">v</span> <span class="hs">in</span> <span class="hv">values</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="hk">if</span> <span class="hv">v</span> &lt; <span class="hv">limit</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="ig">    </span><span class="hv">hits</span> = <span class="hv">hits</span> + <span class="hd">1</span>
+<span class="ig">    </span><span class="hk">return</span> <span class="hv">hits</span></code></pre>
 </div>
 </div>
 </div>
@@ -504,18 +514,18 @@ last best at 9</code></pre></div>
 <div class="ans" id="hint-count_between-2"><p>One gate can ask both questions with the word <code>and</code>. <code>v &gt;= low and v &lt;= high</code> is True only when both comparisons are True. If either one is False, the whole condition is False and the gate stays shut. Add 1 inside that gate.</p><button class="rev" data-target="hint-count_between-3" data-show="Hint 3" data-hide="Hide hint 3" aria-expanded="false" aria-controls="hint-count_between-3">Hint 3</button>
 <div class="ans" id="hint-count_between-3"><pre class="py"><code><span class="hv">hits</span> = <span class="hd">0</span>
 <span class="hk">for</span> <span class="hv">v</span> <span class="hs">in</span> <span class="hv">values</span>:
-    <span class="hk">if</span> <span class="hv">v</span> &gt;= <span class="hv">low</span> <span class="hs">and</span> <span class="hv">____</span>:
-        <span class="hv">hits</span> = <span class="hv">hits</span> + <span class="hd">1</span>
+<span class="ig">    </span><span class="hk">if</span> <span class="hv">v</span> &gt;= <span class="hv">low</span> <span class="hs">and</span> <span class="hv">____</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="hv">hits</span> = <span class="hv">hits</span> + <span class="hd">1</span>
 <span class="hk">return</span> <span class="hv">hits</span></code></pre>
 <button class="rev" data-target="hint-count_between-answer" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="hint-count_between-answer">Show the answer</button>
 <div class="ans" id="hint-count_between-answer"><p class="fname">sweep_tools_more.py</p>
 <pre class="py"><code><span class="hs">def</span> <span class="hf">count_between</span>(<span class="hv">values</span>, <span class="hv">low</span>, <span class="hv">high</span>):
-    <span class="hq">"""Return how many values are from low to high, both ends included."""</span>
-    <span class="hv">hits</span> = <span class="hd">0</span>
-    <span class="hk">for</span> <span class="hv">v</span> <span class="hs">in</span> <span class="hv">values</span>:
-        <span class="hk">if</span> <span class="hv">v</span> &gt;= <span class="hv">low</span> <span class="hs">and</span> <span class="hv">v</span> &lt;= <span class="hv">high</span>:
-            <span class="hv">hits</span> = <span class="hv">hits</span> + <span class="hd">1</span>
-    <span class="hk">return</span> <span class="hv">hits</span></code></pre>
+<span class="ig">    </span><span class="hq">"""Return how many values are from low to high, both ends included."""</span>
+<span class="ig">    </span><span class="hv">hits</span> = <span class="hd">0</span>
+<span class="ig">    </span><span class="hk">for</span> <span class="hv">v</span> <span class="hs">in</span> <span class="hv">values</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="hk">if</span> <span class="hv">v</span> &gt;= <span class="hv">low</span> <span class="hs">and</span> <span class="hv">v</span> &lt;= <span class="hv">high</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="ig">    </span><span class="hv">hits</span> = <span class="hv">hits</span> + <span class="hd">1</span>
+<span class="ig">    </span><span class="hk">return</span> <span class="hv">hits</span></code></pre>
 </div>
 </div>
 </div>
@@ -526,18 +536,18 @@ last best at 9</code></pre></div>
 <div class="ans" id="hint-total_over-2"><p>A running total starts at 0. Inside the gate <code>v &gt; limit</code>, add <code>v</code> to the running total, not 1.</p><button class="rev" data-target="hint-total_over-3" data-show="Hint 3" data-hide="Hide hint 3" aria-expanded="false" aria-controls="hint-total_over-3">Hint 3</button>
 <div class="ans" id="hint-total_over-3"><pre class="py"><code><span class="hv">running</span> = <span class="hd">0</span>
 <span class="hk">for</span> <span class="hv">v</span> <span class="hs">in</span> <span class="hv">values</span>:
-    <span class="hk">if</span> <span class="hv">v</span> &gt; <span class="hv">limit</span>:
-        <span class="hv">running</span> = <span class="hv">____</span>
+<span class="ig">    </span><span class="hk">if</span> <span class="hv">v</span> &gt; <span class="hv">limit</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="hv">running</span> = <span class="hv">____</span>
 <span class="hk">return</span> <span class="hv">running</span></code></pre>
 <button class="rev" data-target="hint-total_over-answer" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="hint-total_over-answer">Show the answer</button>
 <div class="ans" id="hint-total_over-answer"><p class="fname">sweep_tools_more.py</p>
 <pre class="py"><code><span class="hs">def</span> <span class="hf">total_over</span>(<span class="hv">values</span>, <span class="hv">limit</span>):
-    <span class="hq">"""Return the total of the values that are strictly greater than limit."""</span>
-    <span class="hv">running</span> = <span class="hd">0</span>
-    <span class="hk">for</span> <span class="hv">v</span> <span class="hs">in</span> <span class="hv">values</span>:
-        <span class="hk">if</span> <span class="hv">v</span> &gt; <span class="hv">limit</span>:
-            <span class="hv">running</span> = <span class="hv">running</span> + <span class="hv">v</span>
-    <span class="hk">return</span> <span class="hv">running</span></code></pre>
+<span class="ig">    </span><span class="hq">"""Return the total of the values that are strictly greater than limit."""</span>
+<span class="ig">    </span><span class="hv">running</span> = <span class="hd">0</span>
+<span class="ig">    </span><span class="hk">for</span> <span class="hv">v</span> <span class="hs">in</span> <span class="hv">values</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="hk">if</span> <span class="hv">v</span> &gt; <span class="hv">limit</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="ig">    </span><span class="hv">running</span> = <span class="hv">running</span> + <span class="hv">v</span>
+<span class="ig">    </span><span class="hk">return</span> <span class="hv">running</span></code></pre>
 </div>
 </div>
 </div>
@@ -547,30 +557,30 @@ last best at 9</code></pre></div>
 <div class="ans" id="hint-first_over_index-1"><p>You need the index, not the value, so loop with <code>for i in range(len(values)):</code> and look at <code>values[i]</code>.</p><button class="rev" data-target="hint-first_over_index-2" data-show="Hint 2" data-hide="Hide hint 2" aria-expanded="false" aria-controls="hint-first_over_index-2">Hint 2</button>
 <div class="ans" id="hint-first_over_index-2"><p>The first time a value is over the limit, <code>return i</code> right there, inside the loop. The function stops at that line, so it never reaches a later index. If no value is over the limit, the loop finishes; return -1 after it.</p><button class="rev" data-target="hint-first_over_index-3" data-show="Hint 3" data-hide="Hide hint 3" aria-expanded="false" aria-controls="hint-first_over_index-3">Hint 3</button>
 <div class="ans" id="hint-first_over_index-3"><pre class="py"><code><span class="hk">for</span> <span class="hv">i</span> <span class="hs">in</span> <span class="hc">range</span>(<span class="hf">len</span>(<span class="hv">values</span>)):
-    <span class="hk">if</span> <span class="hv">values</span>[<span class="hv">i</span>] &gt; <span class="hv">limit</span>:
-        <span class="hk">return</span> <span class="hv">____</span>
+<span class="ig">    </span><span class="hk">if</span> <span class="hv">values</span>[<span class="hv">i</span>] &gt; <span class="hv">limit</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="hk">return</span> <span class="hv">____</span>
 <span class="hk">return</span> -<span class="hd">1</span></code></pre>
 <button class="rev" data-target="hint-first_over_index-answer" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="hint-first_over_index-answer">Show the answer</button>
 <div class="ans" id="hint-first_over_index-answer"><p class="fname">sweep_tools_more.py</p>
 <pre class="py"><code><span class="hs">def</span> <span class="hf">first_over_index</span>(<span class="hv">values</span>, <span class="hv">limit</span>):
-    <span class="hq">"""Return the index of the first value strictly greater than limit, or -1."""</span>
-    <span class="hk">for</span> <span class="hv">i</span> <span class="hs">in</span> <span class="hc">range</span>(<span class="hf">len</span>(<span class="hv">values</span>)):
-        <span class="hk">if</span> <span class="hv">values</span>[<span class="hv">i</span>] &gt; <span class="hv">limit</span>:
-            <span class="hk">return</span> <span class="hv">i</span>
-    <span class="hk">return</span> -<span class="hd">1</span></code></pre>
+<span class="ig">    </span><span class="hq">"""Return the index of the first value strictly greater than limit, or -1."""</span>
+<span class="ig">    </span><span class="hk">for</span> <span class="hv">i</span> <span class="hs">in</span> <span class="hc">range</span>(<span class="hf">len</span>(<span class="hv">values</span>)):
+<span class="ig">    </span><span class="ig">    </span><span class="hk">if</span> <span class="hv">values</span>[<span class="hv">i</span>] &gt; <span class="hv">limit</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="ig">    </span><span class="hk">return</span> <span class="hv">i</span>
+<span class="ig">    </span><span class="hk">return</span> -<span class="hd">1</span></code></pre>
 <h3>Another way: <code>enumerate</code></h3><p>The answer above loops over the indexes and reads each value with <code>values[i]</code>. Python has a function, <code>enumerate</code>, that gives you the index and the value together. The <code>for</code> line names two variables, separated by a comma, and each pass fills both: <code>i</code> gets the index and <code>v</code> gets the value at that index.</p><p class="fname">first_over_enumerate.py</p>
 <pre class="py"><code><span class="hk">for</span> <span class="hv">i</span>, <span class="hv">v</span> <span class="hs">in</span> <span class="hc">enumerate</span>([<span class="hq">"a"</span>, <span class="hq">"b"</span>, <span class="hq">"c"</span>]):
-    <span class="hf">print</span>(<span class="hv">i</span>, <span class="hv">v</span>)</code></pre>
+<span class="ig">    </span><span class="hf">print</span>(<span class="hv">i</span>, <span class="hv">v</span>)</code></pre>
 <div class="out"><span class="tag">verified output</span><pre><code>0 a
 1 b
 2 c</code></pre></div>
 <p>Here is <code>first_over_index</code> written that way. It does the same job and returns the same answers. The only change is the <code>for</code> line, and <code>v</code> in place of <code>values[i]</code>.</p><p class="fname">first_over_enumerate.py</p>
 <pre class="py"><code><span class="hs">def</span> <span class="hf">first_over_index</span>(<span class="hv">values</span>, <span class="hv">limit</span>):
-    <span class="hq">"""Return the index of the first value strictly greater than limit, or -1."""</span>
-    <span class="hk">for</span> <span class="hv">i</span>, <span class="hv">v</span> <span class="hs">in</span> <span class="hc">enumerate</span>(<span class="hv">values</span>):
-        <span class="hk">if</span> <span class="hv">v</span> &gt; <span class="hv">limit</span>:
-            <span class="hk">return</span> <span class="hv">i</span>
-    <span class="hk">return</span> -<span class="hd">1</span></code></pre>
+<span class="ig">    </span><span class="hq">"""Return the index of the first value strictly greater than limit, or -1."""</span>
+<span class="ig">    </span><span class="hk">for</span> <span class="hv">i</span>, <span class="hv">v</span> <span class="hs">in</span> <span class="hc">enumerate</span>(<span class="hv">values</span>):
+<span class="ig">    </span><span class="ig">    </span><span class="hk">if</span> <span class="hv">v</span> &gt; <span class="hv">limit</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="ig">    </span><span class="hk">return</span> <span class="hv">i</span>
+<span class="ig">    </span><span class="hk">return</span> -<span class="hd">1</span></code></pre>
 <div class="out"><span class="tag">verified output</span><pre><code>first over 55 at index 1
 first over 100 at index -1</code></pre></div>
 <p>No reading is over 100, so the loop finishes without returning and the function returns -1. Either version is correct.</p></div>
@@ -582,61 +592,61 @@ first over 100 at index -1</code></pre></div>
 <button class="rev" data-target="a10" data-show="Show all seven answers" data-hide="Hide the answers" aria-expanded="false" aria-controls="a10">Show all seven answers</button>
 <div class="ans" id="a10"><p class="fname">sweep_tools_more.py, the seven functions</p>
 <pre class="py"><code><span class="hs">def</span> <span class="hf">smallest_of</span>(<span class="hv">values</span>):
-    <span class="hq">"""Return the smallest number in values."""</span>
-    <span class="hv">smallest</span> = <span class="hv">values</span>[<span class="hd">0</span>]
-    <span class="hk">for</span> <span class="hv">v</span> <span class="hs">in</span> <span class="hv">values</span>:
-        <span class="hk">if</span> <span class="hv">v</span> &lt; <span class="hv">smallest</span>:
-            <span class="hv">smallest</span> = <span class="hv">v</span>
-    <span class="hk">return</span> <span class="hv">smallest</span>
+<span class="ig">    </span><span class="hq">"""Return the smallest number in values."""</span>
+<span class="ig">    </span><span class="hv">smallest</span> = <span class="hv">values</span>[<span class="hd">0</span>]
+<span class="ig">    </span><span class="hk">for</span> <span class="hv">v</span> <span class="hs">in</span> <span class="hv">values</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="hk">if</span> <span class="hv">v</span> &lt; <span class="hv">smallest</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="ig">    </span><span class="hv">smallest</span> = <span class="hv">v</span>
+<span class="ig">    </span><span class="hk">return</span> <span class="hv">smallest</span>
 
 
 <span class="hs">def</span> <span class="hf">largest_of</span>(<span class="hv">values</span>):
-    <span class="hq">"""Return the largest number in values."""</span>
-    <span class="hv">largest</span> = <span class="hv">values</span>[<span class="hd">0</span>]
-    <span class="hk">for</span> <span class="hv">v</span> <span class="hs">in</span> <span class="hv">values</span>:
-        <span class="hk">if</span> <span class="hv">v</span> &gt; <span class="hv">largest</span>:
-            <span class="hv">largest</span> = <span class="hv">v</span>
-    <span class="hk">return</span> <span class="hv">largest</span>
+<span class="ig">    </span><span class="hq">"""Return the largest number in values."""</span>
+<span class="ig">    </span><span class="hv">largest</span> = <span class="hv">values</span>[<span class="hd">0</span>]
+<span class="ig">    </span><span class="hk">for</span> <span class="hv">v</span> <span class="hs">in</span> <span class="hv">values</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="hk">if</span> <span class="hv">v</span> &gt; <span class="hv">largest</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="ig">    </span><span class="hv">largest</span> = <span class="hv">v</span>
+<span class="ig">    </span><span class="hk">return</span> <span class="hv">largest</span>
 
 
 <span class="hs">def</span> <span class="hf">spread_of</span>(<span class="hv">values</span>):
-    <span class="hq">"""Return the largest minus the smallest, using the two functions above."""</span>
-    <span class="hk">return</span> <span class="hf">largest_of</span>(<span class="hv">values</span>) - <span class="hf">smallest_of</span>(<span class="hv">values</span>)
+<span class="ig">    </span><span class="hq">"""Return the largest minus the smallest, using the two functions above."""</span>
+<span class="ig">    </span><span class="hk">return</span> <span class="hf">largest_of</span>(<span class="hv">values</span>) - <span class="hf">smallest_of</span>(<span class="hv">values</span>)
 
 
 <span class="hs">def</span> <span class="hf">count_under</span>(<span class="hv">values</span>, <span class="hv">limit</span>):
-    <span class="hq">"""Return how many values are strictly less than limit."""</span>
-    <span class="hv">hits</span> = <span class="hd">0</span>
-    <span class="hk">for</span> <span class="hv">v</span> <span class="hs">in</span> <span class="hv">values</span>:
-        <span class="hk">if</span> <span class="hv">v</span> &lt; <span class="hv">limit</span>:
-            <span class="hv">hits</span> = <span class="hv">hits</span> + <span class="hd">1</span>
-    <span class="hk">return</span> <span class="hv">hits</span>
+<span class="ig">    </span><span class="hq">"""Return how many values are strictly less than limit."""</span>
+<span class="ig">    </span><span class="hv">hits</span> = <span class="hd">0</span>
+<span class="ig">    </span><span class="hk">for</span> <span class="hv">v</span> <span class="hs">in</span> <span class="hv">values</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="hk">if</span> <span class="hv">v</span> &lt; <span class="hv">limit</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="ig">    </span><span class="hv">hits</span> = <span class="hv">hits</span> + <span class="hd">1</span>
+<span class="ig">    </span><span class="hk">return</span> <span class="hv">hits</span>
 
 
 <span class="hs">def</span> <span class="hf">count_between</span>(<span class="hv">values</span>, <span class="hv">low</span>, <span class="hv">high</span>):
-    <span class="hq">"""Return how many values are from low to high, both ends included."""</span>
-    <span class="hv">hits</span> = <span class="hd">0</span>
-    <span class="hk">for</span> <span class="hv">v</span> <span class="hs">in</span> <span class="hv">values</span>:
-        <span class="hk">if</span> <span class="hv">v</span> &gt;= <span class="hv">low</span> <span class="hs">and</span> <span class="hv">v</span> &lt;= <span class="hv">high</span>:
-            <span class="hv">hits</span> = <span class="hv">hits</span> + <span class="hd">1</span>
-    <span class="hk">return</span> <span class="hv">hits</span>
+<span class="ig">    </span><span class="hq">"""Return how many values are from low to high, both ends included."""</span>
+<span class="ig">    </span><span class="hv">hits</span> = <span class="hd">0</span>
+<span class="ig">    </span><span class="hk">for</span> <span class="hv">v</span> <span class="hs">in</span> <span class="hv">values</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="hk">if</span> <span class="hv">v</span> &gt;= <span class="hv">low</span> <span class="hs">and</span> <span class="hv">v</span> &lt;= <span class="hv">high</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="ig">    </span><span class="hv">hits</span> = <span class="hv">hits</span> + <span class="hd">1</span>
+<span class="ig">    </span><span class="hk">return</span> <span class="hv">hits</span>
 
 
 <span class="hs">def</span> <span class="hf">total_over</span>(<span class="hv">values</span>, <span class="hv">limit</span>):
-    <span class="hq">"""Return the total of the values that are strictly greater than limit."""</span>
-    <span class="hv">running</span> = <span class="hd">0</span>
-    <span class="hk">for</span> <span class="hv">v</span> <span class="hs">in</span> <span class="hv">values</span>:
-        <span class="hk">if</span> <span class="hv">v</span> &gt; <span class="hv">limit</span>:
-            <span class="hv">running</span> = <span class="hv">running</span> + <span class="hv">v</span>
-    <span class="hk">return</span> <span class="hv">running</span>
+<span class="ig">    </span><span class="hq">"""Return the total of the values that are strictly greater than limit."""</span>
+<span class="ig">    </span><span class="hv">running</span> = <span class="hd">0</span>
+<span class="ig">    </span><span class="hk">for</span> <span class="hv">v</span> <span class="hs">in</span> <span class="hv">values</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="hk">if</span> <span class="hv">v</span> &gt; <span class="hv">limit</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="ig">    </span><span class="hv">running</span> = <span class="hv">running</span> + <span class="hv">v</span>
+<span class="ig">    </span><span class="hk">return</span> <span class="hv">running</span>
 
 
 <span class="hs">def</span> <span class="hf">first_over_index</span>(<span class="hv">values</span>, <span class="hv">limit</span>):
-    <span class="hq">"""Return the index of the first value strictly greater than limit, or -1."""</span>
-    <span class="hk">for</span> <span class="hv">i</span> <span class="hs">in</span> <span class="hc">range</span>(<span class="hf">len</span>(<span class="hv">values</span>)):
-        <span class="hk">if</span> <span class="hv">values</span>[<span class="hv">i</span>] &gt; <span class="hv">limit</span>:
-            <span class="hk">return</span> <span class="hv">i</span>
-    <span class="hk">return</span> -<span class="hd">1</span></code></pre>
+<span class="ig">    </span><span class="hq">"""Return the index of the first value strictly greater than limit, or -1."""</span>
+<span class="ig">    </span><span class="hk">for</span> <span class="hv">i</span> <span class="hs">in</span> <span class="hc">range</span>(<span class="hf">len</span>(<span class="hv">values</span>)):
+<span class="ig">    </span><span class="ig">    </span><span class="hk">if</span> <span class="hv">values</span>[<span class="hv">i</span>] &gt; <span class="hv">limit</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="ig">    </span><span class="hk">return</span> <span class="hv">i</span>
+<span class="ig">    </span><span class="hk">return</span> -<span class="hd">1</span></code></pre>
 <p class="fname">sweep_report3.py, the seven print lines</p>
 <pre class="py"><code><span class="hf">print</span>(<span class="hs">f</span><span class="hq">"smallest </span><span class="hs">{</span><span class="hc">sweep_tools_more</span>.<span class="hf">smallest_of</span>(<span class="hv">readings</span>)<span class="hs">}</span><span class="hq">"</span>)
 <span class="hf">print</span>(<span class="hs">f</span><span class="hq">"largest </span><span class="hs">{</span><span class="hc">sweep_tools_more</span>.<span class="hf">largest_of</span>(<span class="hv">readings</span>)<span class="hs">}</span><span class="hq">"</span>)

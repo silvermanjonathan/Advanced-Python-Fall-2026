@@ -144,6 +144,16 @@ pre.py .hk{color:#8A00B0} pre.py .hs{color:#0000FF} pre.py .hf{color:#6A4E14}
 pre.py .hc{color:#135C70} pre.py .hv{color:#001080} pre.py .hn{color:#00579A}
 pre.py .hq{color:#A31515} pre.py .he{color:#B00000} pre.py .hd{color:#035F3E}
 pre.py .hm{color:#006400}
+/* Indent guides inside the hints, the lines VS Code draws down each step of
+   indentation, so a line shown on its own still shows how far in it goes. VS Code's
+   are 1px and light grey, which vanish on a projector with the lights on, so these are
+   6px and #595959, which clears 7:1 on white like the code colors. Each four-space step
+   is one box as tall as the line, so the bars join up from line to line. A border
+   rather than a shadow, so the bars print. */
+.ladder pre.py .ig,.hintset pre.py .ig{
+  display:inline-block; width:4ch; height:1.6em; vertical-align:top;
+  border-left:6px solid #595959;
+}
 .fname{
   font-family:'JetBrains Mono',monospace; font-size:12.5px; letter-spacing:.1em;
   text-transform:uppercase; color:var(--ink-soft); margin:0 0 6px; font-weight:700;
@@ -339,8 +349,33 @@ def code(text, fname=None):
     out = ""
     if fname:
         out += f'<p class="fname">{esc(fname)}</p>\n'
-    out += '<pre class="py"><code>' + highlight(text.rstrip("\n")) + "</code></pre>\n"
+    out += '<pre class="py"><code>' + indent_guides(highlight(text.rstrip("\n"))) + "</code></pre>\n"
     return out
+
+
+def indent_guides(colored):
+    """Put each four-space step of indentation in its own guide span.
+
+    colored is code that hl.py has colored, one line of code per line of text. Each
+    step's four spaces go inside <span class="ig">, which the CSS draws, inside the
+    hints, as a thick bar down its left edge: the indent guides VS Code shows. A blank
+    line inside an indented block gets empty guide spans, as many steps as the lines
+    above and below it share, so the bars run through it unbroken the way they do in
+    VS Code. The spaces stay spaces and nothing is added to the text, so code copied
+    from a page pastes with its indentation as it was.
+    """
+    lines = colored.split("\n")
+    steps = [(len(ln) - len(ln.lstrip(" "))) // 4 if ln.strip() else None for ln in lines]
+    out = []
+    for i, ln in enumerate(lines):
+        n = steps[i]
+        if n is None:
+            above = next((s for s in reversed(steps[:i]) if s is not None), 0)
+            below = next((s for s in steps[i + 1:] if s is not None), 0)
+            out.append('<span class="ig"></span>' * min(above, below) + ln)
+        else:
+            out.append('<span class="ig">    </span>' * n + ln[4 * n:])
+    return "\n".join(out)
 
 
 def output(text, label="verified output"):
@@ -441,7 +476,7 @@ def laddered(question, hints, answer, slug):
             f"Hint {n}</button>\n"
             f'<div class="ans" id="{hid}">{hints[n - 1]}{inner}</div>\n'
         )
-    return f'<div class="predict"><b>Predict first.</b> {question}\n{inner}</div>\n'
+    return f'<div class="predict ladder"><b>Predict first.</b> {question}\n{inner}</div>\n'
 
 
 _part = [0]
@@ -475,7 +510,7 @@ def labelled_code(source, parts, fname=None, ask=True):
         if not ask:
             out += (
                 f'<div class="part {kind}"><p class="plabel">{label}</p>'
-                f'<pre class="py"><code>{highlight(chunk, source)}</code></pre></div>'
+                f'<pre class="py"><code>{indent_guides(highlight(chunk, source))}</code></pre></div>'
             )
             continue
         _part[0] += 1
@@ -487,7 +522,7 @@ def labelled_code(source, parts, fname=None, ask=True):
             else "What do you think this line of code does?"
         )
         out += (
-            f'<div class="part ask {kind}"><pre class="py"><code>{highlight(chunk, source)}'
+            f'<div class="part ask {kind}"><pre class="py"><code>{indent_guides(highlight(chunk, source))}'
             "</code></pre>"
             f'<button class="rev" data-target="{pid}" data-show="{q}" '
             f'data-hide="Hide the answer" aria-expanded="false" aria-controls="{pid}">'
@@ -607,10 +642,18 @@ def validate(paths):
         if len(btns) != len(set(btns)):
             problems.append(f"{base}: duplicate reveal ids")
 
-        blocks = [
-            re.sub(r'<span class="h\w">|</span>', "", blk)
-            for blk in re.findall(r"<pre(?: class=\"[^\"]*\")?><code>(.*?)</code></pre>", doc, re.S)
-        ]
+        raw = re.findall(r"<pre(?: class=\"[^\"]*\")?><code>(.*?)</code></pre>", doc, re.S)
+        blocks = [re.sub(r'<span class="(?:h\w|ig)">|</span>', "", blk) for blk in raw]
+        # every step of indentation in a code block sits in an indent guide span, so
+        # the hints can draw VS Code's guides; a guide span holds four spaces or, on a
+        # blank line, nothing
+        for blk in re.findall(r'<pre class="py"><code>(.*?)</code></pre>', doc, re.S):
+            if any(ln.startswith("    ") for ln in blk.split("\n")):
+                problems.append(f"{base}: indentation without indent guides in a code block")
+                break
+            if any(s not in ("    ", "") for s in re.findall(r'<span class="ig">(.*?)</span>', blk)):
+                problems.append(f"{base}: an indent guide span that is not four spaces")
+                break
         for block in blocks:
             if "<" in block or ">" in block:
                 problems.append(f"{base}: unescaped angle bracket in a code block")

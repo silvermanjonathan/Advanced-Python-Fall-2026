@@ -127,7 +127,18 @@ python3 pdf.py         # optional: re-renders wed01_worksheet.pdf (needs weasypr
 ```
 
 `make.py` checks tag balance, reveal and answer parity, escaped angle brackets in `<pre>`
-blocks, link resolution, dash characters and entities, and absence of browser storage.
+blocks, that every step of indentation in a code block sits in an indent guide span,
+link resolution, dash characters and entities, and absence of browser storage.
+
+Code inside the hints (the Predict first ladders and the function hint sets) shows the
+indent guides VS Code draws: a bar down each four-space step of indentation, so a line
+shown on its own still shows how far in it goes. They are 6px wide in `#595959`, not
+VS Code's 1px light grey, because thin light lines wash out on the projector, and they
+run unbroken through blank lines inside a block. `build.indent_guides` puts each step's
+four spaces in a `<span class="ig">` in every code block; one CSS rule draws them
+inside `.ladder` and `.hintset` only, so other blocks can have them later by widening
+it. The spaces stay spaces, so copied code keeps its indentation. The bars are borders,
+so they print.
 `crosscheck.py` runs each program and asserts that every line quoted on its page appears
 in the real stdout, including the broken Monty Hall variant and the session 13 table of
 other starting speeds, which `verify_orbit_band.py` produces by running `orbit.py` with
@@ -682,3 +693,11 @@ Known corrections made before first printing:
     spellings (neighbor, around). Session 7 also explains list slices, a slice that
     starts at a position, and returning two values, which the old session 6 taught,
     and no longer mentions the sweep. README open decision 2 matches the hub.
+57. Indent guides in the hints, 26 October: thick dark bars down each step of
+    indentation inside the Predict first ladders and the function hint sets, the way
+    VS Code shows them (see Verification). The ladders' box is now
+    `<div class="predict ladder">` so the rule can find it. No content changes: with the
+    guide spans removed every page is what it was, apart from the CSS. Checked in
+    Chromium at 1280px and 390px with every reveal open: same page heights, same code
+    blocks scrolling sideways. The worksheet has no hints, so its PDF was not
+    re-rendered. `make.py` and `crosscheck.py` pass.
