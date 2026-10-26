@@ -130,15 +130,15 @@ python3 pdf.py         # optional: re-renders wed01_worksheet.pdf (needs weasypr
 blocks, that every step of indentation in a code block sits in an indent guide span,
 link resolution, dash characters and entities, and absence of browser storage.
 
-Code inside the hints (the Predict first ladders and the function hint sets) shows the
-indent guides VS Code draws: a bar down each four-space step of indentation, so a line
-shown on its own still shows how far in it goes. They are 6px wide in `#595959`, not
-VS Code's 1px light grey, because thin light lines wash out on the projector, and they
-run unbroken through blank lines inside a block. `build.indent_guides` puts each step's
-four spaces in a `<span class="ig">` in every code block; one CSS rule draws them
-inside `.ladder` and `.hintset` only, so other blocks can have them later by widening
-it. The spaces stay spaces, so copied code keeps its indentation. The bars are borders,
-so they print.
+Every code block shows the indent guides VS Code draws: a bar down each four-space
+step of indentation, so even a single line shown on its own in a hint shows how far in
+it goes. They are 6px wide in `#595959`, not VS Code's 1px light grey, because thin
+light lines wash out on the projector, and they run unbroken through blank lines inside
+a block. `build.indent_guides` puts each step's four spaces in a `<span class="ig">`,
+the door-trace program included; each guide takes its height from the line it sits in,
+so it fits the worksheet's and the trace's tighter line spacing, and its spaces never
+wrap. The spaces stay spaces, so copied code keeps its indentation. The bars are
+borders, so they print.
 `crosscheck.py` runs each program and asserts that every line quoted on its page appears
 in the real stdout, including the broken Monty Hall variant and the session 13 table of
 other starting speeds, which `verify_orbit_band.py` produces by running `orbit.py` with
@@ -701,3 +701,10 @@ Known corrections made before first printing:
     Chromium at 1280px and 390px with every reveal open: same page heights, same code
     blocks scrolling sideways. The worksheet has no hints, so its PDF was not
     re-rendered. `make.py` and `crosscheck.py` pass.
+58. Indent guides on every code block, 26 October, not only in the hints, the door-trace
+    program included. Each guide takes its height from its line and never wraps.
+    Checked in Chromium at 1280px and 390px with every reveal open: same page heights,
+    same code blocks scrolling sideways. `wed01_worksheet.pdf` re-rendered with
+    WeasyPrint and the same fallback fonts as before (DejaVu): the same ten pages, and
+    against a render of the old page it differs only in the guide strips. `make.py`
+    and `crosscheck.py` pass.

@@ -144,16 +144,19 @@ pre.py .hk{color:#8A00B0} pre.py .hs{color:#0000FF} pre.py .hf{color:#6A4E14}
 pre.py .hc{color:#135C70} pre.py .hv{color:#001080} pre.py .hn{color:#00579A}
 pre.py .hq{color:#A31515} pre.py .he{color:#B00000} pre.py .hd{color:#035F3E}
 pre.py .hm{color:#006400}
-/* Indent guides inside the hints, the lines VS Code draws down each step of
-   indentation, so a line shown on its own still shows how far in it goes. VS Code's
+/* Indent guides on every code block, the lines VS Code draws down each step of
+   indentation, so even a line shown on its own shows how far in it goes. VS Code's
    are 1px and light grey, which vanish on a projector with the lights on, so these are
    6px and #595959, which clears 7:1 on white like the code colors. Each four-space step
-   is one box as tall as the line, so the bars join up from line to line. A border
-   rather than a shadow, so the bars print. */
-.ladder pre.py .ig,.hintset pre.py .ig{
-  display:inline-block; width:4ch; height:1.6em; vertical-align:top;
+   is one box holding its four spaces, or on a blank line one space drawn by the CSS and
+   not part of the text, so it is exactly as tall as a line wherever it sits and the
+   bars join up. The spaces never wrap, even where the printed worksheet lets code wrap.
+   A border rather than a shadow, so the bars print. */
+pre.py .ig{
+  display:inline-block; width:4ch; vertical-align:top; white-space:pre;
   border-left:6px solid #595959;
 }
+pre.py .ig:empty::before{content:" "}
 .fname{
   font-family:'JetBrains Mono',monospace; font-size:12.5px; letter-spacing:.1em;
   text-transform:uppercase; color:var(--ink-soft); margin:0 0 6px; font-weight:700;
@@ -357,8 +360,8 @@ def indent_guides(colored):
     """Put each four-space step of indentation in its own guide span.
 
     colored is code that hl.py has colored, one line of code per line of text. Each
-    step's four spaces go inside <span class="ig">, which the CSS draws, inside the
-    hints, as a thick bar down its left edge: the indent guides VS Code shows. A blank
+    step's four spaces go inside <span class="ig">, which the CSS draws as a thick
+    bar down its left edge: the indent guides VS Code shows. A blank
     line inside an indented block gets empty guide spans, as many steps as the lines
     above and below it share, so the bars run through it unbroken the way they do in
     VS Code. The spaces stay spaces and nothing is added to the text, so code copied

@@ -1,6 +1,6 @@
 """Session 1: an animated trace of gate_log.py filling the worksheet table."""
 
-from build import masthead, pager
+from build import indent_guides, masthead, pager
 from hl import highlight
 
 DOORS = [1, 0, 1, 1, 0, 0, 1, 0, 1, 1, 1, 0]
@@ -71,12 +71,17 @@ PROGRAM_LINES = [
 
 
 def program_block():
-    """Return gate_log.py, colored as in VS Code, with one span per line so lines can light up."""
+    """Return gate_log.py, colored as in VS Code, with one span per line so lines can light up.
+
+    The indent guides are drawn as on every other code block.
+    """
     whole = "\n".join(PROGRAM_LINES)
+    # the indent guides are worked out over the whole program, so a blank line inside
+    # a block keeps its bars, then the program is cut back into its lines
+    lines = indent_guides("\n".join(highlight(ln, whole) for ln in PROGRAM_LINES)).split("\n")
     out = '<pre class="prog py">'
     for n, line in enumerate(PROGRAM_LINES):
-        text = highlight(line, whole)
-        out += f'<span class="l" id="ln{n}">{text if text else " "}</span>'
+        out += f'<span class="l" id="ln{n}">{lines[n] if line else lines[n] + " "}</span>'
     return out + "</pre>"
 
 
