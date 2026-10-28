@@ -40,7 +40,7 @@ copy of the syllabus link table.
 | 2 | 23 Sep | `wed02_return_and_modules.html` | `return`, composition, your own importable module |
 | 3 | 30 Sep | `wed03_counting.html` | Dicts and `Counter`, build a Caesar cipher, then break one |
 | 4 | 21 Oct | `wed04_two_way.html` | Session 3's console asks encrypt or decrypt; E or D picks `KEY` or `-KEY` |
-| 5 | 28 Oct | `wed05_objects.html` | `class`, `__init__`, `self`, virtual pets, six broken pets, your own creature |
+| 5 | 28 Oct | `wed05_objects.html` | `class`, `__init__`, `self`, virtual pets, six broken pets, a forest of trees in pygame, your own creature or forest |
 | 6 | 4 Nov | `wed06_rock_paper_scissors.html` | Who wins rock paper scissors, decided with if lines, a dictionary, and `(a - b) % 3`; a game against the computer |
 | 7 | 18 Nov | `wed07_heuristics.html` | Hill climbing, a genetic algorithm, a fair comparison |
 | 8 | 25 Nov | `wed08_monte_carlo.html` | Monty Hall, convergence, and a silent bug. Capstone brief |
@@ -98,7 +98,7 @@ session; nothing on the site uses them.
 | 2 | `sweep_tools.py`, `sweep_report2.py`, `print_the_return.py`; answer key for section 5: `sweep_tools_more.py`, `sweep_report3.py`, `first_over_enumerate.py` |
 | 3 | `counter_tour.py`, `caesar_encode.py`, `caesar_crack.py` |
 | 4 | `undo_tour.py`, `two_way_step1.py`, `two_way_step2.py`, `two_way_console.py`, `two_way_space.py`; `verify_two_way.py` for the teacher |
-| 5 | `pets.py`; `verify_pets.py` for the teacher |
+| 5 | `pets.py`, `forest.py`; `verify_pets.py` and `verify_forest.py` for the teacher |
 | 6 | `rps_if.py`, `rps_dict.py`, `rps_game.py`, `rps_clock.py`, `rps_three_ways.py`, `rps_spock.py`; `verify_rps.py` for the teacher |
 | 7 | `smarter_than_brute.py` |
 | 8 | `monty_hall.py` |
@@ -708,3 +708,26 @@ Known corrections made before first printing:
     WeasyPrint and the same fallback fonts as before (DejaVu): the same ten pages, and
     against a render of the old page it differs only in the guide strips. `make.py`
     and `crosscheck.py` pass.
+59. A forest added to session 5, 28 October, inspired by the trees lesson on the Making
+    Virtual Pets site. Turtle does not run in the classroom's VS Code, so the `Tree`
+    keeps its own numbers (`x`, `height`, `leaf_size`) and draws itself in pygame: a
+    `pygame.draw.rect` trunk and a `pygame.draw.circle` clump of leaves. `forest.py`
+    makes seven trees in a list with a `for` loop and `append`; G grows every tree by
+    20 and L gives every tree leaves. New section 4, "A forest of trees" (20 minutes):
+    download, read in four tree pieces with predict-first questions (parameters to
+    attributes, where `self` and `amount` get their values, why the trunk's top is
+    `GROUND - self.height`, the starting heights and the heights after G three times
+    and L, with two screenshots), the eighth tree (`range(8)` puts it on the right
+    edge at x 640), and two forest rounds (`forest[0].grow(80)` changes one tree; a
+    list holding one tree three times, round 3's `b = a` again). Section 5 is now
+    "Build your own" (15 minutes): the creature brief as it was, or a new forest brief
+    (a new attribute, a new method with a parameter, `draw` uses it, 5 or more trees,
+    a key that changes every tree). Broken pets drops from 15 to 10 minutes. Exits,
+    the panel's timing, what to watch for, retouch, files and lifted lines follow;
+    section references that said 4 now say 5. `pygame.draw.circle` and a list of
+    objects are now lifted in session 5, so the hub's lifted table and session 11's
+    lifted line no longer list a list of objects there. `verify_forest.py` runs
+    `forest.py` headless with the key presses, the eighth tree change and both rounds,
+    and saves `build/shots/forest_5.png` and `forest_60.png`; the page reads the
+    rounds from its `SNIPPETS`. Run on Python 3.13.18 and pygame 2.6.1; the figures
+    are whole-number arithmetic. `make.py` and `crosscheck.py` pass.

@@ -986,10 +986,9 @@ trail lengths: shortest 92, longest 183""",
             "headless with <code>SDL_VIDEODRIVER=dummy</code> over 240 frames on pygame "
             "2.6.1. Confirm pygame is installed on the classroom machines before this "
             "session.</p>"
-            "<h3>Lifted this week</h3><p>A list of objects, "
-            "<code>pygame.draw.lines</code>. <code>class</code>, "
-            "<code>__init__</code>, <code>self</code>, and methods were lifted in "
-            "session 5.</p>"
+            "<h3>Lifted this week</h3><p><code>pygame.draw.lines</code>. "
+            "<code>class</code>, <code>__init__</code>, <code>self</code>, methods, and "
+            "a list of objects were lifted in session 5.</p>"
         ),
     )
     b += pager(

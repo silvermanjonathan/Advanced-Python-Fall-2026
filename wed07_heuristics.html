@@ -313,11 +313,11 @@ footer p{margin:0}
 <main><div class="wrap">
 
 <div class="flag"><b>No class on 11 November.</b> Veterans Day, so session 6 was two weeks ago.</div><section class="opener"><p class="chunk-no">Section 1 &middot; 10 minutes</p><h2>Opener</h2><p>Talk this one over with your neighbor first.</p><div class="predict"><b>Predict first.</b> In session 6, <code>rps_three_ways.py</code> checked three versions of <code>winner</code> on all nine pairings. Why check all nine, when three tests had already printed the right answers?
-<button class="rev" data-target="a78" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a78">Show the answer</button>
-<div class="ans" id="a78"><p>Three tests only try three pairings, and a mistake can sit in a pairing the tests never tried. In session 6, a mistake planted in <code>BEATS</code> would have passed all three tests, and checking every pairing caught it.</p><p>Today's first program does the same to a lock: it tries every code.</p></div></div>
+<button class="rev" data-target="a85" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a85">Show the answer</button>
+<div class="ans" id="a85"><p>Three tests only try three pairings, and a mistake can sit in a pairing the tests never tried. In session 6, a mistake planted in <code>BEATS</code> would have passed all three tests, and checking every pairing caught it.</p><p>Today's first program does the same to a lock: it tries every code.</p></div></div>
 <p>A lock has 7 digits, and each digit is 0 to 9. A program tries every code in order: 0000000, then 0000001, then 0000002, and so on. Trying every possibility in turn like this is called <b>brute force</b>. The lock's code is <code>4703916</code>.</p><div class="predict"><b>Predict first.</b> How many codes does the lock have? How many tries does the program need to reach 4703916?
-<button class="rev" data-target="a79" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a79">Show the answer</button>
-<div class="ans" id="a79"><p><b>Codes.</b> 10 choices for each of 7 digits: 10 × 10 × 10 × 10 × 10 × 10 × 10 = 10000000, ten million.</p><p><b>Tries.</b> 4703917. Read as a number, 4703916 has 4703916 codes before it, from 0000000 to 4703915, and the right code is one more try.</p></div></div>
+<button class="rev" data-target="a86" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a86">Show the answer</button>
+<div class="ans" id="a86"><p><b>Codes.</b> 10 choices for each of 7 digits: 10 × 10 × 10 × 10 × 10 × 10 × 10 = 10000000, ten million.</p><p><b>Tries.</b> 4703917. Read as a number, 4703916 has 4703916 codes before it, from 0000000 to 4703915, and the right code is one more try.</p></div></div>
 </section>
 <section class="chunk"><p class="chunk-no">Section 2 &middot; 25 minutes</p><h2>A score changes everything</h2><p>Brute force learns one thing per guess: right or wrong. Suppose instead the lock tells you how many positions are correct. That one change makes the problem much easier.</p><p class="fname">smarter_than_brute.py</p>
 <pre class="py"><code><span class="hs">def</span> <span class="hf">score</span>(<span class="hv">guess</span>):
@@ -348,8 +348,8 @@ footer p{margin:0}
 <span class="ig">    </span><span class="ig">    </span><span class="ig">    </span><span class="hv">best</span> = <span class="hf">score</span>(<span class="hv">candidate</span>)
 <span class="ig">    </span><span class="hk">return</span> <span class="hv">tries</span></code></pre>
 <p>Two pieces of <code>hill_climb</code> are new. <code>random.randrange(len(SECRET))</code> returns a random whole number from 0 up to, but not including, <code>len(SECRET)</code>, so it picks a position in the code.</p><p><code>current[:spot]</code> is a <b>slice</b>: the characters of <code>current</code> before position <code>spot</code>. <code>current[spot + 1:]</code> is the characters after position <code>spot</code>. Joined with <code>new_digit</code> between them, they make a copy of <code>current</code> with the digit at <code>spot</code> replaced. If <code>current</code> is <code>"1234567"</code> and <code>spot</code> is 2, then <code>current[:2]</code> is <code>"12"</code> and <code>current[3:]</code> is <code>"4567"</code>, so with a new digit of 9 the candidate is <code>"1294567"</code>.</p><div class="predict"><b>Predict first.</b> Brute force needs about 4.7 million tries on this lock. Guess how many hill climbing needs. Write a number.
-<button class="rev" data-target="a80" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a80">Show the answer</button>
-<div class="ans" id="a80"><div class="out"><span class="tag">verified output</span><pre><code>secret is 7 digits, so there are 10000000 codes
+<button class="rev" data-target="a87" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a87">Show the answer</button>
+<div class="ans" id="a87"><div class="out"><span class="tag">verified output</span><pre><code>secret is 7 digits, so there are 10000000 codes
 
 brute force        4703917 tries
 random guessing    200000 tries (capped at 200000)
@@ -382,8 +382,8 @@ hill climbing, five runs:
 <span class="ig"></span><span class="ig"></span><span class="ig"></span>
 <span class="ig">    </span><span class="ig">    </span><span class="ig">    </span><span class="hv">population</span>.<span class="hf">append</span>(<span class="hv">child</span>)</code></pre>
 <p>Slices work on lists too. <code>population[:keep]</code> is the first <code>keep</code> codes in the list, the best ones after the sort. A slice with the number before the colon starts there: <code>dad[cut:]</code> is the characters of <code>dad</code> from position <code>cut</code> to the end. So <code>mum[:cut] + dad[cut:]</code> is the front of one parent joined to the back of the other.</p><p><code>return generation, population[0]</code> returns two values at once: how many generations it took, and the code it found. The line that calls the function stores them in two variables, <code>g, winner = genetic(40, 8)</code>, in the order they were returned.</p><div class="predict"><b>Predict first.</b> Population of 40, keeping the best 8. It finishes in about 17 generations. Is that better or worse than hill climbing's 170 tries? Careful.
-<button class="rev" data-target="a81" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a81">Show the answer</button>
-<div class="ans" id="a81"><div class="out"><span class="tag">verified output</span><pre><code>genetic algorithm, five runs:
+<button class="rev" data-target="a88" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a88">Show the answer</button>
+<div class="ans" id="a88"><div class="out"><span class="tag">verified output</span><pre><code>genetic algorithm, five runs:
   run 1: 24 generations, found 4703916
   run 2: 8 generations, found 4703916
   run 3: 4 generations, found 4703916

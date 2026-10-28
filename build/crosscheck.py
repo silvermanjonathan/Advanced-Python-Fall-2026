@@ -131,6 +131,18 @@ CHECKS = {
         "TypeError: Pet.feed() takes 1 positional argument but 2 were given",
         "TypeError: Pet() takes no arguments",
     ]),
+    # verify_forest.py runs forest.py headless with G and L pressed, the eighth tree
+    # change, and both forest rounds
+    "wed05_objects.html#forest": (
+        "SDL_VIDEODRIVER=dummy SDL_AUDIODRIVER=dummy python3 verify_forest.py", [
+        "heights [40, 60, 80, 100, 120, 140, 160]",
+        "heights [100, 120, 140, 160, 180, 200, 220]",
+        "leaf sizes [30, 30, 30, 30, 30, 30, 30]",
+        "tallest tree: x 560, height 220, top of trunk at y 120",
+        "x positions [80, 160, 240, 320, 400, 480, 560, 640], window width 640",
+        "100 170\n300 90\n500 90",
+        "190",
+    ]),
     "wed06_rock_paper_scissors.html#if": ("python3 rps_if.py", [
         "rock against paper: player 2", "paper against rock: player 1",
         "scissors against scissors: tie",

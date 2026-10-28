@@ -313,11 +313,11 @@ footer p{margin:0}
 <main><div class="wrap">
 
 <section class="opener"><p class="chunk-no">Section 1 &middot; 10 minutes</p><h2>Opener: nine pairings</h2><p>Talk this one over with your neighbor first.</p><div class="predict"><b>Predict first.</b> In session 5, <code>report</code> worked out one line about a pet. Did <code>report</code> print the line, or return it? Then say what the caller can do with a returned line that it could not do with a printed one.
-<button class="rev" data-target="a59" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a59">Show the answer</button>
-<div class="ans" id="a59"><p><b>Return.</b> <code>report</code> returned the line, and <code>print(rocky.report())</code> printed it.</p><p><b>What the caller can do.</b> A returned value goes to the line that called the function. That line can print it, store it in a variable, or compare it with something else. A printed line only goes to the terminal, and the program cannot use it again. Today's function, <code>winner</code>, returns who won, so the game in section 4 can store the answer and count it.</p></div></div>
+<button class="rev" data-target="a66" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a66">Show the answer</button>
+<div class="ans" id="a66"><p><b>Return.</b> <code>report</code> returned the line, and <code>print(rocky.report())</code> printed it.</p><p><b>What the caller can do.</b> A returned value goes to the line that called the function. That line can print it, store it in a variable, or compare it with something else. A printed line only goes to the terminal, and the program cannot use it again. Today's function, <code>winner</code>, returns who won, so the game in section 4 can store the answer and count it.</p></div></div>
 <p>The rules: rock beats scissors, scissors beats paper, and paper beats rock. If both players pick the same move, it is a tie.</p><p>Player 1 picks one of the three moves, and player 2 picks one of the three moves. Each combination of the two picks is called a <b>pairing</b>. On paper, draw a table with player 1's move down the left side and player 2's move across the top. In each square, write who wins: player 1, player 2, or tie.</p><div class="predict"><b>Predict first.</b> How many squares does your table have? In how many does player 1 win, in how many does player 2 win, and how many are ties?
-<button class="rev" data-target="a60" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a60">Show the answer</button>
-<div class="ans" id="a60"><table><tr><th>player 1 down, player 2 across</th><th>rock</th><th>paper</th><th>scissors</th></tr><tr><th>rock</th><td>tie</td><td>player 2</td><td>player 1</td></tr><tr><th>paper</th><td>player 1</td><td>tie</td><td>player 2</td></tr><tr><th>scissors</th><td>player 2</td><td>player 1</td><td>tie</td></tr></table><p><b>Squares.</b> 9: 3 rows times 3 columns.</p><p><b>Who wins.</b> Player 1 wins in 3 squares, player 2 wins in 3, and 3 are ties.</p><p>Look along any one row. Whatever player 1 picks, one of player 2's picks loses to it, one is a tie, and one beats it. So if the computer picks at random, with each move as likely as the others, you win about 1 round in every 3, whatever you pick.</p><p>Keep your table. You will check three programs against it today.</p></div></div>
+<button class="rev" data-target="a67" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a67">Show the answer</button>
+<div class="ans" id="a67"><table><tr><th>player 1 down, player 2 across</th><th>rock</th><th>paper</th><th>scissors</th></tr><tr><th>rock</th><td>tie</td><td>player 2</td><td>player 1</td></tr><tr><th>paper</th><td>player 1</td><td>tie</td><td>player 2</td></tr><tr><th>scissors</th><td>player 2</td><td>player 1</td><td>tie</td></tr></table><p><b>Squares.</b> 9: 3 rows times 3 columns.</p><p><b>Who wins.</b> Player 1 wins in 3 squares, player 2 wins in 3, and 3 are ties.</p><p>Look along any one row. Whatever player 1 picks, one of player 2's picks loses to it, one is a tie, and one beats it. So if the computer picks at random, with each move as likely as the others, you win about 1 round in every 3, whatever you pick.</p><p>Keep your table. You will check three programs against it today.</p></div></div>
 </section>
 <section class="chunk"><p class="chunk-no">Section 2 &middot; 15 minutes</p><h2>Decide it with if lines</h2><div class="now"><p><b>Do this now.</b> Make a new file called <code>rps.py</code>. Type the list and the function below, then the three <code>print</code> lines under them. Answer the question under them before you run it.</p></div><p class="fname">rps.py</p>
 <pre class="py"><code><span class="hn">MOVES</span> = [<span class="hq">"rock"</span>, <span class="hq">"paper"</span>, <span class="hq">"scissors"</span>]
@@ -340,8 +340,8 @@ footer p{margin:0}
 <span class="hf">print</span>(<span class="hf">winner</span>(<span class="hq">"rock"</span>, <span class="hq">"paper"</span>))
 <span class="hf">print</span>(<span class="hf">winner</span>(<span class="hq">"paper"</span>, <span class="hq">"paper"</span>))</code></pre>
 <p><code>MOVES</code> is a list of the three moves. A name in capitals holds a value the program never changes while it runs.</p><p><code>winner</code> has two parameters: <code>move1</code> is player 1's move and <code>move2</code> is player 2's move. It returns one of three strings: <code>"tie"</code>, <code>"player 1"</code>, or <code>"player 2"</code>.</p><p>The first gate checks for a tie. The next three gates are the three ways player 1 can win. Each one joins two comparisons with <code>and</code>, from session 2, so it is True only when both comparisons are True. If none of the four gates is True, the <code>else</code> line returns <code>"player 2"</code>.</p><div class="predict"><b>Predict first.</b> What do the three <code>print</code> lines print? Say which gate decides each one.
-<button class="rev" data-target="a61" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a61">Show the answer</button>
-<div class="ans" id="a61"><div class="out"><span class="tag">verified output</span><pre><code>player 1
+<button class="rev" data-target="a68" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a68">Show the answer</button>
+<div class="ans" id="a68"><div class="out"><span class="tag">verified output</span><pre><code>player 1
 player 2
 tie</code></pre></div>
 <p><b>Line 1</b>, rock against scissors: the second gate is True, so player 1.</p><p><b>Line 2</b>, rock against paper: none of the four gates is True, so <code>else</code> returns player 2.</p><p><b>Line 3</b>, paper against paper: the first gate is True, so it is a tie.</p></div></div>
@@ -351,8 +351,8 @@ tie</code></pre></div>
 <span class="ig">    </span><span class="hk">for</span> <span class="hv">move2</span> <span class="hs">in</span> <span class="hn">MOVES</span>:
 <span class="ig">    </span><span class="ig">    </span><span class="hf">print</span>(<span class="hs">f</span><span class="hq">"</span><span class="hs">{</span><span class="hv">move1</span><span class="hs">}</span><span class="hq"> against </span><span class="hs">{</span><span class="hv">move2</span><span class="hs">}</span><span class="hq">: </span><span class="hs">{</span><span class="hf">winner</span>(<span class="hv">move1</span>, <span class="hv">move2</span>)<span class="hs">}</span><span class="hq">"</span>)</code></pre>
 <p>This is a loop inside a loop, as in session 3. The outer loop gives <code>move1</code> each of the three moves in turn. For each one, the inner loop gives <code>move2</code> all three moves.</p><div class="predict"><b>Predict first.</b> How many lines does it print? Check each line against the square for the same pairing in your table.
-<button class="rev" data-target="a62" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a62">Show the answer</button>
-<div class="ans" id="a62"><div class="out"><span class="tag">verified output, rps.py</span><pre><code>rock against rock: tie
+<button class="rev" data-target="a69" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a69">Show the answer</button>
+<div class="ans" id="a69"><div class="out"><span class="tag">verified output, rps.py</span><pre><code>rock against rock: tie
 rock against paper: player 2
 rock against scissors: player 1
 paper against rock: player 1
@@ -365,8 +365,8 @@ scissors against scissors: tie</code></pre></div>
 <h3>A typo</h3><p>Players make typos. Add this line at the bottom of <code>rps.py</code>, under the loop:</p><p class="fname">rps.py, at the bottom</p>
 <pre class="py"><code><span class="hf">print</span>(<span class="hf">winner</span>(<span class="hq">"rokc"</span>, <span class="hq">"scissors"</span>))</code></pre>
 <div class="predict"><b>Predict first.</b> The player meant rock and typed <code>rokc</code>, which is not one of the three moves. What does this line print, and which line of <code>winner</code> returns it?
-<button class="rev" data-target="a63" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a63">Show the answer</button>
-<div class="ans" id="a63"><div class="out"><span class="tag">verified output</span><pre><code>player 2</code></pre></div>
+<button class="rev" data-target="a70" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a70">Show the answer</button>
+<div class="ans" id="a70"><div class="out"><span class="tag">verified output</span><pre><code>player 2</code></pre></div>
 <p>It prints <code>player 2</code>, from the <code>else</code> line. <code>"rokc"</code> is not equal to <code>"scissors"</code>, so the first gate is False. Each player 1 gate needs <code>move1</code> to be <code>"rock"</code>, <code>"scissors"</code>, or <code>"paper"</code>, and <code>"rokc"</code> is none of them, so those three gates are False too. <code>else</code> runs whenever every gate above it is False, typo or not.</p><p>Rock beats scissors, so the right answer is player 1. The program gives a wrong answer and shows no error.</p></div></div>
 </section>
 <section class="chunk"><p class="chunk-no">Section 3 &middot; 15 minutes</p><h2>The rules in a dictionary</h2><p>In session 3, a dictionary stored values under keys, and <code>code_names["ben"]</code> looked up the value stored under the key <code>"ben"</code>. The rules of rock paper scissors fit in a dictionary: each move is a key, and its value is the move it beats.</p><p>A comparison such as <code>BEATS["scissors"] == "paper"</code> gives True or False, and <code>print</code> shows which.</p><pre class="py"><code><span class="hn">BEATS</span> = {<span class="hq">"rock"</span>: <span class="hq">"scissors"</span>, <span class="hq">"paper"</span>: <span class="hq">"rock"</span>, <span class="hq">"scissors"</span>: <span class="hq">"paper"</span>}
@@ -375,8 +375,8 @@ scissors against scissors: tie</code></pre></div>
 <span class="hf">print</span>(<span class="hn">BEATS</span>[<span class="hq">"scissors"</span>] == <span class="hq">"paper"</span>)
 <span class="hf">print</span>(<span class="hn">BEATS</span>[<span class="hq">"rock"</span>] == <span class="hq">"paper"</span>)</code></pre>
 <div class="predict"><b>Predict first.</b> What do the three <code>print</code> lines print? For the second and third, say True or False, and why.
-<button class="rev" data-target="a64" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a64">Show the answer</button>
-<div class="ans" id="a64"><div class="out"><span class="tag">verified output</span><pre><code>rock
+<button class="rev" data-target="a71" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a71">Show the answer</button>
+<div class="ans" id="a71"><div class="out"><span class="tag">verified output</span><pre><code>rock
 True
 False</code></pre></div>
 <p><b>Line 1</b> prints <code>rock</code>, the value stored under the key <code>"paper"</code>: paper beats rock.</p><p><b>Line 2</b> prints <code>True</code>. <code>BEATS["scissors"]</code> is <code>"paper"</code>, because scissors beats paper, and <code>"paper" == "paper"</code> is True.</p><p><b>Line 3</b> prints <code>False</code>. <code>BEATS["rock"]</code> is <code>"scissors"</code>, and <code>"scissors" == "paper"</code> is False. Rock does not beat paper.</p></div></div>
@@ -393,8 +393,8 @@ False</code></pre></div>
 <span class="ig">    </span><span class="hk">else</span>:
 <span class="ig">    </span><span class="ig">    </span><span class="hk">return</span> <span class="hq">"player 2"</span></code></pre>
 <p><code>BEATS[move1] == move2</code> asks one question: is <code>move2</code> the move that <code>move1</code> beats? If it is, player 1 wins. The three player 1 gates from section 2 are now one gate, and the rules are in the dictionary instead of in the gates.</p><div class="predict"><b>Predict first.</b> Before you run it: will the loop print the same nine lines as in section 2? Say yes or no, and why. Then say what the typo line will do now.
-<button class="rev" data-target="a65" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a65">Show the answer</button>
-<div class="ans" id="a65"><p><b>The nine lines.</b> Yes, the same nine:</p><div class="out"><span class="tag">verified output, rps.py</span><pre><code>rock against rock: tie
+<button class="rev" data-target="a72" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a72">Show the answer</button>
+<div class="ans" id="a72"><p><b>The nine lines.</b> Yes, the same nine:</p><div class="out"><span class="tag">verified output, rps.py</span><pre><code>rock against rock: tie
 rock against paper: player 2
 rock against scissors: player 1
 paper against rock: player 1
@@ -408,8 +408,8 @@ scissors against scissors: tie</code></pre></div>
 <p>Now move the typo to player 2's move. Change the typo line to this:</p><p class="fname">rps.py, at the bottom</p>
 <pre class="py"><code><span class="hf">print</span>(<span class="hf">winner</span>(<span class="hq">"rock"</span>, <span class="hq">"sissors"</span>))</code></pre>
 <div class="predict"><b>Predict first.</b> Does it stop with an error, or print an answer? If it prints an answer, is the answer right?
-<button class="rev" data-target="a66" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a66">Show the answer</button>
-<div class="ans" id="a66"><div class="out"><span class="tag">verified output</span><pre><code>player 2</code></pre></div>
+<button class="rev" data-target="a73" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a73">Show the answer</button>
+<div class="ans" id="a73"><div class="out"><span class="tag">verified output</span><pre><code>player 2</code></pre></div>
 <p>It prints an answer, and the answer is wrong. <code>BEATS["rock"]</code> is <code>"scissors"</code>, so the lookup works. Then <code>"scissors" == "sissors"</code> is False, so the <code>else</code> line returns player 2. The player meant scissors, and rock beats scissors, so the right answer is player 1.</p><p>Only <code>move1</code> is looked up in the dictionary, so only a typo in <code>move1</code> stops the program. Section 4 stops typos before they reach <code>winner</code>.</p></div></div>
 <p>If you fell behind, this is <code>rps.py</code> at the end of this section, without the typo line:</p><div class="toolbar"><a class="btn quiet" href="rps_dict.py" download="rps.py">Download rps.py</a></div>
 </section>
@@ -421,8 +421,8 @@ scissors against scissors: tie</code></pre></div>
 <span class="hf">print</span>(<span class="hc">random</span>.<span class="hf">choice</span>(<span class="hn">MOVES</span>))
 <span class="hf">print</span>(<span class="hc">random</span>.<span class="hf">choice</span>(<span class="hn">MOVES</span>))</code></pre>
 <div class="predict"><b>Predict first.</b> Before you run it: what do you know for sure about each of the three lines? Can the same move come up twice?
-<button class="rev" data-target="a67" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a67">Show the answer</button>
-<div class="ans" id="a67"><p><b>For sure.</b> Each line is one of the three moves: rock, paper, or scissors. Which one, nobody can know before it runs.</p><p><b>Twice.</b> Yes. Each call picks again from all three moves, so the same move can come up twice, or even three times. One run printed:</p><div class="out"><span class="tag">verified output, one run</span><pre><code>scissors
+<button class="rev" data-target="a74" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a74">Show the answer</button>
+<div class="ans" id="a74"><p><b>For sure.</b> Each line is one of the three moves: rock, paper, or scissors. Which one, nobody can know before it runs.</p><p><b>Twice.</b> Yes. Each call picks again from all three moves, so the same move can come up twice, or even three times. One run printed:</p><div class="out"><span class="tag">verified output, one run</span><pre><code>scissors
 rock
 paper</code></pre></div>
 <p>Run it again and the lines change.</p></div></div>
@@ -432,8 +432,8 @@ paper</code></pre></div>
 <span class="hf">print</span>(<span class="hq">"papper"</span> <span class="hs">in</span> <span class="hn">MOVES</span>)
 <span class="hf">print</span>(<span class="hq">"papper"</span> <span class="hs">not</span> <span class="hs">in</span> <span class="hn">MOVES</span>)</code></pre>
 <div class="predict"><b>Predict first.</b> What do the three lines print: True or False?
-<button class="rev" data-target="a68" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a68">Show the answer</button>
-<div class="ans" id="a68"><div class="out"><span class="tag">verified output</span><pre><code>True
+<button class="rev" data-target="a75" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a75">Show the answer</button>
+<div class="ans" id="a75"><div class="out"><span class="tag">verified output</span><pre><code>True
 False
 True</code></pre></div>
 <p><b>Line 1</b> is True, because <code>"paper"</code> is one of the items in <code>MOVES</code>.</p><p><b>Line 2</b> is False, because <code>"papper"</code> is not.</p><p><b>Line 3</b> is True. <code>not in</code> is the opposite of <code>in</code>.</p></div></div>
@@ -472,8 +472,8 @@ True</code></pre></div>
 <span class="ig">    </span><span class="ig">    </span><span class="hv">ties</span> = <span class="hv">ties</span> + <span class="hd">1</span></code></pre><button class="rev" data-target="part-32" data-show="What do you think these lines of code do?" data-hide="Hide the answer" aria-expanded="false" aria-controls="part-32">What do you think these lines of code do?</button><div class="ans" id="part-32"><p class="plabel">Add 1 to the counter that matches the result.</p></div></div><div class="part ask after"><pre class="py"><code><span class="hf">print</span>(<span class="hs">f</span><span class="hq">"you won </span><span class="hs">{</span><span class="hv">wins</span><span class="hs">}</span><span class="hq">, lost </span><span class="hs">{</span><span class="hv">losses</span><span class="hs">}</span><span class="hq">, and tied </span><span class="hs">{</span><span class="hv">ties</span><span class="hs">}</span><span class="hq">"</span>)</code></pre><button class="rev" data-target="part-33" data-show="What do you think this line of code does?" data-hide="Hide the answer" aria-expanded="false" aria-controls="part-33">What do you think this line of code does?</button><div class="ans" id="part-33"><p class="plabel">After the fifth round, print the three counters. This line is not indented, so it runs once, after the loop.</p></div></div></div>
 <div class="toolbar"><a class="btn quiet" href="rps_game.py" download="rps_game.py">Download rps_game.py</a></div>
 <div class="predict"><b>Predict first.</b> In one game the player typed six answers: <code>rock</code>, <code>papper</code>, <code>paper</code>, <code>scissors</code>, <code>rock</code>, <code>paper</code>. The game has five rounds. Which round got two answers, and which line of the program asked the second time?
-<button class="rev" data-target="a69" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a69">Show the answer</button>
-<div class="ans" id="a69"><p><b>Round.</b> Round 2. <code>papper</code> is not in <code>MOVES</code>, so the <code>while</code> loop ran, and <code>paper</code> was accepted.</p><p><b>Line.</b> <code>my_move = input("type rock, paper, or scissors: ")</code>, the line inside the <code>while</code> loop.</p><p>Here is the whole game:</p><div class="out"><span class="tag">verified output, one game</span><pre><code>rock, paper, or scissors? rock
+<button class="rev" data-target="a76" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a76">Show the answer</button>
+<div class="ans" id="a76"><p><b>Round.</b> Round 2. <code>papper</code> is not in <code>MOVES</code>, so the <code>while</code> loop ran, and <code>paper</code> was accepted.</p><p><b>Line.</b> <code>my_move = input("type rock, paper, or scissors: ")</code>, the line inside the <code>while</code> loop.</p><p>Here is the whole game:</p><div class="out"><span class="tag">verified output, one game</span><pre><code>rock, paper, or scissors? rock
 the computer played rock, so it is a tie
 rock, paper, or scissors? papper
 type rock, paper, or scissors: paper
@@ -492,15 +492,15 @@ you won 2, lost 2, and tied 1</code></pre></div>
 <span class="hf">print</span>(<span class="hn">MOVES</span>[<span class="hd">2</span>])
 <span class="hf">print</span>(<span class="hn">MOVES</span>.<span class="hf">index</span>(<span class="hq">"paper"</span>))</code></pre>
 <div class="predict"><b>Predict first.</b> What do the two lines print?
-<button class="rev" data-target="a70" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a70">Show the answer</button>
-<div class="ans" id="a70"><div class="out"><span class="tag">verified output</span><pre><code>scissors
+<button class="rev" data-target="a77" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a77">Show the answer</button>
+<div class="ans" id="a77"><div class="out"><span class="tag">verified output</span><pre><code>scissors
 1</code></pre></div>
 <p><b>Line 1.</b> <code>MOVES[2]</code> goes from a position to an item: the item at position 2 is <code>scissors</code>.</p><p><b>Line 2.</b> <code>.index</code> goes the other way, from an item to its position: <code>"paper"</code> is at position 1. <code>.index</code> is a method, a function that belongs to every list, the way <code>feed</code> belongs to every pet in session 5.</p></div></div>
 <h3>Wrapping with % 3</h3><p>In session 4, <code>-1 % 26</code> was 25: going back 1 from <code>a</code>, past the start of the alphabet, comes around to <code>z</code>. <code>% 3</code> does the same on a circle of three positions.</p><pre class="py"><code><span class="hf">print</span>(-<span class="hd">1</span> % <span class="hd">3</span>)
 <span class="hf">print</span>(-<span class="hd">2</span> % <span class="hd">3</span>)</code></pre>
 <div class="predict"><b>Predict first.</b> What do the two lines print?
-<button class="rev" data-target="a71" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a71">Show the answer</button>
-<div class="ans" id="a71"><div class="out"><span class="tag">verified output</span><pre><code>2
+<button class="rev" data-target="a78" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a78">Show the answer</button>
+<div class="ans" id="a78"><div class="out"><span class="tag">verified output</span><pre><code>2
 1</code></pre></div>
 <p><code>% 3</code> always gives 0, 1, or 2, even when the number before it is negative. Going back 1 from position 0 comes around to position 2. Going back 2 from position 0 comes around to position 1.</p></div></div>
 <h3>Steps for every pairing</h3><div class="now"><p><b>Do this now.</b> Make a new file called <code>rps_clock.py</code> and type this:</p></div><p class="fname">rps_clock.py</p>
@@ -515,8 +515,8 @@ you won 2, lost 2, and tied 1</code></pre></div>
 <span class="ig">    </span><span class="ig">    </span><span class="hv">pairing</span> = <span class="hs">f</span><span class="hq">"</span><span class="hs">{</span><span class="hn">MOVES</span>[<span class="hv">spot1</span>]<span class="hs">}</span><span class="hq"> against </span><span class="hs">{</span><span class="hn">MOVES</span>[<span class="hv">spot2</span>]<span class="hs">}</span><span class="hq">"</span>
 <span class="ig">    </span><span class="ig">    </span><span class="hf">print</span>(<span class="hs">f</span><span class="hq">"</span><span class="hs">{</span><span class="hv">pairing</span><span class="hs">}</span><span class="hq">: (</span><span class="hs">{</span><span class="hv">spot1</span><span class="hs">}</span><span class="hq"> - </span><span class="hs">{</span><span class="hv">spot2</span><span class="hs">}</span><span class="hq">) % 3 = </span><span class="hs">{</span><span class="hv">steps</span><span class="hs">}</span><span class="hq">"</span>)</code></pre>
 <p><code>spot1</code> is the position of player 1's move and <code>spot2</code> is the position of player 2's move. They are numbers this time, so the loops use <code>range(3)</code>. <code>MOVES[spot1]</code> turns a position back into a move for the printed line.</p><div class="predict"><b>Predict first.</b> Before you run it, work out the number at the end of each of the nine lines. The first one is <code>(0 - 0) % 3 = 0</code>.
-<button class="rev" data-target="a72" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a72">Show the answer</button>
-<div class="ans" id="a72"><div class="out"><span class="tag">verified output, rps_clock.py</span><pre><code>rock against rock: (0 - 0) % 3 = 0
+<button class="rev" data-target="a79" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a79">Show the answer</button>
+<div class="ans" id="a79"><div class="out"><span class="tag">verified output, rps_clock.py</span><pre><code>rock against rock: (0 - 0) % 3 = 0
 rock against paper: (0 - 1) % 3 = 2
 rock against scissors: (0 - 2) % 3 = 1
 paper against rock: (1 - 0) % 3 = 1
@@ -527,8 +527,8 @@ scissors against paper: (2 - 1) % 3 = 1
 scissors against scissors: (2 - 2) % 3 = 0</code></pre></div>
 </div></div>
 <div class="predict"><b>Predict first.</b> Put each line beside the same pairing in your table from the opener. When the number is 0, who wins? When it is 1? When it is 2?
-<button class="rev" data-target="a73" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a73">Show the answer</button>
-<div class="ans" id="a73"><p><b>0</b>: a tie. Both players picked the same move.</p><p><b>1</b>: player 1 wins. Rock against scissors, paper against rock, and scissors against paper all give 1.</p><p><b>2</b>: player 2 wins.</p><p>Here is why. <code>(spot1 - spot2) % 3</code> is the number of steps forward around the circle from player 2's move to player 1's move. 1 step forward means player 1's move comes just after player 2's, so it beats it. 2 steps forward lands in the same place as 1 step back, so player 1's move comes just before player 2's, and player 2's move beats it.</p></div></div>
+<button class="rev" data-target="a80" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a80">Show the answer</button>
+<div class="ans" id="a80"><p><b>0</b>: a tie. Both players picked the same move.</p><p><b>1</b>: player 1 wins. Rock against scissors, paper against rock, and scissors against paper all give 1.</p><p><b>2</b>: player 2 wins.</p><p>Here is why. <code>(spot1 - spot2) % 3</code> is the number of steps forward around the circle from player 2's move to player 1's move. 1 step forward means player 1's move comes just after player 2's, so it beats it. 2 steps forward lands in the same place as 1 step back, so player 1's move comes just before player 2's, and player 2's move beats it.</p></div></div>
 <h3>winner, by counting steps</h3><div class="now"><p><b>Do this now.</b> Download <code>rps_three_ways.py</code> and open it. It holds all three versions of <code>winner</code>, renamed <code>winner_if</code>, <code>winner_dict</code>, and <code>winner_clock</code>, and a check at the bottom that runs them against each other.</p></div><div class="toolbar"><a class="btn quiet" href="rps_three_ways.py" download="rps_three_ways.py">Download rps_three_ways.py</a></div>
 <p><code>winner_clock</code> is the new one. The number of steps says who won, so a list turns it into the answer: position 0 holds <code>"tie"</code>, position 1 holds <code>"player 1"</code>, and position 2 holds <code>"player 2"</code>.</p><p class="fname">rps_three_ways.py, the third version</p>
 <pre class="py"><code><span class="hm"># what each number of steps means</span>
@@ -543,8 +543,8 @@ scissors against scissors: (2 - 2) % 3 = 0</code></pre></div>
 <span class="ig">    </span><span class="hv">steps</span> = (<span class="hv">spot1</span> - <span class="hv">spot2</span>) % <span class="hd">3</span>
 <span class="ig">    </span><span class="hk">return</span> <span class="hn">RESULTS</span>[<span class="hv">steps</span>]</code></pre>
 <div class="predict"><b>Predict first.</b> Trace <code>winner_clock("rock", "scissors")</code>. Write the value of <code>spot1</code>, <code>spot2</code>, and <code>steps</code>, then the return value.
-<button class="rev" data-target="a74" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a74">Show the answer</button>
-<div class="ans" id="a74"><p><code>spot1</code> is 0, the position of rock. <code>spot2</code> is 2, the position of scissors.</p><p><code>steps</code> is <code>(0 - 2) % 3</code>. 0 - 2 = -2, and <code>-2 % 3</code> is 1, the same wrap as above.</p><p>The function returns <code>RESULTS[1]</code>, which is <code>"player 1"</code>. Rock beats scissors.</p></div></div>
+<button class="rev" data-target="a81" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a81">Show the answer</button>
+<div class="ans" id="a81"><p><code>spot1</code> is 0, the position of rock. <code>spot2</code> is 2, the position of scissors.</p><p><code>steps</code> is <code>(0 - 2) % 3</code>. 0 - 2 = -2, and <code>-2 % 3</code> is 1, the same wrap as above.</p><p>The function returns <code>RESULTS[1]</code>, which is <code>"player 1"</code>. Rock beats scissors.</p></div></div>
 <p>Some programmers write the whole function on one line:</p><pre class="py"><code><span class="hs">def</span> <span class="hf">winner</span>(<span class="hv">move1</span>, <span class="hv">move2</span>):
 <span class="ig">    </span><span class="hq">"""Return who wins when player 1 plays move1 and player 2 plays move2."""</span>
 <span class="ig">    </span><span class="hk">return</span> <span class="hn">RESULTS</span>[(<span class="hn">MOVES</span>.<span class="hf">index</span>(<span class="hv">move1</span>) - <span class="hn">MOVES</span>.<span class="hf">index</span>(<span class="hv">move2</span>)) % <span class="hd">3</span>]</code></pre>
@@ -552,8 +552,8 @@ scissors against scissors: (2 - 2) % 3 = 0</code></pre></div>
 <pre class="py"><code><span class="hf">print</span>(<span class="hf">winner_clock</span>(<span class="hq">"rokc"</span>, <span class="hq">"scissors"</span>))
 <span class="hf">print</span>(<span class="hf">winner_clock</span>(<span class="hq">"rock"</span>, <span class="hq">"sissors"</span>))</code></pre>
 <div class="predict"><b>Predict first.</b> For each line: does it print an answer, or stop with an error?
-<button class="rev" data-target="a75" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a75">Show the answer</button>
-<div class="ans" id="a75"><p><b>The first line</b> stops with an error, after the check has printed its line:</p><div class="out"><span class="tag">last line of the error</span><pre><code>ValueError: &#x27;rokc&#x27; is not in list</code></pre></div>
+<button class="rev" data-target="a82" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a82">Show the answer</button>
+<div class="ans" id="a82"><p><b>The first line</b> stops with an error, after the check has printed its line:</p><div class="out"><span class="tag">last line of the error</span><pre><code>ValueError: &#x27;rokc&#x27; is not in list</code></pre></div>
 <p><b>The second line</b> stops with an error too:</p><div class="out"><span class="tag">last line of the error</span><pre><code>ValueError: &#x27;sissors&#x27; is not in list</code></pre></div>
 <p><code>.index</code> stops the program with a <code>ValueError</code> when the item is not in the list. Both moves are looked up with <code>.index</code>, so this version catches a typo in either move.</p></div></div>
 <h3>Do all three agree?</h3><p>Take the typo line out again. This is the check at the bottom of <code>rps_three_ways.py</code>. It runs all three versions on every pairing:</p><p class="fname">rps_three_ways.py, the check</p>
@@ -570,12 +570,12 @@ scissors against scissors: (2 - 2) % 3 = 0</code></pre></div>
 
 <span class="hf">print</span>(<span class="hs">f</span><span class="hq">"the three versions agree on </span><span class="hs">{</span><span class="hv">agree</span><span class="hs">}</span><span class="hq"> of the 9 pairings"</span>)</code></pre>
 <div class="predict"><b>Predict first.</b> What does it print?
-<button class="rev" data-target="a76" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a76">Show the answer</button>
-<div class="ans" id="a76"><div class="out"><span class="tag">verified output, rps_three_ways.py</span><pre><code>the three versions agree on 9 of the 9 pairings</code></pre></div>
+<button class="rev" data-target="a83" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a83">Show the answer</button>
+<div class="ans" id="a83"><div class="out"><span class="tag">verified output, rps_three_ways.py</span><pre><code>the three versions agree on 9 of the 9 pairings</code></pre></div>
 <p>The gate joins two comparisons with <code>and</code>: the first answer equals the second, and the second equals the third. When both are True, all three answers are the same, and <code>agree</code> goes up by 1.</p></div></div>
 <div class="predict"><b>Predict first.</b> Suppose <code>BEATS</code> had <code>"paper": "scissors"</code> by mistake, in place of <code>"paper": "rock"</code>. How many of the 9 pairings would the three versions agree on? Say which pairings go wrong.
-<button class="rev" data-target="a77" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a77">Show the answer</button>
-<div class="ans" id="a77"><div class="out"><span class="tag">verified output</span><pre><code>the three versions agree on 7 of the 9 pairings</code></pre></div>
+<button class="rev" data-target="a84" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="a84">Show the answer</button>
+<div class="ans" id="a84"><div class="out"><span class="tag">verified output</span><pre><code>the three versions agree on 7 of the 9 pairings</code></pre></div>
 <p><b>How many.</b> 7.</p><p><b>Which pairings.</b> <code>winner_dict</code> only looks up <code>BEATS["paper"]</code> when player 1 plays paper. Paper against paper is a tie, which the first gate returns before any lookup. That leaves paper against scissors, which now says player 1, and paper against rock, which now says player 2. Both are wrong, and the other 7 pairings still agree.</p><p>The three tests from section 2 would not have caught this mistake: rock against scissors, rock against paper, and paper against paper all still give the right answer. Checking all nine pairings does catch it.</p></div></div>
 <p>Any of the three versions can go in <code>rps_game.py</code>. They take the same two moves and return the same answer, so the game plays the same way. The third version needs <code>RESULTS</code> copied in with it.</p></section>
 <section class="brief"><h2>Exits</h2><div class="exits"><div class="exit"><span class="lab">FLOOR</span><p><code>rps.py</code> runs with the dictionary version of <code>winner</code>, and its nine lines match your table from the opener. You can say what the if version and the dictionary version each do with <code>winner("rokc", "scissors")</code>.</p></div><div class="exit"><span class="lab">MIDDLE</span><p>Floor, plus you played a game of <code>rps_game.py</code> with a typo in it, and <code>rps_three_ways.py</code> prints 9 of the 9. Trace <code>winner_clock("scissors", "rock")</code> out loud: <code>spot1</code>, <code>spot2</code>, <code>steps</code>, and the return value.</p></div><div class="exit"><span class="lab">STRETCH</span><p>Middle, plus rock paper scissors lizard Spock. Write its <code>BEATS</code> and a <code>winner_dict</code> that uses it, then find the rule for steps with <code>% 5</code>. Work it out below.</p></div></div><h3>Stretch: rock paper scissors lizard Spock</h3><p>This game has five moves. Each move beats two others:</p><ul class="tight"><li>Rock beats scissors and lizard.</li><li>Paper beats rock and Spock.</li><li>Scissors beats paper and lizard.</li><li>Spock beats scissors and rock.</li><li>Lizard beats Spock and paper.</li></ul><p>Make a new file called <code>rps_spock.py</code> for it.</p><div class="predict ladder"><b>Predict first.</b> Write <code>MOVES</code> and <code>BEATS</code> for five moves, and a function called <code>winner_dict</code> that uses <code>BEATS</code>. The file gets a second version later, so this one is not called <code>winner</code>. Each value in <code>BEATS</code> is now a list of two moves.

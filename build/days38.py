@@ -5,7 +5,7 @@ import os
 
 from build import answer_key, labelled_code, laddered, code, downloads, masthead, output, pager, reveal
 from stds import panel
-from console03 import console_section
+from console03 import _shot, console_section
 from twoway04 import day04  # noqa: F401  (session 4 lives in its own module)
 from rps06 import day06  # noqa: F401  (session 6 lives in its own module)
 
@@ -596,6 +596,198 @@ def _pet_snippets():
     raise ValueError("verify_pets.py has no SNIPPETS")
 
 
+def _forest_part(start, end=None):
+    """Return the lines of forest.py from the one beginning start, up to end."""
+    text = _root_file("forest.py")
+    i = text.index(start)
+    if end is None:
+        return text[i:].rstrip("\n")
+    return text[i:text.index(end, i)].rstrip("\n")
+
+
+def _forest_snippets():
+    """Return the SNIPPETS dictionary from verify_forest.py, the code that was run."""
+    tree = ast.parse(_root_file("verify_forest.py"))
+    for node in tree.body:
+        if isinstance(node, ast.Assign) and getattr(node.targets[0], "id", "") == "SNIPPETS":
+            return ast.literal_eval(node.value)
+    raise ValueError("verify_forest.py has no SNIPPETS")
+
+
+def _forest_section():
+    """Return session 5's section 4: a Tree class, seven trees in a list, one window."""
+    f = _forest_snippets()
+    b = '<h2><span class="num">4</span>A forest of trees<span class="mins">20 minutes</span></h2>'
+    b += (
+        "<p>A pet keeps numbers and reports them in the terminal. A tree can keep "
+        "numbers too, and draw itself in a pygame window from those numbers. The "
+        "program in this section makes seven trees from one <code>Tree</code> class, "
+        "keeps them in one list, and draws every tree in the list.</p>"
+        '<div class="now"><p><b>Do this now.</b> Download <code>forest.py</code> with the '
+        "button below, but do not run it yet. Read it one piece at a time and answer "
+        "each question before you open its answer. You run it at tree piece 4.</p></div>"
+    )
+    b += downloads("forest.py")
+
+    b += "<h3>Tree piece 1: setting up a new tree</h3>"
+    b += code(_forest_part("class Tree:", "    def grow(self, amount):"))
+    b += (
+        "<p><code>x</code> is how many pixels from the left edge of the window the tree "
+        "stands. <code>height</code> is how tall its trunk is, in pixels.</p>"
+    )
+    b += reveal(
+        "<code>Tree(80, 40)</code> makes one tree. What are its three attributes, and "
+        "what value does each one hold?",
+        "<p><code>x</code> is 80 and <code>height</code> is 40. The two values in the "
+        "brackets go into the parameters in order: 80 into <code>x</code>, 40 into "
+        "<code>height</code>. <code>__init__</code> stores each one on the tree with "
+        "<code>self.</code> in front.</p>"
+        "<p><code>leaf_size</code> is 0. No value in the brackets sets it. "
+        "<code>__init__</code> sets it to 0 for every new tree, the way it set "
+        "<code>hunger</code> to 5 for every new pet.</p>"
+        "<p>Piece 3 in section 1 said that to let pets start with different hunger, you "
+        "would add a parameter to <code>__init__</code>. <code>Tree</code> does that with "
+        "<code>height</code>, so each tree can start at its own height.</p>",
+    )
+
+    b += "<h3>Tree piece 2: things a tree can do</h3>"
+    b += code(_forest_part("    def grow(self, amount):", "    def draw(self, screen):"))
+    b += reveal(
+        "<code>grow</code> has two parameters, <code>self</code> and "
+        "<code>amount</code>. The call <code>tree.grow(20)</code> has one value in its "
+        "brackets. Where does the value of each parameter come from?",
+        "<p>The first parameter, <code>self</code>, gets its value from the dot. The "
+        "tree before the dot becomes <code>self</code>, the same as in "
+        "<code>rocky.feed()</code>.</p>"
+        "<p>The second parameter, <code>amount</code>, gets its value from the brackets: "
+        "20. So <code>tree.grow(20)</code> adds 20 to that tree's height and to no "
+        "other tree's.</p>"
+        "<p><code>add_leaves</code> has only <code>self</code>, so it is called with "
+        "empty brackets: <code>tree.add_leaves()</code>. It sets "
+        "<code>leaf_size</code> to 30.</p>",
+    )
+
+    b += "<h3>Tree piece 3: a tree draws itself</h3>"
+    b += code(_forest_part("    def draw(self, screen):", "\n\n# make seven trees"))
+    b += (
+        "<p><code>draw</code> puts the tree in the window. Its parameter "
+        "<code>screen</code> is the window to draw on. <code>GROUND</code>, "
+        "<code>BARK</code>, and <code>LEAVES</code> are set at the top of "
+        "<code>forest.py</code>: <code>BARK</code> and <code>LEAVES</code> are the two "
+        "colours, and <code>GROUND</code> is 340, the y where the grass starts. In a pygame window y counts down from the top, as in "
+        "session 3's cipher console, so y = 340 is 340 pixels below the top edge. The "
+        "window is 640 wide and 400 tall.</p>"
+        "<p><code>pygame.draw.rect</code> is the one from session 3: the window, a "
+        "colour, then the rectangle's left edge, top edge, width, and height. "
+        "<code>pygame.draw.circle</code> is new. It takes the window, a colour, the "
+        "centre of the circle as an (x, y) pair, and the <b>radius</b>: the distance "
+        "from the centre to the edge, in pixels.</p>"
+    )
+    b += reveal(
+        "A tree has height 100. What is <code>top</code> for that tree? Then: why does "
+        "the code take the height away from <code>GROUND</code> instead of adding it?",
+        "<p>The first part: <code>top</code> is 340 take away 100, which is 240.</p>"
+        "<p>The second part: y counts down from the top of the window, so a point higher "
+        "up has a smaller y. The trunk goes up from the grass, so its top edge needs a y "
+        "smaller than 340. Adding would give 440, which is below the bottom of the "
+        "400 pixel window.</p>"
+        "<p>The rectangle starts at <code>top</code> and is <code>self.height</code> "
+        "pixels tall, so its bottom edge is at 340, on the grass. Its left edge is at "
+        "<code>self.x - 5</code> and it is 10 wide, so the trunk is centred on "
+        "<code>x</code>.</p>"
+        "<p>The circle's centre is the top of the trunk, so the leaves sit on the trunk. "
+        "It is drawn after the trunk, so it covers the top of the trunk. The "
+        "<code>if</code> gate means a tree with <code>leaf_size</code> 0 gets no "
+        "circle.</p>",
+    )
+
+    b += "<h3>Tree piece 4: a forest in a window</h3>"
+    b += (
+        "<p>This is the bottom of <code>forest.py</code>. <code>forest</code> starts as "
+        "an empty list. The <code>for</code> loop makes seven trees and adds each one to "
+        "the list with <code>append</code>. The window loop is the one from session 4, "
+        "with two keys: G and L. Each key runs a <code>for</code> loop over the list, so "
+        "one key press changes every tree.</p>"
+    )
+    b += code(_forest_part("# make seven trees"))
+    b += reveal(
+        "Work out two things before you run it. First: what are the seven starting "
+        "heights, from left to right? Second: you press G three times, then L. How tall "
+        "is the tallest tree then, and what y is the top of its trunk? Now run "
+        "<code>forest.py</code>, look, then press G three times and L.",
+        "<p>The first part: <code>i</code> goes from 0 to 6, and each height is "
+        "<code>40 + i * 20</code>.</p>"
+        + output("heights [40, 60, 80, 100, 120, 140, 160]", "verified from a headless run")
+        + _shot("forest_5.png", "Seven brown trunks on green grass under a pale blue sky. "
+                "The trunks get taller from left to right.")
+        + "<p>The second part: each G adds 20 to every tree, so three presses add 60. "
+        "The tallest tree goes from 160 to 220, and the top of its trunk is at 340 take "
+        "away 220, which is 120. L sets every tree's <code>leaf_size</code> to 30.</p>"
+        + output(
+            """heights [100, 120, 140, 160, 180, 200, 220]
+leaf sizes [30, 30, 30, 30, 30, 30, 30]
+tallest tree: x 560, height 220, top of trunk at y 120""",
+            "verified from a headless run",
+        )
+        + _shot("forest_60.png", "The same seven trees, each 60 pixels taller, each with "
+                "a round dark green clump of leaves on top.")
+        + "<p>Every tree grew by the same amount and kept its own height, so the trees "
+        "still go up in steps of 20. Each frame, the loop fills the sky, draws the grass, "
+        "then calls <code>draw</code> on each tree in the list. A tree is drawn again "
+        "every frame from its own attributes, so a change to its height shows on the "
+        "next frame.</p>",
+    )
+    b += reveal(
+        "You want an eighth tree. What is the smallest change to <code>forest.py</code> "
+        "that makes eight trees? Where would the eighth tree stand?",
+        "<p>Change <code>range(7)</code> to <code>range(8)</code>. The eighth tree has "
+        "<code>i</code> = 7, so its x is 80 add 7 times 80, which is 640.</p>"
+        + output(
+            "x positions [80, 160, 240, 320, 400, 480, 560, 640], window width 640",
+            "verified from a headless run",
+        )
+        + "<p>The window is 640 wide, so the eighth tree stands on the right edge, and "
+        "the right half of its trunk and leaves is cut off. To fit eight trees, make the "
+        "gap between them smaller or the window wider.</p>",
+    )
+
+    b += "<h3>Forest round 1</h3>"
+    b += (
+        "<p>Each forest round goes under the <code>Tree</code> class in "
+        "<code>forest.py</code>, in place of everything from "
+        "<code># make seven trees</code> down. It prints, and opens no window. Write your "
+        "prediction on paper before you open the answer.</p>"
+    )
+    b += code(f["round1"])
+    b += reveal(
+        "What three lines are printed? Which tree is tallest?",
+        output(
+            """100 170
+300 90
+500 90"""
+        )
+        + "<p>The tree at x 100 is tallest. The first loop grows every tree by 50: "
+        "40 to 90. Then <code>forest[0].grow(80)</code> grows only the tree at index 0, "
+        "the first tree in the list: 90 to 170.</p>"
+        "<p><code>forest[0]</code> is one tree from the list, so the dot sends that tree "
+        "in as <code>self</code>, and no other tree changes. Each tree keeps its own "
+        "height, the way Rocky and Luna each kept their own hunger.</p>",
+    )
+    b += "<h3>Forest round 2</h3>"
+    b += code(f["round2"])
+    b += reveal(
+        "How many trees does this code make? What is printed?",
+        output("190")
+        + "<p>One tree. Only <code>Tree(...)</code> makes a tree, and it appears once. "
+        "The list holds that one tree three times, so the loop grows the same tree "
+        "three times: 40, 90, 140, 190.</p>"
+        "<p>This is round 3 from section 2 again. There, <code>b = a</code> gave one pet "
+        "a second name. Here, one tree is in the list three times. To count the trees, "
+        "count the calls to <code>Tree(...)</code>.</p>",
+    )
+    return b
+
+
 def _broken(n, s, error, mistake, fix):
     """Return one broken pet: the code, then the error and the fix behind a button."""
     return (
@@ -620,7 +812,8 @@ def day05():
         "Wednesday 28 October 2026",
         "Strings, lists, and dictionaries are objects that someone else designed. Today "
         "you write a class, the code that describes a new kind of object, and make "
-        "virtual pets from it. Each pet keeps its own hunger and its own happiness.",
+        "virtual pets from it. Each pet keeps its own hunger and its own happiness. Then "
+        "a Tree class draws a whole forest in a pygame window.",
     )
 
     b += '<h2><span class="num">1</span>Build a pet, one piece at a time<span class="mins">30 minutes</span></h2>'
@@ -772,7 +965,7 @@ Pixel: hunger 5, happiness 7"""
         "hunger is 5 take away 7, which is -2, and happiness is 5 add 7, which is "
         "12.</p>"
         "<p>The program does what the code says, but the pet makes no sense. A hunger "
-        "of -2 means nothing, and nothing in the class stops it. Section 4 shows how to "
+        "of -2 means nothing, and nothing in the class stops it. Section 5 shows how to "
         "fix that.</p>",
     )
     b += "<h3>Round 3</h3>"
@@ -802,7 +995,7 @@ Mochi: hunger 3, happiness 5"""
         "error.</p>",
     )
 
-    b += '<h2><span class="num">3</span>Six broken pets<span class="mins">15 minutes</span></h2>'
+    b += '<h2><span class="num">3</span>Six broken pets<span class="mins">10 minutes</span></h2>'
     b += (
         "<p>Each program has exactly one mistake. With a partner, for each one: "
         "predict what the terminal says, find the mistake, and fix it. Ninety seconds "
@@ -863,11 +1056,16 @@ Mochi: hunger 3, happiness 5"""
         "<code>def __init__(self, name):</code>, with two underscores on each side.",
     )
 
-    b += '<h2><span class="num">4</span>Build your own creature<span class="mins">30 minutes</span></h2>'
+    b += _forest_section()
+
+    b += '<h2><span class="num">5</span>Build your own<span class="mins">15 minutes</span></h2>'
     b += (
+        "<p>Pick one: a creature of your own, or a forest of your own. Each has its own "
+        "brief below.</p>"
+        "<h3>A creature</h3>"
         "<p>A dragon, a robot, a houseplant, a moody cat, a boss from a game. Pick "
         "something and write a class for it in a new file.</p>"
-        "<h3>The brief</h3>"
+        "<h3>The creature brief</h3>"
         '<ul class="tight">'
         "<li>An <code>__init__</code> that takes at least the creature's name as a "
         "parameter.</li>"
@@ -881,6 +1079,23 @@ Mochi: hunger 3, happiness 5"""
         "attributes.</li>"
         "<li>Your own class, not <code>Pet</code> with the names changed.</li>"
         "</ul>"
+        "<h3>A forest</h3>"
+        "<p>Save a copy of <code>forest.py</code> under a new name and change the "
+        "<code>Tree</code> class. The window loop can stay as it is.</p>"
+        "<h3>The forest brief</h3>"
+        '<ul class="tight">'
+        "<li>At least one new attribute that each tree keeps for itself, set in "
+        "<code>__init__</code>: its own leaf colour, its own trunk width, a number of "
+        "fruit.</li>"
+        "<li>At least one new method, with at least one parameter after "
+        "<code>self</code>, the way <code>grow</code> has <code>amount</code>. It "
+        "changes at least one attribute.</li>"
+        "<li><code>draw</code> uses your new attribute, so you can see it in the "
+        "window.</li>"
+        "<li>At least 5 trees in the list, made with a <code>for</code> loop.</li>"
+        "<li>At least one key that changes every tree, with a <code>for</code> loop over "
+        "the list.</li>"
+        "</ul>"
         "<h3>Check before you call it done</h3>"
         '<ul class="tight">'
         "<li>The class name starts with a capital letter.</li>"
@@ -892,21 +1107,30 @@ Mochi: hunger 3, happiness 5"""
         "<code>self</code>: <code>drake.fly()</code>, not <code>drake.fly(drake)</code> "
         "and not <code>Dragon.fly()</code>.</li>"
         "<li>You made as many creatures as your program has calls to the class.</li>"
+        "<li>In a forest, every <code>pygame.draw</code> line for a tree is inside "
+        "<code>draw</code>, and the window loop calls <code>draw</code> on every tree in "
+        "the list.</li>"
         "</ul>"
         "<h3>Stuck for an idea?</h3>"
         "<p>A dragon with health, fire, and age. A robot with battery, heat, and "
         "version. A houseplant with water, light, and leaves. A wizard with mana, "
         "spells, and wisdom.</p>"
+        "<p>For a forest: an autumn forest, where each tree has its own leaf colour and "
+        "a key turns every tree orange. A fruit forest, where "
+        "<code>add_fruit(count)</code> adds to each tree's number of fruit and "
+        "<code>draw</code> puts small red circles near the top. A forest of thin trees "
+        "and thick trees, where each tree has its own trunk width.</p>"
         "<h3>Keep a number in range</h3>"
-        "<p>Round 2 gave Mochi a hunger of -2. One <code>if</code> gate in "
+        "<p>Round 2 in section 2 gave Mochi a hunger of -2. One <code>if</code> gate in "
         "<code>feed</code>, like the gates in session 1, fixes it: only take 1 off when "
-        "hunger is above 0.</p>"
+        "hunger is above 0. In a forest, the same kind of gate in <code>grow</code> can "
+        "stop a tree before its leaves go past the top of the window.</p>"
     )
     b += reveal(
         "Before you open this, write the condition the gate should check.",
         code(s["gate"])
-        + "<p>Put this <code>feed</code> in place of the old one and run round 2 "
-        "again:</p>"
+        + "<p>Put this <code>feed</code> in place of the old one and run round 2 from "
+        "section 2 again:</p>"
         + output("Mochi: hunger 0, happiness 12")
         + "<p>Hunger stops at 0. Happiness still reaches 12, because <code>play</code> "
         "has no gate yet. Writing that one is yours.</p>",
@@ -914,22 +1138,30 @@ Mochi: hunger 3, happiness 5"""
     b += exits(
         "<code>pets.py</code> runs and prints the two lines from piece 6, and you can "
         "say what <code>self</code> is when <code>rocky.feed()</code> runs.",
-        "Floor, plus your own class that meets every line of the brief in section 4, "
-        "with two creatures that end with different reports.",
+        "Floor, plus your own class that meets every line of one brief in section 5: "
+        "the creature brief, with two creatures that end with different reports, or the "
+        "forest brief, with at least 5 trees that change when you press a key.",
         "Middle, plus every number in your class stays between 0 and 10: a gate in "
-        "every method that changes one, as in Keep a number in range in section 4. Then "
+        "every method that changes one, as in Keep a number in range in section 5. Then "
         "add a method "
         "called <code>tick</code> that moves time on by one hour (you decide what "
         "changes), call it 10 times in a <code>for</code> loop, and print the report "
-        "after each call.",
+        "after each call. For a forest instead: a gate in <code>grow</code> stops every "
+        "tree before its leaves go past the top of the window, and a second key grows "
+        "only <code>forest[0]</code>, as in forest round 1.",
     )
     b += panel(
         ["6.EE.B.6", "MP7", "MP6"],
-        "<p>30 building the pet, 15 the rounds and the quick check, 15 broken pets, 30 "
-        "build your own and exits. There is no opener: the session starts with piece 1. "
+        "<p>30 building the pet, 15 the rounds and the quick check, 10 broken pets, 20 "
+        "the forest, 15 build your own and exits. There is no opener: the session starts "
+        "with piece 1. "
         "Section 1's 30 minutes includes typing. A "
         "student who falls behind downloads <code>pets.py</code> from the button under "
-        "piece 6 and reads it instead of typing it.</p>",
+        "piece 6 and reads it instead of typing it. Nobody types the forest: students "
+        "download <code>forest.py</code> at the start of section 4 and read it.</p>"
+        "<p>If the room reaches section 4 late, run <code>forest.py</code> on the "
+        "projector, press G three times and then L, and do tree piece 4 and forest "
+        "round 1 together. The eighth tree and forest round 2 can be skipped.</p>",
         "<p>Use the quick check at the end of section 2 as a hinge. Count hands for each "
         "letter before anyone opens the answer. <b>A</b> (3) means the student thinks "
         "all pets share one hunger. <b>C</b> (4) can mean the student shared the "
@@ -941,17 +1173,23 @@ Mochi: hunger 3, happiness 5"""
         "same pet a second name; it does not make a second pet. Have the room count "
         "the calls to <code>Pet(</code> before anyone opens the answer.</p>"
         "<p>Broken pets 1 to 5 are the mistakes to expect while students write their "
-        "own class in section 4: <code>self</code> missing from the parameter list, "
+        "own class in section 5: <code>self</code> missing from the parameter list, "
         "<code>self.</code> missing in the body, calling on the class instead of the "
         "pet, missing brackets, and sending the pet twice. Broken pet 6 is hard to see "
         "on a projector, where two underscores can look like one line. Point at them "
         "and count them out loud.</p>"
         "<p>Say <code>self</code> the same way every time: it is the object before the "
-        "dot. Broken pets 1, 3, and 5 all come down to that one sentence.</p>",
+        "dot. Broken pets 1, 3, and 5 all come down to that one sentence.</p>"
+        "<p>In tree piece 3, expect some students to add the height to "
+        "<code>GROUND</code>. Ask which way y counts in the window before anyone opens "
+        "the answer. Forest round 2 is round 3 in a new form: have the room count the "
+        "calls to <code>Tree(</code> before anyone opens the answer.</p>",
         retouch=(
             "Session 2's print is not return, now inside a class: <code>report</code> "
             "returns a line and the caller prints it. Session 1's <code>if</code> gate, "
-            "used in Keep a number in range to hold hunger at 0."
+            "used in Keep a number in range to hold hunger at 0. Session 3's window, "
+            "where y counts down from the top, sets the top of each trunk. Session 4's "
+            "key events, now G and L."
         ),
         extras=(
             "<h3>Files</h3><p><code>pets.py</code> for sections 1 and 2, with a "
@@ -961,8 +1199,15 @@ Mochi: hunger 3, happiness 5"""
             "that file, and every output and error on the page came from running it "
             "on Python 3.12.3. The six error lines read the same on Python 3.11 and "
             "3.13. Older versions word some of them differently.</p>"
+            "<p><code>forest.py</code> for section 4, with a download button at the start "
+            "of the section. <code>verify_forest.py</code> is for you. It runs "
+            "<code>forest.py</code> without a screen, presses G three times and then L, "
+            "runs the eighth tree change and both forest rounds, and saves the two "
+            "screenshots on this page. The page's code for the forest rounds comes from "
+            "that file. Verified headless on pygame 2.6.1.</p>"
             "<h3>Lifted this week</h3><p><code>class</code>, <code>__init__</code>, "
-            "<code>self</code>, attributes, methods, objects, <code>pass</code>.</p>"
+            "<code>self</code>, attributes, methods, objects, <code>pass</code>, a list "
+            "of objects, <code>pygame.draw.circle</code>.</p>"
         ),
     )
     b += pager(

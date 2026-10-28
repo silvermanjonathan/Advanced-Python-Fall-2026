@@ -16,7 +16,8 @@ SESSIONS = [
      "or decrypt, and pressing E or D answers it."),
     ("05", "28 Oct", "wed05_objects.html", "Making your own objects",
      "Write a class, make virtual pets from it, and show that each pet keeps its own "
-     "attributes. Then six broken pets to fix and a creature of your own."),
+     "attributes. Then six broken pets to fix, a forest of trees drawn from one class "
+     "in a pygame window, and a creature or a forest of your own."),
     ("06", "4 Nov", "wed06_rock_paper_scissors.html", "Rock, paper, scissors, three ways",
      "Decide who wins with if lines and with a dictionary, play the computer, then "
      "decide it by counting steps around a circle with % and check all three versions "
@@ -51,7 +52,8 @@ LIFTED = [
     ("Session 4", "key events (<code>pygame.KEYDOWN</code>, <code>event.key</code>), a "
      "variable that remembers a choice, <code>%</code> with a negative number"),
     ("Session 5", "<code>class</code>, <code>__init__</code>, <code>self</code>, "
-     "attributes, methods, <code>pass</code>"),
+     "attributes, methods, <code>pass</code>, a list of objects, "
+     "<code>pygame.draw.circle</code>"),
     ("Session 6", "<code>input</code>, <code>import random</code> and "
      "<code>random.choice</code>, <code>in</code> and <code>not in</code> with a list, "
      "<code>.index</code> on a list, <code>ValueError</code>"),
@@ -65,7 +67,7 @@ LIFTED = [
      "<code>pygame.draw.line</code>, and a histogram drawn from data"),
     ("Session 10", "<code>collections.defaultdict</code>, tuples as dictionary keys, "
      "<code>.split()</code>, multiple assignment"),
-    ("Session 11", "a list of objects, <code>pygame.draw.lines</code>"),
+    ("Session 11", "<code>pygame.draw.lines</code>"),
     ("Session 12", "<code>math.sqrt</code> for distance, vector components, a time step"),
 ]
 
@@ -328,7 +330,8 @@ def hub():
         "<tr><td><code>undo_tour.py</code>, <code>two_way_step1.py</code>, "
         "<code>two_way_step2.py</code>, <code>two_way_console.py</code>, "
         "<code>two_way_space.py</code>, <code>verify_two_way.py</code></td><td>4</td></tr>"
-        "<tr><td><code>pets.py</code>, <code>verify_pets.py</code></td><td>5</td></tr>"
+        "<tr><td><code>pets.py</code>, <code>verify_pets.py</code>, <code>forest.py</code>, "
+        "<code>verify_forest.py</code></td><td>5</td></tr>"
         "<tr><td><code>rps_if.py</code>, <code>rps_dict.py</code>, <code>rps_game.py</code>, "
         "<code>rps_clock.py</code>, <code>rps_three_ways.py</code>, <code>rps_spock.py</code>, "
         "<code>verify_rps.py</code></td><td>6</td></tr>"
