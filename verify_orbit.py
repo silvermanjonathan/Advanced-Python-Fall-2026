@@ -11,6 +11,17 @@ def fake_get(*a, **k):
         return [pygame.event.Event(pygame.QUIT)]
     return real_get(*a, **k)
 pygame.event.get = fake_get
+
+# Screenshots go to the folder named in SHOTS, if set. The session 12 page shows them.
+SHOTS = os.environ.get("SHOTS", "")
+real_flip = pygame.display.flip
+def fake_flip(*a, **k):
+    real_flip(*a, **k)
+    if SHOTS and frames["n"] in (60, 1200):
+        name = f"orbit_{frames['n']}.png"
+        pygame.image.save(pygame.display.get_surface(), os.path.join(SHOTS, name))
+pygame.display.flip = fake_flip
+
 ns = {"__name__": "__main__"}
 exec(compile(src, "orbit.py", "exec"), ns)
 s = ns["ship"]

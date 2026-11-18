@@ -1,11 +1,38 @@
 """Sessions 8 to 13."""
 
+import base64
 import os
 
 from build import code, downloads, masthead, output, pager, reveal
 from days38 import exits
 from stds import panel
 import figs1112 as figs
+
+
+_SHOTS = os.path.join(os.path.dirname(os.path.abspath(__file__)), "shots")
+
+
+def _window_shots(shots):
+    """Return screenshots of an 800 by 600 pygame window, side by side, each with a caption.
+
+    shots is a list of (file name in build/shots, alt text, caption).
+    """
+    cells = []
+    for name, alt, caption in shots:
+        with open(os.path.join(_SHOTS, name), "rb") as f:
+            data = base64.b64encode(f.read()).decode()
+        cells.append(
+            '<div style="flex:1 1 300px; min-width:0">'
+            f'<img src="data:image/png;base64,{data}" alt="{alt}" width="800" height="600" '
+            'style="display:block; width:100%; height:auto; border:2px solid var(--rule); '
+            'border-radius:6px">'
+            f'<p style="margin:8px 0 0">{caption}</p></div>'
+        )
+    return (
+        '<div style="display:flex; flex-wrap:wrap; gap:16px; margin:10px 0 18px">'
+        + "".join(cells)
+        + "</div>"
+    )
 
 CAPSTONE = (
     '<section class="panel" style="border-left-color:var(--ochre-line);background:var(--ochre-tint)">'
@@ -935,7 +962,42 @@ trail lengths: shortest 92, longest 183""",
         + "<p>All 120 have landed within four seconds. The highest reached y=64.2, which "
         "is near the top of an 800 by 600 window, about 500 pixels above the vent.</p>"
         "<p>Look at the trail lengths: 92 frames for the shortest flight and 183 for the longest. A range of launch speeds and angles gives a range of flight times. Every one of those trails lives inside its own object, "
-        "and no list is keeping them in step.</p>",
+        "and no list is keeping them in step.</p>"
+        "<p>The three pictures below are the window from that run, saved at frames 40, "
+        "70 and 240. The white dots are the particles and the lines are their trails. "
+        "The <code>color</code> method in <code>plume.py</code> picks each trail's "
+        "colour from that particle's <code>dy</code>: pale yellow when "
+        "<code>dy</code> is below -2, orange from -2 to 2, and brown above 2.</p>"
+        + _window_shots([
+            (
+                "plume_40.png",
+                "A dark window with grey ground along the bottom. 120 thin trails fan "
+                "upward from one point on the ground, most of them pale yellow, each "
+                "ending in a white dot.",
+                "<b>Frame 40.</b> All 120 particles are still going up. 94 trails are "
+                "pale yellow and 26 are orange.",
+            ),
+            (
+                "plume_70.png",
+                "The same window. The trails are longer and curve over at their ends. "
+                "Most are orange and a few low ones are brown.",
+                "<b>Frame 70.</b> All 120 are still in the air. 103 are near the top "
+                "of their path and orange, 15 are falling and brown, and 2 are still "
+                "pale yellow.",
+            ),
+        ])
+        + _window_shots([
+            (
+                "plume_240.png",
+                "The same window. 120 brown arcs rise from one point on the ground and "
+                "come back down to the ground on both sides, with a white dot where "
+                "each one landed.",
+                "<b>Frame 240.</b> All 120 have landed. Every trail is brown, because "
+                "each particle was falling when it stopped. <code>step</code> is no "
+                "longer called on a landed particle, but <code>draw</code> still is, "
+                "so its whole trail stays on screen.",
+            ),
+        ]),
     )
     b += (
         "<p>The loop has the same shape as the histogram in session 9: "
@@ -992,6 +1054,10 @@ trail lengths: shortest 92, longest 183""",
             "headless with <code>SDL_VIDEODRIVER=dummy</code> over 240 frames on pygame "
             "2.6.1. Confirm pygame is installed on the classroom machines before this "
             "session.</p>"
+            "<p>The three window pictures in section 3 are screenshots that "
+            "<code>verify_plume.py</code> saved from that headless run. A student "
+            "whose machine cannot open the window can read the section from them. The "
+            "exits still need the window.</p>"
             "<h3>Lifted this week</h3><p><code>pygame.draw.lines</code>. "
             "<code>class</code>, <code>__init__</code>, <code>self</code>, methods, and "
             "a list of objects were lifted in session 5.</p>"
@@ -1093,6 +1159,27 @@ distance at a few frames:
         "<p>The ship is falling the whole time. It never stops falling. It keeps missing, "
         "because it also has sideways speed, and the two together make a closed "
         "path.</p>"
+        "<p>The two pictures below are the window from that run. The white dot is the "
+        "ship and the thin line is its trail.</p>"
+        + _window_shots([
+            (
+                "orbit_60.png",
+                "A dark window with an orange planet in the middle. A thin curved line "
+                "starts above the planet and bends down its right side, ending in a "
+                "white dot.",
+                "<b>Frame 60.</b> The ship started above the planet moving right. The "
+                "pull has bent its path down the right side.",
+            ),
+            (
+                "orbit_1200.png",
+                "The same window. The line is now a closed oval around the planet, "
+                "with the planet near the bottom of the oval and the white dot on the "
+                "right side.",
+                "<b>Frame 1200.</b> The ship has gone round six times. Each loop "
+                "lands almost on top of the last one, so the trail looks like one "
+                "oval.",
+            ),
+        ])
         + figs.fig_orbit_arrows(),
     )
     b += (
@@ -1169,7 +1256,8 @@ distance at a few frames:
         extras=(
             "<h3>Files</h3><p><code>orbit.py</code>. Verified headless over 1200 frames "
             "on pygame 2.6.1. The orbit is stable for at least twenty seconds of "
-            "runtime. <code>verify_orbit_band.py</code> produced the table of other "
+            "runtime. The two window pictures in section 2 are screenshots that "
+            "<code>verify_orbit.py</code> saved from that run. <code>verify_orbit_band.py</code> produced the table of other "
             "starting speeds and time steps by running <code>orbit.py</code> with those "
             "values, with the frame clock switched off.</p>"
             "<h3>Lifted this week</h3><p><code>math.sqrt</code> for distance, vector "

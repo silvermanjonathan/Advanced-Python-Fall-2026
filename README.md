@@ -731,3 +731,15 @@ Known corrections made before first printing:
     and saves `build/shots/forest_5.png` and `forest_60.png`; the page reads the
     rounds from its `SNIPPETS`. Run on Python 3.13.18 and pygame 2.6.1; the figures
     are whole-number arithmetic. `make.py` and `crosscheck.py` pass.
+60. Window pictures in sessions 11 and 12, 18 November. The figures on these two pages
+    were diagrams in the page's colours, so nothing showed what the pygame window looks
+    like. `verify_plume.py` now saves the window at frames 40, 70 and 240 and
+    `verify_orbit.py` at frames 60 and 1200 (to `build/shots`, when `SHOTS` is set),
+    the same way `verify_forest.py` does. Session 11 shows the three plume pictures in
+    the section 3 answer, with the counts of yellow, orange and brown trails in each
+    frame and a line on how the `color` method picks them. Session 12 shows the two
+    orbit pictures in the section 2 answer, above the arrows figure. Both teacher
+    panels say where the pictures come from. The diagrams, the programs and every
+    quoted output are unchanged. Checked in Chromium at 1280px and 390px with every
+    reveal open: no sideways scroll. Run on Python 3.13.18 and pygame 2.6.1.
+    `make.py` and `crosscheck.py` pass.
