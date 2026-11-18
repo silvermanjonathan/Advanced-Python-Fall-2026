@@ -743,3 +743,17 @@ Known corrections made before first printing:
     quoted output are unchanged. Checked in Chromium at 1280px and 390px with every
     reveal open: no sideways scroll. Run on Python 3.13.18 and pygame 2.6.1.
     `make.py` and `crosscheck.py` pass.
+61. Two follow-ups from entry 60, 18 November. (a) The trail in `orbit.py` was a
+    one-pixel dark teal line, `(14, 107, 98)`, on a dark background and hard to see in
+    the window and in the screenshots. `TEAL` is now `(70, 220, 200)`. The page never
+    quoted that line, so only the program and the two orbit screenshots changed; the
+    path and every quoted number are the same. (b) Session 11's stretch exit asked
+    students to colour each particle by its vertical speed, which the downloaded
+    `plume.py` already does, and the page never showed `color` or `draw`. Section 3
+    now opens with those two methods, read from `plume.py` by the generator, and a
+    predict-first question on which colour `color` returns for a `dy` of -5, 0.5 and 3;
+    `verify_plume.py` prints the three answers and `crosscheck.py` checks them. The
+    stretch exit now asks students to change the `color` method (their own three
+    colours and two numbers) before the shock canopy. `plume.py` is unchanged. Reveal
+    ids on later pages moved by one. Checked in Chromium at 1280px and 390px: no
+    sideways scroll. `make.py` and `crosscheck.py` pass.

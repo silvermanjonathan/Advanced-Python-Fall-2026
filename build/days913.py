@@ -12,6 +12,15 @@ import figs1112 as figs
 _SHOTS = os.path.join(os.path.dirname(os.path.abspath(__file__)), "shots")
 
 
+def _plume_color_and_draw():
+    """Return the color and draw methods of plume.py, exactly as the file has them."""
+    root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    with open(os.path.join(root, "plume.py")) as f:
+        text = f.read()
+    start = text.index("    def color(self):")
+    return text[start:text.index("\n\n\ndef make_plume", start)]
+
+
 def _window_shots(shots):
     """Return screenshots of an 800 by 600 pygame window, side by side, each with a caption.
 
@@ -931,6 +940,34 @@ after removing from four lists but forgetting the fifth:
     b += figs.fig_three_objects()
 
     b += '<h2><span class="num">3</span>A list of objects<span class="mins">25 minutes</span></h2>'
+    b += (
+        "<p>The loop in this section calls <code>p.draw(screen)</code> for every "
+        "particle. <code>draw</code> and <code>color</code> are the last two methods "
+        "of the <code>Particle</code> class in <code>plume.py</code>. "
+        "<code>pygame.draw.lines</code> takes a list of points and draws a line from "
+        "each point to the next one.</p>"
+    )
+    b += code(_plume_color_and_draw(), "plume.py")
+    b += reveal(
+        "Three particles have a <code>dy</code> of -5, 0.5 and 3. Which colour does "
+        "<code>color</code> return for each one? Which of the three is moving up?",
+        output(
+            """dy -5: (255, 236, 170)
+dy 0.5: (232, 150, 60)
+dy 3: (150, 74, 48)""",
+            "verified from a headless run",
+        )
+        + "<p>-5 is below -2, so the first <code>if</code> returns pale yellow. 0.5 is "
+        "not below -2 but it is below 2, so the second <code>if</code> returns orange. "
+        "3 fails both checks, so the last line returns brown.</p>"
+        "<p>Only the first particle is moving up. A negative <code>dy</code> moves a "
+        "particle up the screen. The other two have a positive <code>dy</code>, so "
+        "they are moving down.</p>"
+        "<p><code>draw</code> calls <code>self.color()</code> once and uses that one "
+        "colour for the whole trail. So a trail changes colour all at once: pale "
+        "yellow while the particle rises fast, orange near the top of its path, and "
+        "brown while it falls fast.</p>",
+    )
     b += code(
         """running = 1
 while running:
@@ -965,9 +1002,7 @@ trail lengths: shortest 92, longest 183""",
         "and no list is keeping them in step.</p>"
         "<p>The three pictures below are the window from that run, saved at frames 40, "
         "70 and 240. The white dots are the particles and the lines are their trails. "
-        "The <code>color</code> method in <code>plume.py</code> picks each trail's "
-        "colour from that particle's <code>dy</code>: pale yellow when "
-        "<code>dy</code> is below -2, orange from -2 to 2, and brown above 2.</p>"
+        "Each trail's colour comes from the <code>color</code> method above.</p>"
         + _window_shots([
             (
                 "plume_40.png",
@@ -1010,8 +1045,9 @@ trail lengths: shortest 92, longest 183""",
         "moves and falls on screen.",
         "Floor, plus a list of 120 particles all stepping in one loop, plus trails "
         "drawn, plus you can explain the minus sign on the initial dy.",
-        "Middle, plus colour each particle by its current vertical speed so the rising "
-        "ones differ from the falling ones. Then add the shock canopy: make the trail "
+        "Middle, plus change the <code>color</code> method: choose your own three "
+        "colours and your own two numbers in place of -2 and 2, and say what changing "
+        "each number does to the picture. Then add the shock canopy: make the trail "
         "brighter near the top of the arc, where dy passes through zero.",
     )
     b += panel(

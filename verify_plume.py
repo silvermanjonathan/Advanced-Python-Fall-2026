@@ -33,3 +33,9 @@ print(f"frames run: {frames['n']}")
 print(f"particles: {len(ps)}, still airborne: {alive}, landed: {len(ps)-alive}")
 print(f"highest point reached: y={min(peaks):.1f} (ground is y=560)")
 print(f"trail lengths: shortest {min(lens)}, longest {max(lens)}")
+
+# the three colours the color method returns, for the page's question about it
+for dy in [-5, 0.5, 3]:
+    one = ns["Particle"](0, 0, 0, 0)
+    one.dy = dy
+    print(f"dy {dy}: {one.color()}")

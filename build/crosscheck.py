@@ -205,6 +205,9 @@ CHECKS = {
             "particles: 120, still airborne: 0, landed: 120",
             "highest point reached: y=64.2 (ground is y=560)",
             "trail lengths: shortest 92, longest 183",
+            "dy -5: (255, 236, 170)",
+            "dy 0.5: (232, 150, 60)",
+            "dy 3: (150, 74, 48)",
         ]),
     "wed12_orbits.html": (
         "SDL_VIDEODRIVER=dummy SDL_AUDIODRIVER=dummy python3 verify_orbit.py", [
