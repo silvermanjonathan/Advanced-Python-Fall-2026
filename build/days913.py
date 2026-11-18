@@ -5,6 +5,7 @@ import os
 from build import code, downloads, masthead, output, pager, reveal
 from days38 import exits
 from stds import panel
+import figs1112 as figs
 
 CAPSTONE = (
     '<section class="panel" style="border-left-color:var(--ochre-line);background:var(--ochre-tint)">'
@@ -803,6 +804,7 @@ colors = ["gold", "orange", "red", "gold"]""",
         "sparks_parallel.py",
     )
     b += downloads("sparks_parallel.py")
+    b += figs.fig_lists_before()
     b += (
         "<p>Spark 1 lands, so it has to come out of every list. Someone removes it from "
         "four of them and misses the fifth.</p>"
@@ -830,6 +832,7 @@ after removing from four lists but forgetting the fifth:
   spark 1: x=109 y=485 orange
   spark 2: x=100 y=494 red"""
         )
+        + figs.fig_lists_after()
         + "<p>The spark that was at x=109 was red and is now orange. Every colour after "
         "the removal point is off by one, and the program does not complain, because "
         "nothing in it knows those five lists were ever related.</p>"
@@ -855,6 +858,7 @@ after removing from four lists but forgetting the fifth:
         "<code>cos</code> and <code>sin</code> want radians and you are thinking in "
         "degrees, so you convert. Treat all three as tools for today. You do not need to know how they work inside.</p>"
     )
+    b += figs.fig_speed_split()
     b += code(
         '''class Particle:
     """One thrown speck that keeps a trail of where it has been."""
@@ -890,12 +894,14 @@ after removing from four lists but forgetting the fifth:
         "initial dy has to be negative. Gravity pulls down the screen, which is y "
         "increasing, so it adds.</p>"
         "<p>This is the coordinate system from the cipher console in session 3, where y "
-        "counts down from the top, the opposite of the one you use in math class. It causes bugs in every program that draws, so say it out loud each time it comes up.</p>",
+        "counts down from the top, the opposite of the one you use in math class. It causes bugs in every program that draws, so say it out loud each time it comes up.</p>"
+        + figs.fig_one_path(),
     )
     b += (
         "<p><code>self</code> is the particular spark this call is about. "
         "<code>self.x</code> is that spark's own x, not shared with any other. That one idea replaces all five lists and the comment that was holding them together.</p>"
     )
+    b += figs.fig_three_objects()
 
     b += '<h2><span class="num">3</span>A list of objects<span class="mins">25 minutes</span></h2>'
     b += code(
@@ -1024,7 +1030,8 @@ def day12():
         "<code>b</code> squared. That is the Pythagorean theorem, and it is the one piece of geometry this session needs. Here the across gap is 0, so the distance is just 300 minus 120.</p>"
         "<p>With gaps of 100 across and 80 up you need the whole rule: the distance is the square root of 10000 plus 6400, which is about 128.</p>"
         "<p>When the ship is off to one side, both differences matter and you need the "
-        "full calculation.</p>",
+        "full calculation.</p>"
+        + figs.fig_distance(),
     )
 
     b += '<h2><span class="num">2</span>Falling sideways<span class="mins">30 minutes</span></h2>'
@@ -1059,6 +1066,8 @@ def day12():
         "each axis. And <code>DT</code> is how big a slice of time each frame stands "
         "for.</p>"
     )
+    b += figs.fig_pull_split()
+    b += figs.fig_pull_bars()
     b += reveal(
         "The ship starts at (400, 120) with <code>dx = 3.8</code> and "
         "<code>dy = 0</code>, so it is moving sideways at 180 pixels out. Does it fall "
@@ -1083,7 +1092,8 @@ distance at a few frames:
         "second. The planet's radius is 26, so a closest approach of 60 clears it.</p>"
         "<p>The ship is falling the whole time. It never stops falling. It keeps missing, "
         "because it also has sideways speed, and the two together make a closed "
-        "path.</p>",
+        "path.</p>"
+        + figs.fig_orbit_arrows(),
     )
     b += (
         "<p>Change <code>dx</code> to 2.0 and the ship falls through the planet. Change "
@@ -1113,7 +1123,8 @@ distance at a few frames:
         "7.6 it does not come back: the farthest distance is still climbing when the "
         "run ends. That is the escape speed for this planet at this height, and the "
         "band from crash to escape is 2.8 to 7.6, which is wider than most people "
-        "guess.</p>",
+        "guess.</p>"
+        + figs.fig_four_speeds(),
     )
     b += (
         '<div class="predict"><b>DT is a shortcut.</b> Real gravity acts all the time, without gaps. This program applies it in jumps of 0.6. Set <code>DT</code> '
@@ -1122,6 +1133,7 @@ distance at a few frames:
         "overlapping loops. The two rows at the bottom of the table show it. At 3.0 the ship "
         "still holds between 62 and 180, and it takes a DT of about 8 before a single jump is big enough to send it off screen.</div>"
     )
+    b += figs.fig_two_dts()
 
     b += exits(
         "Your orbit program runs and the ship goes round at least once without crashing "
