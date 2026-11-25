@@ -150,6 +150,20 @@ three reveals (44 now) without changing the button markup or the script beyond a
 `aria-controls` attribute, and was not re-run in a browser.
 
 
+## Review
+
+`advanced_python_review.html` is the Review for Advanced Python Fall 2026: a short review
+in two parts, each planned as the first 10 minutes of a class session, so it never takes
+a whole session. It was built from one assessment result and is weighted to the topics
+with the most wrong answers. Dictionaries had the lowest score, so they get three
+questions in part 1 and come back first in part 2. The teacher panel on the page has the
+table. Adding `#part2` to the address opens the page at part 2. The hub links it under
+Extras.
+
+Its generator is `build/review.py`, which holds the 19 short programs, runs each one as
+`Jonathan_review.py` when the page is built, and stops if a quoted output line or error
+name is not in the real run. `crosscheck.py` runs them again.
+
 ## Self-containment
 
 Every backward reference in the course points at a session in the course, verified by an
@@ -757,3 +771,10 @@ Known corrections made before first printing:
     colours and two numbers) before the shock canopy. `plume.py` is unchanged. Reveal
     ids on later pages moved by one. Checked in Chromium at 1280px and 390px: no
     sideways scroll. `make.py` and `crosscheck.py` pass.
+
+
+25 November 2026: added `advanced_python_review.html`, the Review for Advanced Python
+Fall 2026, with its generator `build/review.py`, and a row for it under Extras on the
+hub. No other page changed. `make.py` and `crosscheck.py` pass (Python 3.13.18, pygame
+2.6.1). Checked in Chromium at 1280px and 390px with every answer open: no sideways
+scroll, and no output shows before its button.

@@ -152,6 +152,14 @@ def hub():
         '<span class="s">The dictionary of letter pictures from the cipher console, '
         "read line by line: two indexes, two loops one inside the other, and a gate. "
         "About 30 minutes.</span></span></div>"
+        '<div class="row extra"><span class="n">+</span>'
+        '<span class="d">two openers</span>'
+        '<span class="t"><a href="advanced_python_review.html">Review for Advanced '
+        "Python Fall 2026</a>"
+        '<span class="s">A short review in two parts, for the first 10 minutes of two '
+        "class sessions. Read a short program, say what it will print, then check. "
+        "Most of the questions are on dictionaries, remainders, functions and "
+        "strings.</span></span></div>"
         "</div>"
     )
 

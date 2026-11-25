@@ -10,6 +10,7 @@ from extras import extra_crack, extra_letters
 from days38 import day03, day04, day05, day06, day07
 from days913 import day08, day09, day10, day11, day12, day13
 from hub import hub
+from review import OUT_NAME as REVIEW_PAGE, TITLE as REVIEW_TITLE, review
 
 os.makedirs(OUT, exist_ok=True)
 
@@ -33,6 +34,7 @@ PAGES = [
     ("wed13_demo_day.html", "Session 13: to be written, then the demo", day13),
     ("extra_crack_caesar.html", "Extra: break a Caesar cipher by counting letters", extra_crack),
     ("extra_letters.html", "Extra: how letters.py draws a letter", extra_letters),
+    (REVIEW_PAGE, REVIEW_TITLE, review),
 ]
 
 written = []

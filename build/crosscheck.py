@@ -278,6 +278,15 @@ for line in BROKEN_MONTY:
         fails.append(f"broken monty variant does not produce: {line!r}")
 os.remove(os.path.join(PROG, "_broken_monty.py"))
 
+# The review page keeps its programs in build/review.py. verify() runs each one again
+# and asserts every output line and error name the page quotes is in the real run.
+import review  # noqa: E402
+
+try:
+    print(f"review: {review.verify()} programs run again, every quoted line found")
+except AssertionError as e:
+    fails.append(f"{review.OUT_NAME}: {e}")
+
 print(f"checked {len(CHECKS)} pages against live runs")
 if fails:
     print(f"\n{len(fails)} FAILURE(S):")
