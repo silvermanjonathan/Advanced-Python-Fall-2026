@@ -803,3 +803,19 @@ fills in the names and the loop line. No hint shows a condition or the value a l
 works out; those parts are marked in `build/codewars.py` and stay blank until the
 answer. The build stops if a hint shows a marked part, or if a hint does not hide less
 than the one before. `make.py` and `crosscheck.py` pass.
+
+25 November 2026, correction: hint captions on `extra_codewars.html` were one fixed
+sentence for all ten problems, so problem 1's hints named `for` and "the loop" although
+`even_or_odd` has no loop. Each caption is now built from its own function: it lists
+only the control words that function has, and counts its own blanks. `build/codewars.py`
+also stops the build if a hint sentence or a plan comment says loop, pass or gate about
+a function with no `for` or no `if`, or names a control word the function does not use.
+All thirty hints were read against their code after the change; one more fault was
+found and fixed (problem 9's by-hand question pointed at the wrong pass).
+
+The hint sequence was redone the same day after reading the research listed at the top
+of `build/codewars.py` and in the page's teacher panel. Hint 1 gives the idea, then the
+plan as comments with a blank for every line of code. Hint 2 says how the idea is used,
+then shows only the control words. Hint 3 gives a case to work by hand, then shows the
+names; every condition and worked-out value stays blank until the answer. `make.py` and
+`crosscheck.py` pass. Checked in Chromium at 1280px and 390px with every hint open.

@@ -11,18 +11,31 @@ Each test line also has an expected value worked out a second way (the "want" li
 the build stops if the run and the second way disagree. crosscheck.py runs them all
 again through verify().
 
-The hints are there to help a student think, not to show the method. Each of the
-three hints shows the function with blanks, cut from the answer that was run:
+The hints are there to help a student think, not to show the method. Each problem
+has three hints, from the most general to the most specific, and each one shows the
+function with blanks, cut from the answer that was run:
 
-    hint 1   the shape: the def line, and one blank for every line under it
-    hint 2   the words for, if, elif, else and return; everything else is blank
-    hint 3   the names and the loop line; every condition and every worked-out
-             value (the ⟦marked⟧ parts) is still blank
+    hint 1   the idea, then the plan as comments with a blank for every line of code
+    hint 2   how the idea is used, then the control words the function has (for,
+             if, elif, else, return); the rest of each line is blank
+    hint 3   a case to work by hand, then everything except the ⟦marked⟧ parts:
+             every condition and every worked-out value is still blank
 
-No hint shows a condition or an update. The build stops unless each hint hides less
-code than the one before and the last hint still has a blank.
+Each hint's caption is built from that problem's own function, so it cannot name a
+word the function does not use. The build also stops if a hint sentence or a plan
+comment says loop, pass or gate about a function with no for or no if.
 
-Edit the problems here, never in the .html.
+Why the hints are built this way (read 25 November 2026):
+  - General first, specific last: tutors order hint levels from the principle that
+    applies down to the bottom-out hint (Koedinger and Aleven 2007).
+  - Control words shown, conditions and values blank: Faded Parsons Problems never
+    blank top-level control flow and blank conditionals, constants and expressions
+    (Weinman, Fox and Hearst 2021).
+  - The plan as comments: subgoal labels, short phrases that say what a group of
+    lines is for (Margulieux, Morrison and Decker).
+  - A case to work by hand before the last blanks: finishing a part-written program
+    can turn into filling a template without understanding it (van Merrienboer
+    1990), and students often click through to the last hint (Aleven et al. 2006).
 """
 
 import ast
@@ -49,8 +62,11 @@ def c(text):
 # task               paragraphs: what the function takes and what it returns
 # name               the function's name; tests are the lines under the function
 # want               one Python expression per test line, worked out a second way
-# hints              two ideas; each hint opens inside the one before
-# answer             the function. ⟦text⟧ marks a part to think about: a condition or
+# hints              three sentences, general to specific: the idea, how it is used
+#                    here, and a case to work by hand. Each opens inside the one
+#                    before.
+# answer             the function. A comment line is a step of the plan and shows in
+#                    every hint. ⟦text⟧ marks a part to think about: a condition or
 #                    the value a line works out. Those parts stay blank in every
 #                    hint and show only in the answer.
 # after              text under the answer
@@ -72,10 +88,14 @@ print(even_or_odd(-3))
  "want": ['"Even"', '"Odd"', '"Even"', '"Odd"'],
  "hints": [
      "An even number divides by 2 with nothing left over. `%` gives what is left over.",
-     "The gate compares what is left over with 0. Under the gate, return `\"Even\"`.",
+     "A gate compares what is left over with a number. One answer is returned under "
+     "the gate and the other under `else`.",
+     "Work 7 by hand first: what is left over when 7 is divided by 2? What is left "
+     "over for 4? The condition has to say yes for 4 and no for 7.",
  ],
  "answer": c('''
 def even_or_odd(number):
+    # decide: is the number even?
     if ⟦number % 2 == 0⟧:
         return "Even"
     else:
@@ -102,12 +122,16 @@ print(is_divisible(100, 5, 10))
 '''),
  "want": ["True", "False", "True"],
  "hints": [
-     "`n % x == 0` is a comparison. Its value is `True` or `False`.",
-     "A function can return the value of a comparison, so no `if` is needed. One "
+     "One number divides by another with nothing left over when the remainder is 0. "
+     "`%` gives the remainder.",
+     "A function can return the value of a comparison, so no gate is needed. One "
      "word joins two comparisons so that both have to be True.",
+     "Work the second test line by hand, `is_divisible(12, 3, 5)`: does 12 divide by"
+     " 3? Does 12 divide by 5? Write one comparison for each question.",
  ],
  "answer": c('''
 def is_divisible(n, x, y):
+    # both comparisons have to be True
     return ⟦n % x == 0⟧ and ⟦n % y == 0⟧
 '''),
  "after": [
@@ -132,16 +156,22 @@ print(sum_of_positive([]))
 '''),
  "want": ["1 + 7 + 12", "0", "0"],
  "hints": [
-     "Start a variable `total` at 0 before the loop. This is the accumulator from "
-     "session 1.",
+     "This needs an accumulator, as in session 1: a variable that starts at 0 and "
+     "grows inside a loop.",
      "Inside the loop, a gate decides whether `n` is added to `total`.",
+     "Work the first test line by hand, `[1, -4, 7, 12]`: write the value of `total`"
+     " after each pass of the loop. Then fill in the blanks so the code does what "
+     "you did.",
  ],
  "answer": c('''
 def sum_of_positive(numbers):
+    # start the total
     total = ⟦0⟧
+    # look at each number, and add it only when it is more than 0
     for n in numbers:
         if ⟦n > 0⟧:
             total = ⟦total + n⟧
+    # give the total back
     return total
 '''),
  "after": [
@@ -164,16 +194,24 @@ print(smallest([7]))
 '''),
  "want": ["min([34, 15, 88, 2])", "min([34, -345, -1, 100])", "7"],
  "hints": [
-     "Keep the smallest number seen so far in a variable. Start it at `numbers[0]`, "
-     "the first number in the list.",
-     "Inside the loop, a gate decides whether `n` replaces `best`.",
+     "Session 1 kept a best-so-far variable. Here it holds the smallest number seen "
+     "so far.",
+     "The variable cannot start at 0, because 0 might not be in the list. Start it "
+     "at a number that is in the list. Inside the loop, a gate decides whether `n` "
+     "replaces it.",
+     "Work the first test line by hand, `[34, 15, 88, 2]`: write the value of `best`"
+     " after each pass of the loop. Then fill in the blanks so the code does what "
+     "you did.",
  ],
  "answer": c('''
 def smallest(numbers):
+    # start with a number from the list as the smallest so far
     best = ⟦numbers[0]⟧
+    # look at each number, and keep it when it is smaller
     for n in numbers:
         if ⟦n < best⟧:
             best = ⟦n⟧
+    # give the smallest back
     return best
 '''),
  "after": [
@@ -195,15 +233,21 @@ print(reverse("a"))
 '''),
  "want": ['"".join(reversed("world"))', '"".join(reversed("stressed"))', '"a"'],
  "hints": [
-     "Start with the empty string and add one letter on each pass of the loop.",
-     "`out + ch` puts the new letter at the end. `ch + out` puts the new letter at the "
-     "front.",
+     "This needs a string accumulator, as in session 3: start with the empty string "
+     "and join one letter to it on each pass of the loop.",
+     "`+` can join the new letter at either end of `out`. One end keeps the letters "
+     "in order. The other end turns them around.",
+     "Work `reverse(\"abc\")` by hand: write `out` after each pass of the loop. "
+     "Which end of `out` does each new letter go on?",
  ],
  "answer": c('''
 def reverse(text):
+    # start with no letters
     out = ⟦""⟧
+    # take each letter, and join it to the letters so far
     for ch in text:
         out = ⟦ch + out⟧
+    # give the new string back
     return out
 '''),
  "after": [
@@ -228,20 +272,25 @@ print(count_vowels("read the code"))
           'sum("sky".count(v) for v in "aeiou")',
           'sum("read the code".count(v) for v in "aeiou")'],
  "hints": [
-     "Put the five vowels in a list at the top of the file: "
-     "`VOWELS = [\"a\", \"e\", \"i\", \"o\", \"u\"]`.",
-     "Start `count` at 0. Inside the loop, a gate decides whether to add 1 to "
-     "`count`.",
+     "Put the five vowels in a list at the top of the file. Then this needs a "
+     "counter: a variable that starts at 0 and goes up by 1 inside a loop.",
+     "Inside the loop, a gate asks whether the character is one of the vowels. "
+     "Session 6 asked whether a move was in a list.",
+     "Work the second test line by hand, `\"sky\"`: how many times does the gate say"
+     " yes? Then do the same for the first three letters of `\"abracadabra\"`.",
  ],
  "answer": c('''
 VOWELS = ["a", "e", "i", "o", "u"]
 
 
 def count_vowels(text):
+    # start the count
     count = ⟦0⟧
+    # look at each character, and count it only when it is a vowel
     for ch in text:
         if ⟦ch in VOWELS⟧:
             count = ⟦count + 1⟧
+    # give the count back
     return count
 '''),
  "after": [
@@ -266,20 +315,25 @@ print(remove_vowels("rhythm"))
           '"".join(ch for ch in "trace it first" if ch not in "aeiou")',
           '"rhythm"'],
  "hints": [
-     "This is problem 6 with one change. In place of counting the vowels, build a new "
-     "string from the characters that are not vowels.",
-     "Start `out` as the empty string. Inside the loop, a gate decides whether `ch` "
-     "is added to `out`.",
+     "This is problem 6 with one change. In place of counting the vowels, build a "
+     "new string from the characters that are not vowels.",
+     "Start with the empty string. Inside the loop, a gate decides whether the "
+     "character is joined to the end of `out`.",
+     "Work the word `\"trace\"` by hand: write `out` after each pass of the loop. On"
+     " which passes does `out` stay the same?",
  ],
  "answer": c('''
 VOWELS = ["a", "e", "i", "o", "u"]
 
 
 def remove_vowels(text):
+    # start with no characters
     out = ⟦""⟧
+    # look at each character, and keep it only when it is not a vowel
     for ch in text:
         if ⟦ch not in VOWELS⟧:
             out = ⟦out + ch⟧
+    # give the new string back
     return out
 '''),
  "after": [
@@ -308,21 +362,26 @@ print(rps("paper", "rock"))
 '''),
  "want": ['"Player 1 won!"', '"Player 2 won!"', '"Draw!"', '"Player 1 won!"'],
  "hints": [
-     "Session 6 kept the rules in a dictionary: each key beats its value. "
-     "`BEATS = {\"rock\": \"scissors\", \"paper\": \"rock\", \"scissors\": \"paper\"}`.",
-     "Check for a draw first. Then `BEATS[move1]` is the move that `move1` beats. "
-     "Compare it with `move2`.",
+     "Session 6 kept the rules in a dictionary: each key beats its value. `BEATS = "
+     "{\"rock\": \"scissors\", \"paper\": \"rock\", \"scissors\": \"paper\"}`.",
+     "Check for a draw first. Then look up `move1` in the dictionary: that gives the"
+     " move it beats.",
+     "Work the second test line by hand, `rps(\"scissors\", \"rock\")`: what does "
+     "the dictionary give for `\"scissors\"`? Is that the same as `move2`? Who won?",
  ],
  "answer": c('''
-# each key beats its value: rock beats scissors
+# the rules: each key beats its value
 BEATS = {"rock": "scissors", "paper": "rock", "scissors": "paper"}
 
 
 def rps(move1, move2):
+    # the same move twice: nobody wins
     if ⟦move1 == move2⟧:
         return "Draw!"
+    # does move1 beat move2?
     elif ⟦BEATS[move1] == move2⟧:
         return ⟦"Player 1 won!"⟧
+    # the only case left
     else:
         return ⟦"Player 2 won!"⟧
 '''),
@@ -347,17 +406,23 @@ print(count_characters(""))
 '''),
  "want": ['{"a": 2, "b": 1}', '{"b": 1, "a": 3, "n": 2}', "{}"],
  "hints": [
-     "Start with an empty dictionary, and look at one character on each pass of the "
-     "loop.",
-     "`counts[ch] + 1` gives a `KeyError` the first time a character is seen, because "
-     "the key is not there yet. Session 3 used `.get` for this: it can give 0 for a "
-     "missing key, with no error.",
+     "The counts go in a dictionary: each character is a key, and its count is the "
+     "value. Start with an empty dictionary.",
+     "Adding 1 to a count that is not in the dictionary yet gives a `KeyError`. "
+     "Session 3 used a dictionary method that gives a value you choose for a missing"
+     " key, with no error.",
+     "Work the first test line by hand, `\"aba\"`: write the dictionary after each "
+     "pass of the loop. What is different about the third pass, when a comes up "
+     "again?",
  ],
  "answer": c('''
 def count_characters(text):
+    # start with no counts
     counts = ⟦{}⟧
+    # look at each character, and add 1 to its count
     for ch in text:
         counts[ch] = ⟦counts.get(ch, 0) + 1⟧
+    # give the dictionary back
     return counts
 '''),
  "after": [
@@ -385,20 +450,29 @@ print(rot13(rot13("attack at dawn")))
           '"attack at dawn"'],
  "hints": [
      "This is `shift_by` from session 3 with the amount always 13.",
-     "For a letter: `ord(ch) - ord(\"a\")` is its position, counting a as 0. Add the "
-     "amount, use `%` with the number of letters in the alphabet to go back to the "
-     "start after z, then add `ord(\"a\")` back on and use `chr`.",
+     "A letter takes three steps: change it to its position in the alphabet, move "
+     "the position, and change the position back to a letter. `ord` and `chr` do the"
+     " changing, and `%` goes back to the start after z.",
+     "Work the letter h by hand. `ord(\"h\")` is 104 and `ord(\"a\")` is 97. What is"
+     " the position of h? Where does it move to? Which letter is that?",
  ],
  "answer": c('''
 def rot13(text):
+    # start with no characters
     out = ""
+    # look at each character
     for ch in text:
+        # a space stays a space
         if ⟦ch == " "⟧:
             out = out + " "
         else:
+            # change the letter to its position, counting a as 0
             spot = ⟦ord(ch) - ord("a")⟧
+            # move 13 places, going back to the start after z
             spot = ⟦(spot + 13) % 26⟧
+            # change the position back to a letter
             out = out + ⟦chr(spot + ord("a"))⟧
+    # give the new string back
     return out
 '''),
  "after": [
@@ -408,7 +482,8 @@ def rot13(text):
  ],
  "further": "Make capital letters move 13 places as well and stay capital, so that "
             "`rot13(\"Hello\")` returns `\"Uryyb\"`.",
- "facts": ["13 + 13 == 26",
+ "facts": ["13 + 13 == 26", 'ord("h") == 104', 'ord("a") == 97',
+           'chr((104 - 97 + 13) % 26 + 97) == "u"',
            '__import__("codecs").encode("Hello", "rot13") == "Uryyb"']},
 ]
 
@@ -449,15 +524,7 @@ def check_rules(label, source):
 MARK = re.compile(r"⟦(.+?)⟧")
 BLANK = "____"
 LEVELS = 3  # hints per problem
-SAYS = [
-    "Here is the shape of the function. Every line under the <code>def</code> line "
-    "is a blank.",
-    "Here the words <code>for</code>, <code>if</code>, <code>else</code> and "
-    "<code>return</code> are filled in, where the function uses them. The rest of "
-    "each line is a blank.",
-    "Here the names and the loop are filled in. The blanks that are left are the "
-    "parts to think about.",
-]
+CONTROL = ("for", "if", "elif", "else", "return")
 
 
 def answer_of(p):
@@ -465,14 +532,26 @@ def answer_of(p):
     return MARK.sub(lambda m: m.group(1), p["answer"])
 
 
+def function_lines(p):
+    """The lines of the answer from the def line on."""
+    lines = answer_of(p).rstrip("\n").split("\n")
+    start = next(i for i, ln in enumerate(lines) if ln.startswith("def "))
+    return lines[start:]
+
+
+def control_words(p):
+    """The control words this function has, in the order of CONTROL."""
+    firsts = {ln.strip().rstrip(":").split(" ")[0] for ln in function_lines(p)}
+    return [w for w in CONTROL if w in firsts]
+
+
 def _shape(line, level):
-    """One line of the answer as hint 1 or hint 2 shows it, or None to leave it out."""
+    """One line of the answer as hint 1 or hint 2 shows it."""
     body = line.strip()
     pad = line[: len(line) - len(line.lstrip(" "))]
-    if not body or body.startswith("def "):
+    # the def line, plan comments, blank lines and lists kept above the def all show
+    if not body or body.startswith(("def ", "#")) or not pad:
         return line
-    if body.startswith("#"):
-        return None
     if level == 2:
         if body == "else:":
             return line
@@ -488,8 +567,33 @@ def blanked(p, level):
     """The function as hint level shows it."""
     if level == LEVELS:
         return MARK.sub(BLANK, p["answer"]).rstrip("\n")
-    lines = [_shape(ln, level) for ln in answer_of(p).rstrip("\n").split("\n")]
-    return "\n".join(ln for ln in lines if ln is not None)
+    return "\n".join(_shape(ln, level) for ln in answer_of(p).rstrip("\n").split("\n"))
+
+
+def count_blanks(p, level):
+    return blanked(p, level).count(BLANK)
+
+
+def _words(words):
+    coded = [f"<code>{w}</code>" for w in words]
+    if len(coded) == 1:
+        return "word " + coded[0] + " is"
+    return "words " + ", ".join(coded[:-1]) + " and " + coded[-1] + " are"
+
+
+def caption(p, level):
+    """What this hint's code shows, said from this problem's own function."""
+    n = count_blanks(p, level)
+    if level == 1:
+        lines = "The one line of code is a blank." if n == 1 else \
+            "Every line of code under the <code>def</code> line is a blank."
+        return f"Here is the plan, written as comments. {lines}"
+    if level == 2:
+        return (f"Here the {_words(control_words(p))} filled in. Everything else "
+                "on a line of code is a blank.")
+    left = "one blank" if n == 1 else f"{n} blanks"
+    return (f"Here the function is filled in except for {left}. Work out "
+            + ("that part" if n == 1 else "those parts") + " yourself.")
 
 
 def hidden(p, level):
@@ -499,10 +603,12 @@ def hidden(p, level):
 
 
 def check_blanks(label, p):
-    assert len(p["hints"]) == LEVELS - 1, f"{label}: needs {LEVELS - 1} written hints"
+    assert len(p["hints"]) == LEVELS, f"{label}: needs {LEVELS} written hints"
     assert BLANK not in answer_of(p) and "⟦" not in answer_of(p), f"{label}: a mark did not parse"
     marks = MARK.findall(p["answer"])
     assert marks, f"{label}: no part of the answer is marked to stay blank"
+    assert any(ln.strip().startswith("#") for ln in function_lines(p)), \
+        f"{label}: the function has no plan comment"
     # the last hint fills back to the answer that is run
     text = blanked(p, LEVELS)
     for piece in marks:
@@ -518,6 +624,26 @@ def check_blanks(label, p):
     sizes = [hidden(p, k) for k in range(1, LEVELS + 1)]
     assert sizes == sorted(set(sizes), reverse=True) and sizes[-1] > 0, \
         f"{label}: hints must hide less each time, got {sizes}"
+    # what the words say has to be true of this function
+    has = control_words(p)
+    said = p["hints"] + [ln for ln in function_lines(p) if ln.strip().startswith("#")]
+    for text in said:
+        low = re.sub(r"`[^`]*`", " ", text).lower()
+        if re.search(r"\b(loop|pass|passes)\b", low):
+            assert "for" in has, f"{label}: says loop or pass, but the function has no for: {text!r}"
+        if re.search(r"\bgate\b", low) and "no gate" not in low:
+            assert "if" in has, f"{label}: says gate, but the function has no if: {text!r}"
+        for word in re.findall(r"`(for|if|elif|else|return)`", text):
+            assert word in has, f"{label}: names `{word}`, which the function does not use: {text!r}"
+    for k in range(1, LEVELS + 1):
+        for word in re.findall(r"<code>(for|if|elif|else|return)</code>", caption(p, k)):
+            assert word in has, f"{label}: hint {k} caption names {word}"
+        # the caption's count of blanks is the count in the code under it
+        assert count_blanks(p, k) > 0, f"{label}: hint {k} has no blank"
+    # hint 2 shows every control word the function has
+    two = blanked(p, 2)
+    for word in has:
+        assert re.search(rf"^\s+{word}\b", two, re.M), f"{label}: hint 2 does not show {word}"
 
 
 def program(p):
@@ -564,7 +690,7 @@ def hint_ladder(p, answer, slug):
 
     Each hint shows the function with blanks, fewer in each hint than the one before.
     """
-    hints = p["hints"] + [""]
+    hints = p["hints"]
     aid = f"cw-{slug}-answer"
     inner = (
         f'<button class="rev" data-target="{aid}" data-show="Show the answer" '
@@ -578,19 +704,18 @@ def hint_ladder(p, answer, slug):
             f'<button class="rev" data-target="{hid}" data-show="Hint {k}" '
             f'data-hide="Hide hint {k}" aria-expanded="false" aria-controls="{hid}">'
             f"Hint {k}</button>\n"
-            f'<div class="ans" id="{hid}">'
-            + (f"<p>{fmt(hints[k - 1])}</p>" if hints[k - 1] else "")
-            + f"{blank_block(p, k)}{inner}</div>\n"
+            f'<div class="ans" id="{hid}"><p>{fmt(hints[k - 1])}</p>'
+            f"{blank_block(p, k)}{inner}</div>\n"
         )
-    return ('<div class="predict ladder"><b>Stuck?</b> Open one hint at a time, and '
-            "try again after each one. Every hint shows the function with blanks, "
-            f"written <code>{BLANK}</code>, for you to work out. The answer is inside "
-            f"the last hint.\n{inner}</div>\n")
+    return ('<div class="predict ladder"><b>Stuck?</b> Open one hint. Fill in what you '
+            "can and run your file. Open the next hint only if you are still stuck. "
+            f"Every hint shows the function with blanks, written <code>{BLANK}</code>, "
+            f"for you to work out. The answer is inside the last hint.\n{inner}</div>\n")
 
 
 def blank_block(p, level):
     """The function as this hint shows it, under a line that says what is filled in."""
-    return f"<p>{SAYS[level - 1]}</p>" + code(blanked(p, level))
+    return f"<p>{caption(p, level)}</p>" + code(blanked(p, level))
 
 
 def problem_html(n, p):
@@ -632,13 +757,17 @@ def teacher_panel():
         "each problem goes to the kata it came from.</li>"
         "<li>The target output is shown openly, so a student can check their own "
         "function.</li>"
-        "<li>Each problem has three hints, and every hint shows the function with "
-        "blanks. Hint 1 shows the shape: one blank for every line. Hint 2 fills in "
-        "the words <code>for</code>, <code>if</code>, <code>else</code> and "
-        "<code>return</code>. Hint 3 fills in the names and the loop line.</li>"
+        "<li>Each problem has three hints, from the most general to the most "
+        "specific, and every hint shows the function with blanks. Hint 1 gives the "
+        "idea, then the plan as comments with a blank for every line of code. Hint 2 "
+        "says how the idea is used, then fills in the control words the function "
+        "has, such as <code>if</code> and <code>return</code>. Hint 3 gives a case to "
+        "work by hand, then fills in the names.</li>"
         "<li>No hint shows a condition or the value a line works out. Those stay "
         "blank until the answer, so the student still has to do the thinking. The "
         "answer is inside the third hint.</li>"
+        "<li>Ask for a try between hints: fill in what you can, run the file, and "
+        "open the next hint only if still stuck.</li>"
         "</ul>"
         "<h3>What each problem uses</h3>"
         '<div style="overflow-x:auto"><table style="min-width:600px; table-layout:auto">'
@@ -646,6 +775,27 @@ def teacher_panel():
         f"<tbody>{rows}</tbody></table></div>"
         "<p>On Codewars, kyu is the rank of a kata: 8 kyu is the most basic and the "
         "numbers go down as the kata get harder.</p>"
+        "<h3>Why the hints are built this way</h3><ul>"
+        "<li>General first, specific last. Tutoring systems order their hint levels "
+        "from the principle that applies down to a last hint that gives the step "
+        '(<a href="https://pslcdatashop.web.cmu.edu/KDDCup/FAQ/Koedinger-Aleven-EPR-07.pdf">'
+        "Koedinger and Aleven, 2007</a>).</li>"
+        "<li>Control words shown, conditions and values blank. Faded Parsons Problems "
+        "never blank the top-level control words and do blank conditions, constants "
+        'and expressions (<a href="https://acelab.berkeley.edu/wp-content/papercite-data/pdf/parsons-chi2021.pdf">'
+        "Weinman, Fox and Hearst, 2021</a>).</li>"
+        "<li>The plan as comments. Subgoal labels are short phrases that say what a "
+        "group of lines is for, and worked examples that carry them helped new "
+        'programmers (<a href="https://www.raspberrypi.org/app/uploads/2020/07/Using-subgoal-labels-to-reduce-cognitive-load-in-introductory-programming.pdf">'
+        "Margulieux, Morrison and Decker</a>).</li>"
+        "<li>A case to work by hand before the last blanks. Students who finished "
+        "part-written programs built programs better than students who wrote from "
+        "nothing, but the study did not show they understood the patterns they used "
+        '(<a href="https://research.utwente.nl/en/publications/strategies-for-programming-instruction-in-high-school-program-com/">'
+        "van Merri&euml;nboer, 1990</a>). Students also often click through to the last "
+        'hint (<a href="https://learnlab.org/research/wiki/index.php/Help_abuse">'
+        "Aleven and others, 2006</a>), which is why each hint asks for a try before the "
+        "next.</li></ul>"
         "<h3>Where the wording comes from</h3>"
         "<p>The kata titles, ranks and links were read from codewars.com on 25 November "
         "2026. The task wording, function names, test lines and answers on this page are "

@@ -323,21 +323,24 @@ footer p{margin:0}
 Odd
 Even
 Odd</code></pre></div>
-<div class="predict ladder"><b>Stuck?</b> Open one hint at a time, and try again after each one. Every hint shows the function with blanks, written <code>____</code>, for you to work out. The answer is inside the last hint.
+<div class="predict ladder"><b>Stuck?</b> Open one hint. Fill in what you can and run your file. Open the next hint only if you are still stuck. Every hint shows the function with blanks, written <code>____</code>, for you to work out. The answer is inside the last hint.
 <button class="rev" data-target="cw-1-1" data-show="Hint 1" data-hide="Hide hint 1" aria-expanded="false" aria-controls="cw-1-1">Hint 1</button>
-<div class="ans" id="cw-1-1"><p>An even number divides by 2 with nothing left over. <code>%</code> gives what is left over.</p><p>Here is the shape of the function. Every line under the <code>def</code> line is a blank.</p><pre class="py"><code><span class="hs">def</span> <span class="hf">even_or_odd</span>(<span class="hv">number</span>):
+<div class="ans" id="cw-1-1"><p>An even number divides by 2 with nothing left over. <code>%</code> gives what is left over.</p><p>Here is the plan, written as comments. Every line of code under the <code>def</code> line is a blank.</p><pre class="py"><code><span class="hs">def</span> <span class="hf">even_or_odd</span>(<span class="hv">number</span>):
+<span class="ig">    </span><span class="hm"># decide: is the number even?</span>
 <span class="ig">    </span><span class="hv">____</span>
 <span class="ig">    </span><span class="ig">    </span><span class="hv">____</span>
 <span class="ig">    </span><span class="hv">____</span>
 <span class="ig">    </span><span class="ig">    </span><span class="hv">____</span></code></pre>
 <button class="rev" data-target="cw-1-2" data-show="Hint 2" data-hide="Hide hint 2" aria-expanded="false" aria-controls="cw-1-2">Hint 2</button>
-<div class="ans" id="cw-1-2"><p>The gate compares what is left over with 0. Under the gate, return <code>"Even"</code>.</p><p>Here the words <code>for</code>, <code>if</code>, <code>else</code> and <code>return</code> are filled in, where the function uses them. The rest of each line is a blank.</p><pre class="py"><code><span class="hs">def</span> <span class="hf">even_or_odd</span>(<span class="hv">number</span>):
+<div class="ans" id="cw-1-2"><p>A gate compares what is left over with a number. One answer is returned under the gate and the other under <code>else</code>.</p><p>Here the words <code>if</code>, <code>else</code> and <code>return</code> are filled in. Everything else on a line of code is a blank.</p><pre class="py"><code><span class="hs">def</span> <span class="hf">even_or_odd</span>(<span class="hv">number</span>):
+<span class="ig">    </span><span class="hm"># decide: is the number even?</span>
 <span class="ig">    </span><span class="hk">if</span> <span class="hv">____</span>:
 <span class="ig">    </span><span class="ig">    </span><span class="hk">return</span> <span class="hv">____</span>
 <span class="ig">    </span><span class="hk">else</span>:
 <span class="ig">    </span><span class="ig">    </span><span class="hk">return</span> <span class="hv">____</span></code></pre>
 <button class="rev" data-target="cw-1-3" data-show="Hint 3" data-hide="Hide hint 3" aria-expanded="false" aria-controls="cw-1-3">Hint 3</button>
-<div class="ans" id="cw-1-3"><p>Here the names and the loop are filled in. The blanks that are left are the parts to think about.</p><pre class="py"><code><span class="hs">def</span> <span class="hf">even_or_odd</span>(<span class="hv">number</span>):
+<div class="ans" id="cw-1-3"><p>Work 7 by hand first: what is left over when 7 is divided by 2? What is left over for 4? The condition has to say yes for 4 and no for 7.</p><p>Here the function is filled in except for one blank. Work out that part yourself.</p><pre class="py"><code><span class="hs">def</span> <span class="hf">even_or_odd</span>(<span class="hv">number</span>):
+<span class="ig">    </span><span class="hm"># decide: is the number even?</span>
 <span class="ig">    </span><span class="hk">if</span> <span class="hv">____</span>:
 <span class="ig">    </span><span class="ig">    </span><span class="hk">return</span> <span class="hq">"Even"</span>
 <span class="ig">    </span><span class="hk">else</span>:
@@ -345,6 +348,7 @@ Odd</code></pre></div>
 <button class="rev" data-target="cw-1-answer" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="cw-1-answer">Show the answer</button>
 <div class="ans" id="cw-1-answer"><p class="fname">Jonathan_codewars.py</p>
 <pre class="py"><code><span class="hs">def</span> <span class="hf">even_or_odd</span>(<span class="hv">number</span>):
+<span class="ig">    </span><span class="hm"># decide: is the number even?</span>
 <span class="ig">    </span><span class="hk">if</span> <span class="hv">number</span> % <span class="hd">2</span> == <span class="hd">0</span>:
 <span class="ig">    </span><span class="ig">    </span><span class="hk">return</span> <span class="hq">"Even"</span>
 <span class="ig">    </span><span class="hk">else</span>:
@@ -373,19 +377,23 @@ Odd</code></pre></div>
 <div class="out"><span class="tag">target output</span><pre><code>True
 False
 True</code></pre></div>
-<div class="predict ladder"><b>Stuck?</b> Open one hint at a time, and try again after each one. Every hint shows the function with blanks, written <code>____</code>, for you to work out. The answer is inside the last hint.
+<div class="predict ladder"><b>Stuck?</b> Open one hint. Fill in what you can and run your file. Open the next hint only if you are still stuck. Every hint shows the function with blanks, written <code>____</code>, for you to work out. The answer is inside the last hint.
 <button class="rev" data-target="cw-2-1" data-show="Hint 1" data-hide="Hide hint 1" aria-expanded="false" aria-controls="cw-2-1">Hint 1</button>
-<div class="ans" id="cw-2-1"><p><code>n % x == 0</code> is a comparison. Its value is <code>True</code> or <code>False</code>.</p><p>Here is the shape of the function. Every line under the <code>def</code> line is a blank.</p><pre class="py"><code><span class="hs">def</span> <span class="hf">is_divisible</span>(<span class="hv">n</span>, <span class="hv">x</span>, <span class="hv">y</span>):
+<div class="ans" id="cw-2-1"><p>One number divides by another with nothing left over when the remainder is 0. <code>%</code> gives the remainder.</p><p>Here is the plan, written as comments. The one line of code is a blank.</p><pre class="py"><code><span class="hs">def</span> <span class="hf">is_divisible</span>(<span class="hv">n</span>, <span class="hv">x</span>, <span class="hv">y</span>):
+<span class="ig">    </span><span class="hm"># both comparisons have to be True</span>
 <span class="ig">    </span><span class="hv">____</span></code></pre>
 <button class="rev" data-target="cw-2-2" data-show="Hint 2" data-hide="Hide hint 2" aria-expanded="false" aria-controls="cw-2-2">Hint 2</button>
-<div class="ans" id="cw-2-2"><p>A function can return the value of a comparison, so no <code>if</code> is needed. One word joins two comparisons so that both have to be True.</p><p>Here the words <code>for</code>, <code>if</code>, <code>else</code> and <code>return</code> are filled in, where the function uses them. The rest of each line is a blank.</p><pre class="py"><code><span class="hs">def</span> <span class="hf">is_divisible</span>(<span class="hv">n</span>, <span class="hv">x</span>, <span class="hv">y</span>):
+<div class="ans" id="cw-2-2"><p>A function can return the value of a comparison, so no gate is needed. One word joins two comparisons so that both have to be True.</p><p>Here the word <code>return</code> is filled in. Everything else on a line of code is a blank.</p><pre class="py"><code><span class="hs">def</span> <span class="hf">is_divisible</span>(<span class="hv">n</span>, <span class="hv">x</span>, <span class="hv">y</span>):
+<span class="ig">    </span><span class="hm"># both comparisons have to be True</span>
 <span class="ig">    </span><span class="hk">return</span> <span class="hv">____</span></code></pre>
 <button class="rev" data-target="cw-2-3" data-show="Hint 3" data-hide="Hide hint 3" aria-expanded="false" aria-controls="cw-2-3">Hint 3</button>
-<div class="ans" id="cw-2-3"><p>Here the names and the loop are filled in. The blanks that are left are the parts to think about.</p><pre class="py"><code><span class="hs">def</span> <span class="hf">is_divisible</span>(<span class="hv">n</span>, <span class="hv">x</span>, <span class="hv">y</span>):
+<div class="ans" id="cw-2-3"><p>Work the second test line by hand, <code>is_divisible(12, 3, 5)</code>: does 12 divide by 3? Does 12 divide by 5? Write one comparison for each question.</p><p>Here the function is filled in except for 2 blanks. Work out those parts yourself.</p><pre class="py"><code><span class="hs">def</span> <span class="hf">is_divisible</span>(<span class="hv">n</span>, <span class="hv">x</span>, <span class="hv">y</span>):
+<span class="ig">    </span><span class="hm"># both comparisons have to be True</span>
 <span class="ig">    </span><span class="hk">return</span> <span class="hv">____</span> <span class="hs">and</span> <span class="hv">____</span></code></pre>
 <button class="rev" data-target="cw-2-answer" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="cw-2-answer">Show the answer</button>
 <div class="ans" id="cw-2-answer"><p class="fname">Jonathan_codewars.py</p>
 <pre class="py"><code><span class="hs">def</span> <span class="hf">is_divisible</span>(<span class="hv">n</span>, <span class="hv">x</span>, <span class="hv">y</span>):
+<span class="ig">    </span><span class="hm"># both comparisons have to be True</span>
 <span class="ig">    </span><span class="hk">return</span> <span class="hv">n</span> % <span class="hv">x</span> == <span class="hd">0</span> <span class="hs">and</span> <span class="hv">n</span> % <span class="hv">y</span> == <span class="hd">0</span>
 
 <span class="hf">print</span>(<span class="hf">is_divisible</span>(<span class="hd">12</span>, <span class="hd">3</span>, <span class="hd">4</span>))
@@ -409,35 +417,47 @@ True</code></pre></div>
 <div class="out"><span class="tag">target output</span><pre><code>20
 0
 0</code></pre></div>
-<div class="predict ladder"><b>Stuck?</b> Open one hint at a time, and try again after each one. Every hint shows the function with blanks, written <code>____</code>, for you to work out. The answer is inside the last hint.
+<div class="predict ladder"><b>Stuck?</b> Open one hint. Fill in what you can and run your file. Open the next hint only if you are still stuck. Every hint shows the function with blanks, written <code>____</code>, for you to work out. The answer is inside the last hint.
 <button class="rev" data-target="cw-3-1" data-show="Hint 1" data-hide="Hide hint 1" aria-expanded="false" aria-controls="cw-3-1">Hint 1</button>
-<div class="ans" id="cw-3-1"><p>Start a variable <code>total</code> at 0 before the loop. This is the accumulator from session 1.</p><p>Here is the shape of the function. Every line under the <code>def</code> line is a blank.</p><pre class="py"><code><span class="hs">def</span> <span class="hf">sum_of_positive</span>(<span class="hv">numbers</span>):
+<div class="ans" id="cw-3-1"><p>This needs an accumulator, as in session 1: a variable that starts at 0 and grows inside a loop.</p><p>Here is the plan, written as comments. Every line of code under the <code>def</code> line is a blank.</p><pre class="py"><code><span class="hs">def</span> <span class="hf">sum_of_positive</span>(<span class="hv">numbers</span>):
+<span class="ig">    </span><span class="hm"># start the total</span>
 <span class="ig">    </span><span class="hv">____</span>
+<span class="ig">    </span><span class="hm"># look at each number, and add it only when it is more than 0</span>
 <span class="ig">    </span><span class="hv">____</span>
 <span class="ig">    </span><span class="ig">    </span><span class="hv">____</span>
 <span class="ig">    </span><span class="ig">    </span><span class="ig">    </span><span class="hv">____</span>
+<span class="ig">    </span><span class="hm"># give the total back</span>
 <span class="ig">    </span><span class="hv">____</span></code></pre>
 <button class="rev" data-target="cw-3-2" data-show="Hint 2" data-hide="Hide hint 2" aria-expanded="false" aria-controls="cw-3-2">Hint 2</button>
-<div class="ans" id="cw-3-2"><p>Inside the loop, a gate decides whether <code>n</code> is added to <code>total</code>.</p><p>Here the words <code>for</code>, <code>if</code>, <code>else</code> and <code>return</code> are filled in, where the function uses them. The rest of each line is a blank.</p><pre class="py"><code><span class="hs">def</span> <span class="hf">sum_of_positive</span>(<span class="hv">numbers</span>):
+<div class="ans" id="cw-3-2"><p>Inside the loop, a gate decides whether <code>n</code> is added to <code>total</code>.</p><p>Here the words <code>for</code>, <code>if</code> and <code>return</code> are filled in. Everything else on a line of code is a blank.</p><pre class="py"><code><span class="hs">def</span> <span class="hf">sum_of_positive</span>(<span class="hv">numbers</span>):
+<span class="ig">    </span><span class="hm"># start the total</span>
 <span class="ig">    </span><span class="hv">____</span>
+<span class="ig">    </span><span class="hm"># look at each number, and add it only when it is more than 0</span>
 <span class="ig">    </span><span class="hk">for</span> <span class="hv">____</span>:
 <span class="ig">    </span><span class="ig">    </span><span class="hk">if</span> <span class="hv">____</span>:
 <span class="ig">    </span><span class="ig">    </span><span class="ig">    </span><span class="hv">____</span>
+<span class="ig">    </span><span class="hm"># give the total back</span>
 <span class="ig">    </span><span class="hk">return</span> <span class="hv">____</span></code></pre>
 <button class="rev" data-target="cw-3-3" data-show="Hint 3" data-hide="Hide hint 3" aria-expanded="false" aria-controls="cw-3-3">Hint 3</button>
-<div class="ans" id="cw-3-3"><p>Here the names and the loop are filled in. The blanks that are left are the parts to think about.</p><pre class="py"><code><span class="hs">def</span> <span class="hf">sum_of_positive</span>(<span class="hv">numbers</span>):
+<div class="ans" id="cw-3-3"><p>Work the first test line by hand, <code>[1, -4, 7, 12]</code>: write the value of <code>total</code> after each pass of the loop. Then fill in the blanks so the code does what you did.</p><p>Here the function is filled in except for 3 blanks. Work out those parts yourself.</p><pre class="py"><code><span class="hs">def</span> <span class="hf">sum_of_positive</span>(<span class="hv">numbers</span>):
+<span class="ig">    </span><span class="hm"># start the total</span>
 <span class="ig">    </span><span class="hv">total</span> = <span class="hv">____</span>
+<span class="ig">    </span><span class="hm"># look at each number, and add it only when it is more than 0</span>
 <span class="ig">    </span><span class="hk">for</span> <span class="hv">n</span> <span class="hs">in</span> <span class="hv">numbers</span>:
 <span class="ig">    </span><span class="ig">    </span><span class="hk">if</span> <span class="hv">____</span>:
 <span class="ig">    </span><span class="ig">    </span><span class="ig">    </span><span class="hv">total</span> = <span class="hv">____</span>
+<span class="ig">    </span><span class="hm"># give the total back</span>
 <span class="ig">    </span><span class="hk">return</span> <span class="hv">total</span></code></pre>
 <button class="rev" data-target="cw-3-answer" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="cw-3-answer">Show the answer</button>
 <div class="ans" id="cw-3-answer"><p class="fname">Jonathan_codewars.py</p>
 <pre class="py"><code><span class="hs">def</span> <span class="hf">sum_of_positive</span>(<span class="hv">numbers</span>):
+<span class="ig">    </span><span class="hm"># start the total</span>
 <span class="ig">    </span><span class="hv">total</span> = <span class="hd">0</span>
+<span class="ig">    </span><span class="hm"># look at each number, and add it only when it is more than 0</span>
 <span class="ig">    </span><span class="hk">for</span> <span class="hv">n</span> <span class="hs">in</span> <span class="hv">numbers</span>:
 <span class="ig">    </span><span class="ig">    </span><span class="hk">if</span> <span class="hv">n</span> &gt; <span class="hd">0</span>:
 <span class="ig">    </span><span class="ig">    </span><span class="ig">    </span><span class="hv">total</span> = <span class="hv">total</span> + <span class="hv">n</span>
+<span class="ig">    </span><span class="hm"># give the total back</span>
 <span class="ig">    </span><span class="hk">return</span> <span class="hv">total</span>
 
 <span class="hf">print</span>(<span class="hf">sum_of_positive</span>([<span class="hd">1</span>, -<span class="hd">4</span>, <span class="hd">7</span>, <span class="hd">12</span>]))
@@ -461,35 +481,47 @@ True</code></pre></div>
 <div class="out"><span class="tag">target output</span><pre><code>2
 -345
 7</code></pre></div>
-<div class="predict ladder"><b>Stuck?</b> Open one hint at a time, and try again after each one. Every hint shows the function with blanks, written <code>____</code>, for you to work out. The answer is inside the last hint.
+<div class="predict ladder"><b>Stuck?</b> Open one hint. Fill in what you can and run your file. Open the next hint only if you are still stuck. Every hint shows the function with blanks, written <code>____</code>, for you to work out. The answer is inside the last hint.
 <button class="rev" data-target="cw-4-1" data-show="Hint 1" data-hide="Hide hint 1" aria-expanded="false" aria-controls="cw-4-1">Hint 1</button>
-<div class="ans" id="cw-4-1"><p>Keep the smallest number seen so far in a variable. Start it at <code>numbers[0]</code>, the first number in the list.</p><p>Here is the shape of the function. Every line under the <code>def</code> line is a blank.</p><pre class="py"><code><span class="hs">def</span> <span class="hf">smallest</span>(<span class="hv">numbers</span>):
+<div class="ans" id="cw-4-1"><p>Session 1 kept a best-so-far variable. Here it holds the smallest number seen so far.</p><p>Here is the plan, written as comments. Every line of code under the <code>def</code> line is a blank.</p><pre class="py"><code><span class="hs">def</span> <span class="hf">smallest</span>(<span class="hv">numbers</span>):
+<span class="ig">    </span><span class="hm"># start with a number from the list as the smallest so far</span>
 <span class="ig">    </span><span class="hv">____</span>
+<span class="ig">    </span><span class="hm"># look at each number, and keep it when it is smaller</span>
 <span class="ig">    </span><span class="hv">____</span>
 <span class="ig">    </span><span class="ig">    </span><span class="hv">____</span>
 <span class="ig">    </span><span class="ig">    </span><span class="ig">    </span><span class="hv">____</span>
+<span class="ig">    </span><span class="hm"># give the smallest back</span>
 <span class="ig">    </span><span class="hv">____</span></code></pre>
 <button class="rev" data-target="cw-4-2" data-show="Hint 2" data-hide="Hide hint 2" aria-expanded="false" aria-controls="cw-4-2">Hint 2</button>
-<div class="ans" id="cw-4-2"><p>Inside the loop, a gate decides whether <code>n</code> replaces <code>best</code>.</p><p>Here the words <code>for</code>, <code>if</code>, <code>else</code> and <code>return</code> are filled in, where the function uses them. The rest of each line is a blank.</p><pre class="py"><code><span class="hs">def</span> <span class="hf">smallest</span>(<span class="hv">numbers</span>):
+<div class="ans" id="cw-4-2"><p>The variable cannot start at 0, because 0 might not be in the list. Start it at a number that is in the list. Inside the loop, a gate decides whether <code>n</code> replaces it.</p><p>Here the words <code>for</code>, <code>if</code> and <code>return</code> are filled in. Everything else on a line of code is a blank.</p><pre class="py"><code><span class="hs">def</span> <span class="hf">smallest</span>(<span class="hv">numbers</span>):
+<span class="ig">    </span><span class="hm"># start with a number from the list as the smallest so far</span>
 <span class="ig">    </span><span class="hv">____</span>
+<span class="ig">    </span><span class="hm"># look at each number, and keep it when it is smaller</span>
 <span class="ig">    </span><span class="hk">for</span> <span class="hv">____</span>:
 <span class="ig">    </span><span class="ig">    </span><span class="hk">if</span> <span class="hv">____</span>:
 <span class="ig">    </span><span class="ig">    </span><span class="ig">    </span><span class="hv">____</span>
+<span class="ig">    </span><span class="hm"># give the smallest back</span>
 <span class="ig">    </span><span class="hk">return</span> <span class="hv">____</span></code></pre>
 <button class="rev" data-target="cw-4-3" data-show="Hint 3" data-hide="Hide hint 3" aria-expanded="false" aria-controls="cw-4-3">Hint 3</button>
-<div class="ans" id="cw-4-3"><p>Here the names and the loop are filled in. The blanks that are left are the parts to think about.</p><pre class="py"><code><span class="hs">def</span> <span class="hf">smallest</span>(<span class="hv">numbers</span>):
+<div class="ans" id="cw-4-3"><p>Work the first test line by hand, <code>[34, 15, 88, 2]</code>: write the value of <code>best</code> after each pass of the loop. Then fill in the blanks so the code does what you did.</p><p>Here the function is filled in except for 3 blanks. Work out those parts yourself.</p><pre class="py"><code><span class="hs">def</span> <span class="hf">smallest</span>(<span class="hv">numbers</span>):
+<span class="ig">    </span><span class="hm"># start with a number from the list as the smallest so far</span>
 <span class="ig">    </span><span class="hv">best</span> = <span class="hv">____</span>
+<span class="ig">    </span><span class="hm"># look at each number, and keep it when it is smaller</span>
 <span class="ig">    </span><span class="hk">for</span> <span class="hv">n</span> <span class="hs">in</span> <span class="hv">numbers</span>:
 <span class="ig">    </span><span class="ig">    </span><span class="hk">if</span> <span class="hv">____</span>:
 <span class="ig">    </span><span class="ig">    </span><span class="ig">    </span><span class="hv">best</span> = <span class="hv">____</span>
+<span class="ig">    </span><span class="hm"># give the smallest back</span>
 <span class="ig">    </span><span class="hk">return</span> <span class="hv">best</span></code></pre>
 <button class="rev" data-target="cw-4-answer" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="cw-4-answer">Show the answer</button>
 <div class="ans" id="cw-4-answer"><p class="fname">Jonathan_codewars.py</p>
 <pre class="py"><code><span class="hs">def</span> <span class="hf">smallest</span>(<span class="hv">numbers</span>):
+<span class="ig">    </span><span class="hm"># start with a number from the list as the smallest so far</span>
 <span class="ig">    </span><span class="hv">best</span> = <span class="hv">numbers</span>[<span class="hd">0</span>]
+<span class="ig">    </span><span class="hm"># look at each number, and keep it when it is smaller</span>
 <span class="ig">    </span><span class="hk">for</span> <span class="hv">n</span> <span class="hs">in</span> <span class="hv">numbers</span>:
 <span class="ig">    </span><span class="ig">    </span><span class="hk">if</span> <span class="hv">n</span> &lt; <span class="hv">best</span>:
 <span class="ig">    </span><span class="ig">    </span><span class="ig">    </span><span class="hv">best</span> = <span class="hv">n</span>
+<span class="ig">    </span><span class="hm"># give the smallest back</span>
 <span class="ig">    </span><span class="hk">return</span> <span class="hv">best</span>
 
 <span class="hf">print</span>(<span class="hf">smallest</span>([<span class="hd">34</span>, <span class="hd">15</span>, <span class="hd">88</span>, <span class="hd">2</span>]))
@@ -513,31 +545,43 @@ True</code></pre></div>
 <div class="out"><span class="tag">target output</span><pre><code>dlrow
 desserts
 a</code></pre></div>
-<div class="predict ladder"><b>Stuck?</b> Open one hint at a time, and try again after each one. Every hint shows the function with blanks, written <code>____</code>, for you to work out. The answer is inside the last hint.
+<div class="predict ladder"><b>Stuck?</b> Open one hint. Fill in what you can and run your file. Open the next hint only if you are still stuck. Every hint shows the function with blanks, written <code>____</code>, for you to work out. The answer is inside the last hint.
 <button class="rev" data-target="cw-5-1" data-show="Hint 1" data-hide="Hide hint 1" aria-expanded="false" aria-controls="cw-5-1">Hint 1</button>
-<div class="ans" id="cw-5-1"><p>Start with the empty string and add one letter on each pass of the loop.</p><p>Here is the shape of the function. Every line under the <code>def</code> line is a blank.</p><pre class="py"><code><span class="hs">def</span> <span class="hf">reverse</span>(<span class="hv">text</span>):
+<div class="ans" id="cw-5-1"><p>This needs a string accumulator, as in session 3: start with the empty string and join one letter to it on each pass of the loop.</p><p>Here is the plan, written as comments. Every line of code under the <code>def</code> line is a blank.</p><pre class="py"><code><span class="hs">def</span> <span class="hf">reverse</span>(<span class="hv">text</span>):
+<span class="ig">    </span><span class="hm"># start with no letters</span>
 <span class="ig">    </span><span class="hv">____</span>
+<span class="ig">    </span><span class="hm"># take each letter, and join it to the letters so far</span>
 <span class="ig">    </span><span class="hv">____</span>
 <span class="ig">    </span><span class="ig">    </span><span class="hv">____</span>
+<span class="ig">    </span><span class="hm"># give the new string back</span>
 <span class="ig">    </span><span class="hv">____</span></code></pre>
 <button class="rev" data-target="cw-5-2" data-show="Hint 2" data-hide="Hide hint 2" aria-expanded="false" aria-controls="cw-5-2">Hint 2</button>
-<div class="ans" id="cw-5-2"><p><code>out + ch</code> puts the new letter at the end. <code>ch + out</code> puts the new letter at the front.</p><p>Here the words <code>for</code>, <code>if</code>, <code>else</code> and <code>return</code> are filled in, where the function uses them. The rest of each line is a blank.</p><pre class="py"><code><span class="hs">def</span> <span class="hf">reverse</span>(<span class="hv">text</span>):
+<div class="ans" id="cw-5-2"><p><code>+</code> can join the new letter at either end of <code>out</code>. One end keeps the letters in order. The other end turns them around.</p><p>Here the words <code>for</code> and <code>return</code> are filled in. Everything else on a line of code is a blank.</p><pre class="py"><code><span class="hs">def</span> <span class="hf">reverse</span>(<span class="hv">text</span>):
+<span class="ig">    </span><span class="hm"># start with no letters</span>
 <span class="ig">    </span><span class="hv">____</span>
+<span class="ig">    </span><span class="hm"># take each letter, and join it to the letters so far</span>
 <span class="ig">    </span><span class="hk">for</span> <span class="hv">____</span>:
 <span class="ig">    </span><span class="ig">    </span><span class="hv">____</span>
+<span class="ig">    </span><span class="hm"># give the new string back</span>
 <span class="ig">    </span><span class="hk">return</span> <span class="hv">____</span></code></pre>
 <button class="rev" data-target="cw-5-3" data-show="Hint 3" data-hide="Hide hint 3" aria-expanded="false" aria-controls="cw-5-3">Hint 3</button>
-<div class="ans" id="cw-5-3"><p>Here the names and the loop are filled in. The blanks that are left are the parts to think about.</p><pre class="py"><code><span class="hs">def</span> <span class="hf">reverse</span>(<span class="hv">text</span>):
+<div class="ans" id="cw-5-3"><p>Work <code>reverse("abc")</code> by hand: write <code>out</code> after each pass of the loop. Which end of <code>out</code> does each new letter go on?</p><p>Here the function is filled in except for 2 blanks. Work out those parts yourself.</p><pre class="py"><code><span class="hs">def</span> <span class="hf">reverse</span>(<span class="hv">text</span>):
+<span class="ig">    </span><span class="hm"># start with no letters</span>
 <span class="ig">    </span><span class="hv">out</span> = <span class="hv">____</span>
+<span class="ig">    </span><span class="hm"># take each letter, and join it to the letters so far</span>
 <span class="ig">    </span><span class="hk">for</span> <span class="hv">ch</span> <span class="hs">in</span> <span class="hv">text</span>:
 <span class="ig">    </span><span class="ig">    </span><span class="hv">out</span> = <span class="hv">____</span>
+<span class="ig">    </span><span class="hm"># give the new string back</span>
 <span class="ig">    </span><span class="hk">return</span> <span class="hv">out</span></code></pre>
 <button class="rev" data-target="cw-5-answer" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="cw-5-answer">Show the answer</button>
 <div class="ans" id="cw-5-answer"><p class="fname">Jonathan_codewars.py</p>
 <pre class="py"><code><span class="hs">def</span> <span class="hf">reverse</span>(<span class="hv">text</span>):
+<span class="ig">    </span><span class="hm"># start with no letters</span>
 <span class="ig">    </span><span class="hv">out</span> = <span class="hq">""</span>
+<span class="ig">    </span><span class="hm"># take each letter, and join it to the letters so far</span>
 <span class="ig">    </span><span class="hk">for</span> <span class="hv">ch</span> <span class="hs">in</span> <span class="hv">text</span>:
 <span class="ig">    </span><span class="ig">    </span><span class="hv">out</span> = <span class="hv">ch</span> + <span class="hv">out</span>
+<span class="ig">    </span><span class="hm"># give the new string back</span>
 <span class="ig">    </span><span class="hk">return</span> <span class="hv">out</span>
 
 <span class="hf">print</span>(<span class="hf">reverse</span>(<span class="hq">"world"</span>))
@@ -561,36 +605,45 @@ a</code></pre></div>
 <div class="out"><span class="tag">target output</span><pre><code>5
 0
 5</code></pre></div>
-<div class="predict ladder"><b>Stuck?</b> Open one hint at a time, and try again after each one. Every hint shows the function with blanks, written <code>____</code>, for you to work out. The answer is inside the last hint.
+<div class="predict ladder"><b>Stuck?</b> Open one hint. Fill in what you can and run your file. Open the next hint only if you are still stuck. Every hint shows the function with blanks, written <code>____</code>, for you to work out. The answer is inside the last hint.
 <button class="rev" data-target="cw-6-1" data-show="Hint 1" data-hide="Hide hint 1" aria-expanded="false" aria-controls="cw-6-1">Hint 1</button>
-<div class="ans" id="cw-6-1"><p>Put the five vowels in a list at the top of the file: <code>VOWELS = ["a", "e", "i", "o", "u"]</code>.</p><p>Here is the shape of the function. Every line under the <code>def</code> line is a blank.</p><pre class="py"><code><span class="hv">____</span>
+<div class="ans" id="cw-6-1"><p>Put the five vowels in a list at the top of the file. Then this needs a counter: a variable that starts at 0 and goes up by 1 inside a loop.</p><p>Here is the plan, written as comments. Every line of code under the <code>def</code> line is a blank.</p><pre class="py"><code><span class="hn">VOWELS</span> = [<span class="hq">"a"</span>, <span class="hq">"e"</span>, <span class="hq">"i"</span>, <span class="hq">"o"</span>, <span class="hq">"u"</span>]
 
 
 <span class="hs">def</span> <span class="hf">count_vowels</span>(<span class="hv">text</span>):
+<span class="ig">    </span><span class="hm"># start the count</span>
 <span class="ig">    </span><span class="hv">____</span>
+<span class="ig">    </span><span class="hm"># look at each character, and count it only when it is a vowel</span>
 <span class="ig">    </span><span class="hv">____</span>
 <span class="ig">    </span><span class="ig">    </span><span class="hv">____</span>
 <span class="ig">    </span><span class="ig">    </span><span class="ig">    </span><span class="hv">____</span>
+<span class="ig">    </span><span class="hm"># give the count back</span>
 <span class="ig">    </span><span class="hv">____</span></code></pre>
 <button class="rev" data-target="cw-6-2" data-show="Hint 2" data-hide="Hide hint 2" aria-expanded="false" aria-controls="cw-6-2">Hint 2</button>
-<div class="ans" id="cw-6-2"><p>Start <code>count</code> at 0. Inside the loop, a gate decides whether to add 1 to <code>count</code>.</p><p>Here the words <code>for</code>, <code>if</code>, <code>else</code> and <code>return</code> are filled in, where the function uses them. The rest of each line is a blank.</p><pre class="py"><code><span class="hv">____</span>
+<div class="ans" id="cw-6-2"><p>Inside the loop, a gate asks whether the character is one of the vowels. Session 6 asked whether a move was in a list.</p><p>Here the words <code>for</code>, <code>if</code> and <code>return</code> are filled in. Everything else on a line of code is a blank.</p><pre class="py"><code><span class="hn">VOWELS</span> = [<span class="hq">"a"</span>, <span class="hq">"e"</span>, <span class="hq">"i"</span>, <span class="hq">"o"</span>, <span class="hq">"u"</span>]
 
 
 <span class="hs">def</span> <span class="hf">count_vowels</span>(<span class="hv">text</span>):
+<span class="ig">    </span><span class="hm"># start the count</span>
 <span class="ig">    </span><span class="hv">____</span>
+<span class="ig">    </span><span class="hm"># look at each character, and count it only when it is a vowel</span>
 <span class="ig">    </span><span class="hk">for</span> <span class="hv">____</span>:
 <span class="ig">    </span><span class="ig">    </span><span class="hk">if</span> <span class="hv">____</span>:
 <span class="ig">    </span><span class="ig">    </span><span class="ig">    </span><span class="hv">____</span>
+<span class="ig">    </span><span class="hm"># give the count back</span>
 <span class="ig">    </span><span class="hk">return</span> <span class="hv">____</span></code></pre>
 <button class="rev" data-target="cw-6-3" data-show="Hint 3" data-hide="Hide hint 3" aria-expanded="false" aria-controls="cw-6-3">Hint 3</button>
-<div class="ans" id="cw-6-3"><p>Here the names and the loop are filled in. The blanks that are left are the parts to think about.</p><pre class="py"><code><span class="hn">VOWELS</span> = [<span class="hq">"a"</span>, <span class="hq">"e"</span>, <span class="hq">"i"</span>, <span class="hq">"o"</span>, <span class="hq">"u"</span>]
+<div class="ans" id="cw-6-3"><p>Work the second test line by hand, <code>"sky"</code>: how many times does the gate say yes? Then do the same for the first three letters of <code>"abracadabra"</code>.</p><p>Here the function is filled in except for 3 blanks. Work out those parts yourself.</p><pre class="py"><code><span class="hn">VOWELS</span> = [<span class="hq">"a"</span>, <span class="hq">"e"</span>, <span class="hq">"i"</span>, <span class="hq">"o"</span>, <span class="hq">"u"</span>]
 
 
 <span class="hs">def</span> <span class="hf">count_vowels</span>(<span class="hv">text</span>):
+<span class="ig">    </span><span class="hm"># start the count</span>
 <span class="ig">    </span><span class="hv">count</span> = <span class="hv">____</span>
+<span class="ig">    </span><span class="hm"># look at each character, and count it only when it is a vowel</span>
 <span class="ig">    </span><span class="hk">for</span> <span class="hv">ch</span> <span class="hs">in</span> <span class="hv">text</span>:
 <span class="ig">    </span><span class="ig">    </span><span class="hk">if</span> <span class="hv">____</span>:
 <span class="ig">    </span><span class="ig">    </span><span class="ig">    </span><span class="hv">count</span> = <span class="hv">____</span>
+<span class="ig">    </span><span class="hm"># give the count back</span>
 <span class="ig">    </span><span class="hk">return</span> <span class="hv">count</span></code></pre>
 <button class="rev" data-target="cw-6-answer" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="cw-6-answer">Show the answer</button>
 <div class="ans" id="cw-6-answer"><p class="fname">Jonathan_codewars.py</p>
@@ -598,10 +651,13 @@ a</code></pre></div>
 
 
 <span class="hs">def</span> <span class="hf">count_vowels</span>(<span class="hv">text</span>):
+<span class="ig">    </span><span class="hm"># start the count</span>
 <span class="ig">    </span><span class="hv">count</span> = <span class="hd">0</span>
+<span class="ig">    </span><span class="hm"># look at each character, and count it only when it is a vowel</span>
 <span class="ig">    </span><span class="hk">for</span> <span class="hv">ch</span> <span class="hs">in</span> <span class="hv">text</span>:
 <span class="ig">    </span><span class="ig">    </span><span class="hk">if</span> <span class="hv">ch</span> <span class="hs">in</span> <span class="hn">VOWELS</span>:
 <span class="ig">    </span><span class="ig">    </span><span class="ig">    </span><span class="hv">count</span> = <span class="hv">count</span> + <span class="hd">1</span>
+<span class="ig">    </span><span class="hm"># give the count back</span>
 <span class="ig">    </span><span class="hk">return</span> <span class="hv">count</span>
 
 <span class="hf">print</span>(<span class="hf">count_vowels</span>(<span class="hq">"abracadabra"</span>))
@@ -625,36 +681,45 @@ a</code></pre></div>
 <div class="out"><span class="tag">target output</span><pre><code>yr cd s s slw
 trc t frst
 rhythm</code></pre></div>
-<div class="predict ladder"><b>Stuck?</b> Open one hint at a time, and try again after each one. Every hint shows the function with blanks, written <code>____</code>, for you to work out. The answer is inside the last hint.
+<div class="predict ladder"><b>Stuck?</b> Open one hint. Fill in what you can and run your file. Open the next hint only if you are still stuck. Every hint shows the function with blanks, written <code>____</code>, for you to work out. The answer is inside the last hint.
 <button class="rev" data-target="cw-7-1" data-show="Hint 1" data-hide="Hide hint 1" aria-expanded="false" aria-controls="cw-7-1">Hint 1</button>
-<div class="ans" id="cw-7-1"><p>This is problem 6 with one change. In place of counting the vowels, build a new string from the characters that are not vowels.</p><p>Here is the shape of the function. Every line under the <code>def</code> line is a blank.</p><pre class="py"><code><span class="hv">____</span>
+<div class="ans" id="cw-7-1"><p>This is problem 6 with one change. In place of counting the vowels, build a new string from the characters that are not vowels.</p><p>Here is the plan, written as comments. Every line of code under the <code>def</code> line is a blank.</p><pre class="py"><code><span class="hn">VOWELS</span> = [<span class="hq">"a"</span>, <span class="hq">"e"</span>, <span class="hq">"i"</span>, <span class="hq">"o"</span>, <span class="hq">"u"</span>]
 
 
 <span class="hs">def</span> <span class="hf">remove_vowels</span>(<span class="hv">text</span>):
+<span class="ig">    </span><span class="hm"># start with no characters</span>
 <span class="ig">    </span><span class="hv">____</span>
+<span class="ig">    </span><span class="hm"># look at each character, and keep it only when it is not a vowel</span>
 <span class="ig">    </span><span class="hv">____</span>
 <span class="ig">    </span><span class="ig">    </span><span class="hv">____</span>
 <span class="ig">    </span><span class="ig">    </span><span class="ig">    </span><span class="hv">____</span>
+<span class="ig">    </span><span class="hm"># give the new string back</span>
 <span class="ig">    </span><span class="hv">____</span></code></pre>
 <button class="rev" data-target="cw-7-2" data-show="Hint 2" data-hide="Hide hint 2" aria-expanded="false" aria-controls="cw-7-2">Hint 2</button>
-<div class="ans" id="cw-7-2"><p>Start <code>out</code> as the empty string. Inside the loop, a gate decides whether <code>ch</code> is added to <code>out</code>.</p><p>Here the words <code>for</code>, <code>if</code>, <code>else</code> and <code>return</code> are filled in, where the function uses them. The rest of each line is a blank.</p><pre class="py"><code><span class="hv">____</span>
+<div class="ans" id="cw-7-2"><p>Start with the empty string. Inside the loop, a gate decides whether the character is joined to the end of <code>out</code>.</p><p>Here the words <code>for</code>, <code>if</code> and <code>return</code> are filled in. Everything else on a line of code is a blank.</p><pre class="py"><code><span class="hn">VOWELS</span> = [<span class="hq">"a"</span>, <span class="hq">"e"</span>, <span class="hq">"i"</span>, <span class="hq">"o"</span>, <span class="hq">"u"</span>]
 
 
 <span class="hs">def</span> <span class="hf">remove_vowels</span>(<span class="hv">text</span>):
+<span class="ig">    </span><span class="hm"># start with no characters</span>
 <span class="ig">    </span><span class="hv">____</span>
+<span class="ig">    </span><span class="hm"># look at each character, and keep it only when it is not a vowel</span>
 <span class="ig">    </span><span class="hk">for</span> <span class="hv">____</span>:
 <span class="ig">    </span><span class="ig">    </span><span class="hk">if</span> <span class="hv">____</span>:
 <span class="ig">    </span><span class="ig">    </span><span class="ig">    </span><span class="hv">____</span>
+<span class="ig">    </span><span class="hm"># give the new string back</span>
 <span class="ig">    </span><span class="hk">return</span> <span class="hv">____</span></code></pre>
 <button class="rev" data-target="cw-7-3" data-show="Hint 3" data-hide="Hide hint 3" aria-expanded="false" aria-controls="cw-7-3">Hint 3</button>
-<div class="ans" id="cw-7-3"><p>Here the names and the loop are filled in. The blanks that are left are the parts to think about.</p><pre class="py"><code><span class="hn">VOWELS</span> = [<span class="hq">"a"</span>, <span class="hq">"e"</span>, <span class="hq">"i"</span>, <span class="hq">"o"</span>, <span class="hq">"u"</span>]
+<div class="ans" id="cw-7-3"><p>Work the word <code>"trace"</code> by hand: write <code>out</code> after each pass of the loop. On which passes does <code>out</code> stay the same?</p><p>Here the function is filled in except for 3 blanks. Work out those parts yourself.</p><pre class="py"><code><span class="hn">VOWELS</span> = [<span class="hq">"a"</span>, <span class="hq">"e"</span>, <span class="hq">"i"</span>, <span class="hq">"o"</span>, <span class="hq">"u"</span>]
 
 
 <span class="hs">def</span> <span class="hf">remove_vowels</span>(<span class="hv">text</span>):
+<span class="ig">    </span><span class="hm"># start with no characters</span>
 <span class="ig">    </span><span class="hv">out</span> = <span class="hv">____</span>
+<span class="ig">    </span><span class="hm"># look at each character, and keep it only when it is not a vowel</span>
 <span class="ig">    </span><span class="hk">for</span> <span class="hv">ch</span> <span class="hs">in</span> <span class="hv">text</span>:
 <span class="ig">    </span><span class="ig">    </span><span class="hk">if</span> <span class="hv">____</span>:
 <span class="ig">    </span><span class="ig">    </span><span class="ig">    </span><span class="hv">out</span> = <span class="hv">____</span>
+<span class="ig">    </span><span class="hm"># give the new string back</span>
 <span class="ig">    </span><span class="hk">return</span> <span class="hv">out</span></code></pre>
 <button class="rev" data-target="cw-7-answer" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="cw-7-answer">Show the answer</button>
 <div class="ans" id="cw-7-answer"><p class="fname">Jonathan_codewars.py</p>
@@ -662,10 +727,13 @@ rhythm</code></pre></div>
 
 
 <span class="hs">def</span> <span class="hf">remove_vowels</span>(<span class="hv">text</span>):
+<span class="ig">    </span><span class="hm"># start with no characters</span>
 <span class="ig">    </span><span class="hv">out</span> = <span class="hq">""</span>
+<span class="ig">    </span><span class="hm"># look at each character, and keep it only when it is not a vowel</span>
 <span class="ig">    </span><span class="hk">for</span> <span class="hv">ch</span> <span class="hs">in</span> <span class="hv">text</span>:
 <span class="ig">    </span><span class="ig">    </span><span class="hk">if</span> <span class="hv">ch</span> <span class="hs">not</span> <span class="hs">in</span> <span class="hn">VOWELS</span>:
 <span class="ig">    </span><span class="ig">    </span><span class="ig">    </span><span class="hv">out</span> = <span class="hv">out</span> + <span class="hv">ch</span>
+<span class="ig">    </span><span class="hm"># give the new string back</span>
 <span class="ig">    </span><span class="hk">return</span> <span class="hv">out</span>
 
 <span class="hf">print</span>(<span class="hf">remove_vowels</span>(<span class="hq">"your code is so slow"</span>))
@@ -692,52 +760,66 @@ rhythm</code></pre></div>
 Player 2 won!
 Draw!
 Player 1 won!</code></pre></div>
-<div class="predict ladder"><b>Stuck?</b> Open one hint at a time, and try again after each one. Every hint shows the function with blanks, written <code>____</code>, for you to work out. The answer is inside the last hint.
+<div class="predict ladder"><b>Stuck?</b> Open one hint. Fill in what you can and run your file. Open the next hint only if you are still stuck. Every hint shows the function with blanks, written <code>____</code>, for you to work out. The answer is inside the last hint.
 <button class="rev" data-target="cw-8-1" data-show="Hint 1" data-hide="Hide hint 1" aria-expanded="false" aria-controls="cw-8-1">Hint 1</button>
-<div class="ans" id="cw-8-1"><p>Session 6 kept the rules in a dictionary: each key beats its value. <code>BEATS = {"rock": "scissors", "paper": "rock", "scissors": "paper"}</code>.</p><p>Here is the shape of the function. Every line under the <code>def</code> line is a blank.</p><pre class="py"><code><span class="hv">____</span>
-
-
-<span class="hs">def</span> <span class="hf">rps</span>(<span class="hv">move1</span>, <span class="hv">move2</span>):
-<span class="ig">    </span><span class="hv">____</span>
-<span class="ig">    </span><span class="ig">    </span><span class="hv">____</span>
-<span class="ig">    </span><span class="hv">____</span>
-<span class="ig">    </span><span class="ig">    </span><span class="hv">____</span>
-<span class="ig">    </span><span class="hv">____</span>
-<span class="ig">    </span><span class="ig">    </span><span class="hv">____</span></code></pre>
-<button class="rev" data-target="cw-8-2" data-show="Hint 2" data-hide="Hide hint 2" aria-expanded="false" aria-controls="cw-8-2">Hint 2</button>
-<div class="ans" id="cw-8-2"><p>Check for a draw first. Then <code>BEATS[move1]</code> is the move that <code>move1</code> beats. Compare it with <code>move2</code>.</p><p>Here the words <code>for</code>, <code>if</code>, <code>else</code> and <code>return</code> are filled in, where the function uses them. The rest of each line is a blank.</p><pre class="py"><code><span class="hv">____</span>
-
-
-<span class="hs">def</span> <span class="hf">rps</span>(<span class="hv">move1</span>, <span class="hv">move2</span>):
-<span class="ig">    </span><span class="hk">if</span> <span class="hv">____</span>:
-<span class="ig">    </span><span class="ig">    </span><span class="hk">return</span> <span class="hv">____</span>
-<span class="ig">    </span><span class="hk">elif</span> <span class="hv">____</span>:
-<span class="ig">    </span><span class="ig">    </span><span class="hk">return</span> <span class="hv">____</span>
-<span class="ig">    </span><span class="hk">else</span>:
-<span class="ig">    </span><span class="ig">    </span><span class="hk">return</span> <span class="hv">____</span></code></pre>
-<button class="rev" data-target="cw-8-3" data-show="Hint 3" data-hide="Hide hint 3" aria-expanded="false" aria-controls="cw-8-3">Hint 3</button>
-<div class="ans" id="cw-8-3"><p>Here the names and the loop are filled in. The blanks that are left are the parts to think about.</p><pre class="py"><code><span class="hm"># each key beats its value: rock beats scissors</span>
+<div class="ans" id="cw-8-1"><p>Session 6 kept the rules in a dictionary: each key beats its value. <code>BEATS = {"rock": "scissors", "paper": "rock", "scissors": "paper"}</code>.</p><p>Here is the plan, written as comments. Every line of code under the <code>def</code> line is a blank.</p><pre class="py"><code><span class="hm"># the rules: each key beats its value</span>
 <span class="hn">BEATS</span> = {<span class="hq">"rock"</span>: <span class="hq">"scissors"</span>, <span class="hq">"paper"</span>: <span class="hq">"rock"</span>, <span class="hq">"scissors"</span>: <span class="hq">"paper"</span>}
 
 
 <span class="hs">def</span> <span class="hf">rps</span>(<span class="hv">move1</span>, <span class="hv">move2</span>):
+<span class="ig">    </span><span class="hm"># the same move twice: nobody wins</span>
+<span class="ig">    </span><span class="hv">____</span>
+<span class="ig">    </span><span class="ig">    </span><span class="hv">____</span>
+<span class="ig">    </span><span class="hm"># does move1 beat move2?</span>
+<span class="ig">    </span><span class="hv">____</span>
+<span class="ig">    </span><span class="ig">    </span><span class="hv">____</span>
+<span class="ig">    </span><span class="hm"># the only case left</span>
+<span class="ig">    </span><span class="hv">____</span>
+<span class="ig">    </span><span class="ig">    </span><span class="hv">____</span></code></pre>
+<button class="rev" data-target="cw-8-2" data-show="Hint 2" data-hide="Hide hint 2" aria-expanded="false" aria-controls="cw-8-2">Hint 2</button>
+<div class="ans" id="cw-8-2"><p>Check for a draw first. Then look up <code>move1</code> in the dictionary: that gives the move it beats.</p><p>Here the words <code>if</code>, <code>elif</code>, <code>else</code> and <code>return</code> are filled in. Everything else on a line of code is a blank.</p><pre class="py"><code><span class="hm"># the rules: each key beats its value</span>
+<span class="hn">BEATS</span> = {<span class="hq">"rock"</span>: <span class="hq">"scissors"</span>, <span class="hq">"paper"</span>: <span class="hq">"rock"</span>, <span class="hq">"scissors"</span>: <span class="hq">"paper"</span>}
+
+
+<span class="hs">def</span> <span class="hf">rps</span>(<span class="hv">move1</span>, <span class="hv">move2</span>):
+<span class="ig">    </span><span class="hm"># the same move twice: nobody wins</span>
 <span class="ig">    </span><span class="hk">if</span> <span class="hv">____</span>:
-<span class="ig">    </span><span class="ig">    </span><span class="hk">return</span> <span class="hq">"Draw!"</span>
+<span class="ig">    </span><span class="ig">    </span><span class="hk">return</span> <span class="hv">____</span>
+<span class="ig">    </span><span class="hm"># does move1 beat move2?</span>
 <span class="ig">    </span><span class="hk">elif</span> <span class="hv">____</span>:
 <span class="ig">    </span><span class="ig">    </span><span class="hk">return</span> <span class="hv">____</span>
+<span class="ig">    </span><span class="hm"># the only case left</span>
+<span class="ig">    </span><span class="hk">else</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="hk">return</span> <span class="hv">____</span></code></pre>
+<button class="rev" data-target="cw-8-3" data-show="Hint 3" data-hide="Hide hint 3" aria-expanded="false" aria-controls="cw-8-3">Hint 3</button>
+<div class="ans" id="cw-8-3"><p>Work the second test line by hand, <code>rps("scissors", "rock")</code>: what does the dictionary give for <code>"scissors"</code>? Is that the same as <code>move2</code>? Who won?</p><p>Here the function is filled in except for 4 blanks. Work out those parts yourself.</p><pre class="py"><code><span class="hm"># the rules: each key beats its value</span>
+<span class="hn">BEATS</span> = {<span class="hq">"rock"</span>: <span class="hq">"scissors"</span>, <span class="hq">"paper"</span>: <span class="hq">"rock"</span>, <span class="hq">"scissors"</span>: <span class="hq">"paper"</span>}
+
+
+<span class="hs">def</span> <span class="hf">rps</span>(<span class="hv">move1</span>, <span class="hv">move2</span>):
+<span class="ig">    </span><span class="hm"># the same move twice: nobody wins</span>
+<span class="ig">    </span><span class="hk">if</span> <span class="hv">____</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="hk">return</span> <span class="hq">"Draw!"</span>
+<span class="ig">    </span><span class="hm"># does move1 beat move2?</span>
+<span class="ig">    </span><span class="hk">elif</span> <span class="hv">____</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="hk">return</span> <span class="hv">____</span>
+<span class="ig">    </span><span class="hm"># the only case left</span>
 <span class="ig">    </span><span class="hk">else</span>:
 <span class="ig">    </span><span class="ig">    </span><span class="hk">return</span> <span class="hv">____</span></code></pre>
 <button class="rev" data-target="cw-8-answer" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="cw-8-answer">Show the answer</button>
 <div class="ans" id="cw-8-answer"><p class="fname">Jonathan_codewars.py</p>
-<pre class="py"><code><span class="hm"># each key beats its value: rock beats scissors</span>
+<pre class="py"><code><span class="hm"># the rules: each key beats its value</span>
 <span class="hn">BEATS</span> = {<span class="hq">"rock"</span>: <span class="hq">"scissors"</span>, <span class="hq">"paper"</span>: <span class="hq">"rock"</span>, <span class="hq">"scissors"</span>: <span class="hq">"paper"</span>}
 
 
 <span class="hs">def</span> <span class="hf">rps</span>(<span class="hv">move1</span>, <span class="hv">move2</span>):
+<span class="ig">    </span><span class="hm"># the same move twice: nobody wins</span>
 <span class="ig">    </span><span class="hk">if</span> <span class="hv">move1</span> == <span class="hv">move2</span>:
 <span class="ig">    </span><span class="ig">    </span><span class="hk">return</span> <span class="hq">"Draw!"</span>
+<span class="ig">    </span><span class="hm"># does move1 beat move2?</span>
 <span class="ig">    </span><span class="hk">elif</span> <span class="hn">BEATS</span>[<span class="hv">move1</span>] == <span class="hv">move2</span>:
 <span class="ig">    </span><span class="ig">    </span><span class="hk">return</span> <span class="hq">"Player 1 won!"</span>
+<span class="ig">    </span><span class="hm"># the only case left</span>
 <span class="ig">    </span><span class="hk">else</span>:
 <span class="ig">    </span><span class="ig">    </span><span class="hk">return</span> <span class="hq">"Player 2 won!"</span>
 
@@ -764,31 +846,43 @@ Player 1 won!</code></pre></div>
 <div class="out"><span class="tag">target output</span><pre><code>{&#x27;a&#x27;: 2, &#x27;b&#x27;: 1}
 {&#x27;b&#x27;: 1, &#x27;a&#x27;: 3, &#x27;n&#x27;: 2}
 {}</code></pre></div>
-<div class="predict ladder"><b>Stuck?</b> Open one hint at a time, and try again after each one. Every hint shows the function with blanks, written <code>____</code>, for you to work out. The answer is inside the last hint.
+<div class="predict ladder"><b>Stuck?</b> Open one hint. Fill in what you can and run your file. Open the next hint only if you are still stuck. Every hint shows the function with blanks, written <code>____</code>, for you to work out. The answer is inside the last hint.
 <button class="rev" data-target="cw-9-1" data-show="Hint 1" data-hide="Hide hint 1" aria-expanded="false" aria-controls="cw-9-1">Hint 1</button>
-<div class="ans" id="cw-9-1"><p>Start with an empty dictionary, and look at one character on each pass of the loop.</p><p>Here is the shape of the function. Every line under the <code>def</code> line is a blank.</p><pre class="py"><code><span class="hs">def</span> <span class="hf">count_characters</span>(<span class="hv">text</span>):
+<div class="ans" id="cw-9-1"><p>The counts go in a dictionary: each character is a key, and its count is the value. Start with an empty dictionary.</p><p>Here is the plan, written as comments. Every line of code under the <code>def</code> line is a blank.</p><pre class="py"><code><span class="hs">def</span> <span class="hf">count_characters</span>(<span class="hv">text</span>):
+<span class="ig">    </span><span class="hm"># start with no counts</span>
 <span class="ig">    </span><span class="hv">____</span>
+<span class="ig">    </span><span class="hm"># look at each character, and add 1 to its count</span>
 <span class="ig">    </span><span class="hv">____</span>
 <span class="ig">    </span><span class="ig">    </span><span class="hv">____</span>
+<span class="ig">    </span><span class="hm"># give the dictionary back</span>
 <span class="ig">    </span><span class="hv">____</span></code></pre>
 <button class="rev" data-target="cw-9-2" data-show="Hint 2" data-hide="Hide hint 2" aria-expanded="false" aria-controls="cw-9-2">Hint 2</button>
-<div class="ans" id="cw-9-2"><p><code>counts[ch] + 1</code> gives a <code>KeyError</code> the first time a character is seen, because the key is not there yet. Session 3 used <code>.get</code> for this: it can give 0 for a missing key, with no error.</p><p>Here the words <code>for</code>, <code>if</code>, <code>else</code> and <code>return</code> are filled in, where the function uses them. The rest of each line is a blank.</p><pre class="py"><code><span class="hs">def</span> <span class="hf">count_characters</span>(<span class="hv">text</span>):
+<div class="ans" id="cw-9-2"><p>Adding 1 to a count that is not in the dictionary yet gives a <code>KeyError</code>. Session 3 used a dictionary method that gives a value you choose for a missing key, with no error.</p><p>Here the words <code>for</code> and <code>return</code> are filled in. Everything else on a line of code is a blank.</p><pre class="py"><code><span class="hs">def</span> <span class="hf">count_characters</span>(<span class="hv">text</span>):
+<span class="ig">    </span><span class="hm"># start with no counts</span>
 <span class="ig">    </span><span class="hv">____</span>
+<span class="ig">    </span><span class="hm"># look at each character, and add 1 to its count</span>
 <span class="ig">    </span><span class="hk">for</span> <span class="hv">____</span>:
 <span class="ig">    </span><span class="ig">    </span><span class="hv">____</span>
+<span class="ig">    </span><span class="hm"># give the dictionary back</span>
 <span class="ig">    </span><span class="hk">return</span> <span class="hv">____</span></code></pre>
 <button class="rev" data-target="cw-9-3" data-show="Hint 3" data-hide="Hide hint 3" aria-expanded="false" aria-controls="cw-9-3">Hint 3</button>
-<div class="ans" id="cw-9-3"><p>Here the names and the loop are filled in. The blanks that are left are the parts to think about.</p><pre class="py"><code><span class="hs">def</span> <span class="hf">count_characters</span>(<span class="hv">text</span>):
+<div class="ans" id="cw-9-3"><p>Work the first test line by hand, <code>"aba"</code>: write the dictionary after each pass of the loop. What is different about the third pass, when a comes up again?</p><p>Here the function is filled in except for 2 blanks. Work out those parts yourself.</p><pre class="py"><code><span class="hs">def</span> <span class="hf">count_characters</span>(<span class="hv">text</span>):
+<span class="ig">    </span><span class="hm"># start with no counts</span>
 <span class="ig">    </span><span class="hv">counts</span> = <span class="hv">____</span>
+<span class="ig">    </span><span class="hm"># look at each character, and add 1 to its count</span>
 <span class="ig">    </span><span class="hk">for</span> <span class="hv">ch</span> <span class="hs">in</span> <span class="hv">text</span>:
 <span class="ig">    </span><span class="ig">    </span><span class="hv">counts</span>[<span class="hv">ch</span>] = <span class="hv">____</span>
+<span class="ig">    </span><span class="hm"># give the dictionary back</span>
 <span class="ig">    </span><span class="hk">return</span> <span class="hv">counts</span></code></pre>
 <button class="rev" data-target="cw-9-answer" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="cw-9-answer">Show the answer</button>
 <div class="ans" id="cw-9-answer"><p class="fname">Jonathan_codewars.py</p>
 <pre class="py"><code><span class="hs">def</span> <span class="hf">count_characters</span>(<span class="hv">text</span>):
+<span class="ig">    </span><span class="hm"># start with no counts</span>
 <span class="ig">    </span><span class="hv">counts</span> = {}
+<span class="ig">    </span><span class="hm"># look at each character, and add 1 to its count</span>
 <span class="ig">    </span><span class="hk">for</span> <span class="hv">ch</span> <span class="hs">in</span> <span class="hv">text</span>:
 <span class="ig">    </span><span class="ig">    </span><span class="hv">counts</span>[<span class="hv">ch</span>] = <span class="hv">counts</span>.<span class="hf">get</span>(<span class="hv">ch</span>, <span class="hd">0</span>) + <span class="hd">1</span>
+<span class="ig">    </span><span class="hm"># give the dictionary back</span>
 <span class="ig">    </span><span class="hk">return</span> <span class="hv">counts</span>
 
 <span class="hf">print</span>(<span class="hf">count_characters</span>(<span class="hq">"aba"</span>))
@@ -812,51 +906,79 @@ Player 1 won!</code></pre></div>
 <div class="out"><span class="tag">target output</span><pre><code>uryyb
 nggnpx ng qnja
 attack at dawn</code></pre></div>
-<div class="predict ladder"><b>Stuck?</b> Open one hint at a time, and try again after each one. Every hint shows the function with blanks, written <code>____</code>, for you to work out. The answer is inside the last hint.
+<div class="predict ladder"><b>Stuck?</b> Open one hint. Fill in what you can and run your file. Open the next hint only if you are still stuck. Every hint shows the function with blanks, written <code>____</code>, for you to work out. The answer is inside the last hint.
 <button class="rev" data-target="cw-10-1" data-show="Hint 1" data-hide="Hide hint 1" aria-expanded="false" aria-controls="cw-10-1">Hint 1</button>
-<div class="ans" id="cw-10-1"><p>This is <code>shift_by</code> from session 3 with the amount always 13.</p><p>Here is the shape of the function. Every line under the <code>def</code> line is a blank.</p><pre class="py"><code><span class="hs">def</span> <span class="hf">rot13</span>(<span class="hv">text</span>):
+<div class="ans" id="cw-10-1"><p>This is <code>shift_by</code> from session 3 with the amount always 13.</p><p>Here is the plan, written as comments. Every line of code under the <code>def</code> line is a blank.</p><pre class="py"><code><span class="hs">def</span> <span class="hf">rot13</span>(<span class="hv">text</span>):
+<span class="ig">    </span><span class="hm"># start with no characters</span>
 <span class="ig">    </span><span class="hv">____</span>
+<span class="ig">    </span><span class="hm"># look at each character</span>
 <span class="ig">    </span><span class="hv">____</span>
+<span class="ig">    </span><span class="ig">    </span><span class="hm"># a space stays a space</span>
 <span class="ig">    </span><span class="ig">    </span><span class="hv">____</span>
 <span class="ig">    </span><span class="ig">    </span><span class="ig">    </span><span class="hv">____</span>
 <span class="ig">    </span><span class="ig">    </span><span class="hv">____</span>
+<span class="ig">    </span><span class="ig">    </span><span class="ig">    </span><span class="hm"># change the letter to its position, counting a as 0</span>
 <span class="ig">    </span><span class="ig">    </span><span class="ig">    </span><span class="hv">____</span>
+<span class="ig">    </span><span class="ig">    </span><span class="ig">    </span><span class="hm"># move 13 places, going back to the start after z</span>
 <span class="ig">    </span><span class="ig">    </span><span class="ig">    </span><span class="hv">____</span>
+<span class="ig">    </span><span class="ig">    </span><span class="ig">    </span><span class="hm"># change the position back to a letter</span>
 <span class="ig">    </span><span class="ig">    </span><span class="ig">    </span><span class="hv">____</span>
+<span class="ig">    </span><span class="hm"># give the new string back</span>
 <span class="ig">    </span><span class="hv">____</span></code></pre>
 <button class="rev" data-target="cw-10-2" data-show="Hint 2" data-hide="Hide hint 2" aria-expanded="false" aria-controls="cw-10-2">Hint 2</button>
-<div class="ans" id="cw-10-2"><p>For a letter: <code>ord(ch) - ord("a")</code> is its position, counting a as 0. Add the amount, use <code>%</code> with the number of letters in the alphabet to go back to the start after z, then add <code>ord("a")</code> back on and use <code>chr</code>.</p><p>Here the words <code>for</code>, <code>if</code>, <code>else</code> and <code>return</code> are filled in, where the function uses them. The rest of each line is a blank.</p><pre class="py"><code><span class="hs">def</span> <span class="hf">rot13</span>(<span class="hv">text</span>):
+<div class="ans" id="cw-10-2"><p>A letter takes three steps: change it to its position in the alphabet, move the position, and change the position back to a letter. <code>ord</code> and <code>chr</code> do the changing, and <code>%</code> goes back to the start after z.</p><p>Here the words <code>for</code>, <code>if</code>, <code>else</code> and <code>return</code> are filled in. Everything else on a line of code is a blank.</p><pre class="py"><code><span class="hs">def</span> <span class="hf">rot13</span>(<span class="hv">text</span>):
+<span class="ig">    </span><span class="hm"># start with no characters</span>
 <span class="ig">    </span><span class="hv">____</span>
+<span class="ig">    </span><span class="hm"># look at each character</span>
 <span class="ig">    </span><span class="hk">for</span> <span class="hv">____</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="hm"># a space stays a space</span>
 <span class="ig">    </span><span class="ig">    </span><span class="hk">if</span> <span class="hv">____</span>:
 <span class="ig">    </span><span class="ig">    </span><span class="ig">    </span><span class="hv">____</span>
 <span class="ig">    </span><span class="ig">    </span><span class="hk">else</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="ig">    </span><span class="hm"># change the letter to its position, counting a as 0</span>
 <span class="ig">    </span><span class="ig">    </span><span class="ig">    </span><span class="hv">____</span>
+<span class="ig">    </span><span class="ig">    </span><span class="ig">    </span><span class="hm"># move 13 places, going back to the start after z</span>
 <span class="ig">    </span><span class="ig">    </span><span class="ig">    </span><span class="hv">____</span>
+<span class="ig">    </span><span class="ig">    </span><span class="ig">    </span><span class="hm"># change the position back to a letter</span>
 <span class="ig">    </span><span class="ig">    </span><span class="ig">    </span><span class="hv">____</span>
+<span class="ig">    </span><span class="hm"># give the new string back</span>
 <span class="ig">    </span><span class="hk">return</span> <span class="hv">____</span></code></pre>
 <button class="rev" data-target="cw-10-3" data-show="Hint 3" data-hide="Hide hint 3" aria-expanded="false" aria-controls="cw-10-3">Hint 3</button>
-<div class="ans" id="cw-10-3"><p>Here the names and the loop are filled in. The blanks that are left are the parts to think about.</p><pre class="py"><code><span class="hs">def</span> <span class="hf">rot13</span>(<span class="hv">text</span>):
+<div class="ans" id="cw-10-3"><p>Work the letter h by hand. <code>ord("h")</code> is 104 and <code>ord("a")</code> is 97. What is the position of h? Where does it move to? Which letter is that?</p><p>Here the function is filled in except for 4 blanks. Work out those parts yourself.</p><pre class="py"><code><span class="hs">def</span> <span class="hf">rot13</span>(<span class="hv">text</span>):
+<span class="ig">    </span><span class="hm"># start with no characters</span>
 <span class="ig">    </span><span class="hv">out</span> = <span class="hq">""</span>
+<span class="ig">    </span><span class="hm"># look at each character</span>
 <span class="ig">    </span><span class="hk">for</span> <span class="hv">ch</span> <span class="hs">in</span> <span class="hv">text</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="hm"># a space stays a space</span>
 <span class="ig">    </span><span class="ig">    </span><span class="hk">if</span> <span class="hv">____</span>:
 <span class="ig">    </span><span class="ig">    </span><span class="ig">    </span><span class="hv">out</span> = <span class="hv">out</span> + <span class="hq">" "</span>
 <span class="ig">    </span><span class="ig">    </span><span class="hk">else</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="ig">    </span><span class="hm"># change the letter to its position, counting a as 0</span>
 <span class="ig">    </span><span class="ig">    </span><span class="ig">    </span><span class="hv">spot</span> = <span class="hv">____</span>
+<span class="ig">    </span><span class="ig">    </span><span class="ig">    </span><span class="hm"># move 13 places, going back to the start after z</span>
 <span class="ig">    </span><span class="ig">    </span><span class="ig">    </span><span class="hv">spot</span> = <span class="hv">____</span>
+<span class="ig">    </span><span class="ig">    </span><span class="ig">    </span><span class="hm"># change the position back to a letter</span>
 <span class="ig">    </span><span class="ig">    </span><span class="ig">    </span><span class="hv">out</span> = <span class="hv">out</span> + <span class="hv">____</span>
+<span class="ig">    </span><span class="hm"># give the new string back</span>
 <span class="ig">    </span><span class="hk">return</span> <span class="hv">out</span></code></pre>
 <button class="rev" data-target="cw-10-answer" data-show="Show the answer" data-hide="Hide the answer" aria-expanded="false" aria-controls="cw-10-answer">Show the answer</button>
 <div class="ans" id="cw-10-answer"><p class="fname">Jonathan_codewars.py</p>
 <pre class="py"><code><span class="hs">def</span> <span class="hf">rot13</span>(<span class="hv">text</span>):
+<span class="ig">    </span><span class="hm"># start with no characters</span>
 <span class="ig">    </span><span class="hv">out</span> = <span class="hq">""</span>
+<span class="ig">    </span><span class="hm"># look at each character</span>
 <span class="ig">    </span><span class="hk">for</span> <span class="hv">ch</span> <span class="hs">in</span> <span class="hv">text</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="hm"># a space stays a space</span>
 <span class="ig">    </span><span class="ig">    </span><span class="hk">if</span> <span class="hv">ch</span> == <span class="hq">" "</span>:
 <span class="ig">    </span><span class="ig">    </span><span class="ig">    </span><span class="hv">out</span> = <span class="hv">out</span> + <span class="hq">" "</span>
 <span class="ig">    </span><span class="ig">    </span><span class="hk">else</span>:
+<span class="ig">    </span><span class="ig">    </span><span class="ig">    </span><span class="hm"># change the letter to its position, counting a as 0</span>
 <span class="ig">    </span><span class="ig">    </span><span class="ig">    </span><span class="hv">spot</span> = <span class="hf">ord</span>(<span class="hv">ch</span>) - <span class="hf">ord</span>(<span class="hq">"a"</span>)
+<span class="ig">    </span><span class="ig">    </span><span class="ig">    </span><span class="hm"># move 13 places, going back to the start after z</span>
 <span class="ig">    </span><span class="ig">    </span><span class="ig">    </span><span class="hv">spot</span> = (<span class="hv">spot</span> + <span class="hd">13</span>) % <span class="hd">26</span>
+<span class="ig">    </span><span class="ig">    </span><span class="ig">    </span><span class="hm"># change the position back to a letter</span>
 <span class="ig">    </span><span class="ig">    </span><span class="ig">    </span><span class="hv">out</span> = <span class="hv">out</span> + <span class="hf">chr</span>(<span class="hv">spot</span> + <span class="hf">ord</span>(<span class="hq">"a"</span>))
+<span class="ig">    </span><span class="hm"># give the new string back</span>
 <span class="ig">    </span><span class="hk">return</span> <span class="hv">out</span>
 
 <span class="hf">print</span>(<span class="hf">rot13</span>(<span class="hq">"hello"</span>))
@@ -872,7 +994,7 @@ attack at dawn</code></pre></div>
 </div>
 <p><b>Go further.</b> Make capital letters move 13 places as well and stay capital, so that <code>rot13("Hello")</code> returns <code>"Uryyb"</code>.</p>
 </section>
-<section class="panel"><h2>Teacher panel</h2><h3>How to use it</h3><ul><li>For a student who finishes a build early, or for the whole room as practice. Nothing later in the course depends on this page.</li><li>The problems run from the shortest to the longest. Problems 1 to 5 need sessions 1 to 3 and <code>%</code>. Problems 6 to 10 need sessions 3 and 6.</li><li>Students work in VS Code. Nobody needs a Codewars account. The link on each problem goes to the kata it came from.</li><li>The target output is shown openly, so a student can check their own function.</li><li>Each problem has three hints, and every hint shows the function with blanks. Hint 1 shows the shape: one blank for every line. Hint 2 fills in the words <code>for</code>, <code>if</code>, <code>else</code> and <code>return</code>. Hint 3 fills in the names and the loop line.</li><li>No hint shows a condition or the value a line works out. Those stay blank until the answer, so the student still has to do the thinking. The answer is inside the third hint.</li></ul><h3>What each problem uses</h3><div style="overflow-x:auto"><table style="min-width:600px; table-layout:auto"><thead><tr><th>#</th><th>Kata</th><th>Rank</th><th>Uses</th></tr></thead><tbody><tr><td>1</td><td>Even or Odd</td><td>8 kyu</td><td><code>%</code> (session 6) and <code>return</code> (session 2)</td></tr><tr><td>2</td><td>Is n divisible by x and y?</td><td>8 kyu</td><td><code>%</code> (session 6) and <code>and</code> to join two comparisons (session 2)</td></tr><tr><td>3</td><td>Sum of positive</td><td>8 kyu</td><td>an accumulator with a gate (session 1)</td></tr><tr><td>4</td><td>Find the smallest integer in the array</td><td>8 kyu</td><td>a best-so-far variable (session 1)</td></tr><tr><td>5</td><td>Reversed Strings</td><td>8 kyu</td><td>a string accumulator and <code>+</code> to join strings (session 3)</td></tr><tr><td>6</td><td>Vowel Count</td><td>7 kyu</td><td>a counter with a gate (session 1) and <code>in</code> with a list (session 6)</td></tr><tr><td>7</td><td>Disemvowel Trolls</td><td>7 kyu</td><td>a string accumulator (session 3) and <code>not in</code> with a list (session 6)</td></tr><tr><td>8</td><td>Rock Paper Scissors!</td><td>8 kyu</td><td>a dictionary lookup and a flat <code>if</code>, <code>elif</code>, <code>else</code> (session 6)</td></tr><tr><td>9</td><td>Count characters in your string</td><td>6 kyu</td><td>building a dictionary one key at a time, with <code>.get</code> (session 3)</td></tr><tr><td>10</td><td>Rot13</td><td>5 kyu</td><td><code>ord</code>, <code>chr</code> and <code>% 26</code> from the Caesar cipher (session 3)</td></tr></tbody></table></div><p>On Codewars, kyu is the rank of a kata: 8 kyu is the most basic and the numbers go down as the kata get harder.</p><h3>Where the wording comes from</h3><p>The kata titles, ranks and links were read from codewars.com on 25 November 2026. The task wording, function names, test lines and answers on this page are this course's own, written to use only what sessions 1 to 7 taught. A kata's own tests on Codewars can ask for a different function name or more cases, so an answer from this page may need changes before it passes there.</p></section>
+<section class="panel"><h2>Teacher panel</h2><h3>How to use it</h3><ul><li>For a student who finishes a build early, or for the whole room as practice. Nothing later in the course depends on this page.</li><li>The problems run from the shortest to the longest. Problems 1 to 5 need sessions 1 to 3 and <code>%</code>. Problems 6 to 10 need sessions 3 and 6.</li><li>Students work in VS Code. Nobody needs a Codewars account. The link on each problem goes to the kata it came from.</li><li>The target output is shown openly, so a student can check their own function.</li><li>Each problem has three hints, from the most general to the most specific, and every hint shows the function with blanks. Hint 1 gives the idea, then the plan as comments with a blank for every line of code. Hint 2 says how the idea is used, then fills in the control words the function has, such as <code>if</code> and <code>return</code>. Hint 3 gives a case to work by hand, then fills in the names.</li><li>No hint shows a condition or the value a line works out. Those stay blank until the answer, so the student still has to do the thinking. The answer is inside the third hint.</li><li>Ask for a try between hints: fill in what you can, run the file, and open the next hint only if still stuck.</li></ul><h3>What each problem uses</h3><div style="overflow-x:auto"><table style="min-width:600px; table-layout:auto"><thead><tr><th>#</th><th>Kata</th><th>Rank</th><th>Uses</th></tr></thead><tbody><tr><td>1</td><td>Even or Odd</td><td>8 kyu</td><td><code>%</code> (session 6) and <code>return</code> (session 2)</td></tr><tr><td>2</td><td>Is n divisible by x and y?</td><td>8 kyu</td><td><code>%</code> (session 6) and <code>and</code> to join two comparisons (session 2)</td></tr><tr><td>3</td><td>Sum of positive</td><td>8 kyu</td><td>an accumulator with a gate (session 1)</td></tr><tr><td>4</td><td>Find the smallest integer in the array</td><td>8 kyu</td><td>a best-so-far variable (session 1)</td></tr><tr><td>5</td><td>Reversed Strings</td><td>8 kyu</td><td>a string accumulator and <code>+</code> to join strings (session 3)</td></tr><tr><td>6</td><td>Vowel Count</td><td>7 kyu</td><td>a counter with a gate (session 1) and <code>in</code> with a list (session 6)</td></tr><tr><td>7</td><td>Disemvowel Trolls</td><td>7 kyu</td><td>a string accumulator (session 3) and <code>not in</code> with a list (session 6)</td></tr><tr><td>8</td><td>Rock Paper Scissors!</td><td>8 kyu</td><td>a dictionary lookup and a flat <code>if</code>, <code>elif</code>, <code>else</code> (session 6)</td></tr><tr><td>9</td><td>Count characters in your string</td><td>6 kyu</td><td>building a dictionary one key at a time, with <code>.get</code> (session 3)</td></tr><tr><td>10</td><td>Rot13</td><td>5 kyu</td><td><code>ord</code>, <code>chr</code> and <code>% 26</code> from the Caesar cipher (session 3)</td></tr></tbody></table></div><p>On Codewars, kyu is the rank of a kata: 8 kyu is the most basic and the numbers go down as the kata get harder.</p><h3>Why the hints are built this way</h3><ul><li>General first, specific last. Tutoring systems order their hint levels from the principle that applies down to a last hint that gives the step (<a href="https://pslcdatashop.web.cmu.edu/KDDCup/FAQ/Koedinger-Aleven-EPR-07.pdf">Koedinger and Aleven, 2007</a>).</li><li>Control words shown, conditions and values blank. Faded Parsons Problems never blank the top-level control words and do blank conditions, constants and expressions (<a href="https://acelab.berkeley.edu/wp-content/papercite-data/pdf/parsons-chi2021.pdf">Weinman, Fox and Hearst, 2021</a>).</li><li>The plan as comments. Subgoal labels are short phrases that say what a group of lines is for, and worked examples that carry them helped new programmers (<a href="https://www.raspberrypi.org/app/uploads/2020/07/Using-subgoal-labels-to-reduce-cognitive-load-in-introductory-programming.pdf">Margulieux, Morrison and Decker</a>).</li><li>A case to work by hand before the last blanks. Students who finished part-written programs built programs better than students who wrote from nothing, but the study did not show they understood the patterns they used (<a href="https://research.utwente.nl/en/publications/strategies-for-programming-instruction-in-high-school-program-com/">van Merri&euml;nboer, 1990</a>). Students also often click through to the last hint (<a href="https://learnlab.org/research/wiki/index.php/Help_abuse">Aleven and others, 2006</a>), which is why each hint asks for a try before the next.</li></ul><h3>Where the wording comes from</h3><p>The kata titles, ranks and links were read from codewars.com on 25 November 2026. The task wording, function names, test lines and answers on this page are this course's own, written to use only what sessions 1 to 7 taught. A kata's own tests on Codewars can ask for a different function name or more cases, so an answer from this page may need changes before it passes there.</p></section>
 </div></main>
 <nav class="pager"><a href="advanced_python_hub.html">Course hub</a></nav>
 <footer><div class="wrap"><p>Advanced Python, Robofun Fall 2026. Second printing, 13 September 2026. Built by a generator; the page, not the file, is the source of truth for output, because every quoted line came from a run.</p></div></footer>
