@@ -787,3 +787,11 @@ and answers are this course's own. The build runs every answer with its test lin
 checks each printed line against a value worked out a second way, and `crosscheck.py`
 runs them again. No other page changed. `make.py` and `crosscheck.py` pass. Checked in
 Chromium at 1280px and 390px with every hint and answer open: no sideways scroll.
+
+25 November 2026, later: every hint on `extra_codewars.html` now shows the function with
+blanks to fill in, written `____`, and each hint has fewer blanks than the one before.
+Each problem has three hints, and the third has one blank. The blanks are marked inside
+the answer in `build/codewars.py`, so a hint is cut from the answer that was run; the
+build stops unless the blank counts go down, the last hint has one blank, and every hint
+fills back to the answer. Seven hints that spelled out a whole line now say the idea and
+leave the code to the blanks. `make.py` and `crosscheck.py` pass.
