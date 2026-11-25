@@ -9,6 +9,7 @@ from trace01 import TRACE_CSS, trace01
 from extras import extra_crack, extra_letters
 from days38 import day03, day04, day05, day06, day07
 from days913 import day08, day09, day10, day11, day12, day13
+from codewars import OUT_NAME as CODEWARS_PAGE, TITLE as CODEWARS_TITLE, extra_codewars
 from hub import hub
 from review import OUT_NAME as REVIEW_PAGE, TITLE as REVIEW_TITLE, review
 
@@ -35,6 +36,7 @@ PAGES = [
     ("extra_crack_caesar.html", "Extra: break a Caesar cipher by counting letters", extra_crack),
     ("extra_letters.html", "Extra: how letters.py draws a letter", extra_letters),
     (REVIEW_PAGE, REVIEW_TITLE, review),
+    (CODEWARS_PAGE, "Extra: " + CODEWARS_TITLE[0].lower() + CODEWARS_TITLE[1:], extra_codewars),
 ]
 
 written = []

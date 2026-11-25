@@ -287,6 +287,16 @@ try:
 except AssertionError as e:
     fails.append(f"{review.OUT_NAME}: {e}")
 
+# The Codewars page keeps its answers in build/codewars.py. verify() runs each answer
+# with its test lines and checks every printed line against a value worked out a
+# second way.
+import codewars  # noqa: E402
+
+try:
+    print(f"codewars: {codewars.verify()} answers run again, every target line matches")
+except AssertionError as e:
+    fails.append(f"{codewars.OUT_NAME}: {e}")
+
 print(f"checked {len(CHECKS)} pages against live runs")
 if fails:
     print(f"\n{len(fails)} FAILURE(S):")

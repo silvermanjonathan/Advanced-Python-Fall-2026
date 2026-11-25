@@ -778,3 +778,12 @@ Fall 2026, with its generator `build/review.py`, and a row for it under Extras o
 hub. No other page changed. `make.py` and `crosscheck.py` pass (Python 3.13.18, pygame
 2.6.1). Checked in Chromium at 1280px and 390px with every answer open: no sideways
 scroll, and no output shows before its button.
+
+25 November 2026: added `extra_codewars.html`, ten problems from Codewars, with its
+generator `build/codewars.py`, and a row for it under Extras on the hub. Each problem is
+a kata that can be solved with what sessions 1 to 7 taught. The kata titles, ranks and
+links were read from codewars.com that day; the task wording, function names, test lines
+and answers are this course's own. The build runs every answer with its test lines and
+checks each printed line against a value worked out a second way, and `crosscheck.py`
+runs them again. No other page changed. `make.py` and `crosscheck.py` pass. Checked in
+Chromium at 1280px and 390px with every hint and answer open: no sideways scroll.
