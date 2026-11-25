@@ -11,10 +11,16 @@ Each test line also has an expected value worked out a second way (the "want" li
 the build stops if the run and the second way disagree. crosscheck.py runs them all
 again through verify().
 
-Every hint shows the function with blanks to fill in, and each hint has fewer blanks
-than the one before. The blanks are cut from the answer that was run, so a hint cannot
-drift from the answer. The build stops unless the blank counts go down and the last
-hint has exactly one blank.
+The hints are there to help a student think, not to show the method. Each of the
+three hints shows the function with blanks, cut from the answer that was run:
+
+    hint 1   the shape: the def line, and one blank for every line under it
+    hint 2   the words for, if, elif, else and return; everything else is blank
+    hint 3   the names and the loop line; every condition and every worked-out
+             value (the ⟦marked⟧ parts) is still blank
+
+No hint shows a condition or an update. The build stops unless each hint hides less
+code than the one before and the last hint still has a blank.
 
 Edit the problems here, never in the .html.
 """
@@ -44,9 +50,9 @@ def c(text):
 # name               the function's name; tests are the lines under the function
 # want               one Python expression per test line, worked out a second way
 # hints              two ideas; each hint opens inside the one before
-# answer             the function, with blanks marked: ⟦k|text⟧ is a blank in hints 1
-#                    to k. Hint 1 shows the most blanks, hint 2 fewer, and hint 3
-#                    (added by the build) shows the one blank marked 3.
+# answer             the function. ⟦text⟧ marks a part to think about: a condition or
+#                    the value a line works out. Those parts stay blank in every
+#                    hint and show only in the answer.
 # after              text under the answer
 # further            optional Go further line
 PROBLEMS = [
@@ -70,10 +76,10 @@ print(even_or_odd(-3))
  ],
  "answer": c('''
 def even_or_odd(number):
-    if number ⟦2|%⟧ 2 == ⟦3|0⟧:
-        return ⟦1|"Even"⟧
+    if ⟦number % 2 == 0⟧:
+        return "Even"
     else:
-        return ⟦1|"Odd"⟧
+        return "Odd"
 '''),
  "after": [
      "`-3 % 2` is 1, so the function works for numbers below zero as well. Session 4 "
@@ -102,7 +108,7 @@ print(is_divisible(100, 5, 10))
  ],
  "answer": c('''
 def is_divisible(n, x, y):
-    return n % x == 0 ⟦2|and⟧ ⟦1|n % y⟧ == ⟦3|0⟧
+    return ⟦n % x == 0⟧ and ⟦n % y == 0⟧
 '''),
  "after": [
      "12 divides by 3 and by 4, so the first line prints `True`. 12 does not divide by "
@@ -132,11 +138,11 @@ print(sum_of_positive([]))
  ],
  "answer": c('''
 def sum_of_positive(numbers):
-    total = 0
-    for ⟦1|n⟧ in numbers:
-        if ⟦1|n > 0⟧:
-            total = ⟦3|total + n⟧
-    return ⟦2|total⟧
+    total = ⟦0⟧
+    for n in numbers:
+        if ⟦n > 0⟧:
+            total = ⟦total + n⟧
+    return total
 '''),
  "after": [
      "For the empty list the loop makes no passes, so `total` is still 0 when it is "
@@ -164,10 +170,10 @@ print(smallest([7]))
  ],
  "answer": c('''
 def smallest(numbers):
-    best = numbers[0]
-    for ⟦1|n⟧ in ⟦1|numbers⟧:
-        if n ⟦3|<⟧ best:
-            best = ⟦2|n⟧
+    best = ⟦numbers[0]⟧
+    for n in numbers:
+        if ⟦n < best⟧:
+            best = ⟦n⟧
     return best
 '''),
  "after": [
@@ -195,10 +201,10 @@ print(reverse("a"))
  ],
  "answer": c('''
 def reverse(text):
-    out = ⟦1|""⟧
-    for ⟦1|ch⟧ in text:
-        out = ⟦3|ch + out⟧
-    return ⟦2|out⟧
+    out = ⟦""⟧
+    for ch in text:
+        out = ⟦ch + out⟧
+    return out
 '''),
  "after": [
      "Each new letter goes in front of the letters already in `out`, so the last "
@@ -232,10 +238,10 @@ VOWELS = ["a", "e", "i", "o", "u"]
 
 
 def count_vowels(text):
-    count = ⟦1|0⟧
+    count = ⟦0⟧
     for ch in text:
-        if ch ⟦2|in⟧ ⟦1|VOWELS⟧:
-            count = ⟦3|count + 1⟧
+        if ⟦ch in VOWELS⟧:
+            count = ⟦count + 1⟧
     return count
 '''),
  "after": [
@@ -270,11 +276,11 @@ VOWELS = ["a", "e", "i", "o", "u"]
 
 
 def remove_vowels(text):
-    out = ⟦1|""⟧
+    out = ⟦""⟧
     for ch in text:
-        if ch ⟦3|not in⟧ VOWELS:
-            out = ⟦2|out + ch⟧
-    return ⟦1|out⟧
+        if ⟦ch not in VOWELS⟧:
+            out = ⟦out + ch⟧
+    return out
 '''),
  "after": [
      "A space is not in `VOWELS`, so every space is added to `out` and the words stay "
@@ -313,12 +319,12 @@ BEATS = {"rock": "scissors", "paper": "rock", "scissors": "paper"}
 
 
 def rps(move1, move2):
-    if move1 ⟦1|==⟧ move2:
-        return ⟦1|"Draw!"⟧
-    elif ⟦3|BEATS[move1]⟧ == move2:
-        return ⟦2|"Player 1 won!"⟧
+    if ⟦move1 == move2⟧:
+        return "Draw!"
+    elif ⟦BEATS[move1] == move2⟧:
+        return ⟦"Player 1 won!"⟧
     else:
-        return ⟦1|"Player 2 won!"⟧
+        return ⟦"Player 2 won!"⟧
 '''),
  "after": [
      "The function has three gates in one flat chain. Without the dictionary it would "
@@ -349,9 +355,9 @@ print(count_characters(""))
  ],
  "answer": c('''
 def count_characters(text):
-    counts = ⟦1|{}⟧
+    counts = ⟦{}⟧
     for ch in text:
-        counts[⟦1|ch⟧] = counts.⟦2|get⟧(ch, ⟦3|0⟧) + ⟦1|1⟧
+        counts[ch] = ⟦counts.get(ch, 0) + 1⟧
     return counts
 '''),
  "after": [
@@ -387,12 +393,12 @@ print(rot13(rot13("attack at dawn")))
 def rot13(text):
     out = ""
     for ch in text:
-        if ch == " ":
+        if ⟦ch == " "⟧:
             out = out + " "
         else:
-            spot = ⟦1|ord(ch)⟧ - ord("a")
-            spot = (spot + ⟦2|13⟧) % ⟦3|26⟧
-            out = out + ⟦1|chr⟧(spot + ⟦1|ord("a")⟧)
+            spot = ⟦ord(ch) - ord("a")⟧
+            spot = ⟦(spot + 13) % 26⟧
+            out = out + ⟦chr(spot + ord("a"))⟧
     return out
 '''),
  "after": [
@@ -440,41 +446,78 @@ def check_rules(label, source):
             seen_work = True
 
 
-MARK = re.compile(r"⟦(\d)\|(.+?)⟧")
+MARK = re.compile(r"⟦(.+?)⟧")
 BLANK = "____"
 LEVELS = 3  # hints per problem
+SAYS = [
+    "Here is the shape of the function. Every line under the <code>def</code> line "
+    "is a blank.",
+    "Here the words <code>for</code>, <code>if</code>, <code>else</code> and "
+    "<code>return</code> are filled in, where the function uses them. The rest of "
+    "each line is a blank.",
+    "Here the names and the loop are filled in. The blanks that are left are the "
+    "parts to think about.",
+]
 
 
 def answer_of(p):
     """The answer as it is run: the marked text with the marks taken off."""
-    return MARK.sub(lambda m: m.group(2), p["answer"])
+    return MARK.sub(lambda m: m.group(1), p["answer"])
+
+
+def _shape(line, level):
+    """One line of the answer as hint 1 or hint 2 shows it, or None to leave it out."""
+    body = line.strip()
+    pad = line[: len(line) - len(line.lstrip(" "))]
+    if not body or body.startswith("def "):
+        return line
+    if body.startswith("#"):
+        return None
+    if level == 2:
+        if body == "else:":
+            return line
+        for word in ("for", "if", "elif"):
+            if body.startswith(word + " "):
+                return f"{pad}{word} {BLANK}:"
+        if body.startswith("return "):
+            return f"{pad}return {BLANK}"
+    return pad + BLANK
 
 
 def blanked(p, level):
-    """The answer with every blank marked level or higher cut out, and how many."""
-    count = [0]
+    """The function as hint level shows it."""
+    if level == LEVELS:
+        return MARK.sub(BLANK, p["answer"]).rstrip("\n")
+    lines = [_shape(ln, level) for ln in answer_of(p).rstrip("\n").split("\n")]
+    return "\n".join(ln for ln in lines if ln is not None)
 
-    def cut(m):
-        if int(m.group(1)) >= level:
-            count[0] += 1
-            return BLANK
-        return m.group(2)
 
-    return MARK.sub(cut, p["answer"]).rstrip("\n"), count[0]
+def hidden(p, level):
+    """How many characters of the answer a hint leaves out."""
+    shown = blanked(p, level).replace(BLANK, "")
+    return len(re.sub(r"\s", "", answer_of(p))) - len(re.sub(r"\s", "", shown))
 
 
 def check_blanks(label, p):
     assert len(p["hints"]) == LEVELS - 1, f"{label}: needs {LEVELS - 1} written hints"
     assert BLANK not in answer_of(p) and "⟦" not in answer_of(p), f"{label}: a mark did not parse"
-    counts = [blanked(p, k)[1] for k in range(1, LEVELS + 1)]
-    assert counts == sorted(set(counts), reverse=True), f"{label}: blank counts {counts} must go down"
-    assert counts[-1] == 1, f"{label}: the last hint must have exactly one blank, not {counts[-1]}"
+    marks = MARK.findall(p["answer"])
+    assert marks, f"{label}: no part of the answer is marked to stay blank"
+    # the last hint fills back to the answer that is run
+    text = blanked(p, LEVELS)
+    for piece in marks:
+        text = text.replace(BLANK, piece, 1)
+    assert text == answer_of(p).rstrip("\n"), f"{label}: hint {LEVELS} does not fill back to the answer"
+    # no marked part shows in any hint (a piece of one or two characters, such as n
+    # or 0, is skipped: it also turns up inside names; hint 3's fill-back covers those)
     for k in range(1, LEVELS + 1):
-        text, _ = blanked(p, k)
-        kept = [m.group(2) for m in MARK.finditer(p["answer"]) if int(m.group(1)) >= k]
-        for piece in kept:
-            text = text.replace(BLANK, piece, 1)
-        assert text == answer_of(p).rstrip("\n"), f"{label}: hint {k} does not fill back to the answer"
+        for piece in marks:
+            assert len(piece) < 3 or piece not in blanked(p, k), \
+                f"{label}: hint {k} shows {piece!r}"
+    # each hint hides less than the one before, and the last still hides something
+    sizes = [hidden(p, k) for k in range(1, LEVELS + 1)]
+    assert sizes == sorted(set(sizes), reverse=True) and sizes[-1] > 0, \
+        f"{label}: hints must hide less each time, got {sizes}"
 
 
 def program(p):
@@ -521,7 +564,7 @@ def hint_ladder(p, answer, slug):
 
     Each hint shows the function with blanks, fewer in each hint than the one before.
     """
-    hints = p["hints"] + ["One blank is left."]
+    hints = p["hints"] + [""]
     aid = f"cw-{slug}-answer"
     inner = (
         f'<button class="rev" data-target="{aid}" data-show="Show the answer" '
@@ -535,20 +578,19 @@ def hint_ladder(p, answer, slug):
             f'<button class="rev" data-target="{hid}" data-show="Hint {k}" '
             f'data-hide="Hide hint {k}" aria-expanded="false" aria-controls="{hid}">'
             f"Hint {k}</button>\n"
-            f'<div class="ans" id="{hid}"><p>{fmt(hints[k - 1])}</p>'
-            f"{blank_block(p, k)}{inner}</div>\n"
+            f'<div class="ans" id="{hid}">'
+            + (f"<p>{fmt(hints[k - 1])}</p>" if hints[k - 1] else "")
+            + f"{blank_block(p, k)}{inner}</div>\n"
         )
-    return ('<div class="predict ladder"><b>Stuck?</b> Open one hint at a time. Each '
-            "hint shows the function with blanks to fill in, and each hint has fewer "
-            f"blanks than the one before. The answer is inside the last hint.\n{inner}</div>\n")
+    return ('<div class="predict ladder"><b>Stuck?</b> Open one hint at a time, and '
+            "try again after each one. Every hint shows the function with blanks, "
+            f"written <code>{BLANK}</code>, for you to work out. The answer is inside "
+            f"the last hint.\n{inner}</div>\n")
 
 
 def blank_block(p, level):
-    """The function with this hint's blanks, under a line that says how many."""
-    text, n = blanked(p, level)
-    ask = (f"Fill in the {n} blanks. Each blank is written <code>{BLANK}</code>."
-           if n > 1 else f"Fill in the blank, written <code>{BLANK}</code>.")
-    return f"<p>{ask}</p>" + code(text)
+    """The function as this hint shows it, under a line that says what is filled in."""
+    return f"<p>{SAYS[level - 1]}</p>" + code(blanked(p, level))
 
 
 def problem_html(n, p):
@@ -590,9 +632,13 @@ def teacher_panel():
         "each problem goes to the kata it came from.</li>"
         "<li>The target output is shown openly, so a student can check their own "
         "function.</li>"
-        "<li>Each problem has three hints. Every hint shows the function with blanks "
-        "to fill in, and each hint has fewer blanks than the one before: the third "
-        "hint has one blank. The answer is inside the third hint.</li>"
+        "<li>Each problem has three hints, and every hint shows the function with "
+        "blanks. Hint 1 shows the shape: one blank for every line. Hint 2 fills in "
+        "the words <code>for</code>, <code>if</code>, <code>else</code> and "
+        "<code>return</code>. Hint 3 fills in the names and the loop line.</li>"
+        "<li>No hint shows a condition or the value a line works out. Those stay "
+        "blank until the answer, so the student still has to do the thinking. The "
+        "answer is inside the third hint.</li>"
         "</ul>"
         "<h3>What each problem uses</h3>"
         '<div style="overflow-x:auto"><table style="min-width:600px; table-layout:auto">'

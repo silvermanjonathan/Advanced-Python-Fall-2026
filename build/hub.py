@@ -159,7 +159,7 @@ def hub():
         "codewars.com that can be solved with what sessions 1 to 7 taught: remainders, "
         "accumulators, string building, dictionaries, rock paper scissors, and a Caesar "
         "cipher with the key 13. Each has test lines, a target output, three hints "
-        "with fewer blanks to fill in each time, and an answer.</span></span></div>"
+        "that show the function with blanks to work out, and an answer.</span></span></div>"
         '<div class="row extra"><span class="n">+</span>'
         '<span class="d">two openers</span>'
         '<span class="t"><a href="advanced_python_review.html">Review for Advanced '

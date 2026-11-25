@@ -795,3 +795,11 @@ the answer in `build/codewars.py`, so a hint is cut from the answer that was run
 build stops unless the blank counts go down, the last hint has one blank, and every hint
 fills back to the answer. Seven hints that spelled out a whole line now say the idea and
 leave the code to the blanks. `make.py` and `crosscheck.py` pass.
+
+25 November 2026, later again: the hints on `extra_codewars.html` showed too much of the
+method, so the blanks were redone. Hint 1 now shows only the shape of the function, one
+blank for every line. Hint 2 fills in the words `for`, `if`, `else` and `return`. Hint 3
+fills in the names and the loop line. No hint shows a condition or the value a line
+works out; those parts are marked in `build/codewars.py` and stay blank until the
+answer. The build stops if a hint shows a marked part, or if a hint does not hide less
+than the one before. `make.py` and `crosscheck.py` pass.
